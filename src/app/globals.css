@@ -1,0 +1,121 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+/*
+  Токены из Figma (файл Lunmi, коллекции Colours и Semantic).
+  Имя здесь = роль из Figma: text/primary → primary, surface/neutral 2 → surface и т.д.
+*/
+@theme {
+  --color-white: #ffffff;
+  --color-primary: #292929; /* text/primary, icon/primary, border/primary */
+  --color-secondary: #787878; /* text/secondary */
+  --color-tertiary: #939393; /* text/tetriary, icon/secondary */
+  --color-line: #b8b8b8; /* border/secondary */
+  --color-line-light: #cecece; /* border/tetriary */
+  --color-surface: #f3f4f6; /* surface/neutral 2 */
+  --color-accent: #f04a97; /* pink/500 */
+  --color-accent-soft: #ffddf0; /* pink/100 */
+  --color-accent-300: #f8abd7; /* pink/300 */
+  --color-error: #e33629;
+  --color-success: #319f43;
+
+  --font-display: "Unbounded", sans-serif;
+  --font-sans: "Albert Sans", "Onest", system-ui, sans-serif;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+
+  --shadow-card: 0 0 5px rgb(0 0 0 / 0.05);
+  --shadow-menu: 0 2px 3.5px rgb(0 0 0 / 0.05);
+
+  --breakpoint-xs: 480px;
+}
+
+/* Текстовые стили из Figma */
+@utility text-h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 56px;
+  text-transform: uppercase;
+}
+@utility text-h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 30px;
+  text-transform: uppercase;
+}
+@utility text-h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  text-transform: uppercase;
+}
+@utility text-h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: uppercase;
+}
+@utility text-base-m {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+}
+@utility text-base-s {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+}
+@utility text-base-xs {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+@utility text-caps {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+/* Контейнер: 1218px как в макете (поля 111px на 1440), на узких экранах поля 16/24px */
+@utility container-page {
+  width: min(1218px, 100% - 32px);
+  margin-inline: auto;
+  @media (width >= 48rem) {
+    width: min(1218px, 100% - 48px);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-white);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
