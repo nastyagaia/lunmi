@@ -1,6 +1,7 @@
 "use client";
 
-// carousel arrow из UI KIT + лента со скроллом.
+// carousel arrow из UI KIT (arrow 143:587: default — серая, hover — тёмная на плашке surface;
+// ховер работает всегда, даже когда листать некуда — отдельного disabled в ките нет) + лента со скроллом.
 // На телефоне и планшете листается пальцем, на широком экране появляются стрелки по бокам.
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "./icons";
@@ -59,7 +60,7 @@ export function Carousel({
           onClick={() => scroll(-1)}
           disabled={edge.start}
           aria-label="Назад"
-          className="pointer-events-auto text-primary transition-opacity hover:text-accent disabled:opacity-25"
+          className="pointer-events-auto cursor-pointer rounded-sm text-tertiary transition-colors hover:bg-surface hover:text-primary"
         >
           <ChevronLeft />
         </button>
@@ -68,7 +69,7 @@ export function Carousel({
           onClick={() => scroll(1)}
           disabled={edge.end}
           aria-label="Вперёд"
-          className="pointer-events-auto text-primary transition-opacity hover:text-accent disabled:opacity-25"
+          className="pointer-events-auto cursor-pointer rounded-sm text-tertiary transition-colors hover:bg-surface hover:text-primary"
         >
           <ChevronRight />
         </button>

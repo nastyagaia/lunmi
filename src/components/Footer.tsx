@@ -24,7 +24,7 @@ function Column({ title, links }: { title: string; links: string[] }) {
 
 export function Footer() {
   return (
-    <footer className="mt-16 bg-surface pb-11 pt-8 md:mt-20">
+    <footer className="mt-16 bg-surface pb-11 pt-8 md:mt-[74px]">
       <div className="container-page flex flex-col gap-10 lg:flex-row lg:justify-between">
         <div className="flex max-w-[300px] flex-col justify-between gap-10 max-lg:contents lg:min-h-[202px]">
           <form className="flex max-w-[300px] flex-col gap-2" action="#">

@@ -1,6 +1,50 @@
 // Контент главной страницы. Тексты и картинки взяты из макета home в Figma.
 import type { Product } from "@/components/ProductCard";
 
+/** Слайды первого экрана (Figma: hero anua pdrn, hero korea trends и др.).
+ *  tone: "light" — белый текст на тёмном фото, "dark" — тёмный текст на светлом фото.
+ *  Первый слайд без image — на нём видео. */
+export type HeroSlide = {
+  title: string;
+  text: string;
+  image?: string;
+  tone: "light" | "dark";
+};
+
+export const heroSlides: HeroSlide[] = [
+  { title: "Anua PDRN", text: "Дополнительная скидка −10%\nтолько онлайн до 31 июля", tone: "light" },
+  {
+    title: "Тренды Кореи",
+    text: "Корейские бьюти-хиты, которые уже покорили Сеул.\nОткройте новинки ухода для сияющей кожи.",
+    image: "/img/hero-korea.webp",
+    tone: "light",
+  },
+  {
+    title: "−10% SPF",
+    text: "Лёгкие корейские санскрины без белых следов\nи липкости. Скидка до 31 июля",
+    image: "/img/hero-spf.webp",
+    tone: "light",
+  },
+  {
+    title: "−10% fwee",
+    text: "Сочные бальзамы, румяна и тинты fwee\nв оттенках весеннего неба",
+    image: "/img/hero-fwee.webp",
+    tone: "dark",
+  },
+  {
+    title: "Dr. Althea",
+    text: "Мягкий уход для чувствительной кожи:\nуспокаивает и восстанавливает барьер",
+    image: "/img/hero-althea.webp",
+    tone: "dark",
+  },
+  {
+    title: "Medicube девайсы",
+    text: "Домашний уход как в салоне:\nлифтинг, микротоки и сияние кожи",
+    image: "/img/hero-medicube.webp",
+    tone: "light",
+  },
+];
+
 export const bestsellers: Product[] = [
   {
     id: "b1",
@@ -76,7 +120,7 @@ export const catalog = [
   { title: "Glow Skin", image: "/img/c2.webp" },
   { title: "Антивозрастной уход", image: "/img/c3.webp", wide: true },
   { title: "Хиты в Корее", image: "/img/c4.webp" },
-  { title: "Макияж", image: "/img/c5.webp", wide: true },
+  { title: "Макияж", image: "/img/c5-makeup.webp", wide: true },
   { title: "Для тела", image: "/img/c6.webp" },
   { title: "Для волос", image: "/img/c7.webp", wide: true },
   { title: "Бьюти-гаджеты", image: "/img/c8.webp" },
