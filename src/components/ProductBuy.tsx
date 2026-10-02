@@ -5,8 +5,10 @@
 // После «В корзину» кнопка превращается в счётчик «− 1 +» (Figma: Frame 21289). На нуле — снова кнопка.
 import { useState } from "react";
 import type { ProductDetails } from "@/data/products";
+import { priceToNumber, useCart } from "./Cart";
 import { HeartIcon, MinusIcon, PlusIcon, StarIcon } from "./icons";
 import { Tag } from "./ui";
+import { useFavorites } from "./Favorites";
 
 /** «1 отзыв», «3 отзыва», «5 отзывов» */
 function reviewsWord(n: number) {
@@ -20,8 +22,42 @@ function reviewsWord(n: number) {
 export function ProductBuy({ product }: { product: ProductDetails }) {
   const [volume, setVolume] = useState(product.volumes?.[0]);
   const [shade, setShade] = useState(product.shades?.find((s) => s.available !== false)?.name);
-  const [qty, setQty] = useState(0);
-  const [liked, setLiked] = useState(false);
+  const cart = useCart();
+  const favorites = useFavorites();
+  // в избранное кладём карточку как в каталоге; у товаров не из каталога — собираем её из данных страницы
+  const card = product.card ?? {
+    id: product.slug,
+    href: `/product/${product.slug}`,
+    name: product.name,
+    description: product.subtitle,
+    price: product.price,
+    oldPrice: product.oldPrice,
+    discount: product.discount,
+    hit: product.hit,
+    rating: product.rating,
+    image: product.thumbs?.[0] ?? product.images[0],
+  };
+  const liked = favorites.has(card.id);
+  const [notify, setNotify] = useState<string[]>([]);
+  // выбранный оттенок закончился → вместо цены «Не в наличии», вместо «В корзину» — «Узнать о поступлении»
+  const soldOut = product.shades?.find((s) => s.name === shade)?.available === false;
+  // в корзине разные оттенки и объёмы — отдельные строки
+  const variant = shade ?? volume;
+  const key = variant ? `${product.slug}:${variant}` : product.slug;
+  const qty = cart.qtyOf(key);
+  const addOne = () =>
+    cart.add(
+      {
+        key,
+        name: product.name,
+        description: variant ? `${product.subtitle}, ${variant}` : product.subtitle,
+        price: priceToNumber(product.price),
+        image: product.thumbs?.[0] ?? product.images[0],
+        href: `/product/${product.slug}`,
+      },
+      // первое добавление показывает корзину, дальше «+» просто увеличивает количество
+      { show: qty === 0 },
+    );
 
   return (
     <div className="flex flex-col gap-6">
@@ -72,9 +108,8 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
                     role="radio"
                     aria-checked={selected}
                     aria-label={available ? s.name : `${s.name} — нет в наличии`}
-                    disabled={!available}
                     onClick={() => setShade(s.name)}
-                    className={`relative size-[30px] rounded-full border transition-colors disabled:cursor-not-allowed ${
+                    className={`relative size-[30px] rounded-full border transition-colors ${
                       selected ? "border-primary" : "border-transparent hover:border-line"
                     }`}
                   >
@@ -114,27 +149,41 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           </div>
         )}
 
-        <p className="text-base-m">
-          {product.price}
-          {product.oldPrice && <s className="ml-2 text-secondary">{product.oldPrice}</s>}
-        </p>
+        {soldOut ? (
+          <p className="text-base-m">Не в наличии</p>
+        ) : (
+          <p className="text-base-m">
+            {product.price}
+            {product.oldPrice && <s className="ml-2 text-secondary">{product.oldPrice}</s>}
+          </p>
+        )}
       </div>
 
       {/* Buttons Container: «В корзину» 300 px или счётчик + избранное */}
       <div className="flex items-center gap-6">
-        {qty === 0 ? (
+        {soldOut ? (
+          // buttons Type=secondary: с обводкой; после нажатия — подтверждение, что сообщим
           <button
             type="button"
-            onClick={() => setQty(1)}
-            className="h-10 w-full max-w-[300px] rounded-xs bg-primary text-caps text-white transition-colors hover:bg-primary/85"
+            onClick={() => shade && setNotify((n) => (n.includes(shade) ? n : [...n, shade]))}
+            aria-live="polite"
+            className="h-10 w-full max-w-[304px] rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white"
+          >
+            {shade && notify.includes(shade) ? "сообщим, когда появится" : "узнать о поступлении"}
+          </button>
+        ) : qty === 0 ? (
+          <button
+            type="button"
+            onClick={addOne}
+            className="h-10 w-full max-w-[304px] rounded-xs bg-primary text-caps text-white transition-colors hover:bg-primary/85"
           >
             в корзину
           </button>
         ) : (
-          <div className="flex h-10 w-full max-w-[300px] items-center justify-center gap-8 rounded-xs bg-primary text-base-s text-white">
+          <div className="flex h-10 w-full max-w-[304px] items-center justify-center gap-8 rounded-xs bg-primary text-base-s text-white">
             <button
               type="button"
-              onClick={() => setQty((q) => q - 1)}
+              onClick={() => cart.setQty(key, qty - 1)}
               aria-label="Убрать одну штуку"
               className="flex size-10 items-center justify-center transition-opacity hover:opacity-70"
             >
@@ -145,7 +194,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
             </span>
             <button
               type="button"
-              onClick={() => setQty((q) => q + 1)}
+              onClick={addOne}
               aria-label="Добавить ещё одну"
               className="flex size-10 items-center justify-center transition-opacity hover:opacity-70"
             >
@@ -155,7 +204,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
         )}
         <button
           type="button"
-          onClick={() => setLiked((v) => !v)}
+          onClick={() => favorites.toggle(card)}
           aria-pressed={liked}
           aria-label={liked ? "Убрать из избранного" : "В избранное"}
           className="group/heart flex size-10 shrink-0 items-center justify-center"

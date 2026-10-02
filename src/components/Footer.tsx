@@ -26,8 +26,8 @@ export function Footer() {
   return (
     <footer className="mt-16 bg-surface pb-11 pt-8 md:mt-[74px]">
       <div className="container-page flex flex-col gap-10 lg:flex-row lg:justify-between">
-        <div className="flex max-w-[300px] flex-col justify-between gap-10 max-lg:contents lg:min-h-[202px]">
-          <form className="flex max-w-[300px] flex-col gap-2" action="#">
+        <div className="flex max-w-[304px] flex-col justify-between gap-10 max-lg:contents lg:min-h-[202px]">
+          <form className="flex max-w-[304px] flex-col gap-2" action="#">
             <label htmlFor="newsletter" className="text-caps text-secondary">
               Подписаться на рассылку
             </label>
@@ -56,7 +56,7 @@ export function Footer() {
           <p className="text-base-s text-secondary max-lg:order-last">«Beauty Lunmi»  All rights reserved. 2026©</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 sm:max-w-[520px] lg:max-w-none lg:w-[604px] lg:grid-cols-[198px_300px] lg:justify-between">
+        <div className="grid grid-cols-2 gap-6 sm:max-w-[520px] lg:max-w-none lg:w-[616px] lg:grid-cols-[200px_304px] lg:justify-between">
           <Column title="покупателям" links={buyers} />
           <Column title="контакты" links={contacts} />
         </div>

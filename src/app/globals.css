@@ -8,7 +8,7 @@
 @theme {
   --color-white: #ffffff;
   --color-primary: #292929; /* text/primary, icon/primary, border/primary */
-  --color-secondary: #787878; /* text/secondary */
+  --color-secondary: #6e6d72; /* text/secondary (палитра Figma: gray 600) */
   --color-tertiary: #939393; /* text/tetriary, icon/secondary */
   --color-line: #b8b8b8; /* border/secondary */
   --color-line-light: #cecece; /* border/tetriary */
@@ -16,6 +16,7 @@
   --color-accent: #f04a97; /* pink/500 */
   --color-accent-soft: #ffddf0; /* pink/100 */
   --color-accent-300: #f8abd7; /* pink/300 */
+  --color-blush: #ffdddd; /* фон «Нужна помощь в выборе?» на странице товара — в Figma цвет без переменной */
   --color-error: #e33629;
   --color-success: #319f43;
 
@@ -81,13 +82,21 @@
   line-height: 16px;
   text-transform: uppercase;
 }
+/* cellbutton из UI KIT (список брендов): Unbounded Medium 12/20, капс */
+@utility text-cell {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: uppercase;
+}
 
-/* Контейнер: 1218px как в макете (поля 111px на 1440), на узких экранах поля 16/24px */
+/* Контейнер: 1240px — сетка page в Figma: 12 колонок по 96 px через 8 px (поля 100px на 1440), на узких экранах поля 16/24px */
 @utility container-page {
-  width: min(1218px, 100% - 32px);
+  width: min(1240px, 100% - 32px);
   margin-inline: auto;
   @media (width >= 48rem) {
-    width: min(1218px, 100% - 48px);
+    width: min(1240px, 100% - 48px);
   }
 }
 
@@ -141,6 +150,17 @@ body {
     transform: translateY(28px);
   }
 }
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+/* боковая панель оформления выезжает справа */
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
 @keyframes dropdown-in {
   from {
     opacity: 0;
@@ -182,4 +202,30 @@ body {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Карта оформления (MapView, OpenStreetMap): подложка обесцвечена до светло-серой, как в макете courier address */
+.map-tiles-grey {
+  filter: grayscale(1) brightness(1.06) contrast(0.88);
+}
+.map-pin {
+  background: none;
+  border: 0;
+}
+.map-pin-inner {
+  position: relative;
+  display: block;
+}
+/* белая плашка с адресом рядом с выбранной булавкой */
+.map-label {
+  position: absolute;
+  left: 32px;
+  top: 4px;
+  white-space: nowrap;
+  border-radius: 2px;
+  background: #fff;
+  padding: 6px 10px;
+  font: 500 14px/20px var(--font-sans, inherit);
+  color: var(--color-primary);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
 }

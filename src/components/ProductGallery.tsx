@@ -4,10 +4,11 @@
 // Клик по превью переключает большое фото. Selected — тёмная рамка, Default — без рамки, чуть приглушённое.
 import Image from "next/image";
 import { useState } from "react";
+import { isPrepared } from "@/lib/images";
 
-// фото из папки материалов (/img/face/) уже подготовлены нужного размера с точным цветом фона —
+// фото из папки материалов (/img/face/, /img/catalog/) уже подготовлены нужного размера с точным цветом фона —
 // их отдаём как есть, без пережатия Next.js (оно сдвигает оттенок фона)
-const ready = (src: string) => src.startsWith("/img/face/");
+const ready = (src: string) => isPrepared(src);
 
 export function ProductGallery({ images, thumbs, alt }: { images: string[]; thumbs?: string[]; alt: string }) {
   const [active, setActive] = useState(0);

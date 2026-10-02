@@ -126,13 +126,6 @@ export const catalog = [
   { title: "Бьюти-гаджеты", image: "/img/c8.webp" },
 ];
 
-export const brands = [
-  "A’Pieu", "Amorepacific", "Anua", "Axis-Y", "Banila Co", "By Wishtrend", "Clio", "COSRX", "Dr. Althea", "Dr. Jart+",
-  "Hera", "Holika Holika", "Innisfree", "Klairs", "Laneige", "Lador", "Manyo Factory", "MediCube", "Missha", "Neogen",
-  "Peripera", "Purito", "Pyunkang Yul", "Round Lab", "Sioris", "Skin Food", "Somang", "Son & Park", "Su:m37", "Sulwhasoo",
-  "The Face Shop", "The Saem", "Tony Moly", "VT Cosmetics", "Whamisa", "W.Lab", "Yadah", "YesStyle", "Young Skin", "Zem",
-];
-
 export const reviews = [
   {
     name: "Алина",

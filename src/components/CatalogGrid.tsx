@@ -12,7 +12,7 @@ import { DropdownButton, FilterChip } from "./ui";
 type Key = "type" | "brand" | "price" | "effect" | "ingredient" | "sort";
 
 /** «18 продуктов», «1 продукт», «3 продукта» */
-function productsCount(n: number) {
+export function productsCount(n: number) {
   const mod10 = n % 10;
   const mod100 = n % 100;
   const word =
@@ -31,6 +31,8 @@ export function CatalogGrid({
   types,
   initialType,
   after,
+  hideBrand = false,
+  countPrefix = "",
 }: {
   products: Product[];
   /** варианты для фильтра «Тип продукта» */
@@ -38,6 +40,10 @@ export function CatalogGrid({
   /** тип, выбранный ссылкой из меню: /catalog?type=Кремы */
   initialType?: string;
   after?: ReactNode;
+  /** на странице бренда фильтр «Бренд» не нужен */
+  hideBrand?: boolean;
+  /** слово перед счётчиком: в поиске — «Найдено» («Найдено 4 продукта») */
+  countPrefix?: string;
 }) {
   const [open, setOpen] = useState<Key | null>(null);
   const [type, setType] = useState<string[]>(initialType ? [initialType] : []);
@@ -110,7 +116,7 @@ export function CatalogGrid({
 
   return (
     <>
-      <p className="text-caps text-secondary">{productsCount(shown.length)}</p>
+      <p className="text-caps text-secondary">{countPrefix ? `${countPrefix} ` : ""}{productsCount(shown.length)}</p>
 
       {/* ряд фильтров «прилипает» под шапку (или к верху экрана, когда шапка спрятана).
           Стеклянная подложка — псевдоэлемент на всю ширину экрана, видна только когда ряд прилип. На телефоне не прилипает:
@@ -122,7 +128,7 @@ export function CatalogGrid({
       >
         <div className="flex flex-wrap items-center gap-3">
           {multi("type", "Тип продукта", "Выберите тип продукта", types, type, setType)}
-          {multi("brand", "Бренд", "Выберите бренд", brands, brand, setBrand)}
+          {!hideBrand && multi("brand", "Бренд", "Выберите бренд", brands, brand, setBrand)}
           <Popover
             open={open === "price"}
             onClose={close}
@@ -169,7 +175,7 @@ export function CatalogGrid({
         </Popover>
       </div>
 
-      <div className="mt-5 grid grid-cols-2 gap-x-1.5 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
+      <div className="mt-5 grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
         {shown.map((p) => (
           <div key={p.id} className="reveal">
             <ProductCard product={p} />

@@ -8,7 +8,23 @@ import { HeroSlider } from "@/components/HeroSlider";
 import { InstagramIcon, PlusIcon, TelegramIcon, WhatsappIcon } from "@/components/icons";
 import { ProductCard } from "@/components/ProductCard";
 import { Button, SectionHeader } from "@/components/ui";
-import { bestsellers, brands, catalog, faq, heroSlides, reviews, weeklyDeals } from "@/data/home";
+import { brands as allBrands } from "@/data/brands";
+import { bestsellers, catalog, faq, heroSlides, reviews, weeklyDeals } from "@/data/home";
+import { allProducts } from "@/data/sections";
+
+/** В карусели Bestsellers после карточек из макета — хиты каталога, чтобы ленту было что листать */
+const BESTSELLER_HITS = [
+  "anua-pore-cleansing-oil",
+  "numbuzin-no5-pad",
+  "skin1004-centella-ampoule",
+  "dr-althea-345-cream",
+  "biodance-caviar-eye-patch",
+  "torriden-dive-in-cream",
+];
+const bestsellerList = [
+  ...bestsellers,
+  ...BESTSELLER_HITS.flatMap((id) => allProducts.filter((p) => p.id === id)),
+];
 
 export default function Home() {
   return (
@@ -37,10 +53,14 @@ function Bestsellers() {
   return (
     <section id="bestsellers" className="container-page scroll-mt-20">
       <SectionHeader title="Bestsellers" />
-      <Carousel label="Бестселлеры" arrowTop={194} className="items-start">
-        {bestsellers.map((p) => (
-          <div key={p.id} className="w-[85%] shrink-0 snap-start sm:w-[calc((100%-6px)/2)] lg:w-[calc((100%-12px)/3)]">
-            <ProductCard product={p} size="L" />
+      {/* focus: карточка в центре ленты плавно вытягивается по высоте при листании */}
+      <Carousel label="Бестселлеры" arrowTop={194} className="items-start" focus>
+        {bestsellerList.map((p) => (
+          <div
+            key={p.id}
+            className="w-[85%] shrink-0 snap-start @container sm:w-[calc((100%-8px)/2)] lg:w-[calc((100%-16px)/3)]"
+          >
+            <ProductCard product={p} size="L" grow />
           </div>
         ))}
       </Carousel>
@@ -53,7 +73,7 @@ function Catalog() {
   return (
     <section className="container-page reveal">
       <SectionHeader title="Каталог" href="/catalog" />
-      <div className="grid grid-flow-dense grid-cols-2 gap-1.5 md:grid-cols-4">
+      <div className="grid grid-flow-dense grid-cols-2 gap-2 md:grid-cols-4">
         {catalog.map((c) => (
           <Link
             key={c.title}
@@ -112,7 +132,7 @@ function AiBanner() {
             </p>
             <p>Попробуй — это просто и удобно!</p>
           </div>
-          <Button href="#" tone="glass" className="self-start">
+          <Button href="/ai" tone="glass" className="self-start">
             Попробовать
           </Button>
         </div>
@@ -128,7 +148,7 @@ function WeeklyDeals() {
       <SectionHeader title="Скидки недели" />
       <Carousel label="Скидки недели" arrowTop={119} className="items-start">
         {weeklyDeals.map((p) => (
-          <div key={p.id} className="w-[70%] shrink-0 snap-start xs:w-[calc((100%-6px)/2)] md:w-[calc((100%-12px)/3)] lg:w-[calc((100%-18px)/4)]">
+          <div key={p.id} className="w-[70%] shrink-0 snap-start xs:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)]">
             <ProductCard product={p} />
           </div>
         ))}
@@ -139,14 +159,20 @@ function WeeklyDeals() {
 
 /* ---------- Бренды ---------- */
 function Brands() {
+  // 40 настоящих брендов (4 колонки по 10, как в макете): больше всего товаров — по алфавиту.
+  // Остальные — на странице «Бренды» по ссылке «Показать все»
+  const top = [...allBrands]
+    .sort((a, b) => b.products.length - a.products.length)
+    .slice(0, 40)
+    .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
   return (
     <section className="container-page reveal md:py-6">
-      <SectionHeader title="Бренды" />
-      <ul className="grid grid-flow-row grid-cols-2 gap-x-1.5 gap-y-6 md:grid-cols-4 md:grid-flow-col md:grid-rows-10">
-        {brands.map((b) => (
-          <li key={b}>
-            <Link href="#" className="block text-h4 transition-colors hover:text-accent">
-              {b}
+      <SectionHeader title="Бренды" href="/brands" />
+      <ul className="grid grid-flow-row grid-cols-2 gap-x-2 gap-y-6 md:grid-cols-4 md:grid-flow-col md:grid-rows-10">
+        {top.map((b) => (
+          <li key={b.slug}>
+            <Link href={`/brands/${b.slug}`} className="block text-h4 transition-colors hover:text-accent">
+              {b.name}
             </Link>
           </li>
         ))}
@@ -192,7 +218,7 @@ function Reviews() {
 /* ---------- Частые вопросы ---------- */
 function Faq() {
   return (
-    <section className="container-page reveal grid gap-6 md:py-5 lg:grid-cols-[minmax(0,1fr)_810px]">
+    <section className="container-page reveal grid gap-6 md:py-5 lg:grid-cols-[minmax(0,1fr)_824px]">
       <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">
         Частые
         <br className="hidden lg:block" /> вопросы
@@ -239,8 +265,8 @@ function Photo({ src, sizes }: { src: string; sizes: string }) {
 
 function Contacts() {
   return (
-    <section className="container-page reveal flex flex-col gap-1.5">
-      <div className="grid grid-cols-2 gap-1.5 lg:grid-cols-3">
+    <section className="container-page reveal flex flex-col gap-2">
+      <div className="grid grid-cols-2 gap-2 lg:grid-cols-3">
         <div className="col-span-2 flex flex-col items-start gap-4 rounded-xs bg-accent-soft p-6 lg:col-span-1 lg:h-[270px] lg:p-[30px]">
           <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">Мы рядом</h2>
           <p className="text-base-s">
@@ -253,7 +279,7 @@ function Contacts() {
         <Photo src="/img/n1.webp" sizes="(min-width: 768px) 402px, 50vw" />
         <Social icon={<InstagramIcon />} label="Instagram" />
       </div>
-      <div className="grid grid-cols-2 gap-1.5 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
         <Photo src="/img/n2.webp" sizes="(min-width: 768px) 300px, 50vw" />
         <Social icon={<WhatsappIcon />} label="whatsapp" />
         <Photo src="/img/n3.webp" sizes="(min-width: 768px) 300px, 50vw" />

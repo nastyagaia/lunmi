@@ -3,9 +3,11 @@
 // Product card из UI KIT: size=L (крупная, бестселлеры) и size=M (компактная, 300px)
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { priceToNumber, useCart } from "./Cart";
 import { HeartIcon, StarIcon } from "./icons";
 import { Tag } from "./ui";
+import { isPrepared } from "@/lib/images";
+import { useFavorites } from "./Favorites";
 
 export type Product = {
   id: string;
@@ -36,20 +38,50 @@ export type Product = {
   aspect?: string;
 };
 
-export function ProductCard({ product, size = "M" }: { product: Product; size?: "L" | "M" }) {
-  const [liked, setLiked] = useState(false);
+/** Насколько вытягивается фото карточки в центре карусели (Carousel focus): +14 % высоты —
+ *  как средняя карточка Bestsellers в макете (402 × 478 против 402 × 420) */
+const GROW = 0.14;
+
+/** «402/420» → 420 / 402: во сколько раз фото выше, чем шире */
+const heightRatio = (aspect: string) => {
+  const [w, h] = aspect.split("/").map(Number);
+  return (h / w).toFixed(4);
+};
+
+export function ProductCard({
+  product,
+  size = "M",
+  grow = false,
+}: {
+  product: Product;
+  size?: "L" | "M";
+  /** фото тянется по высоте вместе с --focus от карусели */
+  grow?: boolean;
+}) {
+  const favorites = useFavorites();
+  const liked = favorites.has(product.id);
+  const cart = useCart();
   const aspect = product.aspect ?? (size === "L" ? "402/420" : "300/270");
-  const sizes = size === "L" ? "(min-width: 1024px) 402px, (min-width: 640px) 50vw, 85vw" : "(min-width: 1024px) 300px, 50vw";
+  const sizes = size === "L" ? "(min-width: 1024px) 408px, (min-width: 640px) 50vw, 85vw" : "(min-width: 1024px) 304px, 50vw";
 
   return (
     <article className="group flex flex-col gap-4">
-      <div className="relative overflow-hidden rounded-xs bg-surface" style={{ aspectRatio: aspect }}>
+      <div
+        className="relative overflow-hidden rounded-xs bg-surface"
+        style={
+          grow
+            ? // высота = ширина × базовая пропорция × (1 + 14 % × --focus); ширину даёт контейнер слайда (100cqw).
+              // Свою пропорцию товара (aspect) тут не берём: все карточки равны, выше только та, что в центре
+              { height: `calc(100cqw * ${heightRatio(size === "L" ? "402/420" : "300/270")} * (1 + ${GROW} * var(--focus, 0)))` }
+            : { aspectRatio: aspect }
+        }
+      >
         <Link href={product.href ?? "#"} aria-label={product.title ?? product.name} className="absolute inset-0">
           <Image
             src={product.image}
             alt=""
             fill
-            unoptimized={product.image.startsWith("/img/face/")}
+            unoptimized={isPrepared(product.image)}
             sizes={sizes}
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           />
@@ -59,7 +91,7 @@ export function ProductCard({ product, size = "M" }: { product: Product; size?: 
               src={product.hoverImage}
               alt=""
               fill
-              unoptimized={product.hoverImage.startsWith("/img/face/")}
+              unoptimized={isPrepared(product.hoverImage)}
               sizes={sizes}
               className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
             />
@@ -75,7 +107,7 @@ export function ProductCard({ product, size = "M" }: { product: Product; size?: 
 
         <button
           type="button"
-          onClick={() => setLiked((v) => !v)}
+          onClick={() => favorites.toggle(product)}
           aria-pressed={liked}
           aria-label={liked ? "Убрать из избранного" : "В избранное"}
           className="group/heart absolute right-0 top-0 flex size-10 items-center justify-center text-tertiary"
@@ -91,6 +123,16 @@ export function ProductCard({ product, size = "M" }: { product: Product; size?: 
         {/* state=hover из UI KIT: кнопка «в корзину» появляется только при наведении, матовое розовое стекло */}
         <button
           type="button"
+          onClick={() =>
+            cart.add({
+              key: product.id,
+              name: product.title ?? product.name,
+              description: product.description,
+              price: priceToNumber(product.price),
+              image: product.image,
+              href: product.href,
+            })
+          }
           className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-center rounded-xs bg-accent-soft/60 text-caps opacity-0 backdrop-blur-[15px] transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
         >
           в корзину

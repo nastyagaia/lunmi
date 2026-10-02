@@ -2,7 +2,8 @@
 // В макете название и тексты вкладок были «рыбой» — здесь они по тому, что на фото.
 // Позже всё это переедет в базу товаров.
 import type { Product } from "@/components/ProductCard";
-import faceCare from "./face-care.json";
+import { allProducts, sectionHref, type CatalogProduct } from "./sections";
+import productTexts from "./product-texts.json";
 
 export type Shade = { name: string; color: string; available?: boolean };
 
@@ -11,6 +12,8 @@ export type ProductDetails = {
   name: string;
   subtitle: string;
   category: { title: string; href: string };
+  /** карточка товара для избранного (как в каталоге) */
+  card?: Product;
   price: string;
   oldPrice?: string;
   discount?: string;
@@ -81,6 +84,12 @@ const reviews = [
     rating: 4,
     text: "Один из самых любимых продуктов в уходе. Вводила постепенно, чтобы кожа привыкла: сначала через день, потом каждый вечер. Через месяц пятна после высыпаний заметно посветлели, а кожа стала более ровной и сияющей. Не забываю про SPF днём.",
   },
+  {
+    name: "Вероника",
+    date: "2 недели назад",
+    rating: 5,
+    text: "Беру уже второй раз. Текстура приятная, быстро впитывается и не скатывается под макияжем. Кожа заметно спокойнее и мягче.",
+  },
 ];
 
 export const products: ProductDetails[] = [
@@ -94,7 +103,7 @@ export const products: ProductDetails[] = [
     hit: true,
     rating: "4.3",
     volumes: ["30 ml", "50 ml"],
-    images: faceCare.find((p) => p.id === "anua-peach-70-niacin-serum")?.images ?? [],
+    images: allProducts.find((p) => p.id === "anua-peach-70-niacin-serum")?.images ?? [],
     delivery,
     ingredients: "Ниацинамид, экстракт персика, гиалуроновая кислота",
     tabs: [
@@ -122,7 +131,7 @@ export const products: ProductDetails[] = [
     slug: "clio-crystal-glam-tint",
     name: "Clio Crystal Glam Tint",
     subtitle: "Тинт для губ, 3,4 г",
-    category: { title: "Макияж", href: "/catalog" },
+    category: { title: "Макияж", href: "/catalog/makiyazh" },
     price: "2 993 ₽",
     rating: "4.3",
     shades: [
@@ -188,8 +197,9 @@ const ACTIVES: [RegExp, string][] = [
   [/pearl/i, "экстракт жемчуга"],
   [/bifida/i, "лизат бифидобактерий"],
   [/peach/i, "экстракт персика"],
-  [/plum/i, "экстракт сливы"],
-  [/mung bean|red bean/i, "экстракт бобов"],
+  [/plum/i, "вода зелёной сливы"],
+  [/mung bean/i, "экстракт маша"],
+  [/red bean/i, "экстракт красной фасоли"],
   [/dokdo|deep sea/i, "морская вода"],
   [/spicule/i, "микроспикулы"],
   [/caffeine/i, "кофеин"],
@@ -199,7 +209,69 @@ const ACTIVES: [RegExp, string][] = [
   [/sun|uv|spf/i, "UV-фильтры"],
 ];
 
-function activesFor(name: string) {
+/** Узнаваемые активы в русском тексте вкладки «Состав» — от более «громких» к базовым */
+const ACTIVES_RU: [RegExp, string][] = [
+  [/PDRN|ДНК лосося/i, "PDRN"],
+  [/ретинал/i, "ретиналь"],
+  [/ретинол/i, "ретинол"],
+  [/бакучиол/i, "бакучиол"],
+  [/аскорбинов|витамин(ом|а)? C/i, "витамин C"],
+  [/азелаинов/i, "азелаиновая кислота"],
+  [/транексамов/i, "транексамовая кислота"],
+  [/арбутин/i, "альфа-арбутин"],
+  [/койев/i, "койевая кислота"],
+  [/ниацинамид/i, "ниацинамид"],
+  [/глутатион/i, "глутатион"],
+  [/салицил|BHA/i, "BHA-кислота"],
+  [/AHA|гликолев/i, "AHA/BHA-кислоты"],
+  [/пептид/i, "пептиды"],
+  [/коллаген/i, "коллаген"],
+  [/улитк/i, "муцин улитки"],
+  [/церамид|керамид/i, "церамиды"],
+  [/центелл|мадекасс|cica/i, "центелла азиатская"],
+  [/хауттюйни|heartleaf/i, "экстракт хауттюйнии"],
+  [/прополис/i, "прополис"],
+  [/гиалурон/i, "гиалуроновая кислота"],
+  [/персик/i, "экстракт персика"],
+  [/женьшен/i, "экстракт женьшеня"],
+  [/рисов/i, "экстракт риса"],
+  [/полын/i, "экстракт полыни"],
+  [/берёзов|березов/i, "берёзовый сок"],
+  [/сосн/i, "экстракт сосны"],
+  [/красной фасол/i, "экстракт красной фасоли"],
+  [/маша/i, "экстракт маша"],
+  [/зелёной слив/i, "вода зелёной сливы"],
+  [/морк|каротин/i, "бета-каротин"],
+  [/морск/i, "морская вода"],
+  [/бифид/i, "лизат бифидобактерий"],
+  [/фермент/i, "ферменты"],
+  [/каолин|глин/i, "каолин"],
+  [/чайного дерева/i, "масло чайного дерева"],
+  [/сквалан/i, "сквалан"],
+  [/витамин E|токоферол/i, "витамин E"],
+  [/кофеин/i, "кофеин"],
+  [/пантенол/i, "пантенол"],
+  [/аллантоин/i, "аллантоин"],
+];
+
+/** Активные компоненты: сначала «громкий» актив из названия товара (Kojic, PDRN…), потом — из настоящего
+ *  текста «Состава» или «Характеристик» в том порядке, как они там названы (главное идёт первым) */
+function activesFor(name: string, slug?: string) {
+  const texts = slug ? (productTexts as Record<string, Record<string, string | null>>)[slug] : undefined;
+  const text = texts?.["Состав"] ?? texts?.["Характеристики"];
+  if (!text) return activesByName(name);
+  const fromName = ACTIVES.filter(([re]) => re.test(name)).map(([, a]) => a);
+  const fromText = ACTIVES_RU.map(([re, a]) => ({ a, at: text.search(re) }))
+    .filter((h) => h.at >= 0)
+    .sort((x, y) => x.at - y.at)
+    .map((h) => h.a);
+  const found = [...new Set([...fromName, ...fromText])].slice(0, 3);
+  return found.length ? capitalize(found.join(", ")) : activesByName(name);
+}
+
+const capitalize = (t: string) => t[0].toUpperCase() + t.slice(1);
+
+function activesByName(name: string) {
   const found = [...new Set(ACTIVES.filter(([re]) => re.test(name)).map(([, a]) => a))].slice(0, 3);
   const text = (found.length ? found : ["гиалуроновая кислота", "пантенол"]).join(", ");
   return text[0].toUpperCase() + text.slice(1);
@@ -222,9 +294,36 @@ const USAGE: Record<string, string> = {
     "Протрите кожу пэдом после умывания или наложите патчи под глаза на 15–20 минут. Остатки эссенции вбейте кончиками пальцев.",
 };
 
+/** Как наносить в других разделах (у волос и тела свои «Маски» и кремы) — рыба до настоящих данных */
+const USAGE_BY_SECTION: Record<string, Record<string, string>> = {
+  "Для тела": {
+    "Гели для душа": "Нанесите на влажную кожу, вспеньте и смойте тёплой водой.",
+    "Уход против акне": "Нанесите на влажную кожу проблемных зон, помассируйте 30 секунд и смойте. Используйте 1 раз в день.",
+    Скрабы: "Нанесите на влажную кожу, мягко помассируйте круговыми движениями и смойте. Используйте 1–2 раза в неделю.",
+    "Мисты для тела": "Распылите на кожу тела с расстояния 20–30 см. Можно обновлять в течение дня.",
+    default: "Нанесите на чистую кожу тела и распределите массажными движениями до впитывания.",
+  },
+  "Для волос": {
+    Шампуни: "Нанесите на влажные волосы, вспеньте, помассируйте кожу головы и смойте.",
+    "Уход за кожей головы": "Нанесите на влажную кожу головы, помассируйте 1–2 минуты и смойте.",
+    Кондиционеры: "После шампуня распределите по длине волос, оставьте на 1–2 минуты и смойте.",
+    Маски: "После шампуня нанесите на отжатые волосы по длине, оставьте на 5–10 минут и смойте.",
+    default: "Распределите небольшое количество по длине и кончикам влажных или сухих волос. Не смывайте.",
+  },
+  "Бьюти-гаджеты": {
+    default: "Перед первым использованием прочитайте инструкцию производителя. Используйте на чистой коже, подходящий режим подберите по инструкции.",
+  },
+};
+
+function usageFor(p: CatalogProduct) {
+  const bySection = USAGE_BY_SECTION[p.category];
+  if (bySection) return bySection[p.type ?? ""] ?? bySection.default;
+  return USAGE[p.type ?? ""] ?? USAGE["Кремы"];
+}
+
 /** Вкладки «Характеристики / Состав / Применение / О бренде», пока нет настоящих текстов.
  *  Собираются из данных товара — потом заменим текстами, написанными по фактам с сайтов брендов. */
-function draftTabs(fc: Product, actives: string) {
+function draftTabs(fc: CatalogProduct, actives: string) {
   const list = actives
     .split(", ")
     .map((a) => `— ${a[0].toUpperCase() + a.slice(1)}`)
@@ -235,30 +334,48 @@ function draftTabs(fc: Product, actives: string) {
       text: `${fc.description}. Подходит для ежедневного ухода и сочетается с другими средствами корейской рутины.\n\nКлючевые компоненты:\n${list}`,
     },
     { title: "Состав", text: `Полный состав скоро появится здесь. Ключевые компоненты: ${actives.toLowerCase()}.` },
-    { title: "Применение", text: USAGE[fc.type ?? ""] ?? USAGE["Кремы"] },
+    { title: "Применение", text: usageFor(fc) },
     {
       title: "О бренде",
-      text: `${fc.brand} — корейский бренд ухода за кожей. Скоро расскажем о нём подробнее.`,
+      text: `${fc.brand} — корейский бренд. Скоро расскажем о нём подробнее.`,
     },
   ];
 }
 
-/** Похожие товары: тот же тип, кроме самого товара */
-function similarTo(id: string, type?: string): Product[] {
-  return (faceCare as Product[]).filter((p) => p.type === type && p.id !== id).slice(0, 8);
+/** Настоящие тексты вкладок (scripts/import-product-texts.mjs). Вкладку без текста оставляем временной */
+function withTexts(slug: string, tabs: { title: string; text: string }[] = []) {
+  const texts = (productTexts as Record<string, Record<string, string | null>>)[slug];
+  return texts ? tabs.map((t) => ({ ...t, text: texts[t.title] ?? t.text })) : tabs;
 }
 
-/** Страница товара: подробные данные, если они есть, иначе — собранные из каталога «Ухода для лица» */
+/** Карточка для избранного: то же, что в каталоге, без галереи */
+function cardOf(p: CatalogProduct): Product {
+  const card: Partial<CatalogProduct> = { ...p };
+  delete card.images;
+  delete card.thumbs;
+  delete card.also;
+  return card as Product;
+}
+
+/** Похожие товары: тот же раздел и тип, кроме самого товара */
+function similarTo(fc: CatalogProduct): Product[] {
+  return allProducts.filter((p) => p.category === fc.category && p.type === fc.type && p.id !== fc.id).slice(0, 8);
+}
+
+/** Страница товара: подробные данные, если они есть, иначе — собранные из каталога */
 export function getProduct(slug: string): ProductDetails | undefined {
-  const fc = (faceCare as (Product & { images: string[]; thumbs: string[] })[]).find((p) => p.id === slug);
+  const fc = allProducts.find((p) => p.id === slug);
   const detailed = products.find((p) => p.slug === slug);
-  if (detailed) return fc ? { ...detailed, thumbs: fc.thumbs, similar: similarTo(fc.id, fc.type) } : detailed;
+  if (detailed)
+    return fc
+      ? { ...detailed, tabs: withTexts(slug, detailed.tabs), thumbs: fc.thumbs, similar: similarTo(fc), card: cardOf(fc) }
+      : detailed;
   if (!fc) return undefined;
   return {
     slug: fc.id,
     name: fc.name,
     subtitle: fc.description,
-    category: { title: fc.type ?? "Каталог", href: `/catalog?type=${encodeURIComponent(fc.type ?? "")}` },
+    category: { title: fc.type ?? fc.category, href: sectionHref(fc.category, fc.type) },
     price: fc.price,
     oldPrice: fc.oldPrice,
     discount: fc.discount,
@@ -267,12 +384,13 @@ export function getProduct(slug: string): ProductDetails | undefined {
     images: fc.images,
     thumbs: fc.thumbs,
     delivery,
-    ingredients: activesFor(fc.name),
-    tabs: draftTabs(fc, activesFor(fc.name)),
+    ingredients: activesFor(fc.name, fc.id),
+    tabs: withTexts(fc.id, draftTabs(fc, activesFor(fc.name, fc.id))),
     // ВНИМАНИЕ: отзывы — из макета, одинаковые у всех товаров. Перед запуском магазина заменить настоящими
     reviews,
-    similar: similarTo(fc.id, fc.type),
+    similar: similarTo(fc),
+    card: cardOf(fc),
   };
 }
 
-export const productSlugs = [...new Set([...products.map((p) => p.slug), ...faceCare.map((p) => p.id)])];
+export const productSlugs = [...new Set([...products.map((p) => p.slug), ...allProducts.map((p) => p.id)])];

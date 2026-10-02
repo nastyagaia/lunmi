@@ -1,12 +1,10 @@
-// Страница каталога (Figma: catalog, 2936:6591).
-// Товары «Ухода для лица» — из папки с материалами (scripts/import-face-care.mjs → face-care.json).
-// Позже всё это переедет в базу товаров.
+// Страница каталога (Figma: catalog, 2936:6591). Разделы и товары — в sections.ts.
 import type { Product } from "@/components/ProductCard";
-import faceCare from "./face-care.json";
+import { sectionCovers, sectionProducts, sectionTypes } from "./sections";
 
 export const catalogPage = {
   title: "Уход для лица",
-  heroImage: "/img/catalog-hero.webp",
+  heroImage: sectionCovers.uhod,
 };
 
 /** Варианты в выпадающих списках фильтров (Figma: dropdown над макетом каталога) */
@@ -29,16 +27,8 @@ export const filterOptions = {
   sort: ["по популярности", "сначала дешевле", "сначала дороже", "по рейтингу"],
 };
 
-/** Товары раздела «Уход для лица» — из папки с материалами (scripts/import-face-care.mjs) */
-export const catalogProducts: Product[] = faceCare;
+/** Товары раздела «Уход для лица» (в том числе из других папок: SPF, тонеры из Glow-skin и т. п.) */
+export const catalogProducts: Product[] = sectionProducts(catalogPage.title);
 
-/** Типы в порядке меню каталога */
-export const catalogTypes = [
-  "Очищение",
-  "Тонеры и пэды",
-  "Сыворотки и ампулы",
-  "Кремы",
-  "Маски",
-  "Пэды и патчи",
-  "SPF для лица",
-].filter((t) => faceCare.some((p) => p.type === t));
+/** Типы в порядке меню каталога — только те, где есть товары */
+export const catalogTypes = sectionTypes(catalogPage.title, catalogProducts);

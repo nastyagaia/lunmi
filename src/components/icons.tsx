@@ -194,3 +194,38 @@ export function ArrowLeft(props: P) {
     </svg>
   );
 }
+
+/** camera (24) — прикрепить фото в поле AI-подбора; линия 1.5, как у остальных иконок кита */
+export function CameraIcon(props: P) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden {...stroke} {...props}>
+      <path d="M4 8.5C4 7.67 4.67 7 5.5 7h2.1l1.3-2h6.2l1.3 2h2.1c.83 0 1.5.67 1.5 1.5v9c0 .83-.67 1.5-1.5 1.5h-13C4.67 19 4 18.33 4 17.5v-9Z" />
+      <circle cx="12" cy="12.5" r="3.25" />
+    </svg>
+  );
+}
+
+/** edit (24) — карандаш «изменить» в карточках оформления */
+/** Icons/Edit из UI KIT (5306:12949): карандаш со скруглённым корпусом, линия 1.37 */
+export function EditIcon(props: P) {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.37"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      {...props}
+    >
+      <path
+        transform="translate(5 4)"
+        d="M8.41 0.683C9.077 -0.114 10.276 -0.231 11.09 0.423C11.135 0.458 12.581 1.581 12.581 1.581C13.474 2.122 13.752 3.27 13.2 4.147C13.17 4.194 4.998 14.416 4.998 14.416C4.726 14.756 4.313 14.956 3.872 14.961L0.743 15L0.037 12.015C-0.061 11.596 0.037 11.155 0.309 10.816L8.41 0.683Z"
+      />
+      <path d="M11.9 6.6L16.59 10.2" />
+    </svg>
+  );
+}

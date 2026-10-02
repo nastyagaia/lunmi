@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { CartProvider } from "@/components/Cart";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,7 +19,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="preload" href="/fonts/unbounded-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
         <link rel="preload" href="/fonts/onest-cyrillic-500-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
       </head>
-      <body className="min-h-dvh">{children}</body>
+      <body className="min-h-dvh">
+        <CartProvider>{children}</CartProvider>
+      </body>
     </html>
   );
 }

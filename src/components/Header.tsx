@@ -2,17 +2,31 @@
 
 // Navigation Menu из UI KIT: desktop — плашка с меню, mobile — бургер
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { catalogMenu } from "@/data/menu";
+import { useCart } from "./Cart";
 import { CatalogMenu } from "./CatalogMenu";
+import { useFavorites } from "./Favorites";
+import { SearchPanel } from "./SearchPanel";
 import { BurgerIcon, CartIcon, ChevronDown, CloseIcon, HeartIcon, Logo, ProfileIcon, SearchIcon } from "./icons";
 
 const nav = ["Каталог", "Скидки", "Бренды", "Подбор косметики", "Доставка"];
+const navHref: Record<string, string> = { Каталог: "/catalog", Скидки: "/sale", Бренды: "/brands", "Подбор косметики": "/ai" };
 
-function IconLink({ label, children, className = "" }: { label: string; children: React.ReactNode; className?: string }) {
+function IconLink({
+  label,
+  href = "#",
+  children,
+  className = "",
+}: {
+  label: string;
+  href?: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <Link
-      href="#"
+      href={href}
       aria-label={label}
       className={`flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent ${className}`}
     >
@@ -25,6 +39,10 @@ function IconLink({ label, children, className = "" }: { label: string; children
  *  Видимую высоту шапки пишем в CSS-переменную --header-h: по ней «прилипают» фильтры каталога. */
 export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
   const [open, setOpen] = useState(false);
+  const cart = useCart();
+  const favorites = useFavorites();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
   // меню «Каталог» на десктопе: открывается наведением или кликом, закрывается, когда мышь ушла из шапки
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -43,7 +61,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
   }, [hideOnScroll]);
 
   // пока открыто меню каталога или мобильное меню — шапку не прячем
-  const isHidden = hidden && !catalogOpen && !open;
+  const isHidden = hidden && !catalogOpen && !open && !searchOpen;
 
   useEffect(() => {
     document.documentElement.style.setProperty("--header-h", isHidden ? "0px" : "54px");
@@ -102,7 +120,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                 ) : (
                   <li key={item}>
                     <Link
-                      href="#"
+                      href={navHref[item] ?? "#"}
                       onMouseEnter={() => setCatalogOpen(false)}
                       className="flex h-11 items-center text-base-s transition-colors hover:text-accent"
                     >
@@ -115,18 +133,48 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
           </nav>
 
           <div className="flex items-center gap-1 md:gap-2">
-            <IconLink label="Поиск">
-              <SearchIcon />
-            </IconLink>
-            <IconLink label="Избранное" className="hidden sm:flex">
+            <button
+              type="button"
+              onClick={() => {
+                setCatalogOpen(false);
+                setSearchOpen((v) => !v);
+              }}
+              aria-expanded={searchOpen}
+              aria-label={searchOpen ? "Закрыть поиск" : "Поиск"}
+              className="flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
+            >
+              {searchOpen ? <CloseIcon /> : <SearchIcon />}
+            </button>
+            <Link
+              href="/favorites"
+              aria-label={favorites.count ? `Избранное, товаров: ${favorites.count}` : "Избранное"}
+              className="relative hidden size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent sm:flex"
+            >
               <HeartIcon />
-            </IconLink>
+              {favorites.count > 0 && (
+                // как у корзины: розовая плашка поверх правого верхнего угла иконки
+                <span className="absolute top-[7px] left-[11px] flex h-[14px] min-w-[19px] items-center justify-center rounded-full bg-accent px-1 text-[12px] leading-[11px] font-bold text-white">
+                  {favorites.count}
+                </span>
+              )}
+            </Link>
             <IconLink label="Личный кабинет" className="hidden sm:flex">
               <ProfileIcon />
             </IconLink>
-            <IconLink label="Корзина">
+            <button
+              type="button"
+              onClick={() => cart.setOpen(true)}
+              aria-label={cart.count ? `Корзина, товаров: ${cart.count}` : "Корзина"}
+              className="relative flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
+            >
               <CartIcon />
-            </IconLink>
+              {cart.count > 0 && (
+                // cart state3 из UI KIT: розовая плашка 19 × 14 поверх правого верхнего угла сумки, цифра 12 px bold
+                <span className="absolute top-[7px] left-[11px] flex h-[14px] min-w-[19px] items-center justify-center rounded-full bg-accent px-1 text-[12px] leading-[11px] font-bold text-white">
+                  {cart.count}
+                </span>
+              )}
+            </button>
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
@@ -138,6 +186,11 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
               {open ? <CloseIcon /> : <BurgerIcon />}
             </button>
           </div>
+        </div>
+
+        {/* поиск выезжает под шапкой на всю ширину; -mx — чтобы серый фон шёл от края до края */}
+        <div className="-mx-4 md:-mx-6 xl:-mx-[96px]">
+          <SearchPanel open={searchOpen} onClose={closeSearch} />
         </div>
 
         {/* menu dropdown: шапка «вытягивается» вниз до 604 px — одно стекло, как у Gentle Monster */}
@@ -168,7 +221,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
               {nav.map((item) => (
                 <li key={item} className="border-b border-surface last:border-0">
                   <Link
-                    href={item === "Каталог" ? "/catalog" : "#"}
+                    href={navHref[item] ?? "#"}
                     onClick={() => setOpen(false)}
                     className="flex h-12 items-center text-h4 transition-colors hover:text-accent"
                   >

@@ -1,7 +1,7 @@
 // Базовые компоненты из UI KIT (buttons, tags, header секции)
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
-import { ChevronDown, CloseIcon } from "./icons";
+import { ChevronDown, CloseIcon, EditIcon } from "./icons";
 
 type ButtonProps = {
   href?: string;
@@ -28,7 +28,7 @@ export function Button({ href, tone = "dark", size = "L", children, className = 
   ].join(" ");
   if (href) {
     return (
-      <Link href={href} className={cls}>
+      <Link href={href} className={cls} onClick={rest.onClick as ComponentProps<typeof Link>["onClick"]}>
         {children}
       </Link>
     );
@@ -57,7 +57,7 @@ export function SectionHeader({ title, href = "#" }: { title: ReactNode; href?: 
   );
 }
 
-/** tags — бейдж на карточке: Property 1=% (скидка, тёмный) или hit! (розовый) */
+/** tags — бейдж на карточке: Property 1=% (скидка, surface/neutral 7) или hit! (surface/accent, белый текст) */
 export function Tag({
   kind = "sale",
   className = "",
@@ -70,7 +70,7 @@ export function Tag({
   return (
     <span
       className={`flex h-5 shrink-0 items-center justify-center rounded-r-xs px-1.5 text-caps ${
-        kind === "sale" ? "bg-primary text-white" : "bg-accent-soft text-primary"
+        kind === "sale" ? "bg-primary text-white" : "bg-accent text-white"
       } ${className}`}
     >
       {children}
@@ -151,15 +151,32 @@ export function DropdownButton({
 
 /** Checkbox icon, size=m из UI KIT: квадрат 20 px; selected — розовый с белой галочкой.
  *  Настоящий чекбокс спрятан для экранных дикторов и клавиатуры, видна только картинка. */
-export function Checkbox({ checked, onChange, children }: { checked: boolean; onChange: () => void; children: ReactNode }) {
+export function Checkbox({
+  checked,
+  onChange,
+  children,
+}: {
+  checked: boolean;
+  onChange: () => void;
+  children: ReactNode;
+}) {
   return (
     <label className="group flex cursor-pointer items-center gap-2.5 py-1 text-base-s">
       <input type="checkbox" checked={checked} onChange={onChange} className="peer sr-only" />
       <span className="flex size-6 shrink-0 items-center justify-center peer-focus-visible:outline-2 peer-focus-visible:outline-accent">
         {checked ? (
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path d="M4 2.5H20C20.8284 2.5 21.5 3.17157 21.5 4V20C21.5 20.8284 20.8284 21.5 20 21.5H4C3.17157 21.5 2.5 20.8284 2.5 20V4C2.5 3.17157 3.17157 2.5 4 2.5Z" className="fill-accent stroke-accent" />
-            <path d="M19.0833 7L9.91667 16.1667L5.75 12" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M4 2.5H20C20.8284 2.5 21.5 3.17157 21.5 4V20C21.5 20.8284 20.8284 21.5 20 21.5H4C3.17157 21.5 2.5 20.8284 2.5 20V4C2.5 3.17157 3.17157 2.5 4 2.5Z"
+              className="fill-accent stroke-accent"
+            />
+            <path
+              d="M19.0833 7L9.91667 16.1667L5.75 12"
+              stroke="white"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         ) : (
           <span className="size-5 rounded-xs border border-line bg-white transition-colors group-hover:border-primary" />
@@ -190,11 +207,300 @@ export function Radio({
           {checked ? (
             <circle cx="12" cy="12" r="8" fill="white" className="stroke-accent" strokeWidth="4" />
           ) : (
-            <circle cx="12" cy="12" r="9.5" fill="white" className="stroke-line transition-colors group-hover:stroke-primary" />
+            <circle
+              cx="12"
+              cy="12"
+              r="9.5"
+              fill="white"
+              className="stroke-line transition-colors group-hover:stroke-primary"
+            />
           )}
         </svg>
       </span>
       {children}
     </label>
+  );
+}
+
+/** input из UI KIT (2901:4102): поле 52 px, обводка border/secondary, тёмная при фокусе, красная при ошибке.
+ *  Пока пусто — серая подсказка; когда заполнено — подпись уезжает вверх мелким текстом. */
+export function TextField({
+  label,
+  value,
+  onChange,
+  type = "text",
+  autoComplete,
+  inputMode,
+  error,
+  className = "",
+  trailing,
+  onClear,
+  hint,
+  onBlur,
+  maxLength,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  autoComplete?: string;
+  inputMode?: ComponentProps<"input">["inputMode"];
+  error?: string;
+  className?: string;
+  /** кнопка справа внутри поля (например, «применить промокод») */
+  trailing?: ReactNode;
+  /** крестик очистки справа — виден, когда поле заполнено */
+  onClear?: () => void;
+  /** серая подсказка под полем: «Покажем пункты выдачи рядом» */
+  hint?: string;
+  onBlur?: () => void;
+  maxLength?: number;
+}) {
+  return (
+    <div className={`flex flex-col gap-0.5 ${className}`}>
+      <label
+        className={`flex h-[52px] items-center gap-2 rounded-xs border bg-white px-3 transition-colors focus-within:border-primary ${
+          error ? "border-error" : "border-line"
+        }`}
+      >
+        <span className="relative flex min-w-0 flex-1 flex-col justify-center">
+          <span
+            className={`pointer-events-none transition-all ${
+              value
+                ? "text-base-xs text-tertiary"
+                : "absolute inset-x-0 top-1/2 -translate-y-1/2 text-base-s text-tertiary"
+            }`}
+          >
+            {label}
+          </span>
+          <input
+            type={type}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            autoComplete={autoComplete}
+            inputMode={inputMode}
+            onBlur={onBlur}
+            maxLength={maxLength}
+            aria-invalid={Boolean(error)}
+            className="min-w-0 bg-transparent text-base-s caret-accent outline-none"
+          />
+        </span>
+        {onClear && value && (
+          <button
+            type="button"
+            onClick={onClear}
+            aria-label={`Очистить поле «${label}»`}
+            className="-mr-1 flex size-8 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
+          >
+            <CloseIcon className="size-4" />
+          </button>
+        )}
+        {trailing}
+      </label>
+      {error && <p className="text-base-xs text-error">{error}</p>}
+      {hint && !error && <p className="text-base-xs text-tertiary">{hint}</p>}
+    </div>
+  );
+}
+
+/** input с выбором (Город): как TextField, справа стрелка; сам список — системный, удобный и на телефоне */
+export function SelectField({
+  label,
+  value,
+  options,
+  onChange,
+  className = "",
+}: {
+  label: string;
+  value: string;
+  options: readonly string[];
+  onChange: (v: string) => void;
+  className?: string;
+}) {
+  return (
+    <label
+      className={`relative flex h-[52px] items-center gap-2 rounded-xs border border-line bg-white px-3 transition-colors focus-within:border-primary ${className}`}
+    >
+      <span className="flex min-w-0 flex-1 flex-col">
+        <span className="text-base-xs text-tertiary">{label}</span>
+        <span className="truncate text-base-s">{value}</span>
+      </span>
+      <ChevronDown className="size-6 shrink-0" />
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        aria-label={label}
+        className="absolute inset-0 cursor-pointer opacity-0"
+      >
+        {options.map((o) => (
+          <option key={o}>{o}</option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+/** Логотип СДЭК в карточке пункта (avatar mini 30 px): зелёный кружок с белой надписью */
+export function CdekLogo() {
+  return (
+    <span
+      aria-label="СДЭК"
+      className="flex size-[30px] shrink-0 items-center justify-center rounded-full bg-[#1ab248] text-[8px] leading-none font-extrabold tracking-tight text-white italic"
+    >
+      СДЭК
+    </span>
+  );
+}
+
+/** Tabs из UI KIT, мелкие (окно адреса): Unbounded 12, активная — тёмная с линией, остальные серые */
+export function SmallTabs<T extends string>({
+  tabs,
+  value,
+  onChange,
+}: {
+  tabs: { id: T; title: string }[];
+  value: T;
+  onChange: (id: T) => void;
+}) {
+  return (
+    <div role="tablist" className="flex gap-8 self-start border-b border-line">
+      {tabs.map((t) => (
+        <button
+          key={t.id}
+          type="button"
+          role="tab"
+          aria-selected={t.id === value}
+          onClick={() => onChange(t.id)}
+          className={`-mb-px border-b pb-2 text-h4 transition-colors ${
+            t.id === value ? "border-primary" : "border-transparent text-tertiary hover:text-primary"
+          }`}
+        >
+          {t.title}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** card из UI KIT (small card content): строка с заголовком и подписью серым, справа карандаш «изменить» */
+export function InfoCard({
+  title,
+  subtitle,
+  onEdit,
+  editLabel = "Изменить",
+  leading,
+  extra,
+}: {
+  title: ReactNode;
+  subtitle?: ReactNode;
+  onEdit?: () => void;
+  editLabel?: string;
+  leading?: ReactNode;
+  /** строка под подписью — например, ссылка «Подробнее о пункте» */
+  extra?: ReactNode;
+}) {
+  return (
+    <div className="flex w-full items-center justify-between gap-2 rounded-sm border border-line-light bg-white p-4">
+      <div className="flex min-w-0 items-center gap-2">
+        {leading}
+        <div className="min-w-0">
+          <p className="truncate text-base-s">{title}</p>
+          {subtitle && <p className="truncate text-base-xs text-secondary">{subtitle}</p>}
+          {extra && <div className="mt-2">{extra}</div>}
+        </div>
+      </div>
+      {onEdit && (
+        <button
+          type="button"
+          onClick={onEdit}
+          aria-label={editLabel}
+          className="flex size-9 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
+        >
+          <EditIcon />
+        </button>
+      )}
+    </div>
+  );
+}
+
+/** card с выбором (Ваши адреса, пункты выдачи, банковские карты): radio, логотип, текст и карандаш.
+ *  Выбранная — розовая обводка */
+export function RadioCard({
+  name,
+  checked,
+  onChange,
+  title,
+  subtitle,
+  leading,
+  onEdit,
+  editLabel = "Изменить",
+}: {
+  name: string;
+  checked: boolean;
+  onChange: () => void;
+  title: ReactNode;
+  subtitle?: ReactNode;
+  leading?: ReactNode;
+  onEdit?: () => void;
+  editLabel?: string;
+}) {
+  return (
+    <div
+      className={`flex w-full items-center gap-2 rounded-sm border bg-white py-4 pr-4 pl-4 transition-colors ${
+        checked ? "border-accent" : "border-line-light hover:border-line"
+      }`}
+    >
+      <label className="flex min-w-0 flex-1 cursor-pointer items-center gap-2">
+        <input type="radio" name={name} checked={checked} onChange={onChange} className="peer sr-only" />
+        <span className="flex size-6 shrink-0 items-center justify-center rounded-full peer-focus-visible:outline-2 peer-focus-visible:outline-accent">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+            {checked ? (
+              <circle cx="12" cy="12" r="8" fill="white" className="stroke-accent" strokeWidth="4" />
+            ) : (
+              <circle cx="12" cy="12" r="9.5" fill="white" className="stroke-line" />
+            )}
+          </svg>
+        </span>
+        {leading}
+        <span className="min-w-0">
+          <span className="block truncate text-base-s">{title}</span>
+          {subtitle && <span className="block truncate text-base-xs text-secondary">{subtitle}</span>}
+        </span>
+      </label>
+      {onEdit && (
+        <button
+          type="button"
+          onClick={onEdit}
+          aria-label={editLabel}
+          className="flex size-9 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
+        >
+          <EditIcon />
+        </button>
+      )}
+    </div>
+  );
+}
+
+/** Date picker из UI KIT: плашка-выбор; выбранная — розовая обводка 1.5 px (border/accent) */
+export function ChoiceChip({
+  selected,
+  onClick,
+  children,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={selected}
+      className={`h-9 shrink-0 rounded-sm bg-white px-2 text-base-s whitespace-nowrap transition-colors ${
+        selected ? "border-[1.5px] border-accent" : "border border-line-light hover:border-primary"
+      }`}
+    >
+      {children}
+    </button>
   );
 }
