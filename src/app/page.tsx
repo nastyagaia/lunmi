@@ -21,8 +21,10 @@ const BESTSELLER_HITS = [
   "biodance-caviar-eye-patch",
   "torriden-dive-in-cream",
 ];
+// первая карточка — настоящий тинт Dasique (обложка Cherry Soda, при наведении — фото модели) вместо заглушки из макета
 const bestsellerList = [
-  ...bestsellers,
+  ...allProducts.filter((p) => p.id === "dasique-juicy-dewy-lip-tint"),
+  ...bestsellers.filter((p) => p.id !== "b1"),
   ...BESTSELLER_HITS.flatMap((id) => allProducts.filter((p) => p.id === id)),
 ];
 

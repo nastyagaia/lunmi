@@ -9,6 +9,7 @@ import { priceToNumber, useCart } from "./Cart";
 import { HeartIcon, MinusIcon, PlusIcon, StarIcon } from "./icons";
 import { Tag } from "./ui";
 import { useFavorites } from "./Favorites";
+import { useShade } from "./ProductShade";
 
 /** «1 отзыв», «3 отзыва», «5 отзывов» */
 function reviewsWord(n: number) {
@@ -21,7 +22,8 @@ function reviewsWord(n: number) {
 
 export function ProductBuy({ product }: { product: ProductDetails }) {
   const [volume, setVolume] = useState(product.volumes?.[0]);
-  const [shade, setShade] = useState(product.shades?.find((s) => s.available !== false)?.name);
+  // оттенок общий с галереей: выбрали оттенок — галерея показывает его фото
+  const { shade, setShade } = useShade(product.shades?.find((s) => s.available !== false)?.name);
   const cart = useCart();
   const favorites = useFavorites();
   // в избранное кладём карточку как в каталоге; у товаров не из каталога — собираем её из данных страницы
@@ -67,9 +69,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           {(product.discount || product.hit) && (
             <div className="flex items-center gap-1">
               {product.discount && <Tag>{product.discount}</Tag>}
-              {product.hit && (
-                <Tag kind="hit">hit</Tag>
-              )}
+              {product.hit && <Tag kind="hit">hit</Tag>}
             </div>
           )}
           {product.rating && (
@@ -111,7 +111,10 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
                       selected ? "border-primary" : "border-transparent hover:border-line"
                     }`}
                   >
-                    <span className="absolute inset-[2px] rounded-full border-2 border-white" style={{ background: s.color }} />
+                    <span
+                      className="absolute inset-[2px] rounded-full border-2 border-white"
+                      style={{ background: s.color }}
+                    />
                     {!available && (
                       <svg viewBox="0 0 30 30" className="absolute inset-0" aria-hidden>
                         <path d="M4.5 24L24.5 5.5" stroke="white" strokeWidth="2" />
@@ -136,9 +139,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
                 aria-checked={v === volume}
                 onClick={() => setVolume(v)}
                 className={
-                  v === volume
-                    ? "underline underline-offset-2"
-                    : "text-tertiary transition-colors hover:text-primary"
+                  v === volume ? "underline underline-offset-2" : "text-tertiary transition-colors hover:text-primary"
                 }
               >
                 {v}

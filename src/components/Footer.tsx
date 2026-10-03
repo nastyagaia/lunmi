@@ -4,6 +4,8 @@ import { ArrowRight } from "./icons";
 
 const buyers = ["О нас", "Как заказать", "Доставка", "Возврат товара", "Документы сайта"];
 const contacts = ["Написать в поддержку", "Telegram", "Whatsapp", "Instagram"];
+/** куда ведут ссылки, у которых уже есть страницы; остальные пока «#» */
+const hrefs: Record<string, string> = { Доставка: "/delivery", "Возврат товара": "/delivery" };
 
 function Column({ title, links }: { title: string; links: string[] }) {
   return (
@@ -12,7 +14,10 @@ function Column({ title, links }: { title: string; links: string[] }) {
       <ul className="flex flex-col gap-4">
         {links.map((l) => (
           <li key={l}>
-            <Link href="#" className="block text-base-s text-secondary transition-colors hover:text-primary">
+            <Link
+              href={hrefs[l] ?? "#"}
+              className="block text-base-s text-secondary transition-colors hover:text-primary"
+            >
               {l}
             </Link>
           </li>
@@ -53,7 +58,7 @@ export function Footer() {
               конфиденциальности.
             </p>
           </form>
-          <p className="text-base-s text-secondary max-lg:order-last">«Beauty Lunmi»  All rights reserved. 2026©</p>
+          <p className="text-base-s text-secondary max-lg:order-last">«Beauty Lunmi» All rights reserved. 2026©</p>
         </div>
 
         <div className="grid grid-cols-2 gap-6 sm:max-w-[520px] lg:max-w-none lg:w-[616px] lg:grid-cols-[200px_304px] lg:justify-between">

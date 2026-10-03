@@ -27,8 +27,8 @@ import {
 } from "./CheckoutDrawers";
 import { ArrowRight, ChevronLeft, ChevronRight, CloseIcon } from "./icons";
 import { Button, CdekLogo, ChoiceChip, InfoCard, Radio, TextField } from "./ui";
+import { delivery as deliveryTerms } from "@/data/delivery";
 
-const COURIER_PRICE = 300;
 const PROMO: Record<string, number> = { FIRST5: 5 }; // промокод → скидка в процентах
 const TIMES = ["9:00–12:00", "12:00–18:00", "18:00–21:00"];
 
@@ -113,7 +113,8 @@ export function Checkout() {
   const [promoError, setPromoError] = useState<string>();
   const [order, setOrder] = useState<string>();
 
-  const delivery = address?.kind === "courier" ? COURIER_PRICE : 0;
+  // цены доставки — из src/data/delivery.ts (оформление пока только для Москвы и Петербурга)
+  const delivery = address ? deliveryTerms[address.kind].price : 0;
   const promoDiscount = promoApplied ? Math.round((cart.total * PROMO[promoApplied]) / 100) : 0;
   const total = Math.max(cart.total - promoDiscount + delivery, 0);
   const ready = Boolean(contact && address && payment);

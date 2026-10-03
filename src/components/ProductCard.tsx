@@ -133,14 +133,14 @@ export function ProductCard({
               href: product.href,
             })
           }
-          className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-center rounded-xs bg-primary/40 text-caps text-white opacity-0 backdrop-blur-[10px] transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+          className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-center rounded-b-xs bg-primary/40 text-caps text-white opacity-0 backdrop-blur-[10px] transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
         >
           в корзину
         </button>
       </div>
 
-      {/* cell: у size=L строки через 4 px, у size=M — вплотную, как в UI KIT */}
-      <div className={`flex flex-col ${size === "L" ? "gap-1" : ""}`}>
+      {/* cell из UI KIT: строки вплотную, без промежутков (у обоих размеров L и M) */}
+      <div className="flex flex-col">
         {/* как у Золотого Яблока: заголовок — бренд + линейка обычным шрифтом, под ним серым — что это по-русски */}
         <h3 className="text-base-m">
           <Link href={product.href ?? "#"} className="transition-colors hover:text-secondary">

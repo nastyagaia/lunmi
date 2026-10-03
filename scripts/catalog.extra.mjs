@@ -10,8 +10,10 @@ const B = "Для тела/";
 const H = "Для волос/Product/";
 const S = "Для загара/";
 const T = "Бьюти-гаджеты/";
+const LIPS = "макияж/Для губ/блески и тинты/";
 
 const FACE = "Уход для лица";
+const MAKEUP = "Макияж";
 const GLOW = "Glow-skin";
 const AGE = "Антивозрастной уход";
 const SUN = "Для загара";
@@ -87,6 +89,22 @@ export const extraProducts = [
   { id: "tocobo-bio-watery-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Tocobo", name: "Tocobo Bio Watery Sun Cream SPF50+", title: "Tocobo Bio Watery Sun Cream", description: "Водянистый солнцезащитный крем", price: 1690, files: [S + "TOCOBO_Bio_Watery_Sun_Cream_SPF50+.png"] },
   { id: "haruharu-black-rice-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Haruharu", name: "Haruharu Wonder Black Rice Moisture Airyfit Daily Sunscreen", title: "Haruharu Black Rice Sunscreen", description: "Увлажняющий крем с чёрным рисом", price: 1890, files: [S + "Haruharu Wonder Black Rice Moisture Airyfit Daily Sunscreen.png"] },
   { id: "makeprem-sun-essence", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "make p:rem", name: "make p:rem UV Defense Me Daily Sun Essence", title: "make p:rem Daily Sun Essence", description: "Солнцезащитная эссенция на каждый день", price: 1590, files: [S + "make_prem_UV_Defense_Me_Daily_Sun_Essence.png"] },
+
+  // ---------- макияж ----------
+  // Оттенки: фото идут парами «флакон, модель» — Cherry Soda первым (обложка), дальше по номерам.
+  // Порядок важен: страница товара показывает фото выбранного оттенка по этим номерам (products.ts → shades.images)
+  { id: "dasique-juicy-dewy-lip-tint", category: MAKEUP, type: "Для губ", also: [[HITS, "Тренды в Корее"]], brand: "Dasique", name: "Dasique Juicy Dewy Lip Tint", title: "Dasique Juicy Dewy Tint", description: "Сочный тинт с глянцевым финишем", price: 1590, hit: true, rating: "4.8", files: [
+    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Product/Dasique_Juicy_Dewy_Lip_Tint_07_Cherry_Soda 1.png",
+    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Model/Dasique_Juicy_Dewy_Lip_Tint_07_Cherry_Soda_m.png",
+    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Product/Dasique_Juicy_Dewy_Lip_Tint_01_Mood_Mango 1 1.png",
+    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Model/Dasique_Juicy_Dewy_Lip_Tint_01_Mood_Mango_m.png",
+    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Product/Dasique_Juicy_Dewy_Lip_Tint_03_Pink_Guava 1 1.png",
+    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Model/Dasique_Juicy_Dewy_Lip_Tint_03_Pink_Guava_m.png",
+    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Product/Dasique_Juicy_Dewy_Lip_Tint_04_Plum_Dew1 1.png",
+    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Model/Dasique_Juicy_Dewy_Lip_Tint_04_Plum_Dew_m.png",
+    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Product/Dasique_Juicy_Dewy_Lip_Tint_05_Mauve_Berry1 1.png",
+    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Model/Dasique_Juicy_Dewy_Lip_Tint_05_Mauve_Berry_m.png",
+  ] },
 
   // ---------- бьюти-гаджеты ----------
   { id: "cellreturn-led-mask", category: "Бьюти-гаджеты", type: "LED-маски", brand: "CellReturn", name: "CellReturn Premium LED Mask", description: "LED-маска для омоложения кожи", price: 89990, files: [T + "CellReturn_LED_Mask.png"] },

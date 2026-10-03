@@ -2,10 +2,12 @@
 // В макете название и тексты вкладок были «рыбой» — здесь они по тому, что на фото.
 // Позже всё это переедет в базу товаров.
 import type { Product } from "@/components/ProductCard";
+import { delivery as deliveryTerms } from "./delivery";
 import { allProducts, sectionHref, type CatalogProduct } from "./sections";
 import productTexts from "./product-texts.json";
 
-export type Shade = { name: string; color: string; available?: boolean };
+/** images — номера фото этого оттенка в images: при выборе оттенка галерея показывает только их */
+export type Shade = { name: string; color: string; available?: boolean; images?: number[] };
 
 export type ProductDetails = {
   slug: string;
@@ -68,7 +70,8 @@ const similar: Product[] = [
   },
 ];
 
-const delivery = ["1–3 дня курьером", "3–7 дней Почтой России"];
+// сроки — из условий доставки (src/data/delivery.ts), для Москвы и Петербурга
+const delivery = [`${deliveryTerms.courier.days} курьером`, `${deliveryTerms.pickup.days} в пункт выдачи СДЭК`];
 
 const reviews = [
   {
@@ -128,6 +131,44 @@ export const products: ProductDetails[] = [
     similar,
   },
   {
+    // Фото — из папки «макияж / Для губ / Dasique_Juicy_Dewy_Lip_Tint» (scripts/catalog.extra.mjs): парами «флакон, модель»,
+    // Cherry Soda первым. Цвета кружков сняты с флаконов. Тексты вкладок — временные, проверить по сайту бренда
+    slug: "dasique-juicy-dewy-lip-tint",
+    name: "Dasique Juicy Dewy Lip Tint",
+    subtitle: "Сочный тинт для губ с глянцевым финишем",
+    category: { title: "Для губ", href: "/catalog/makiyazh?type=%D0%94%D0%BB%D1%8F%20%D0%B3%D1%83%D0%B1" },
+    price: "1 590 ₽",
+    hit: true,
+    rating: "4.8",
+    shades: [
+      { name: "07 Cherry Soda", color: "#E85563", images: [0, 1] },
+      { name: "01 Mood Mango", color: "#F0978D", images: [2, 3] },
+      { name: "03 Pink Guava", color: "#F2929C", images: [4, 5] },
+      { name: "04 Plum Dew", color: "#ED6B88", images: [6, 7] },
+      { name: "05 Mauve Berry", color: "#F06A90", images: [8, 9] },
+    ],
+    images: allProducts.find((p) => p.id === "dasique-juicy-dewy-lip-tint")?.images ?? [],
+    delivery,
+    ingredients: "Масла для блеска и мягкости губ",
+    tabs: [
+      {
+        title: "Характеристики",
+        text: "Лёгкий тинт с сочным глянцевым финишем: прозрачный цвет и влажный блеск, будто губы только что смазали бальзамом.\n\nНаносится одним слоем для естественного оттенка или в несколько слоёв для более яркого цвета.",
+      },
+      { title: "Состав", text: "Полный состав скоро появится здесь. Сверяйте его по упаковке." },
+      {
+        title: "Применение",
+        text: "Нанесите на центр губ и растушуйте к краям — получится мягкий градиент. Для насыщенного цвета добавьте второй слой.",
+      },
+      {
+        title: "О бренде",
+        text: "Dasique — корейский бренд декоративной косметики, известный нежными палетками и тинтами в «сладких» оттенках.",
+      },
+    ],
+    reviews,
+    similar,
+  },
+  {
     slug: "clio-crystal-glam-tint",
     name: "Clio Crystal Glam Tint",
     subtitle: "Тинт для губ, 3,4 г",
@@ -152,7 +193,10 @@ export const products: ProductDetails[] = [
         title: "Характеристики",
         text: "Тинт с эффектом стеклянных губ: яркий прозрачный цвет и сочный глянцевый блеск, как у кристалла.\n\nЛёгкая формула не липнет и не сушит губы, а сквалан в составе смягчает и ухаживает за кожей губ в течение дня.",
       },
-      { title: "Состав", text: "Diisostearyl Malate, Hydrogenated Polyisobutene, Squalane, Diglycerin, Butylene Glycol, Tocopherol." },
+      {
+        title: "Состав",
+        text: "Diisostearyl Malate, Hydrogenated Polyisobutene, Squalane, Diglycerin, Butylene Glycol, Tocopherol.",
+      },
       {
         title: "Применение",
         text: "Нанесите на центр губ и растушуйте к краям — так получится эффект градиента. Для насыщенного цвета нанесите второй слой.",
@@ -285,7 +329,8 @@ const USAGE: Record<string, string> = {
     "После умывания нанесите тонер ладонями или протрите лицо пэдом по массажным линиям. Затем — сыворотка и крем.",
   "Сыворотки и ампулы":
     "Нанесите 2–3 капли на очищенную кожу после тонера и распределите похлопывающими движениями. Затем нанесите крем.",
-  Кремы: "Нанесите небольшое количество на лицо последним шагом ухода, утром и вечером. Днём обязательно используйте SPF.",
+  Кремы:
+    "Нанесите небольшое количество на лицо последним шагом ухода, утром и вечером. Днём обязательно используйте SPF.",
   "SPF для лица":
     "Нанесите последним шагом утреннего ухода за 15 минут до выхода на улицу. Обновляйте каждые 2–3 часа на солнце.",
   Маски:
@@ -298,8 +343,10 @@ const USAGE: Record<string, string> = {
 const USAGE_BY_SECTION: Record<string, Record<string, string>> = {
   "Для тела": {
     "Гели для душа": "Нанесите на влажную кожу, вспеньте и смойте тёплой водой.",
-    "Уход против акне": "Нанесите на влажную кожу проблемных зон, помассируйте 30 секунд и смойте. Используйте 1 раз в день.",
-    Скрабы: "Нанесите на влажную кожу, мягко помассируйте круговыми движениями и смойте. Используйте 1–2 раза в неделю.",
+    "Уход против акне":
+      "Нанесите на влажную кожу проблемных зон, помассируйте 30 секунд и смойте. Используйте 1 раз в день.",
+    Скрабы:
+      "Нанесите на влажную кожу, мягко помассируйте круговыми движениями и смойте. Используйте 1–2 раза в неделю.",
     "Мисты для тела": "Распылите на кожу тела с расстояния 20–30 см. Можно обновлять в течение дня.",
     default: "Нанесите на чистую кожу тела и распределите массажными движениями до впитывания.",
   },
@@ -311,7 +358,8 @@ const USAGE_BY_SECTION: Record<string, Record<string, string>> = {
     default: "Распределите небольшое количество по длине и кончикам влажных или сухих волос. Не смывайте.",
   },
   "Бьюти-гаджеты": {
-    default: "Перед первым использованием прочитайте инструкцию производителя. Используйте на чистой коже, подходящий режим подберите по инструкции.",
+    default:
+      "Перед первым использованием прочитайте инструкцию производителя. Используйте на чистой коже, подходящий режим подберите по инструкции.",
   },
 };
 
@@ -368,7 +416,13 @@ export function getProduct(slug: string): ProductDetails | undefined {
   const detailed = products.find((p) => p.slug === slug);
   if (detailed)
     return fc
-      ? { ...detailed, tabs: withTexts(slug, detailed.tabs), thumbs: fc.thumbs, similar: similarTo(fc), card: cardOf(fc) }
+      ? {
+          ...detailed,
+          tabs: withTexts(slug, detailed.tabs),
+          thumbs: fc.thumbs,
+          similar: similarTo(fc),
+          card: cardOf(fc),
+        }
       : detailed;
   if (!fc) return undefined;
   return {

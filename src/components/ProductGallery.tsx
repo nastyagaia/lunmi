@@ -5,13 +5,35 @@
 import Image from "next/image";
 import { useState } from "react";
 import { isPrepared } from "@/lib/images";
+import { useShade } from "./ProductShade";
 
 // фото из папки материалов (/img/face/, /img/catalog/) уже подготовлены нужного размера с точным цветом фона —
 // их отдаём как есть, без пережатия Next.js (оно сдвигает оттенок фона)
 const ready = (src: string) => isPrepared(src);
 
-export function ProductGallery({ images, thumbs, alt }: { images: string[]; thumbs?: string[]; alt: string }) {
+export function ProductGallery({
+  images: allImages,
+  thumbs: allThumbs,
+  alt,
+  shadeImages,
+}: {
+  images: string[];
+  thumbs?: string[];
+  alt: string;
+  /** у товаров с оттенками: какие фото (номера в images) показывать для каждого оттенка */
+  shadeImages?: Record<string, number[]>;
+}) {
+  const { shade } = useShade();
+  const only = shade ? shadeImages?.[shade] : undefined;
+  const images = only ? only.map((i) => allImages[i]) : allImages;
+  const thumbs = only && allThumbs ? only.map((i) => allThumbs[i]) : allThumbs;
   const [active, setActive] = useState(0);
+  // сменили оттенок — начинаем с первого фото этого оттенка (сброс во время отрисовки, как советует React)
+  const [lastShade, setLastShade] = useState(shade);
+  if (lastShade !== shade) {
+    setLastShade(shade);
+    setActive(0);
+  }
 
   return (
     <div className="relative aspect-[600/550] w-full max-w-[600px]">

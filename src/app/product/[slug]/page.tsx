@@ -10,6 +10,7 @@ import { ArrowLeft } from "@/components/icons";
 import { ProductBuy } from "@/components/ProductBuy";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductGallery } from "@/components/ProductGallery";
+import { ShadeProvider } from "@/components/ProductShade";
 import { ProductReviews } from "@/components/ProductReviews";
 import { ProductTabs } from "@/components/ProductTabs";
 import { SectionHeader } from "@/components/ui";
@@ -57,30 +58,42 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
           </div>
 
           <div className="container-page">
-            <div className="mt-6 grid gap-8 lg:mt-[26px] lg:grid-cols-[600px_minmax(0,512px)] lg:justify-between">
-              <ProductGallery images={product.images} thumbs={product.thumbs} alt={product.name} />
+            {/* оттенок общий у галереи и блока покупки: выбрали оттенок — показываем его фото */}
+            <ShadeProvider initial={product.shades?.find((s) => s.available !== false)?.name}>
+              <div className="mt-6 grid gap-8 lg:mt-[26px] lg:grid-cols-[600px_minmax(0,512px)] lg:justify-between">
+                <ProductGallery
+                  images={product.images}
+                  thumbs={product.thumbs}
+                  alt={product.name}
+                  shadeImages={
+                    product.shades?.some((s) => s.images)
+                      ? Object.fromEntries(product.shades.map((s) => [s.name, s.images ?? []]))
+                      : undefined
+                  }
+                />
 
-              <div className="flex flex-col gap-10 lg:min-h-[510px] lg:gap-[100px] lg:pt-[58px]">
-                <ProductBuy product={product} />
-                {/* доставка и активные компоненты: подпись 96 px серым, значение справа */}
-                <dl className="grid grid-cols-[96px_1fr] gap-x-8 gap-y-6 text-base-s">
-                  <dt className="text-secondary">Доставка:</dt>
-                  <dd>
-                    {product.delivery.map((d) => (
-                      <span key={d} className="block">
-                        {d}
-                      </span>
-                    ))}
-                  </dd>
-                  {product.ingredients && (
-                    <>
-                      <dt className="text-secondary">Активные компоненты:</dt>
-                      <dd>{product.ingredients}</dd>
-                    </>
-                  )}
-                </dl>
+                <div className="flex flex-col gap-10 lg:min-h-[510px] lg:gap-[100px] lg:pt-[58px]">
+                  <ProductBuy product={product} />
+                  {/* доставка и активные компоненты: подпись 96 px серым, значение справа */}
+                  <dl className="grid grid-cols-[96px_1fr] gap-x-8 gap-y-6 text-base-s">
+                    <dt className="text-secondary">Доставка:</dt>
+                    <dd>
+                      {product.delivery.map((d) => (
+                        <span key={d} className="block">
+                          {d}
+                        </span>
+                      ))}
+                    </dd>
+                    {product.ingredients && (
+                      <>
+                        <dt className="text-secondary">Активные компоненты:</dt>
+                        <dd>{product.ingredients}</dd>
+                      </>
+                    )}
+                  </dl>
+                </div>
               </div>
-            </div>
+            </ShadeProvider>
           </div>
         </section>
 
