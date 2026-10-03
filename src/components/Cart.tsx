@@ -309,7 +309,11 @@ function CartDrawer() {
 
             {/* итог: «Сумма» + «к оформлению» */}
             <div className="flex items-center gap-1.5 bg-white px-5 pt-6 pb-10 md:px-8 md:pb-[60px]">
-              <p className="w-[145px] shrink-0 text-h4">Сумма: {rub(total)}</p>
+              {/* total из UI KIT: «Сумма» — H4, под ней сумма — H3 */}
+              <p className="flex min-w-[145px] shrink-0 flex-col pr-2">
+                <span className="text-h4">Сумма</span>
+                <span className="text-h3 whitespace-nowrap">{rub(total)}</span>
+              </p>
               <Link
                 href="/checkout"
                 onClick={() => setOpen(false)}

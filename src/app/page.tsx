@@ -35,9 +35,9 @@ export default function Home() {
         <div className="flex flex-col gap-20 pt-20 md:gap-[140px] md:pt-[100px]">
           <Bestsellers />
           <Catalog />
-          <AiBanner />
-          <WeeklyDeals />
           <Brands />
+          <WeeklyDeals />
+          <AiBanner />
           <Reviews />
           <Faq />
           <Contacts />
@@ -77,7 +77,7 @@ function Catalog() {
         {catalog.map((c) => (
           <Link
             key={c.title}
-            href="/catalog"
+            href={c.href}
             className={`group relative flex h-[180px] items-end overflow-hidden rounded-xs bg-surface p-3 sm:h-[220px] md:h-[200px] md:p-4 lg:h-[280px] ${
               c.wide ? "col-span-2" : ""
             }`}
@@ -86,7 +86,7 @@ function Catalog() {
               src={c.image}
               alt=""
               fill
-              sizes={c.wide ? "(min-width: 1024px) 606px, 100vw" : "(min-width: 1024px) 300px, 50vw"}
+              sizes={c.wide ? "(min-width: 1024px) 616px, 100vw" : "(min-width: 1024px) 304px, 50vw"}
               className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             />
             <span className="relative text-base-m">{c.title}</span>
@@ -227,7 +227,7 @@ function Faq() {
         {faq.map((item, i) => (
           <details key={item.q} className="group border-b border-line-light">
             <summary
-              className={`flex cursor-pointer list-none items-center justify-between gap-4 pb-6 text-h4 transition-colors hover:text-accent [&::-webkit-details-marker]:hidden ${
+              className={`flex cursor-pointer list-none items-center justify-between gap-4 pb-6 text-h4 [&::-webkit-details-marker]:hidden ${
                 i === 0 ? "" : "pt-6"
               }`}
             >

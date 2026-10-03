@@ -43,7 +43,10 @@ export function addressTitle(a: Address) {
 }
 
 export function addressSubtitle(a: Address) {
-  if (a.kind === "pickup") return pointOf(a)?.hours;
+  if (a.kind === "pickup") {
+    const hours = pointOf(a)?.hours;
+    return hours ? `Время работы: ${hours}` : undefined;
+  }
   return [a.flat && `кв. ${a.flat}`, a.entrance, a.comment].filter(Boolean).join(", ") || undefined;
 }
 
@@ -333,7 +336,7 @@ function PickupList({
               onChange={() => onChange(p.id)}
               leading={<CdekLogo />}
               title={`${p.city}, ${p.address}`}
-              subtitle={p.hours}
+              subtitle={`Время работы: ${p.hours}`}
             />
           </li>
         ))}
@@ -492,14 +495,14 @@ export function AddCardDrawer({
   onSave: (c: SavedCard) => void;
 }) {
   const [number, setNumber] = useState("");
-  const [mm, setMm] = useState("");
-  const [yy, setYy] = useState("");
+  const [exp, setExp] = useState(""); // «ММ/ГГ», косая черта ставится сама
   const [cvc, setCvc] = useState("");
   const digits = number.replace(/\D/g, "");
-  const valid = digits.length >= 16 && Number(mm) >= 1 && Number(mm) <= 12 && yy.length === 2 && cvc.length === 3;
+  const month = Number(exp.slice(0, 2));
+  const valid = digits.length >= 16 && month >= 1 && month <= 12 && exp.length === 5 && cvc.length === 3;
 
   const cell =
-    "h-[52px] min-w-0 border border-line bg-white px-3 text-base-s outline-none caret-accent placeholder:text-tertiary focus:z-10 focus:border-primary";
+    "h-[52px] w-full min-w-0 rounded-xs border border-line bg-white px-3 text-base-s outline-none caret-accent placeholder:text-tertiary focus:border-primary";
 
   return (
     <Drawer
@@ -522,9 +525,10 @@ export function AddCardDrawer({
       }
     >
       {/* розовая карта 504 × 284 с логотипами платёжных систем (фон из макета) */}
-      <div className="relative w-full max-w-[504px] overflow-hidden rounded-xs">
+      <div className="relative min-h-[284px] w-full max-w-[504px] overflow-hidden rounded-xs">
         <Image src="/img/bank-card-bg.webp" alt="" fill sizes="504px" className="object-cover" />
-        <div className="relative flex flex-col gap-2 px-5 pt-[64px] pb-8 sm:px-[21px]">
+        {/* поля в 32 px от краёв карты: номер на всю ширину, ниже «Срок» — ММ/ГГ и CVC пополам через 8 px */}
+        <div className="relative flex flex-col px-5 pt-[78px] pb-[46px] sm:px-8">
           <span className="sr-only">Visa, Мир, Mastercard</span>
           <input
             value={number}
@@ -540,27 +544,21 @@ export function AddCardDrawer({
             autoComplete="off"
             placeholder="Номер карты"
             aria-label="Номер карты"
-            className={`${cell} rounded-xs`}
+            className={cell}
           />
-          <p className="mt-4 text-base-s">Срок</p>
-          <div className="flex">
+          <p className="mt-5 mb-1 text-base-s text-secondary">Срок</p>
+          <div className="grid grid-cols-2 gap-2">
             <input
-              value={mm}
-              onChange={(e) => setMm(e.target.value.replace(/\D/g, "").slice(0, 2))}
+              value={exp}
+              onChange={(e) => {
+                const d = e.target.value.replace(/\D/g, "").slice(0, 4);
+                setExp(d.length > 2 ? `${d.slice(0, 2)}/${d.slice(2)}` : d);
+              }}
               inputMode="numeric"
               autoComplete="off"
-              placeholder="ММ"
-              aria-label="Месяц"
-              className={`${cell} w-[68px] rounded-l-xs`}
-            />
-            <input
-              value={yy}
-              onChange={(e) => setYy(e.target.value.replace(/\D/g, "").slice(0, 2))}
-              inputMode="numeric"
-              autoComplete="off"
-              placeholder="ГГ"
-              aria-label="Год"
-              className={`${cell} -ml-px w-[200px]`}
+              placeholder="ММ/ГГ"
+              aria-label="Срок действия, месяц и год"
+              className={cell}
             />
             <input
               value={cvc}
@@ -570,7 +568,7 @@ export function AddCardDrawer({
               type="password"
               placeholder="CVC код"
               aria-label="CVC код"
-              className={`${cell} -ml-px flex-1 rounded-r-xs`}
+              className={cell}
             />
           </div>
         </div>

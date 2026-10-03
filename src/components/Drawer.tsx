@@ -86,7 +86,8 @@ export function Drawer({
           <div className="flex flex-1 flex-col pt-6 pb-6">{children}</div>
         </div>
 
-        {footer && <div className="flex shrink-0 gap-1.5 px-5 pt-4 pb-10 md:px-8 md:pb-[50px]">{footer}</div>}
+        {/* кнопки: поля 32 по бокам и снизу, 24 сверху, между кнопками 6 — как в дроере макета */}
+        {footer && <div className="flex shrink-0 gap-1.5 px-5 pt-6 pb-8 md:px-8">{footer}</div>}
       </aside>
     </div>
   );

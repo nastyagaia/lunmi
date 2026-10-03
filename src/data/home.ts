@@ -116,14 +116,14 @@ export const weeklyDeals: Product[] = [
 
 /** Плитки каталога. wide = широкая плитка (606px в макете) */
 export const catalog = [
-  { title: "Для кожи лица", image: "/img/c1.webp" },
-  { title: "Glow Skin", image: "/img/c2.webp" },
-  { title: "Антивозрастной уход", image: "/img/c3.webp", wide: true },
-  { title: "Хиты в Корее", image: "/img/c4.webp" },
-  { title: "Макияж", image: "/img/c5-makeup.webp", wide: true },
-  { title: "Для тела", image: "/img/c6.webp" },
-  { title: "Для волос", image: "/img/c7.webp", wide: true },
-  { title: "Бьюти-гаджеты", image: "/img/c8.webp" },
+  { title: "Для кожи лица", image: "/img/c1.webp", href: "/catalog" },
+  { title: "Glow Skin", image: "/img/c2.webp", href: "/catalog/glow-skin" },
+  { title: "Антивозрастной уход", image: "/img/c3.webp", wide: true, href: "/catalog/antivozrastnoy-uhod" },
+  { title: "Хиты в Корее", image: "/img/c4.webp", href: "/catalog/hity-korei" },
+  { title: "Макияж", image: "/img/c5-makeup.webp", wide: true, href: "/catalog/makiyazh" },
+  { title: "Для тела", image: "/img/c6.webp", href: "/catalog/dlya-tela" },
+  { title: "Для волос", image: "/img/c7.webp", wide: true, href: "/catalog/dlya-volos" },
+  { title: "Бьюти-гаджеты", image: "/img/c8.webp", href: "/catalog/beauty-gadgets" },
 ];
 
 export const reviews = [

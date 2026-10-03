@@ -229,3 +229,43 @@ export function EditIcon(props: P) {
     </svg>
   );
 }
+
+/* ---- иконки меню профиля (Figma dropdown 5306:12746), рисованы в поле 23 × 23 ---- */
+const line23 = { width: 24, height: 24, viewBox: "0 0 23 23", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+
+export function SparkleIcon(props: P) {
+  return (
+    <svg {...line23} aria-hidden {...props}>
+      <path transform="translate(2.88 2.88)" d="M0 8.62C6 8.62 8.62 6.09 8.62 0C8.62 6.09 11.22 8.62 17.25 8.62C11.22 8.62 8.62 11.22 8.62 17.25C8.62 11.22 6 8.62 0 8.62Z" />
+    </svg>
+  );
+}
+
+export function ReviewIcon(props: P) {
+  return (
+    <svg {...line23} aria-hidden {...props}>
+      <path transform="translate(1.92 10.54)" d="M5.27 10.54C6.43 10.54 7.55 10.15 8.48 9.45C9.4 8.74 10.06 7.75 10.36 6.63C10.66 5.51 10.58 4.32 10.14 3.25C9.69 2.18 8.91 1.28 7.9 0.7C6.9 0.12 5.73 -0.1 4.58 0.04C3.43 0.19 2.36 0.72 1.54 1.54C0.72 2.36 0.19 3.43 0.04 4.58C-0.1 5.73 0.12 6.9 0.7 7.9L0.26 10.27L2.63 9.83C3.43 10.29 4.34 10.54 5.27 10.54Z" />
+      <path transform="translate(5.83 1.92)" d="M8.81 15.23C9.73 15.08 10.61 14.76 11.42 14.3L14.87 14.94L14.22 11.49C14.79 10.51 15.13 9.42 15.22 8.3C15.32 7.17 15.16 6.04 14.76 4.98C14.37 3.92 13.75 2.97 12.94 2.18C12.13 1.39 11.16 0.79 10.09 0.42C9.03 0.05 7.89 -0.07 6.77 0.04C5.65 0.16 4.57 0.52 3.6 1.11C2.64 1.7 1.81 2.49 1.19 3.43C0.57 4.37 0.16 5.44 0 6.55" />
+    </svg>
+  );
+}
+
+export function SupportIcon(props: P) {
+  return (
+    <svg {...line23} aria-hidden {...props}>
+      <path transform="translate(1.92 1.92)" d="M9.58 19.16C14.87 19.16 19.16 14.87 19.16 9.58C19.16 4.29 14.87 0 9.58 0C4.29 0 0 4.29 0 9.58C0 11.32 0.46 12.96 1.28 14.37L0.47 18.68L4.79 17.88C6.24 18.72 7.9 19.16 9.58 19.16Z" />
+      <circle cx="6.7" cy="11.5" r="0.6" fill="currentColor" />
+      <circle cx="11.5" cy="11.5" r="0.6" fill="currentColor" />
+      <circle cx="16.3" cy="11.5" r="0.6" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function LogoutIcon(props: P) {
+  return (
+    <svg {...line23} aria-hidden {...props}>
+      <path d="M14.37 7.06V6.17C14.37 4.21 12.78 2.63 10.83 2.63H6.16C4.21 2.63 2.63 4.21 2.63 6.17V16.83C2.63 18.79 4.21 20.37 6.16 20.37H10.84C12.79 20.37 14.37 18.79 14.37 16.84V15.94" />
+      <path d="M21.1 11.5H9.9M18.37 8.78L21.1 11.5L18.37 14.22" />
+    </svg>
+  );
+}

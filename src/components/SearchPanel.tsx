@@ -1,13 +1,14 @@
 "use client";
 
-// Поиск (Figma search, 10978:15949 / 10978:15950): под шапкой выезжает серая панель surface —
+// Поиск (Figma search, 11040:20457): шапка вытягивается вниз тем же стеклом, что и меню каталога —
 // по центру поле 824 px (8 колонок) (иконка, текст 14 px, крестик очистки, тёмная круглая кнопка со стрелкой),
-// под ним «История»: последние запросы через 20 px, у каждого крестик удаления.
+// под ним «История»: последние запросы строками по 44 px, у каждого крестик удаления.
 // Пока вводят текст, ищем сразу: если ничего нет — «Ничего не найдено.» и серая стрелка (Figma 11021:19490).
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { searchProducts, type Searchable } from "@/lib/search";
-import { ArrowRight, CloseIcon, SearchIcon } from "./icons";
+import { CloseIcon } from "./icons";
+import { Search } from "./Search";
 
 const STORAGE_KEY = "lunmi-search-history";
 const MAX_HISTORY = 6;
@@ -87,86 +88,51 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
       className={`grid transition-[grid-template-rows] duration-300 ease-out ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
     >
       <div className="overflow-hidden">
-        <div className="bg-surface px-4 pt-6 pb-[60px] md:px-6">
+        {/* без своей заливки: видно стекло шапки, как у меню каталога; высота та же — шапка тянется до ~604 px */}
+        <div className="h-[550px] overflow-y-auto px-4 pt-6 pb-10 md:px-6">
           <div className="mx-auto max-w-[824px]">
-            <form
-              role="search"
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!nothing) go(query);
-              }}
-              className="flex h-12 items-center gap-2 border-b border-tertiary"
-            >
-              <SearchIcon className="size-6 shrink-0 text-tertiary" />
-              <label htmlFor="site-search" className="sr-only">
-                Поиск по сайту
-              </label>
-              <input
-                ref={input}
-                id="site-search"
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Найти"
-                autoComplete="off"
-                className="h-full min-w-0 flex-1 bg-transparent text-base-s caret-accent outline-none placeholder:text-secondary [&::-webkit-search-cancel-button]:hidden"
-              />
-              {query && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setQuery("");
-                    input.current?.focus();
-                  }}
-                  aria-label="Очистить"
-                  className="flex size-10 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
-                >
-                  <CloseIcon className="size-6" />
-                </button>
-              )}
-              {/* icon button type=arrow: тёмный круг 32 px с белой стрелкой */}
-              <button
-                type="submit"
-                aria-label="Искать"
-                disabled={nothing}
-                className={`flex size-8 shrink-0 items-center justify-center rounded-full text-white transition-colors ${
-                  nothing ? "bg-tertiary" : "bg-primary hover:bg-accent"
-                }`}
-              >
-                <ArrowRight className="size-4" />
-              </button>
-            </form>
+            <Search
+              id="site-search"
+              label="Поиск по сайту"
+              value={query}
+              onChange={setQuery}
+              inputRef={input}
+              onSubmit={() => go(query)}
+              submitDisabled={nothing}
+            />
 
             {nothing ? (
               <p aria-live="polite" className="mt-8 text-base-s">
                 Ничего не найдено.
               </p>
-            ) : history.length > 0 && (
-              <div className="mt-8">
-                <p className="text-caps text-secondary">История</p>
-                <ul className="mt-5 flex flex-col gap-5">
-                  {history.map((q) => (
-                    <li key={q} className="group flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => go(q)}
-                        className="py-2 text-left text-base-s transition-colors hover:text-accent"
-                      >
-                        {q}
-                      </button>
-                      {/* крестик виден при наведении на строку (и с клавиатуры) */}
-                      <button
-                        type="button"
-                        onClick={() => write(history.filter((x) => x !== q))}
-                        aria-label={`Удалить «${q}» из истории`}
-                        className="flex size-10 items-center justify-center text-tertiary opacity-0 transition-opacity group-hover:opacity-100 hover:text-primary focus-visible:opacity-100"
-                      >
-                        <CloseIcon className="size-4" />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            ) : (
+              history.length > 0 && (
+                <div className="mt-8">
+                  <p className="text-caps text-secondary">История</p>
+                  <ul className="mt-3 flex flex-col">
+                    {history.map((q) => (
+                      <li key={q} className="group flex h-11 items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => go(q)}
+                          className="text-left text-base-s transition-colors hover:text-accent"
+                        >
+                          {q}
+                        </button>
+                        {/* крестик виден при наведении на строку (и с клавиатуры) */}
+                        <button
+                          type="button"
+                          onClick={() => write(history.filter((x) => x !== q))}
+                          aria-label={`Удалить «${q}» из истории`}
+                          className="flex size-10 items-center justify-center text-tertiary opacity-0 transition-opacity group-hover:opacity-100 hover:text-primary focus-visible:opacity-100"
+                        >
+                          <CloseIcon className="size-4" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
             )}
           </div>
         </div>

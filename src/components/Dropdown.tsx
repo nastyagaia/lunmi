@@ -4,8 +4,9 @@
 // Внутрь собираем нужное: поиск, пункты с чекбоксами или радио, кнопки «Применить» / «Сбросить»,
 // или пункты одиночного выбора с галочкой (сортировка).
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { CheckIcon, CloseIcon, SearchIcon } from "./icons";
-import { Checkbox, Radio } from "./ui";
+import { CheckIcon } from "./icons";
+import { Search } from "./Search";
+import { Checkbox, Radio, TextField } from "./ui";
 
 /** Обёртка: кнопка + панель под ней. Закрывается кликом мимо и по Esc. */
 export function Popover({
@@ -94,26 +95,13 @@ export function MultiSelect({
 
   return (
     <>
-      {/* search: иконка, поле, крестик очистки, линия-разделитель */}
-      <div className="mx-4 flex h-12 items-center gap-2 border-b border-line">
-        <SearchIcon className="shrink-0 text-tertiary" />
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={placeholder}
-          aria-label={placeholder}
-          className="min-w-0 flex-1 bg-transparent text-base-s outline-none placeholder:text-secondary"
-        />
-        {query && (
-          <button type="button" onClick={() => setQuery("")} aria-label="Очистить поиск" className="text-tertiary hover:text-primary">
-            <CloseIcon />
-          </button>
-        )}
-      </div>
+      {/* search из UI KIT — общий компонент (как в шапке и «Брендах»), без стрелки */}
+      <Search label={placeholder} placeholder={placeholder} value={query} onChange={setQuery} className="mx-4" />
       <ul className="max-h-[352px] overflow-y-auto pt-1">
         {shown.map((o) => (
-          <li key={o} className="px-4 py-2.5 transition-colors hover:bg-surface">
-            <Checkbox checked={draft.includes(o)} onChange={() => toggle(o)}>
+          // строка 44 px, как в макете dropdown; нажимается вся строка
+          <li key={o} className="transition-colors hover:bg-surface">
+            <Checkbox checked={draft.includes(o)} onChange={() => toggle(o)} className="h-11 px-4">
               {o}
             </Checkbox>
           </li>
@@ -138,35 +126,24 @@ export function PriceSelect({
   onApply: (value: PriceRange) => void;
 }) {
   const [draft, setDraft] = useState(value);
+  // стандартное поле input из UI KIT (TextField): 52 px, «От / До» — подсказкой внутри поля, крестик M
   const field = (key: "from" | "to", label: string) => (
-    <label className="flex h-[52px] min-w-0 flex-1 items-center rounded-xs border border-line bg-white pl-3 focus-within:border-primary">
-      <span className="flex min-w-0 flex-1 flex-col">
-        <span className="text-base-xs text-tertiary">{label}</span>
-        <input
-          inputMode="numeric"
-          value={draft[key]}
-          onChange={(e) => setDraft((d) => ({ ...d, [key]: e.target.value.replace(/\D/g, "") }))}
-          className="min-w-0 bg-transparent text-base-s outline-none"
-        />
-      </span>
-      {draft[key] && (
-        <button
-          type="button"
-          onClick={() => setDraft((d) => ({ ...d, [key]: "" }))}
-          aria-label={`Очистить «${label}»`}
-          className="flex size-9 shrink-0 items-center justify-center text-tertiary hover:text-primary"
-        >
-          <CloseIcon />
-        </button>
-      )}
-    </label>
+    <TextField
+      label={label}
+      value={draft[key]}
+      onChange={(v) => setDraft((d) => ({ ...d, [key]: v.replace(/\D/g, "") }))}
+      inputMode="numeric"
+      onClear={() => setDraft((d) => ({ ...d, [key]: "" }))}
+      floating={false}
+      className="min-w-0 flex-1"
+    />
   );
 
   return (
     <>
-      <div className="flex gap-4 p-4">
-        {field("from", "от")}
-        {field("to", "до")}
+      <div className="flex gap-2 p-4">
+        {field("from", "От")}
+        {field("to", "До")}
       </div>
       <ul>
         {ranges.map((r) => (

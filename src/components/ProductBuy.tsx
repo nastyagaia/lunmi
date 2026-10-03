@@ -66,11 +66,9 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
         <div className="flex items-center gap-4">
           {(product.discount || product.hit) && (
             <div className="flex items-center gap-1">
-              {product.discount && <Tag className="rounded-xs">{product.discount}</Tag>}
+              {product.discount && <Tag>{product.discount}</Tag>}
               {product.hit && (
-                <Tag kind="hit" className="rounded-xs">
-                  hit
-                </Tag>
+                <Tag kind="hit">hit</Tag>
               )}
             </div>
           )}

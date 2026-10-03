@@ -42,6 +42,7 @@ export function MapView({
   // карта создаётся один раз; Leaflet подгружается только в браузере
   useEffect(() => {
     let cancelled = false;
+    let resize: ResizeObserver | undefined;
     import("leaflet").then((L) => {
       if (cancelled || !box.current || map.current) return;
       const m = L.map(box.current, { zoomControl: false, attributionControl: true }).setView(center, zoom);
@@ -51,13 +52,19 @@ export function MapView({
         className: "map-tiles-grey",
       }).addTo(m);
       L.control.zoom({ position: "bottomright" }).addTo(m);
+      // подпись внизу: только обязательное «© OpenStreetMap», без префикса Leaflet с флажком
+      m.attributionControl.setPrefix(false);
       m.on("click", (e) => handlers.current.onMapClick?.(e.latlng.lat, e.latlng.lng));
       layer.current = L.layerGroup().addTo(m);
       map.current = m;
       drawMarkers(L);
+      // окно расширили и карта появилась — пересчитываем её размер
+      resize = new ResizeObserver(() => m.invalidateSize());
+      resize.observe(box.current);
     });
     return () => {
       cancelled = true;
+      resize?.disconnect();
       map.current?.remove();
       map.current = null;
     };
@@ -99,7 +106,12 @@ export function MapView({
 
   const [lat, lng] = center;
   useEffect(() => {
-    map.current?.flyTo([lat, lng], zoom, { duration: 0.6 });
+    const m = map.current;
+    if (!m || !Number.isFinite(lat) || !Number.isFinite(lng)) return;
+    // карта скрыта (узкий экран) — у неё нулевой размер, и плавный перелёт ломается: просто встаём в точку
+    const { x, y } = m.getSize();
+    if (x > 0 && y > 0) m.flyTo([lat, lng], zoom, { duration: 0.6 });
+    else m.setView([lat, lng], zoom, { animate: false });
   }, [lat, lng, zoom]);
 
   return <div ref={box} className="size-full bg-surface" aria-label="Карта" role="region" />;

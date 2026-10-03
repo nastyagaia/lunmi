@@ -57,7 +57,7 @@ export function SectionHeader({ title, href = "#" }: { title: ReactNode; href?: 
   );
 }
 
-/** tags — бейдж на карточке: Property 1=% (скидка, surface/neutral 7) или hit! (surface/accent, белый текст) */
+/** tags — бейдж на карточке (скруглён только правый нижний угол, 2 px): Property 1=% (скидка, surface/neutral 7) или hit! (surface/accent, белый текст) */
 export function Tag({
   kind = "sale",
   className = "",
@@ -69,7 +69,7 @@ export function Tag({
 }) {
   return (
     <span
-      className={`flex h-5 shrink-0 items-center justify-center rounded-r-xs px-1.5 text-caps ${
+      className={`flex h-5 shrink-0 items-center justify-center rounded-br-xs px-1.5 text-caps ${
         kind === "sale" ? "bg-primary text-white" : "bg-accent text-white"
       } ${className}`}
     >
@@ -155,13 +155,16 @@ export function Checkbox({
   checked,
   onChange,
   children,
+  className = "py-1",
 }: {
   checked: boolean;
   onChange: () => void;
   children: ReactNode;
+  /** высота и поля строки; в выпадающих фильтрах — строка 44 px на всю ширину */
+  className?: string;
 }) {
   return (
-    <label className="group flex cursor-pointer items-center gap-2.5 py-1 text-base-s">
+    <label className={`group flex cursor-pointer items-center gap-2.5 text-base-s ${className}`}>
       <input type="checkbox" checked={checked} onChange={onChange} className="peer sr-only" />
       <span className="flex size-6 shrink-0 items-center justify-center peer-focus-visible:outline-2 peer-focus-visible:outline-accent">
         {checked ? (
@@ -238,6 +241,7 @@ export function TextField({
   hint,
   onBlur,
   maxLength,
+  floating = true,
 }: {
   label: string;
   value: string;
@@ -255,6 +259,8 @@ export function TextField({
   hint?: string;
   onBlur?: () => void;
   maxLength?: number;
+  /** false — подпись только подсказкой внутри поля, наверх не уезжает (поля «От / До» в фильтре цены) */
+  floating?: boolean;
 }) {
   return (
     <div className={`flex flex-col gap-0.5 ${className}`}>
@@ -263,16 +269,11 @@ export function TextField({
           error ? "border-error" : "border-line"
         }`}
       >
-        <span className="relative flex min-w-0 flex-1 flex-col justify-center">
-          <span
-            className={`pointer-events-none transition-all ${
-              value
-                ? "text-base-xs text-tertiary"
-                : "absolute inset-x-0 top-1/2 -translate-y-1/2 text-base-s text-tertiary"
-            }`}
-          >
-            {label}
-          </span>
+        {/* подпись: пусто — крупная подсказка по центру; курсор в поле или есть текст — мелкая подпись сверху
+            (состояния Default / Focus / Filled из UI KIT) */}
+        <span
+          className={`relative flex h-full min-w-0 flex-1 flex-col ${floating ? "justify-end pb-[7px]" : "justify-center"}`}
+        >
           <input
             type={type}
             value={value}
@@ -282,17 +283,34 @@ export function TextField({
             onBlur={onBlur}
             maxLength={maxLength}
             aria-invalid={Boolean(error)}
-            className="min-w-0 bg-transparent text-base-s caret-accent outline-none"
+            aria-label={label}
+            placeholder={floating ? undefined : label}
+            className={`peer min-w-0 bg-transparent text-base-s caret-accent outline-none placeholder:text-tertiary ${
+              floating ? "" : "my-auto"
+            }`}
           />
+          {floating && (
+            <span
+              aria-hidden
+              className={`pointer-events-none absolute inset-x-0 text-tertiary transition-all duration-150 ${
+                value
+                  ? "top-2 text-base-xs"
+                  : "top-1/2 -translate-y-1/2 text-base-s peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-base-xs"
+              }`}
+            >
+              {label}
+            </span>
+          )}
         </span>
         {onClear && value && (
           <button
             type="button"
             onClick={onClear}
             aria-label={`Очистить поле «${label}»`}
-            className="-mr-1 flex size-8 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
+            className="-mr-3 flex size-9 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
           >
-            <CloseIcon className="size-4" />
+            {/* close size=M из UI KIT: 24 × 24, в 6 px от края поля */}
+            <CloseIcon className="size-6" />
           </button>
         )}
         {trailing}

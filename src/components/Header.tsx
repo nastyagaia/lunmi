@@ -6,39 +6,25 @@ import { useCallback, useEffect, useState } from "react";
 import { catalogMenu } from "@/data/menu";
 import { useCart } from "./Cart";
 import { CatalogMenu } from "./CatalogMenu";
+import { CityMenu, ProfileMenu } from "./HeaderMenus";
 import { useFavorites } from "./Favorites";
 import { SearchPanel } from "./SearchPanel";
-import { BurgerIcon, CartIcon, ChevronDown, CloseIcon, HeartIcon, Logo, ProfileIcon, SearchIcon } from "./icons";
+import { ArrowLeft, BurgerIcon, CartIcon, ChevronDown, CloseIcon, HeartIcon, Logo, ProfileIcon, SearchIcon } from "./icons";
 
 const nav = ["Каталог", "Скидки", "Бренды", "Подбор косметики", "Доставка"];
-const navHref: Record<string, string> = { Каталог: "/catalog", Скидки: "/sale", Бренды: "/brands", "Подбор косметики": "/ai" };
-
-function IconLink({
-  label,
-  href = "#",
-  children,
-  className = "",
-}: {
-  label: string;
-  href?: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <Link
-      href={href}
-      aria-label={label}
-      className={`flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent ${className}`}
-    >
-      {children}
-    </Link>
-  );
-}
+const navHref: Record<string, string> = {
+  Каталог: "/catalog",
+  Скидки: "/sale",
+  Бренды: "/brands",
+  "Подбор косметики": "/ai",
+};
 
 /** hideOnScroll — шапка уезжает вверх, когда листают вниз, и возвращается при прокрутке вверх.
  *  Видимую высоту шапки пишем в CSS-переменную --header-h: по ней «прилипают» фильтры каталога. */
 export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
   const [open, setOpen] = useState(false);
+  // в мобильном меню «Каталог» открывает список разделов вместо перехода
+  const [mobileCatalog, setMobileCatalog] = useState(false);
   const cart = useCart();
   const favorites = useFavorites();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -92,13 +78,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
             <Link href="/" aria-label="Lunmi, на главную" className="-ml-0.5 text-accent">
               <Logo className="h-5 w-auto md:h-6" />
             </Link>
-            <button
-              type="button"
-              className="hidden items-center gap-1 p-2 text-base-s transition-colors hover:text-secondary lg:flex"
-            >
-              Санкт-Петербург
-              <ChevronDown />
-            </button>
+            <CityMenu className="hidden lg:block" />
           </div>
 
           <nav aria-label="Основное меню" className="hidden lg:block">
@@ -158,9 +138,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                 </span>
               )}
             </Link>
-            <IconLink label="Личный кабинет" className="hidden sm:flex">
-              <ProfileIcon />
-            </IconLink>
+            <ProfileMenu className="hidden sm:block" />
             <button
               type="button"
               onClick={() => cart.setOpen(true)}
@@ -177,7 +155,10 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
             </button>
             <button
               type="button"
-              onClick={() => setOpen((v) => !v)}
+              onClick={() => {
+                setOpen((v) => !v);
+                setMobileCatalog(false);
+              }}
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Закрыть меню" : "Открыть меню"}
@@ -206,41 +187,79 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
           </div>
         </div>
       </div>
-        {open && (
-          <nav
-            id="mobile-menu"
-            aria-label="Мобильное меню"
-            className="glass-strong max-h-[calc(100dvh-54px)] overflow-y-auto border-t border-white/60 lg:hidden"
-          >
-            <div className="container-page py-4">
-            <button type="button" className="mb-2 flex items-center gap-1 py-2 text-base-s text-secondary">
-              Санкт-Петербург
-              <ChevronDown />
-            </button>
-            <ul className="flex flex-col">
-              {nav.map((item) => (
-                <li key={item} className="border-b border-surface last:border-0">
-                  <Link
-                    href={navHref[item] ?? "#"}
-                    onClick={() => setOpen(false)}
-                    className="flex h-12 items-center text-h4 transition-colors hover:text-accent"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+      {/* мобильное меню: как на десктопе — шапка вытягивается вниз одним стеклом, без своей подложки и шва */}
+      <div
+        inert={!open}
+        className={`grid transition-[grid-template-rows] duration-300 ease-out lg:hidden ${
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+      >
+        <nav id="mobile-menu" aria-label="Мобильное меню" className="max-h-[calc(100dvh-54px)] overflow-y-auto">
+          <div className="container-page py-4">
+            <CityMenu className="-ml-2 mb-2" />
+            {mobileCatalog ? (
+              // второй уровень: разделы каталога, как в меню каталога на десктопе
+              <div key="catalog" className="animate-[menu-in_200ms_ease-out]">
+                <button
+                  type="button"
+                  onClick={() => setMobileCatalog(false)}
+                  className="-ml-1 flex h-12 items-center gap-2 text-base-s transition-colors hover:text-accent"
+                >
+                  <ArrowLeft className="size-5" />
+                  Каталог
+                </button>
+                <ul className="flex flex-col">
+                  {catalogMenu.map((c) => (
+                    <li key={c.title}>
+                      <Link
+                        href={c.href}
+                        onClick={() => setOpen(false)}
+                        className="flex h-12 items-center justify-between gap-2 text-base-s transition-colors hover:text-accent"
+                      >
+                        {c.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              // пункты — тем же шрифтом, что в шапке на десктопе (Base/S), без линий между ними
+              <ul key="main" className="flex flex-col">
+                {nav.map((item) => (
+                  <li key={item}>
+                    {item === "Каталог" ? (
+                      <button
+                        type="button"
+                        onClick={() => setMobileCatalog(true)}
+                        className="flex h-12 w-full items-center justify-between gap-2 text-left text-base-s transition-colors hover:text-accent"
+                      >
+                        {item}
+                        <ChevronDown className="size-4 shrink-0 -rotate-90" />
+                      </button>
+                    ) : (
+                      <Link
+                        href={navHref[item] ?? "#"}
+                        onClick={() => setOpen(false)}
+                        className="flex h-12 items-center text-base-s transition-colors hover:text-accent"
+                      >
+                        {item}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="mt-2 flex gap-2 sm:hidden">
-              <Link href="#" className="flex items-center gap-2 py-2 text-base-s">
+              <Link href="/favorites" className="flex items-center gap-2 py-2 text-base-s">
                 <HeartIcon /> Избранное
               </Link>
               <Link href="#" className="ml-4 flex items-center gap-2 py-2 text-base-s">
                 <ProfileIcon /> Кабинет
               </Link>
             </div>
-            </div>
-          </nav>
-        )}
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }

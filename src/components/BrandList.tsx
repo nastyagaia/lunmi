@@ -4,7 +4,7 @@
 // буква серым (Unbounded 12), под ней бренды стилем cellbutton через 16 px. Колонки через 8 px (сетка обновлена 3 октября 2026), ряды через 32 px.
 import Link from "next/link";
 import { useState } from "react";
-import { CloseIcon, SearchIcon } from "./icons";
+import { Search } from "./Search";
 
 type Item = { slug: string; name: string; letter: string };
 
@@ -16,28 +16,14 @@ export function BrandList({ brands }: { brands: Item[] }) {
 
   return (
     <>
-      {/* search из UI KIT: иконка, текст 14 px, розовый курсор, крестик очистки, снизу линия text/tetriary */}
-      <label className="flex max-w-[720px] items-center gap-3 border-b border-tertiary pt-3 pb-3">
-        <SearchIcon className="size-5 shrink-0 text-tertiary" />
-        <span className="sr-only">Поиск по брендам</span>
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Найти бренд"
-          className="h-10 min-w-0 flex-1 bg-transparent text-base-s caret-accent outline-none placeholder:text-secondary [&::-webkit-search-cancel-button]:hidden"
-        />
-        {query && (
-          <button
-            type="button"
-            onClick={() => setQuery("")}
-            aria-label="Очистить поиск"
-            className="flex size-6 shrink-0 items-center justify-center text-secondary transition-colors hover:text-primary"
-          >
-            <CloseIcon className="size-4" />
-          </button>
-        )}
-      </label>
+      {/* search из UI KIT — тот же компонент, что в шапке, только уже и без стрелки: фильтрует список на месте */}
+      <Search
+        label="Поиск по брендам"
+        placeholder="Найти бренд"
+        value={query}
+        onChange={setQuery}
+        className="mt-4 max-w-[720px]"
+      />
 
       <div className="mt-[34px] grid grid-cols-2 items-start gap-x-2 gap-y-8 md:grid-cols-3 lg:grid-cols-4">
         {letters.map(([letter, items = []]) => (

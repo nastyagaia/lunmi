@@ -25,7 +25,7 @@ import {
   type Payment,
   type SavedCard,
 } from "./CheckoutDrawers";
-import { ArrowRight, ChevronRight, CloseIcon } from "./icons";
+import { ArrowRight, ChevronLeft, ChevronRight, CloseIcon } from "./icons";
 import { Button, CdekLogo, ChoiceChip, InfoCard, Radio, TextField } from "./ui";
 
 const COURIER_PRICE = 300;
@@ -64,10 +64,12 @@ function nextDays() {
   });
 }
 
-/** Блок: заголовок H4, под ним содержимое через 16 px */
+/** Блок: заголовок H4, под ним содержимое через 16 px. Блоки появляются по очереди, как в макетах:
+ *  контакты → адрес → дата и оплата → дополнительно */
 function Step({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="flex flex-col gap-4">
+    // новый блок мягко выплывает, когда заполнен предыдущий
+    <section className="flex animate-[dropdown-in_300ms_ease-out] flex-col gap-4">
       <h2 className="text-h4">{title}</h2>
       {children}
     </section>
@@ -92,6 +94,12 @@ export function Checkout() {
   const [day, setDay] = useState(0);
   const [time, setTime] = useState(0);
   const daysRow = useRef<HTMLDivElement>(null);
+  // стрелки ряда дат: левая — когда уже пролистали вправо, правая — пока есть куда листать
+  const [daysEdge, setDaysEdge] = useState({ start: true, end: false });
+  const onDaysScroll = () => {
+    const el = daysRow.current;
+    if (el) setDaysEdge({ start: el.scrollLeft <= 2, end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 });
+  };
 
   // карты — только на время визита (последние 4 цифры), полный номер нигде не храним
   const [cards, setCards] = useState<SavedCard[]>([]);
@@ -180,7 +188,7 @@ export function Checkout() {
       ) : (
         <div className="flex flex-col gap-12 pt-6 pb-20 lg:flex-row lg:items-start lg:justify-between lg:pb-[60px]">
           {/* ---------- блоки ---------- */}
-          <div className="flex w-full max-w-[616px] flex-col gap-10">
+          <div className="flex w-full max-w-[616px] flex-col gap-[50px]">
             <Step title="Контактные данные">
               {contact ? (
                 <InfoCard
@@ -191,125 +199,163 @@ export function Checkout() {
                 />
               ) : (
                 <>
-                  <p className="text-base-s">Оставьте контакты, чтобы мы подтвердили заказ.</p>
+                  <p className="text-base-s">Чтобы оформить заказ, войдите в личный кабинет или зарегистрируйтесь.</p>
+                  {/* входа по почте пока нет — «Войти» открывает панель контактов; потом поведёт во вход */}
                   <Button size="M" className={darkButton} onClick={() => setPanel({ kind: "contact" })}>
-                    добавить
+                    войти
                   </Button>
                 </>
               )}
             </Step>
 
-            <Step title="Адрес доставки">
-              {!address && (
-                <p className="text-base-s">
-                  Выберите адрес доставки, вы можете выбрать курьера или пункт выдачи заказов.
-                </p>
-              )}
-              <div className="flex flex-wrap gap-6">
-                <Radio name="method" checked={kind === "courier"} onChange={() => switchMethod("courier")}>
-                  Курьером
-                </Radio>
-                <Radio name="method" checked={kind === "pickup"} onChange={() => switchMethod("pickup")}>
-                  Пункт выдачи
-                </Radio>
-              </div>
-              {address ? (
-                <InfoCard
-                  leading={address.kind === "pickup" ? <CdekLogo /> : undefined}
-                  title={addressTitle(address)}
-                  subtitle={addressSubtitle(address)}
-                  extra={
-                    address.kind === "pickup" && pointOf(address) ? (
-                      <button
-                        type="button"
-                        onClick={() => setPanel({ kind: "address", tab: "pickup", edit: address })}
-                        className="text-caps underline underline-offset-2 transition-colors hover:text-accent"
-                      >
-                        подробнее о пункте
-                      </button>
-                    ) : undefined
-                  }
-                  onEdit={() => chooseAddress()}
-                  editLabel="Изменить адрес"
-                />
-              ) : (
-                <Button size="M" className={darkButton} onClick={() => chooseAddress()}>
-                  выбрать адрес
-                </Button>
-              )}
-            </Step>
-
-            {address && (
-              <Step title="Дата доставки">
-                <p className="text-base-s">
-                  {address.kind === "courier"
-                    ? "Выберите день и время доставки, также мы пришлём вам СМС за день до доставки."
-                    : "Выберите день и время, когда удобно забрать заказ. Мы пришлём СМС, когда он приедет в пункт."}
-                </p>
-                {/* ряд дат прокручивается, стрелка справа листает дальше */}
-                <div className="relative">
-                  <div ref={daysRow} className="no-scrollbar flex gap-2 overflow-x-auto pr-10">
-                    {days.map((d, i) => (
-                      <ChoiceChip key={d} selected={day === i} onClick={() => setDay(i)}>
-                        {d}
-                      </ChoiceChip>
-                    ))}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => daysRow.current?.scrollBy({ left: 240, behavior: "smooth" })}
-                    aria-label="Следующие даты"
-                    className="absolute top-1.5 right-0 flex size-6 items-center justify-center rounded-sm border border-line bg-white shadow-[1px_1px_2.5px_rgb(0_0_0/0.25)] transition-colors hover:border-primary"
-                  >
-                    <ChevronRight className="size-4" />
-                  </button>
+            {contact && (
+              <Step title="Адрес доставки">
+                {!address && (
+                  <p className="text-base-s">
+                    Выберите адрес доставки, вы можете выбрать курьера или пункт выдачи заказов.
+                  </p>
+                )}
+                <div className="flex flex-wrap gap-6">
+                  <Radio name="method" checked={kind === "courier"} onChange={() => switchMethod("courier")}>
+                    Курьером
+                  </Radio>
+                  <Radio name="method" checked={kind === "pickup"} onChange={() => switchMethod("pickup")}>
+                    Пункт выдачи
+                  </Radio>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {TIMES.map((t, i) => (
-                    <ChoiceChip key={t} selected={time === i} onClick={() => setTime(i)}>
-                      {t}
-                    </ChoiceChip>
-                  ))}
-                </div>
+                {address ? (
+                  <InfoCard
+                    leading={address.kind === "pickup" ? <CdekLogo /> : undefined}
+                    title={addressTitle(address)}
+                    subtitle={addressSubtitle(address)}
+                    extra={
+                      address.kind === "pickup" && pointOf(address) ? (
+                        <button
+                          type="button"
+                          onClick={() => setPanel({ kind: "address", tab: "pickup", edit: address })}
+                          className="text-caps underline underline-offset-2 transition-colors hover:text-accent"
+                        >
+                          подробнее о пункте
+                        </button>
+                      ) : undefined
+                    }
+                    onEdit={() => chooseAddress()}
+                    editLabel="Изменить адрес"
+                  />
+                ) : (
+                  <Button size="M" className={darkButton} onClick={() => chooseAddress()}>
+                    выбрать адрес
+                  </Button>
+                )}
               </Step>
             )}
 
-            <Step title="Способ оплаты">
-              {payment ? (
-                <InfoCard
-                  leading={<CardBadge system={card ? card.system : "СБП"} />}
-                  title={card ? `Банковская карта ${card.system}` : "СБП"}
-                  subtitle={card ? card.last4 : "Оплата через приложение вашего банка"}
-                  onEdit={() => setPanel({ kind: "payment" })}
-                  editLabel="Изменить способ оплаты"
-                />
-              ) : (
-                <>
+            {address && (
+              // свои отступы, как в макете (checkout promo code): заголовок → текст 8, текст → «Дата» 12,
+              // подпись → плашки 4, между «Дата» и «Время» 16
+              <section className="flex animate-[dropdown-in_300ms_ease-out] flex-col gap-3">
+                <div className="flex flex-col gap-2">
+                  <h2 className="text-h4">
+                    {address.kind === "courier" ? "Дата и время доставки" : "Дата и время получения"}
+                  </h2>
                   <p className="text-base-s">
-                    Выберите способ оплаты, возможна оплата онлайн банковской картой или СБП.
+                    {address.kind === "courier"
+                      ? "Выберите день и время доставки, также мы пришлём вам СМС за день до доставки."
+                      : "Выберите день и время, когда удобно забрать заказ. Мы пришлём СМС, когда он приедет в пункт."}
                   </p>
-                  <Button size="M" className={darkButton} onClick={() => setPanel({ kind: "payment" })}>
-                    выбрать
-                  </Button>
-                </>
-              )}
-            </Step>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-base-xs text-tertiary">Дата</p>
+                    {/* ряд дат прокручивается; стрелки по краям листают на 240 px */}
+                    <div className="relative">
+                      <div
+                        ref={daysRow}
+                        onScroll={onDaysScroll}
+                        className="no-scrollbar flex gap-2 overflow-x-auto pr-10"
+                      >
+                        {days.map((d, i) => (
+                          <ChoiceChip key={d} selected={day === i} onClick={() => setDay(i)}>
+                            {d}
+                          </ChoiceChip>
+                        ))}
+                      </div>
+                      {!daysEdge.start && (
+                        <button
+                          type="button"
+                          onClick={() => daysRow.current?.scrollBy({ left: -240, behavior: "smooth" })}
+                          aria-label="Предыдущие даты"
+                          className="absolute top-1.5 flex size-6 items-center justify-center rounded-sm border border-line bg-white shadow-[1px_1px_2.5px_rgb(0_0_0/0.25)] transition-colors hover:border-primary left-0 animate-[fade-in_200ms_ease-out]"
+                        >
+                          <ChevronLeft className="size-4" />
+                        </button>
+                      )}
+                      {!daysEdge.end && (
+                        <button
+                          type="button"
+                          onClick={() => daysRow.current?.scrollBy({ left: 240, behavior: "smooth" })}
+                          aria-label="Следующие даты"
+                          className="absolute top-1.5 flex size-6 items-center justify-center rounded-sm border border-line bg-white shadow-[1px_1px_2.5px_rgb(0_0_0/0.25)] transition-colors hover:border-primary right-0"
+                        >
+                          <ChevronRight className="size-4" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <p className="text-base-xs text-tertiary">Время</p>
+                    <div className="flex flex-wrap gap-2">
+                      {TIMES.map((t, i) => (
+                        <ChoiceChip key={t} selected={time === i} onClick={() => setTime(i)}>
+                          {t}
+                        </ChoiceChip>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
 
-            <Step title="Дополнительно">
-              <TextField
-                label="Комментарий к заказу"
-                value={comment}
-                onChange={setComment}
-                onClear={() => setComment("")}
-              />
-              <p className="text-base-s">
-                Нажимая «Оплатить», вы соглашаетесь с{" "}
-                <Link href="#" className="text-accent hover:underline">
-                  Офертой
-                </Link>
-                .
-              </p>
-            </Step>
+            {address && (
+              <Step title="Способ оплаты">
+                {payment ? (
+                  <InfoCard
+                    leading={<CardBadge system={card ? card.system : "СБП"} />}
+                    title={card ? `Банковская карта ${card.system}` : "СБП"}
+                    subtitle={card ? card.last4 : "Оплата через приложение вашего банка"}
+                    onEdit={() => setPanel({ kind: "payment" })}
+                    editLabel="Изменить способ оплаты"
+                  />
+                ) : (
+                  <>
+                    <p className="text-base-s">
+                      Выберите способ оплаты, возможна оплата онлайн банковской картой или СБП.
+                    </p>
+                    <Button size="M" className={darkButton} onClick={() => setPanel({ kind: "payment" })}>
+                      выбрать
+                    </Button>
+                  </>
+                )}
+              </Step>
+            )}
+
+            {payment && (
+              <Step title="Дополнительно">
+                <TextField
+                  label="Комментарий к заказу"
+                  value={comment}
+                  onChange={setComment}
+                  onClear={() => setComment("")}
+                />
+                <p className="text-base-s">
+                  Нажимая «Оплатить», вы соглашаетесь с{" "}
+                  <Link href="#" className="text-accent hover:underline">
+                    Офертой
+                  </Link>
+                  .
+                </p>
+              </Step>
+            )}
           </div>
 
           {/* ---------- ваш заказ (липнет при прокрутке) ---------- */}
@@ -397,8 +443,12 @@ export function Checkout() {
             </button>
             {!ready && (
               <p className="text-base-xs text-secondary">
-                {!contact ? "Добавьте контакты" : !address ? "Выберите адрес доставки" : "Выберите способ оплаты"},
-                чтобы оформить заказ.
+                {!contact
+                  ? "Войдите или добавьте контакты"
+                  : !address
+                    ? "Выберите адрес доставки"
+                    : "Выберите способ оплаты"}
+                , чтобы оформить заказ.
               </p>
             )}
           </aside>

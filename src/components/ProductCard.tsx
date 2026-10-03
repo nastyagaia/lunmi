@@ -120,7 +120,7 @@ export function ProductCard({
           />
         </button>
 
-        {/* state=hover из UI KIT: кнопка «в корзину» появляется только при наведении, матовое розовое стекло */}
+        {/* state=hover из UI KIT: кнопка «в корзину» появляется только при наведении: стекло background/overlay (#292929, 40 %, размытие 10), белый текст */}
         <button
           type="button"
           onClick={() =>
@@ -133,7 +133,7 @@ export function ProductCard({
               href: product.href,
             })
           }
-          className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-center rounded-xs bg-accent-soft/60 text-caps opacity-0 backdrop-blur-[15px] transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+          className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-center rounded-xs bg-primary/40 text-caps text-white opacity-0 backdrop-blur-[10px] transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
         >
           в корзину
         </button>

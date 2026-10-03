@@ -1,9 +1,8 @@
-// Результаты поиска (Figma search results, 6028:36265): поле поиска, «Найдено N продуктов», фильтры и сетка
+// Результаты поиска (Figma search results, 6028:36265): запрос заголовком, «Найдено N продуктов», фильтры и сетка
 import type { Metadata } from "next";
 import { CatalogGrid } from "@/components/CatalogGrid";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { SearchField } from "@/components/SearchField";
 import { catalogMenu } from "@/data/menu";
 import { allProducts } from "@/data/sections";
 import { searchProducts } from "@/lib/search";
@@ -22,11 +21,11 @@ export default async function SearchPage({ searchParams }: PageProps<"/search">)
     <>
       <Header hideOnScroll />
       <main className="overflow-x-clip">
-        <div className="container-page pt-[96px]">
-          {/* key: новый запрос — поле начинается с него */}
-          <SearchField key={query} initial={query} />
+        {/* поля поиска здесь нет — ищут из шапки; вместо него заголовок с запросом, как у «Избранного» */}
+        <div className="container-page pt-[106px]">
+          {query && <h1 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">«{query}»</h1>}
         </div>
-        <div className="container-page pt-10">
+        <div className="container-page pt-6">
           {found.length ? (
             <CatalogGrid
               key={query}

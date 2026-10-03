@@ -204,9 +204,10 @@ body {
   }
 }
 
-/* Карта оформления (MapView, OpenStreetMap): подложка обесцвечена до светло-серой, как в макете courier address */
+/* Карта оформления (MapView, OpenStreetMap): подложка приглушена почти до серой, как в макете courier address,
+   но с каплей цвета — чтобы парки, вода и дороги не сливались */
 .map-tiles-grey {
-  filter: grayscale(1) brightness(1.06) contrast(0.88);
+  filter: grayscale(0.65) brightness(1.05) contrast(0.92);
 }
 .map-pin {
   background: none;
