@@ -50,7 +50,7 @@ export default function DeliveryPage() {
                 оформлении.
               </p>
             </div>
-            <div className="relative hidden h-full w-[550px] shrink-0 md:block xl:mr-[66px]">
+            <div className="relative hidden h-full w-[min(550px,45%)] shrink-0 md:block xl:mr-[66px]">
               <Image src="/img/covers/delivery-bag.webp" alt="" fill priority sizes="550px" className="object-cover" />
             </div>
           </div>

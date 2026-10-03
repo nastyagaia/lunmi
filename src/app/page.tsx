@@ -9,7 +9,7 @@ import { ArrowRight, TelegramIcon, WhatsappIcon } from "@/components/icons";
 import { ProductCard } from "@/components/ProductCard";
 import { Button, SectionHeader } from "@/components/ui";
 import { brands as allBrands } from "@/data/brands";
-import { bestsellers, catalog, heroSlides, reviews, weeklyDeals } from "@/data/home";
+import { bestsellers, catalog, heroSlides, weeklyDeals } from "@/data/home";
 import { FaqList } from "@/components/FaqList";
 import { allProducts } from "@/data/sections";
 
@@ -41,7 +41,6 @@ export default function Home() {
           <Brands />
           <WeeklyDeals />
           <AiBanner />
-          <Reviews />
           <Faq />
           <Contacts />
         </div>
@@ -185,40 +184,6 @@ function Brands() {
           </li>
         ))}
       </ul>
-    </section>
-  );
-}
-
-/* ---------- Отзывы ---------- */
-function Reviews() {
-  return (
-    <section className="container-page md:py-6">
-      <SectionHeader title="Отзывы" />
-      <Carousel label="Отзывы" arrowTop={111} className="items-stretch">
-        {reviews.map((r, i) => (
-          <article
-            key={i}
-            className="flex min-h-[280px] w-[85%] shrink-0 snap-start flex-col items-end gap-8 rounded-xs bg-surface p-6 sm:w-[392px]"
-          >
-            <Image src={r.avatar} alt="" width={70} height={70} />
-            <div className="flex w-full flex-col gap-2">
-              <h3 className="text-h4">{r.name}</h3>
-              <p className="text-base-s">{r.text}</p>
-            </div>
-          </article>
-        ))}
-        <article className="relative flex min-h-[280px] w-[85%] shrink-0 snap-start flex-col rounded-xs bg-accent-soft p-6 sm:w-[422px]">
-          <div>
-            <p className="text-h4">скидка за отзыв</p>
-            <p className="text-h1">5%</p>
-          </div>
-          {/* текст начинается на той же высоте, что отзывы в соседних карточках (154 px от верха) */}
-          <p className="mt-[54px] max-w-[321px] text-base-s">
-            Напиши честный отзыв о магазине или о товаре, купленном у нас, и получи скидку 5% на следующую покупку.
-          </p>
-          <Image src="/img/av3.webp" alt="" width={66} height={61} className="absolute right-12 top-8" />
-        </article>
-      </Carousel>
     </section>
   );
 }
