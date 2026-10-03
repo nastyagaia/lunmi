@@ -5,7 +5,7 @@ import { Carousel } from "@/components/Carousel";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HeroSlider } from "@/components/HeroSlider";
-import { InstagramIcon, TelegramIcon, WhatsappIcon } from "@/components/icons";
+import { ArrowRight, TelegramIcon, WhatsappIcon } from "@/components/icons";
 import { ProductCard } from "@/components/ProductCard";
 import { Button, SectionHeader } from "@/components/ui";
 import { brands as allBrands } from "@/data/brands";
@@ -132,8 +132,8 @@ function AiBanner() {
           <div className="flex flex-col gap-5 text-base-s">
             <p>
               Давай разберёмся вместе, что тебе подойдёт. Загрузи селфи в хорошем качестве и освещении и расскажи, что
-              тебя беспокоит. AI проанализирует состояние твоей кожи и предложит подборку корейских средств, которые могут
-              подойти именно тебе.
+              тебя беспокоит. AI проанализирует состояние твоей кожи и предложит подборку корейских средств, которые
+              могут подойти именно тебе.
             </p>
             <p>Попробуй — это просто и удобно!</p>
           </div>
@@ -153,7 +153,10 @@ function WeeklyDeals() {
       <SectionHeader title="Скидки недели" />
       <Carousel label="Скидки недели" arrowTop={119} className="items-start">
         {weeklyDeals.map((p) => (
-          <div key={p.id} className="w-[70%] shrink-0 snap-start xs:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)]">
+          <div
+            key={p.id}
+            className="w-[70%] shrink-0 snap-start xs:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)]"
+          >
             <ProductCard product={p} />
           </div>
         ))}
@@ -233,48 +236,92 @@ function Faq() {
   );
 }
 
-/* ---------- Мы рядом ---------- */
-function Social({ icon, label }: { icon: React.ReactNode; label: string }) {
+/* ---------- Мы рядом (Figma 11102:19256): три колонки по 4 — поддержка и рассылка, фото + почта, мессенджеры + фото ---------- */
+function NearPhoto({ src }: { src: string }) {
   return (
-    <Link
-      href="#"
-      className="flex h-[200px] items-center justify-center gap-2.5 rounded-xs bg-surface text-h4 transition-colors hover:text-accent md:h-[270px]"
-    >
-      {icon}
-      {label}
-    </Link>
-  );
-}
-
-function Photo({ src, sizes }: { src: string; sizes: string }) {
-  return (
-    <div className="relative h-[200px] overflow-hidden rounded-xs md:h-[270px]">
-      <Image src={src} alt="" fill sizes={sizes} className="object-cover" />
+    <div className="relative h-[280px] overflow-hidden rounded-xs md:h-[240px] lg:h-auto lg:flex-1">
+      <Image
+        src={src}
+        alt=""
+        fill
+        sizes="(min-width: 1024px) 408px, (min-width: 768px) 50vw, 100vw"
+        className="object-cover"
+      />
     </div>
   );
 }
 
 function Contacts() {
   return (
-    <section className="container-page reveal flex flex-col gap-2">
-      <div className="grid grid-cols-2 gap-2 lg:grid-cols-3">
-        <div className="col-span-2 flex flex-col items-start gap-4 rounded-xs bg-accent-soft p-6 lg:col-span-1 lg:h-[270px] lg:p-[30px]">
+    <section className="container-page reveal grid gap-2 md:grid-cols-2 lg:h-[570px] lg:grid-cols-3">
+      <div className="flex flex-col justify-between gap-10 rounded-xs bg-surface p-6 md:row-span-2 lg:row-span-1 lg:px-[30px] lg:pt-8 lg:pb-[30px]">
+        <p className="text-base-s text-secondary">Поддержка</p>
+        <div className="flex flex-col gap-4">
           <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">Мы рядом</h2>
           <p className="text-base-s">
-            Хотим быть лучше благодаря вам — оставляйте ваши отзывы и пожелания или задавайте вопросы! Мы обещаем всё учесть!
+            Хотим становиться лучше благодаря вам — оставляйте отзывы и пожелания или задавайте вопросы: о доставке,
+            уходе и вообще о чём угодно.
           </p>
-          <Button href="#" size="M">
-            связаться
-          </Button>
         </div>
-        <Photo src="/img/n1.webp" sizes="(min-width: 768px) 402px, 50vw" />
-        <Social icon={<InstagramIcon />} label="Instagram" />
+        <form className="flex flex-col gap-3" action="#">
+          <label htmlFor="near-newsletter" className="text-base-s text-secondary">
+            Подписаться на рассылку
+          </label>
+          <div className="flex h-[52px] items-center rounded-xs border border-line bg-white pl-3 pr-2 focus-within:border-primary">
+            <input
+              id="near-newsletter"
+              type="email"
+              required
+              placeholder="Ваша почта"
+              autoComplete="email"
+              className="min-w-0 flex-1 bg-transparent text-base-s outline-none placeholder:text-tertiary"
+            />
+            <button
+              type="submit"
+              aria-label="Подписаться"
+              className="flex size-9 shrink-0 items-center justify-center rounded-full bg-line text-white transition-colors hover:bg-primary"
+            >
+              <ArrowRight className="size-4" />
+            </button>
+          </div>
+          <p className="text-base-xs text-secondary">
+            Продолжая, я даю согласие на обработку персональных данных и соглашаюсь с&nbsp;
+            <Link href="/privacy" className="underline underline-offset-2 hover:text-primary">
+              политикой конфиденциальности
+            </Link>
+            .
+          </p>
+        </form>
       </div>
-      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
-        <Photo src="/img/n2.webp" sizes="(min-width: 768px) 300px, 50vw" />
-        <Social icon={<WhatsappIcon />} label="whatsapp" />
-        <Photo src="/img/n3.webp" sizes="(min-width: 768px) 300px, 50vw" />
-        <Social icon={<TelegramIcon />} label="telegram" />
+
+      <div className="flex flex-col gap-2">
+        <NearPhoto src="/img/near1-99ff3c.webp" />
+        <a
+          href="mailto:lunmicosm@gmail.com"
+          className="group flex h-[180px] shrink-0 flex-col justify-between rounded-xs bg-primary p-4 transition-colors hover:bg-primary/90"
+        >
+          <span className="text-base-s text-tertiary">Наш email</span>
+          <span className="text-h3 break-all text-line-light transition-colors group-hover:text-white max-md:text-[16px]">
+            lunmicosm@gmail.com
+          </span>
+        </a>
+      </div>
+
+      <div className="flex flex-col gap-2 md:col-start-2 lg:col-start-auto">
+        <div className="flex h-[180px] shrink-0 flex-col justify-between rounded-xs bg-accent-soft p-4">
+          <span className="text-base-s text-secondary">Поддержка в мессенджерах</span>
+          <div className="flex flex-wrap gap-x-[60px] gap-y-3">
+            <Link href="#" className="flex h-10 items-center gap-2.5 text-h4 transition-colors hover:text-accent">
+              <WhatsappIcon className="size-8" />
+              whatsapp
+            </Link>
+            <Link href="#" className="flex h-10 items-center gap-2.5 text-h4 transition-colors hover:text-accent">
+              <TelegramIcon className="size-8" />
+              telegram
+            </Link>
+          </div>
+        </div>
+        <NearPhoto src="/img/near2-4492f6.webp" />
       </div>
     </section>
   );
