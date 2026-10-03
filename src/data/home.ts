@@ -60,7 +60,7 @@ export const bestsellers: Product[] = [
     name: "Petitfee Aura Quartz Hydrogel Eye Mask Pure Opal",
     description: "Охлаждающие патчи от морщин и отеков",
     price: "2 993 ₽",
-    image: "/img/b2.webp",
+    image: "/img/b2-aura-quartz-1200-ccb1b5.webp",
     discount: "5%",
     hit: true,
     aspect: "402/478",
