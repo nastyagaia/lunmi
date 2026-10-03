@@ -96,9 +96,9 @@ const MAP = {
   "medicube-collagen-overnight-mask": "MSK-28",
 };
 
-/** то же для scripts/cards. Не подключены: numbuzin No.5 cream (в карточке текст VT Reedle Shot),
- *  Nature Garden — в карточке другой аромат (Sweet Pea), CELLRETURN и Derma Tox — модель не уточнена */
+/** то же для scripts/cards. Карточки, у которых id — это наш id товара (из_интернета.json), подключаются сами */
 const EXTRA_MAP = {
+  "nature-garden-grape-mist": "BODY-12",
   "anua-heartleaf-77-toner": "GLOWSKIN-01",
   "cosrx-bha-blackhead": "GLOWSKIN-04",
   "drjart-ceramidin-cream": "GLOWSKIN-05",
@@ -233,6 +233,7 @@ const REWORD = [
   ["Официальная формула содержит", "Формула содержит"],
   ["В карточке перечислены", "В составе есть"],
   ["mude. —", "mude —"],
+  ["В опубликованных списках для Nature Garden Perfumed Body Mist встречаются", "В составе есть"],
   ["В опубликованном составе указаны", "В составе есть"],
   ["Официальная версия бренда содержит", "Формула содержит"],
   ["В официальной формуле линейки выделяются", "Ключевые компоненты —"],
@@ -282,6 +283,7 @@ const removed = [];
 for (const [slug, card] of [
   ...Object.entries(MAP).map(([slug, id]) => [slug, byId[id] ?? id]),
   ...Object.entries(EXTRA_MAP).map(([slug, id]) => [slug, extraById[id] ?? id]),
+  ...cards.filter((c) => brandOf[c.id]).map((c) => [c.id, c]),
 ]) {
   if (!brandOf[slug]) throw new Error(`нет товара ${slug}`);
   if (typeof card === "string") throw new Error(`нет карточки ${card}`);
