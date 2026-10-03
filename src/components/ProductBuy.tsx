@@ -3,7 +3,8 @@
 // Product Info из UI KIT (10228:14275): бейджи, рейтинг с отзывами, название, описание,
 // выбор оттенка или объёма, цена, «В корзину» и избранное. Порядок не меняем.
 // После «В корзину» кнопка превращается в счётчик «− 1 +» (Figma: Frame 21289). На нуле — снова кнопка.
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { rememberViewed } from "@/lib/account";
 import type { ProductDetails } from "@/data/products";
 import { priceToNumber, useCart } from "./Cart";
 import { HeartIcon, MinusIcon, PlusIcon, StarIcon } from "./icons";
@@ -40,6 +41,8 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
     image: product.thumbs?.[0] ?? product.images[0],
   };
   const liked = favorites.has(card.id);
+  // для «Смотрели недавно» в личном кабинете
+  useEffect(() => rememberViewed(card), [card.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const [notify, setNotify] = useState<string[]>([]);
   // выбранный оттенок закончился → вместо цены «Не в наличии», вместо «В корзину» — «Узнать о поступлении»
   const soldOut = product.shades?.find((s) => s.name === shade)?.available === false;

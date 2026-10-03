@@ -10,13 +10,13 @@ import { createStore } from "@/lib/persist";
 import { Popover } from "./Dropdown";
 import { useFavorites } from "./Favorites";
 import {
+  BagIcon,
   CheckIcon,
   ChevronDown,
   HeartIcon,
   LogoutIcon,
   ProfileIcon,
   ReviewIcon,
-  SearchIcon,
   SparkleIcon,
   SupportIcon,
 } from "./icons";
@@ -54,7 +54,13 @@ export function CityMenu({ className = "" }: { className?: string }) {
           </button>
         }
       >
-        <Search label="Поиск по городу" placeholder="Поиск по городу" value={query} onChange={setQuery} className="mx-4" />
+        <Search
+          label="Поиск по городу"
+          placeholder="Поиск по городу"
+          value={query}
+          onChange={setQuery}
+          className="mx-4"
+        />
         <ul role="listbox" aria-label="Город" className="max-h-[396px] overflow-y-auto">
           {shown.map((c) => (
             <li key={c} role="option" aria-selected={c === city}>
@@ -80,15 +86,15 @@ export function CityMenu({ className = "" }: { className?: string }) {
   );
 }
 
-/** Пункты меню профиля. Личного кабинета пока нет — у части пунктов страниц ещё нет (ведут на «#») */
+/** Пункты меню профиля — разделы личного кабинета. Входа по почте пока нет: «Выйти» ведёт на главную */
 const profileItems: { title: string; href: string; icon: ReactNode }[] = [
-  { title: "Главная", href: "/", icon: <SparkleIcon /> },
-  { title: "Заказы", href: "#", icon: <SearchIcon /> },
+  { title: "Главная", href: "/account", icon: <SparkleIcon /> },
+  { title: "Заказы", href: "/account/orders", icon: <BagIcon /> },
   { title: "Избранное", href: "/favorites", icon: <HeartIcon /> },
-  { title: "Отзывы", href: "#", icon: <ReviewIcon /> },
-  { title: "Мои данные", href: "#", icon: <ProfileIcon /> },
-  { title: "Поддержка", href: "#", icon: <SupportIcon /> },
-  { title: "Выйти", href: "#", icon: <LogoutIcon /> },
+  { title: "Отзывы", href: "/account/reviews", icon: <ReviewIcon /> },
+  { title: "Мои данные", href: "/account/profile", icon: <ProfileIcon /> },
+  { title: "Поддержка", href: "/account/help", icon: <SupportIcon /> },
+  { title: "Выйти", href: "/", icon: <LogoutIcon /> },
 ];
 
 export function ProfileMenu({ className = "" }: { className?: string }) {

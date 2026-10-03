@@ -8,7 +8,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { createStore } from "@/lib/persist";
+import { addressStore, contactStore, newOrderNumber, ordersStore, type Order } from "@/lib/account";
 import { rub, useCart } from "./Cart";
 import {
   AddCardDrawer,
@@ -21,7 +21,6 @@ import {
   pointOf,
   SavedAddressesDrawer,
   type Address,
-  type Contact,
   type Payment,
   type SavedCard,
 } from "./CheckoutDrawers";
@@ -32,9 +31,7 @@ import { delivery as deliveryTerms } from "@/data/delivery";
 const PROMO: Record<string, number> = { FIRST5: 5 }; // промокод → скидка в процентах
 const TIMES = ["9:00–12:00", "12:00–18:00", "18:00–21:00"];
 
-// контакты и адреса запоминаются в браузере — при следующем заказе вводить заново не нужно
-const contactStore = createStore<Contact | null>("lunmi-contact", null);
-const addressStore = createStore<{ list: Address[]; selected?: string }>("lunmi-addresses", { list: [] });
+// контакты и адреса запоминаются в браузере (src/lib/account.ts) — при следующем заказе вводить заново не нужно
 
 type Panel =
   | { kind: "contact" }
@@ -151,8 +148,32 @@ export function Checkout() {
   };
 
   const submit = () => {
-    if (!ready) return;
-    setOrder(`LM-${Math.floor(100000 + Math.random() * 900000)}`);
+    if (!ready || !contact || !address) return;
+    const { number, now } = newOrderNumber();
+    // заказ сохраняется в браузере и появляется в личном кабинете («Заказы»)
+    const saved: Order = {
+      number,
+      createdAt: now,
+      status: "Создан",
+      history: { Создан: now },
+      items: cart.items.map((i) => ({ ...i })),
+      recipient: `${contact.name}, ${contact.phone}`,
+      delivery: {
+        kind: address.kind,
+        address:
+          address.kind === "courier" && addressSubtitle(address)
+            ? `${addressTitle(address)}, ${addressSubtitle(address)}`
+            : addressTitle(address),
+        date: `${days[day]}, ${TIMES[time]}`,
+      },
+      payment: card ? `Картой ${card.system} ••${card.last4}` : "СБП",
+      goods: cart.total,
+      discount: promoDiscount,
+      deliveryPrice: delivery,
+      total,
+    };
+    ordersStore.set((list) => [saved, ...list]);
+    setOrder(number);
     cart.items.forEach((i) => cart.remove(i.key));
     window.scrollTo({ top: 0 });
   };

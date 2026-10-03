@@ -5,11 +5,12 @@ import { Carousel } from "@/components/Carousel";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HeroSlider } from "@/components/HeroSlider";
-import { InstagramIcon, PlusIcon, TelegramIcon, WhatsappIcon } from "@/components/icons";
+import { InstagramIcon, TelegramIcon, WhatsappIcon } from "@/components/icons";
 import { ProductCard } from "@/components/ProductCard";
 import { Button, SectionHeader } from "@/components/ui";
 import { brands as allBrands } from "@/data/brands";
-import { bestsellers, catalog, faq, heroSlides, reviews, weeklyDeals } from "@/data/home";
+import { bestsellers, catalog, heroSlides, reviews, weeklyDeals } from "@/data/home";
+import { FaqList } from "@/components/FaqList";
 import { allProducts } from "@/data/sections";
 
 /** В карусели Bestsellers после карточек из макета — хиты каталога, чтобы ленту было что листать */
@@ -225,21 +226,7 @@ function Faq() {
         Частые
         <br className="hidden lg:block" /> вопросы
       </h2>
-      <div>
-        {faq.map((item, i) => (
-          <details key={item.q} className="group border-b border-line-light">
-            <summary
-              className={`flex cursor-pointer list-none items-center justify-between gap-4 pb-6 text-h4 [&::-webkit-details-marker]:hidden ${
-                i === 0 ? "" : "pt-6"
-              }`}
-            >
-              {item.q}
-              <PlusIcon className="shrink-0 transition-transform duration-300 group-open:rotate-45" />
-            </summary>
-            <p className="-mt-2 pb-6 text-base-s text-secondary">{item.a}</p>
-          </details>
-        ))}
-      </div>
+      <FaqList />
     </section>
   );
 }
