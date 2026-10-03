@@ -236,7 +236,7 @@ function Faq() {
   );
 }
 
-/* ---------- Мы рядом (Figma 11102:19256): три колонки по 4 — поддержка и рассылка, фото + почта, мессенджеры + фото ---------- */
+/* ---------- Мы рядом (Figma 11102:19256, высота 540 — на 30 ниже макета по просьбе Насти): три колонки по 4 — поддержка и рассылка, фото + почта, мессенджеры + фото ---------- */
 function NearPhoto({ src }: { src: string }) {
   return (
     <div className="relative h-[280px] overflow-hidden rounded-xs md:h-[240px] lg:h-auto lg:flex-1">
@@ -253,7 +253,7 @@ function NearPhoto({ src }: { src: string }) {
 
 function Contacts() {
   return (
-    <section className="container-page reveal grid gap-2 md:grid-cols-2 lg:h-[570px] lg:grid-cols-3">
+    <section className="container-page reveal grid gap-2 md:grid-cols-2 lg:h-[540px] lg:grid-cols-3">
       <div className="flex flex-col justify-between gap-10 rounded-xs bg-surface p-6 md:row-span-2 lg:row-span-1 lg:px-[30px] lg:pt-8 lg:pb-[30px]">
         <p className="text-base-s text-secondary">Поддержка</p>
         <div className="flex flex-col gap-4">
