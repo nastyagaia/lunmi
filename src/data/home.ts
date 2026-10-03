@@ -87,7 +87,7 @@ export const weeklyDeals: Product[] = [
  *  на узких экранах обрезается справа, и светлое поле под подписью остаётся */
 export const catalog = [
   { title: "Для кожи лица", image: "/img/c1.webp", href: "/catalog" },
-  { title: "Glow Skin", image: "/img/c2.webp", href: "/catalog/glow-skin" },
+  { title: "Glow Skin", image: "/img/c-glow-ea90a9.webp", href: "/catalog/glow-skin" },
   { title: "Антивозрастной уход", image: "/img/c3.webp", wide: true, href: "/catalog/antivozrastnoy-uhod" },
   { title: "Хиты в Корее", image: "/img/c4.webp", href: "/catalog/hity-korei" },
   { title: "Макияж", image: "/img/c-makeup-d6bce6.webp", wide: true, left: true, href: "/catalog/makiyazh" },
