@@ -14,7 +14,9 @@ const MH = "маски/гидрогелевые/";
 const MM = "маски/маски/";
 const MT = "маски/тканевые/";
 const P = "патчи/";
-const D = "../дамы/m  "; // фото девушек с текстурами — вторым кадром у подходящих товаров
+const D = "../дамы/m  ";
+/** путь к файлам из репозитория (scripts/sources), относительно SOURCE */
+const REPO = "../../../Documents/GitHub/lunmi/"; // фото девушек с текстурами — вторым кадром у подходящих товаров
 
 export const products = [
   // ---------- Очищение ----------
@@ -137,6 +139,8 @@ export const products = [
   { id: "heimish-eye-patch", type: "Пэды и патчи", brand: "Heimish", name: "Heimish Bulgarian Rose Hydrogel Eye Patch", description: "Гидрогелевые патчи для глаз", price: 1490, files: [P + "Heimish/Product/Heimish_HydrogelEyePatch_Duo.png"] },
   { id: "medicube-zero-pore-pad", type: "Пэды и патчи", brand: "Medicube", name: "Medicube Zero Pore Pad 2.0", description: "Пэды для сужения пор", price: 2190, hit: true, files: [P + "Medicube/Product/Medicube_ZeroPore_Pad.png"] },
   { id: "petitfee-agave-patch", type: "Пэды и патчи", brand: "Petitfee", name: "Petitfee Agave Cooling Hydrogel Eye Mask", description: "Охлаждающие патчи с агавой", price: 1490, files: [P + "Petitfee/Product/Petitfee_Agave_Cooling.png"] },
+  // фото прислала Настя в чате — лежит в репозитории, путь от папки SOURCE
+  { id: "petitfee-aura-quartz-patch", type: "Пэды и патчи", brand: "Petitfee", name: "Petitfee Aura Quartz Hydrogel Eye Mask Pure Opal", description: "Гидрогелевые патчи с жемчугом для сияния", price: 2990, discount: "5%", hit: true, files: [REPO + "scripts/sources/petitfee-aura-quartz.webp"] },
   { id: "round-lab-birch-pad", type: "Пэды и патчи", brand: "Round Lab", name: "Round Lab Birch Juice Moisturizing Pad", description: "Увлажняющие пэды с берёзовым соком", price: 1990, files: [P + "RoundLab/Product/RoundLab_Birch_MoisturizingPad.png", P + "RoundLab/Product/RoundLab_Birch_MoisturizingPad_2.png"] },
   { id: "torriden-multi-pad", type: "Пэды и патчи", brand: "Torriden", name: "Torriden Dive-In Multi Pad", description: "Увлажняющие пэды с гиалуроновой кислотой", price: 1990, files: [P + "Torriden/Product/Torriden_DiveIn_MultiPad.png"] },
 ];

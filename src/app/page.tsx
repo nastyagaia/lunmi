@@ -9,12 +9,16 @@ import { ArrowRight, TelegramIcon, WhatsappIcon } from "@/components/icons";
 import { ProductCard } from "@/components/ProductCard";
 import { Button, SectionHeader } from "@/components/ui";
 import { brands as allBrands } from "@/data/brands";
-import { bestsellers, catalog, heroSlides, weeklyDeals } from "@/data/home";
+import { catalog, heroSlides, weeklyDeals } from "@/data/home";
 import { FaqList } from "@/components/FaqList";
 import { allProducts } from "@/data/sections";
 
-/** В карусели Bestsellers после карточек из макета — хиты каталога, чтобы ленту было что листать */
-const BESTSELLER_HITS = [
+/** Bestsellers — настоящие товары каталога: тинт Dasique (обложка Cherry Soda, при наведении — модель),
+ *  патчи Petitfee Aura Quartz, бустер celimax и дальше хиты, чтобы ленту было что листать */
+const BESTSELLER_IDS = [
+  "dasique-juicy-dewy-lip-tint",
+  "petitfee-aura-quartz-patch",
+  "celimax-retinal-shot",
   "anua-pore-cleansing-oil",
   "numbuzin-no5-pad",
   "skin1004-centella-ampoule",
@@ -22,12 +26,7 @@ const BESTSELLER_HITS = [
   "biodance-caviar-eye-patch",
   "torriden-dive-in-cream",
 ];
-// первая карточка — настоящий тинт Dasique (обложка Cherry Soda, при наведении — фото модели) вместо заглушки из макета
-const bestsellerList = [
-  ...allProducts.filter((p) => p.id === "dasique-juicy-dewy-lip-tint"),
-  ...bestsellers.filter((p) => p.id !== "b1"),
-  ...BESTSELLER_HITS.flatMap((id) => allProducts.filter((p) => p.id === id)),
-];
+const bestsellerList = BESTSELLER_IDS.flatMap((id) => allProducts.filter((p) => p.id === id));
 
 export default function Home() {
   return (

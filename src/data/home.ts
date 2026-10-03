@@ -45,37 +45,6 @@ export const heroSlides: HeroSlide[] = [
   },
 ];
 
-export const bestsellers: Product[] = [
-  {
-    id: "b1",
-    name: "Dr.Ceuracle Tea Tree Purifine",
-    description: "бустер-сыворотка с микроиглами, 100 ml",
-    price: "2 993 ₽",
-    image: "/img/b1.webp",
-    discount: "5%",
-    hit: true,
-  },
-  {
-    id: "b2",
-    name: "Petitfee Aura Quartz Hydrogel Eye Mask Pure Opal",
-    description: "Охлаждающие патчи от морщин и отеков",
-    price: "2 993 ₽",
-    image: "/img/b2-aura-quartz-1200-ccb1b5.webp",
-    discount: "5%",
-    hit: true,
-    aspect: "402/478",
-  },
-  {
-    id: "b3",
-    name: "Dr.Ceuracle Tea Tree Purifine",
-    description: "бустер-сыворотка с микроиглами, 50 ml",
-    price: "2 993 ₽",
-    image: "/img/b3.webp",
-    discount: "5%",
-    hit: true,
-  },
-];
-
 export const weeklyDeals: Product[] = [
   {
     id: "s1",

@@ -77,5 +77,6 @@ export const titles = {
   "torriden-dive-in-mask": "Torriden Dive-In Mask",
   "heimish-eye-patch": "Heimish Bulgarian Rose Eye Patch",
   "petitfee-agave-patch": "Petitfee Agave Cooling Eye Mask",
+  "petitfee-aura-quartz-patch": "Petitfee Aura Quartz Eye Mask",
   "round-lab-birch-pad": "Round Lab Birch Juice Pad",
 };
