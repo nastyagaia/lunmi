@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { AccountNav } from "./AccountNav";
+import { LoginGate } from "./Login";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
@@ -10,9 +11,14 @@ export function AccountShell({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
-      <main className="container-page grid grid-cols-1 gap-10 pt-[106px] pb-6 lg:grid-cols-[304px_minmax(0,1fr)] lg:gap-2">
-        <AccountNav />
-        <div className="min-w-0">{children}</div>
+      <main className="container-page pt-[106px] pb-6">
+        {/* вход фейковый — любой пароль подходит; без входа вместо кабинета кнопка «Войти» */}
+        <LoginGate>
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[304px_minmax(0,1fr)] lg:gap-2">
+            <AccountNav />
+            <div className="min-w-0">{children}</div>
+          </div>
+        </LoginGate>
       </main>
       <Footer />
     </>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { contactStore, displayName, profileStore } from "@/lib/account";
+import { contactStore, displayName, logOut, profileStore } from "@/lib/account";
 import { BagIcon, LogoutIcon, ProfileIcon, ReviewIcon, SparkleIcon, SupportIcon } from "./icons";
 
 export const AVATAR = "/img/account/avatar-3b099d.webp";
@@ -16,7 +16,7 @@ const menu: { title: string; href: string; icon: ReactNode }[] = [
   { title: "Отзывы", href: "/account/reviews", icon: <ReviewIcon /> },
   { title: "Мои данные", href: "/account/profile", icon: <ProfileIcon /> },
   { title: "Поддержка", href: "/account/help", icon: <SupportIcon /> },
-  // входа по почте пока нет — «Выйти» просто возвращает на главную
+  // «Выйти» — выходим и возвращаемся на главную (данные остаются в браузере)
   { title: "Выйти", href: "/", icon: <LogoutIcon /> },
 ];
 
@@ -38,6 +38,7 @@ export function AccountNav() {
               <li key={it.title}>
                 <Link
                   href={it.href}
+                  onClick={it.title === "Выйти" ? logOut : undefined}
                   aria-current={active ? "page" : undefined}
                   className={`flex h-[47px] items-center gap-2 rounded-xs px-4 text-base-s whitespace-nowrap transition-colors hover:bg-surface ${
                     active ? "bg-surface" : ""

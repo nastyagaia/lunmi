@@ -8,7 +8,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { addressStore, contactStore, newOrderNumber, ordersStore, type Order } from "@/lib/account";
+import { addressStore, authStore, contactStore, newOrderNumber, ordersStore, type Order } from "@/lib/account";
+import { loyalty } from "@/data/loyalty";
 import { rub, useCart } from "./Cart";
 import {
   AddCardDrawer,
@@ -77,6 +78,7 @@ const darkButton = "self-start bg-primary text-white hover:bg-primary/85";
 
 export function Checkout() {
   const cart = useCart();
+  const loggedIn = Boolean(authStore.useValue().email);
   const contact = contactStore.useValue();
   const { list: addresses, selected } = addressStore.useValue();
   const address = addresses.find((a) => a.id === selected);
@@ -113,7 +115,9 @@ export function Checkout() {
   // цены доставки — из src/data/delivery.ts (оформление пока только для Москвы и Петербурга)
   const delivery = address ? deliveryTerms[address.kind].price : 0;
   const promoDiscount = promoApplied ? Math.round((cart.total * PROMO[promoApplied]) / 100) : 0;
-  const total = Math.max(cart.total - promoDiscount + delivery, 0);
+  // персональная скидка из кабинета — для тех, кто вошёл; с промокодом не суммируется
+  const personal = loggedIn && !promoApplied ? Math.round((cart.total * loyalty.discount) / 100) : 0;
+  const total = Math.max(cart.total - promoDiscount - personal + delivery, 0);
   const ready = Boolean(contact && address && payment);
 
   const applyPromo = () => {
@@ -168,7 +172,7 @@ export function Checkout() {
       },
       payment: card ? `Картой ${card.system} ••${card.last4}` : "СБП",
       goods: cart.total,
-      discount: promoDiscount,
+      discount: promoDiscount + personal,
       deliveryPrice: delivery,
       total,
     };
@@ -406,6 +410,12 @@ export function Checkout() {
                 <li className="flex justify-between gap-4">
                   <span>Доставка</span>
                   <span>{delivery ? `+ ${rub(delivery)}` : "бесплатно"}</span>
+                </li>
+              )}
+              {personal > 0 && (
+                <li className="flex justify-between gap-4">
+                  <span>Персональная скидка – {loyalty.discount}%</span>
+                  <span>– {rub(personal)}</span>
                 </li>
               )}
               {promoApplied && (

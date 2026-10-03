@@ -25,7 +25,15 @@ export const profileStore = createStore<Profile>("lunmi-profile", emptyProfile);
 export const ORDER_STEPS = ["Создан", "В сборке", "В пути", "Доставлен"] as const;
 export type OrderStatus = (typeof ORDER_STEPS)[number] | "Отменён";
 
-export type OrderItem = { key: string; name: string; description: string; price: number; image: string; href?: string; qty: number };
+export type OrderItem = {
+  key: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  href?: string;
+  qty: number;
+};
 export type Order = {
   number: string;
   createdAt: string;
@@ -48,7 +56,15 @@ export function newOrderNumber() {
   return { number: `LM-${Math.floor(100000 + Math.random() * 900000)}`, now: new Date().toISOString() };
 }
 
-export type Review = { key: string; productId: string; name: string; image: string; rating: number; text: string; date: string };
+export type Review = {
+  key: string;
+  productId: string;
+  name: string;
+  image: string;
+  rating: number;
+  text: string;
+  date: string;
+};
 export const reviewsStore = createStore<Review[]>("lunmi-reviews", []);
 
 /** Недавно просмотренные товары — карточки целиком, последние 12 */
@@ -74,8 +90,25 @@ export function formatDateTime(iso: string) {
   return `${date} ${time}`;
 }
 
+/** Вход — пока ФЕЙКОВЫЙ: подходит любая почта и любой пароль, ничего не проверяется и никуда не отправляется.
+ *  email — кто вошёл сейчас; known — почты, с которыми уже регистрировались на этом устройстве
+ *  (чтобы показать «Войти» или «Зарегистрироваться», как в макете). */
+export const authStore = createStore<{ email: string | null; known: string[] }>("lunmi-auth", {
+  email: null,
+  known: [],
+});
+export const isKnownEmail = (email: string) => authStore.read().known.includes(email.toLowerCase());
+export function logIn(email: string) {
+  const e = email.toLowerCase();
+  authStore.set((a) => ({ email: e, known: a.known.includes(e) ? a.known : [...a.known, e] }));
+  // почта входа сразу появляется в «Моих данных»
+  profileStore.set((p) => (p.email ? p : { ...p, email: e }));
+}
+export const logOut = () => authStore.set((a) => ({ ...a, email: null }));
+
 /** Удалить все данные покупателя с этого устройства («Удалить аккаунт») */
 export function forgetEverything() {
+  authStore.set((a) => ({ email: null, known: a.known.filter((e) => e !== a.email) }));
   contactStore.set(null);
   addressStore.set({ list: [] });
   profileStore.set(emptyProfile);

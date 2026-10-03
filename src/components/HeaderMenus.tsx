@@ -6,9 +6,11 @@
 import Link from "next/link";
 import { useCallback, useState, type ReactNode } from "react";
 import { cities } from "@/data/cities";
+import { authStore, logOut } from "@/lib/account";
 import { createStore } from "@/lib/persist";
 import { Popover } from "./Dropdown";
 import { useFavorites } from "./Favorites";
+import { openLogin } from "./Login";
 import {
   BagIcon,
   CheckIcon,
@@ -86,7 +88,7 @@ export function CityMenu({ className = "" }: { className?: string }) {
   );
 }
 
-/** Пункты меню профиля — разделы личного кабинета. Входа по почте пока нет: «Выйти» ведёт на главную */
+/** Пункты меню профиля — разделы личного кабинета; «Выйти» выходит и ведёт на главную */
 const profileItems: { title: string; href: string; icon: ReactNode }[] = [
   { title: "Главная", href: "/account", icon: <SparkleIcon /> },
   { title: "Заказы", href: "/account/orders", icon: <BagIcon /> },
@@ -101,6 +103,22 @@ export function ProfileMenu({ className = "" }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
   const favorites = useFavorites();
+  const email = authStore.useValue().email;
+
+  // не вошли — иконка открывает окно входа
+  if (!email)
+    return (
+      <div className={className}>
+        <button
+          type="button"
+          onClick={openLogin}
+          aria-label="Войти в личный кабинет"
+          className="flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
+        >
+          <ProfileIcon />
+        </button>
+      </div>
+    );
 
   return (
     <div className={className}>
@@ -129,7 +147,10 @@ export function ProfileMenu({ className = "" }: { className?: string }) {
               <Link
                 role="menuitem"
                 href={it.href}
-                onClick={close}
+                onClick={() => {
+                  close();
+                  if (it.title === "Выйти") logOut();
+                }}
                 className="flex h-[47px] items-center gap-2 px-4 text-base-s transition-colors hover:bg-surface"
               >
                 <span className="flex size-6 shrink-0 items-center justify-center">{it.icon}</span>

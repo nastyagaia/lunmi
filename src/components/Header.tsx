@@ -254,7 +254,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
               <Link href="/favorites" className="flex items-center gap-2 py-2 text-base-s">
                 <HeartIcon /> Избранное
               </Link>
-              <Link href="#" className="ml-4 flex items-center gap-2 py-2 text-base-s">
+              <Link href="/account" className="ml-4 flex items-center gap-2 py-2 text-base-s">
                 <ProfileIcon /> Кабинет
               </Link>
             </div>
