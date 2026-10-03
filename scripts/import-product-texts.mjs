@@ -1,4 +1,5 @@
 // Тексты вкладок страницы товара из cosmetic_cards_master.json (подготовлены в ChatGPT, своими словами по сайтам брендов).
+// Плюс тексты остальных разделов из scripts/cards/*.json (их делает scripts/docs-to-cards.py из документов Word).
 // Запуск: node scripts/import-product-texts.mjs [путь к json] → src/data/product-texts.json
 // Из текстов убираются служебные пометки для редактора («название папки…», «сверяйте упаковку…»).
 import fs from "node:fs";
@@ -95,11 +96,134 @@ const MAP = {
   "medicube-collagen-overnight-mask": "MSK-28",
 };
 
+/** то же для scripts/cards. Не подключены: numbuzin No.5 cream (в карточке текст VT Reedle Shot),
+ *  Nature Garden — в карточке другой аромат (Sweet Pea), CELLRETURN и Derma Tox — модель не уточнена */
+const EXTRA_MAP = {
+  "anua-heartleaf-77-toner": "GLOWSKIN-01",
+  "cosrx-bha-blackhead": "GLOWSKIN-04",
+  "drjart-ceramidin-cream": "GLOWSKIN-05",
+  "goodal-vita-c-serum": "GLOWSKIN-06",
+  "klairs-vitamin-drop": "GLOWSKIN-07",
+  "manyo-bifida-eye-cream": "GLOWSKIN-08",
+  "medipeel-melanon-x": "GLOWSKIN-09",
+  "medipeel-red-lacto-mask": "GLOWSKIN-11",
+  "somebymi-miracle-toner": "GLOWSKIN-15",
+  "vt-reedle-shot-100": "GLOWSKIN-17",
+  "ahc-real-eye-cream": "AGE-01",
+  "arencia-nad-booster": "AGE-02",
+  "arencia-red-smoothie-serum": "AGE-03",
+  "drdifferent-vitalift-a": "AGE-04",
+  "elizavecca-piggy-collagen": "AGE-05",
+  "hera-signia-lifting-serum": "AGE-06",
+  "ohui-retinol-cream": "AGE-07",
+  "sulwhasoo-ginseng-cream": "AGE-09",
+  "caelumen-micro-led-mask": "DEV-01",
+  "currentbody-led-mask": "DEV-03",
+  "medicube-age-r-booster-pro": "DEV-05",
+  "jsoop-keratin-ampoule": "HAI-01",
+  "lador-angel-muguet-oil": "HAI-02",
+  "lador-angel-muguet-shampoo": "HAI-03",
+  "lador-acid-conditioner": "HAI-04",
+  "lador-hydro-lpp": "HAI-05",
+  "lador-keratin-shampoo": "HAI-07",
+  "lador-moisture-shampoo": "HAI-08",
+  "lador-osmanthus-oil": "HAI-09",
+  "lador-osmanthus-treatment": "HAI-10",
+  "lador-tea-tree-scalp": "HAI-11",
+  "lador-wonder-balm": "HAI-12",
+  "anua-glow-sunstick": "SUN-01",
+  "axis-y-physical-sunscreen": "SUN-02",
+  "benton-air-fit-sun": "SUN-03",
+  "cosrx-invisible-sunscreen": "SUN-04",
+  "drg-green-mild-sun": "SUN-05",
+  "haruharu-black-rice-sun": "SUN-06",
+  "makeprem-sun-essence": "SUN-07",
+  "manyo-sun-serum": "SUN-08",
+  "manyo-sun-stick": "SUN-09",
+  "purito-soft-touch-sun": "SUN-10",
+  "skin1004-hyalu-cica-sun": "SUN-11",
+  "thank-you-farmer-sun": "SUN-12",
+  "tocobo-bio-watery-sun": "SUN-13",
+  "aestura-body-lotion": "BODY-01",
+  "aromatica-body-mist": "BODY-02",
+  "aromatica-body-cream": "BODY-03",
+  "happy-bath-baby-powder": "BODY-04",
+  "illiyoon-top-to-toe-wash": "BODY-05",
+  "illiyoon-ato-concentrate-cream": "BODY-06",
+  "illiyoon-ato-lotion": "BODY-07",
+  "illiyoon-scrub-wash": "BODY-08",
+  "kundal-honey-body-lotion": "BODY-09",
+  "kundal-honey-body-wash": "BODY-10",
+  "kundal-white-musk-mist": "BODY-11",
+  "scentlier-body-mist": "BODY-13",
+  "skinfood-black-sugar-scrub": "BODY-14",
+  "somebymi-body-cleanser": "BODY-15",
+  "whamisa-algae-mist": "BODY-16",
+  "3ce-drop-glow-gel": "MAKEUP-LIP-01",
+  "amuse-jel-fit-tint": "MAKEUP-LIP-02",
+  "clio-crystal-glam-tint": "MAKEUP-LIP-03",
+  "colorgram-fruity-glass-tint-deep-glaze": "MAKEUP-LIP-04",
+  "dasique-juicy-dewy-lip-tint": "MAKEUP-LIP-05",
+  "etude-glow-fixing-tint": "MAKEUP-LIP-06",
+  "fwee-3d-voluming-gloss": "MAKEUP-LIP-07",
+  "fwee-3d-voluming-tint": "MAKEUP-LIP-08",
+  "hince-raw-glow-gel-tint": "MAKEUP-LIP-09",
+  "holika-soft-rolling-gloss": "MAKEUP-LIP-10",
+  "milk-touch-jelly-fit-tint": "MAKEUP-LIP-11",
+  "nuse-care-liptual": "MAKEUP-LIP-12",
+  "romand-glasting-color-gloss": "MAKEUP-LIP-13",
+  "romand-juicy-lasting-tint": "MAKEUP-LIP-14",
+  "espoir-brow-balance-pencil": "MAKEUP-EYE-01",
+  "etude-drawing-eye-brow": "MAKEUP-EYE-02",
+  "peripera-speedy-skinny-brow-mascara": "MAKEUP-EYE-03",
+  "romand-han-all-brow-cara": "MAKEUP-EYE-04",
+  "unleashia-shaper-pomade-brow-fixer": "MAKEUP-EYE-05",
+  "bbia-last-auto-gel-eyeliner": "MAKEUP-EYE-06",
+  "clio-sharp-so-simple-pencil-liner": "MAKEUP-EYE-07",
+  "clio-superproof-pen-liner": "MAKEUP-EYE-08",
+  "3ce-eye-switch": "MAKEUP-EYE-09",
+  "3ce-multi-eye-color-palette": "MAKEUP-EYE-24",
+  "clio-pro-eye-palette-air": "MAKEUP-EYE-25",
+  "unleashia-get-loose-glitter-gel": "MAKEUP-EYE-26",
+  "unleashia-glitterpedia-eye-palette": "MAKEUP-EYE-27",
+  "unleashia-mood-shower-face-palette": "MAKEUP-FACE-28",
+  "dasique-starlit-jewel-liquid-glitter": "MAKEUP-EYE-29",
+  "unleashia-pretty-easy-glitter-stick": "MAKEUP-EYE-30",
+  "dasique-mood-slim-liner": "MAKEUP-EYE-31",
+  "innisfree-simple-label-pencil-liner": "MAKEUP-EYE-32",
+  "lilybyred-am9-pm9-penliner": "MAKEUP-EYE-33",
+  "merzy-first-gel-eyeliner": "MAKEUP-EYE-35",
+  "romand-twinkle-pen-liner": "MAKEUP-EYE-36",
+  "clio-kill-lash-superproof-mascara": "MAKEUP-EYE-37",
+  "dasique-mood-up-mascara": "MAKEUP-EYE-38",
+  "etude-curl-fix-mascara": "MAKEUP-EYE-39",
+  "holika-lash-correcting-mascara": "MAKEUP-EYE-40",
+  "mude-inspire-skinny-curling-mascara": "MAKEUP-EYE-41",
+  "peripera-ink-all-black-cara": "MAKEUP-EYE-42",
+  "bbia-last-powder-lipstick": "MAKEUP-FACE-43",
+  "romand-zero-matte-lipstick": "MAKEUP-FACE-44",
+  "unleashia-oh-happy-day-lip-pencil": "MAKEUP-FACE-45",
+  "about-tone-blur-powder-pact": "MAKEUP-FACE-46",
+  "unleashia-babe-skin-cushion": "MAKEUP-FACE-47",
+  "clio-kill-cover-founwear-cushion": "MAKEUP-FACE-48",
+  "unleashia-dough-dough-waffle-blush": "MAKEUP-FACE-49",
+  "erborian-cc-red": "MAKEUP-FACE-50",
+  "erborian-bb-creme-ginseng": "MAKEUP-FACE-51",
+  "espoir-fresh-setting-fixer": "MAKEUP-FACE-52",
+  "holika-puri-pore-pact": "MAKEUP-FACE-53",
+  "innisfree-no-sebum-pact": "MAKEUP-FACE-54",
+  "missha-m-perfect-cover-bb": "MAKEUP-FACE-55",
+  "missha-m-perfect-cover-serum-bb": "MAKEUP-FACE-56",
+  "unleashia-satin-wear-cushion": "MAKEUP-FACE-57",
+  "so-natural-setting-fixx": "MAKEUP-FACE-58",
+  "the-saem-perfect-pore-pact": "MAKEUP-FACE-59",
+};
+
 const TABS = ["Характеристики", "Состав", "Применение", "О бренде"];
 
 // предложения-пометки для редактора, а не для покупателя
 const NOTE =
-  /папк|скриншот|оставляю|сохранённ|карточк|расхожден|до проверки|SKU|не полный список|неполный список|полный (состав|INCI|список)|INCI|упаковк|региональн|версии (продукта|формулы)|назван|обозначен|маркировк|отдельный продукт|самостоятельн|не переносите|конкретно|изображени|поэтому|доступн|нельзя|точный вариант|важен|оформля|если на |подтверждённ|индивидуальн|производитель не указал|ориентир|выделен|не путай|не путать|не следует|не смешивай|не объединяй|отличать|отлича|запись|обещать|описывать|описание огранич|файл|каталог|американск|рынк|официальн\w* верси|идентифик|тюбик|коробк|этикетк|проверяйте|могут (встречаться|отличаться|различаться)|точного описания|заявленной версии|этой позиции|не является простым|важно отлич|не указыва|не подтвержд|подтвердить|сверя|сверить|провер(ьте|ять|ить)/i;
+  /папк|скриншот|оставляю|сохранённ|карточк|расхожден|до проверки|SKU|не полный список|неполный список|полный (состав|INCI|список)|INCI|упаковк|региональн|версии (продукта|формулы)|назван|обозначен|маркировк|отдельный продукт|самостоятельн|не переносите|конкретно|изображени|поэтому|доступн|нельзя|точный вариант|важен|оформля|если на |подтверждённ|индивидуальн|производитель не указал|ориентир|выделен|не путай|не путать|не следует|не смешивай|не объединяй|отличать|отлича|запись|обещать|описывать|описание огранич|файл|каталог|американск|рынк|официальн\w* верси|идентифик|тюбик|коробк|этикетк|проверяйте|могут (встречаться|отличаться|различаться)|точного описания|заявленной версии|этой позиции|не является простым|важно отлич|не указыва|не подтвержд|подтвердить|сверя|сверить|провер(ьте|ять|ить)|Olive Young|ритейлер|отзыв|публикац|сведения|не совпада|той же формул|отдельн\w* продукт|не одно и то же/i;
 
 // ссылки на источник звучат для покупателя канцелярски — говорим прямо
 const REWORD = [
@@ -107,6 +231,9 @@ const REWORD = [
   ["В официальном списке ингредиентов указаны", "В составе есть"],
   ["В официальном списке указаны", "В составе есть"],
   ["Официальная формула содержит", "Формула содержит"],
+  ["В карточке перечислены", "В составе есть"],
+  ["mude. —", "mude —"],
+  ["В опубликованном составе указаны", "В составе есть"],
   ["Официальная версия бренда содержит", "Формула содержит"],
   ["В официальной формуле линейки выделяются", "Ключевые компоненты —"],
   ["На официальной странице перечислены", "Ключевые компоненты —"],
@@ -126,21 +253,38 @@ function clean(text) {
   for (const [from, to] of REWORD) text = text.replace(from, to);
   // точка внутри слова (Dr.G, N.M.F) — не конец предложения
   const sentences = text.match(/(?:[^.!?]|[.!?](?!\s|$))+[.!?]*/g) ?? [text];
-  const kept = sentences.map((s) => s.trim()).filter((s) => s && !NOTE.test(s));
+  // в длинном предложении пометка бывает только во второй половине, после «;» — оставляем первую
+  const kept = sentences
+    .map((s) => {
+      const parts = s.trim().split(/;\s+/);
+      const cut = parts.findIndex((p) => NOTE.test(p));
+      const ok = cut === -1 ? parts : parts.slice(0, cut);
+      if (ok.length === parts.length || !ok.length) return ok.join("; ");
+      return ok.join("; ").replace(/[.!?]*$/, ".");
+    })
+    .filter(Boolean);
   return kept.join(" ").replace(/\s+/g, " ").trim();
 }
 
 const faceCare = JSON.parse(fs.readFileSync("src/data/face-care.json", "utf8"));
-const brandOf = Object.fromEntries(faceCare.map((p) => [p.id, p.brand]));
+const extra = JSON.parse(fs.readFileSync("src/data/catalog-extra.json", "utf8")).products;
+const brandOf = Object.fromEntries([...faceCare, ...extra].map((p) => [p.id, p.brand]));
 
 const master = JSON.parse(fs.readFileSync(SRC, "utf8"));
 const byId = Object.fromEntries(master.items.map((i) => [i.id, i]));
+const cards = fs
+  .readdirSync("scripts/cards")
+  .flatMap((f) => JSON.parse(fs.readFileSync(`scripts/cards/${f}`, "utf8")).items);
+const extraById = Object.fromEntries(cards.map((i) => [i.id, i]));
 const out = {};
 const removed = [];
 
-for (const [slug, cardId] of Object.entries(MAP)) {
-  const card = byId[cardId];
-  if (!card) throw new Error(`нет карточки ${cardId}`);
+for (const [slug, card] of [
+  ...Object.entries(MAP).map(([slug, id]) => [slug, byId[id] ?? id]),
+  ...Object.entries(EXTRA_MAP).map(([slug, id]) => [slug, extraById[id] ?? id]),
+]) {
+  if (!brandOf[slug]) throw new Error(`нет товара ${slug}`);
+  if (typeof card === "string") throw new Error(`нет карточки ${card}`);
   out[slug] = Object.fromEntries(
     TABS.map((t) => {
       const raw = card.tabs[t] ?? "";

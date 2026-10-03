@@ -328,12 +328,25 @@ function draftTabs(fc: CatalogProduct, actives: string) {
     .split(", ")
     .map((a) => `— ${a[0].toUpperCase() + a.slice(1)}`)
     .join("\n");
+  // у макияжа состав зависит от оттенка, у гаджетов его нет — ухоженные «ключевые компоненты» тут не к месту
+  const makeup = fc.category === "Макияж";
+  const gadget = fc.category === "Бьюти-гаджеты";
   return [
     {
       title: "Характеристики",
-      text: `${fc.description}. Подходит для ежедневного ухода и сочетается с другими средствами корейской рутины.\n\nКлючевые компоненты:\n${list}`,
+      text:
+        makeup || gadget
+          ? `${fc.description}.`
+          : `${fc.description}. Подходит для ежедневного ухода и сочетается с другими средствами корейской рутины.\n\nКлючевые компоненты:\n${list}`,
     },
-    { title: "Состав", text: `Полный состав скоро появится здесь. Ключевые компоненты: ${actives.toLowerCase()}.` },
+    {
+      title: "Состав",
+      text: makeup
+        ? "Состав зависит от оттенка — полный список ингредиентов указан на упаковке."
+        : gadget
+          ? "Это прибор, а не косметическое средство, поэтому состава у него нет."
+          : `Полный состав скоро появится здесь. Ключевые компоненты: ${actives.toLowerCase()}.`,
+    },
     { title: "Применение", text: usageFor(fc) },
     {
       title: "О бренде",
@@ -395,7 +408,8 @@ export function getProduct(slug: string): ProductDetails | undefined {
     thumbs: fc.thumbs,
     shades: fc.shades,
     delivery,
-    ingredients: activesFor(fc.name, fc.id),
+    // «активные компоненты» — это про уход; у макияжа и гаджетов строку не показываем
+    ingredients: fc.category === "Макияж" || fc.category === "Бьюти-гаджеты" ? undefined : activesFor(fc.name, fc.id),
     tabs: withTexts(fc.id, draftTabs(fc, activesFor(fc.name, fc.id))),
     // ВНИМАНИЕ: отзывы — из макета, одинаковые у всех товаров. Перед запуском магазина заменить настоящими
     reviews,
