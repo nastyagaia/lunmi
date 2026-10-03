@@ -120,9 +120,9 @@ export const catalog = [
   { title: "Glow Skin", image: "/img/c2.webp", href: "/catalog/glow-skin" },
   { title: "Антивозрастной уход", image: "/img/c3.webp", wide: true, href: "/catalog/antivozrastnoy-uhod" },
   { title: "Хиты в Корее", image: "/img/c4.webp", href: "/catalog/hity-korei" },
-  { title: "Макияж", image: "/img/c5-makeup.webp", wide: true, href: "/catalog/makiyazh" },
+  { title: "Макияж", image: "/img/c-makeup-d6bce6.webp", wide: true, href: "/catalog/makiyazh" },
   { title: "Для тела", image: "/img/c6.webp", href: "/catalog/dlya-tela" },
-  { title: "Для волос", image: "/img/c7.webp", wide: true, href: "/catalog/dlya-volos" },
+  { title: "Для волос", image: "/img/c-hair-0e5ead.webp", wide: true, href: "/catalog/dlya-volos" },
   { title: "Бьюти-гаджеты", image: "/img/c8.webp", href: "/catalog/beauty-gadgets" },
 ];
 
