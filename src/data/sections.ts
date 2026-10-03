@@ -13,6 +13,8 @@ export type CatalogProduct = Product & {
   thumbs: string[];
   category: string;
   also?: string[][];
+  /** оттенки (scripts/import-catalog.mjs): images — номера фото этого оттенка в images */
+  shades?: { name: string; color: string; images?: number[] }[];
 };
 
 const FACE = "Уход для лица";

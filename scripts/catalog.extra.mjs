@@ -118,7 +118,9 @@ export const extraProducts = [
   { id: "hince-raw-glow-gel-tint", category: MAKEUP, type: "Для губ", brand: "hince", name: "hince Raw Glow Gel Tint", description: "Гелевый тинт с естественным сиянием", price: 2290, rating: "4.7",
     shades: { dir: LIPS + "hince_RawGlowGelTint ", product: "Packshots", model: "Model" } },
   { id: "nuse-care-liptual", category: MAKEUP, type: "Для губ", brand: "nuse", name: "nuse Care Liptual", description: "Ухаживающий оттеночный бальзам", price: 1690,
-    shades: { dir: LIPS + "nuse_Care_Liptual", product: "Product", model: "Model" } },
+    shades: { dir: LIPS + "nuse_Care_Liptual", product: "Product", model: "Model",
+      // флакон у всех оттенков одинаковый фиолетовый — цвет снят с надписи «nuse» на флаконе
+      colors: { "01": "#de877e", "02": "#e46b6c", "05": "#cd7e9d", "06": "#b85a80", "09": "#bc0c47" } } },
   { id: "romand-glasting-color-gloss", category: MAKEUP, type: "Для губ", brand: "rom&nd", name: "rom&nd Glasting Color Gloss", description: "Цветной блеск со стеклянным финишем", price: 1290,
     shades: { dir: LIPS + "romand_Glasting_Color_Gloss", product: "romand_Glasting_Color_Gloss_shades", model: "romand_Glasting_Color_Gloss_models" } },
   { id: "romand-juicy-lasting-tint", category: MAKEUP, type: "Для губ", also: [[HITS, "Бестселлеры Olive Young"]], brand: "rom&nd", name: "rom&nd The Juicy Lasting Tint", title: "rom&nd Juicy Lasting Tint", description: "Стойкий сочный тинт", price: 1090, hit: true, rating: "4.9",
@@ -126,9 +128,11 @@ export const extraProducts = [
   { id: "bbia-last-powder-lipstick", category: MAKEUP, type: "Для губ", brand: "BBIA", name: "BBIA Last Powder Lipstick 2", title: "BBIA Last Powder Lipstick", description: "Матовая помада с пудровым финишем", price: 1490,
     shades: { dir: LIPSTICK + "BBIA_Last_Powder_Lipstick_2", product: "Product", model: "Model" } },
   { id: "romand-zero-matte-lipstick", category: MAKEUP, type: "Для губ", brand: "rom&nd", name: "rom&nd Zero Matte Lipstick", description: "Лёгкая матовая помада", price: 1290, rating: "4.7",
-    shades: { dir: LIPSTICK + "romand_Zero_Matte_Lipstick", product: "Product", model: "Model" } },
+    shades: { dir: LIPSTICK + "romand_Zero_Matte_Lipstick", product: "Product", model: "Model",
+      // стик помады на фото маленький, автоматика смешивает его с серебристым корпусом — цвета подобраны вручную
+      colors: { "01": "#b5606a", "05": "#a65448", "09": "#d08a78", "14": "#b8566c", "20": "#a72d25" } } },
   { id: "unleashia-oh-happy-day-lip-pencil", category: MAKEUP, type: "Для губ", brand: "UNLEASHIA", name: "UNLEASHIA Oh! Happy Day Lip Pencil", title: "UNLEASHIA Happy Day Lip Pencil", description: "Карандаш-помада для губ", price: 1290,
-    shades: { dir: "макияж/Для губ/UNLEASHIA_Oh_Happy_Day_Lip_Pencil", product: "", model: "", second: "_swatch" } },
+    shades: { dir: "макияж/Для губ/UNLEASHIA_Oh_Happy_Day_Lip_Pencil", product: "", model: "", second: "_swatch", colorFrom: "second" } },
 
   // ---------- бьюти-гаджеты ----------
   { id: "cellreturn-led-mask", category: "Бьюти-гаджеты", type: "LED-маски", brand: "CellReturn", name: "CellReturn Premium LED Mask", description: "LED-маска для омоложения кожи", price: 89990, files: [T + "CellReturn_LED_Mask.png"] },

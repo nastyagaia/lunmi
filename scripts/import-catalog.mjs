@@ -48,7 +48,11 @@ async function discoverShades(spec) {
     const i = shades.findIndex((s) => s.files[0].includes(spec.cover));
     if (i > 0) shades = [shades[i], ...shades.slice(0, i), ...shades.slice(i + 1)];
   }
-  for (const s of shades) s.color = await shadeColor(path.join(ROOT, s.files[0]));
+  for (const s of shades) {
+    // цвет: вручную (colors — по началу названия оттенка), со второй картинки (свотч) или с флакона
+    const manual = spec.colors && Object.entries(spec.colors).find(([k]) => s.label.startsWith(k))?.[1];
+    s.color = manual ?? (await shadeColor(path.join(ROOT, s.files[spec.colorFrom === "second" ? 1 : 0] ?? s.files[0])));
+  }
   return shades;
 }
 

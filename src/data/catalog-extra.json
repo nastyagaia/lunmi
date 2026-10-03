@@ -2277,7 +2277,7 @@
       "shades": [
         {
           "name": "01 Molten Peanut",
-          "color": "#9d9be7",
+          "color": "#de877e",
           "images": [
             0,
             1
@@ -2285,7 +2285,7 @@
         },
         {
           "name": "02 By Sunset",
-          "color": "#9d9be8",
+          "color": "#e46b6c",
           "images": [
             2,
             3
@@ -2293,7 +2293,7 @@
         },
         {
           "name": "05 Cool Babe",
-          "color": "#9e9be7",
+          "color": "#cd7e9d",
           "images": [
             4,
             5
@@ -2301,7 +2301,7 @@
         },
         {
           "name": "06 Fin Berry",
-          "color": "#9d9be8",
+          "color": "#b85a80",
           "images": [
             6,
             7
@@ -2309,7 +2309,7 @@
         },
         {
           "name": "09 Deepin Cherry",
-          "color": "#9195f3",
+          "color": "#bc0c47",
           "images": [
             8,
             9
@@ -2576,7 +2576,7 @@
       "shades": [
         {
           "name": "01 Dusty Pink",
-          "color": "#bc9096",
+          "color": "#b5606a",
           "images": [
             0,
             1
@@ -2584,7 +2584,7 @@
         },
         {
           "name": "05 Evening",
-          "color": "#d4aa9a",
+          "color": "#a65448",
           "images": [
             2,
             3
@@ -2592,7 +2592,7 @@
         },
         {
           "name": "09 Shell Nude",
-          "color": "#eba698",
+          "color": "#d08a78",
           "images": [
             4,
             5
@@ -2600,7 +2600,7 @@
         },
         {
           "name": "14 Sweet Pea",
-          "color": "#ba9097",
+          "color": "#b8566c",
           "images": [
             6,
             7
@@ -2608,7 +2608,7 @@
         },
         {
           "name": "20 Red Dive",
-          "color": "#b68682",
+          "color": "#a72d25",
           "images": [
             8,
             9
@@ -2655,7 +2655,7 @@
       "shades": [
         {
           "name": "No2 Keep Smile",
-          "color": "#f99ea7",
+          "color": "#d6746e",
           "images": [
             0,
             1
@@ -2663,7 +2663,7 @@
         },
         {
           "name": "No3 Strawberry Cake",
-          "color": "#f99ea7",
+          "color": "#f48e98",
           "images": [
             2,
             3
@@ -2671,7 +2671,7 @@
         },
         {
           "name": "No4 Bae Bae",
-          "color": "#c58079",
+          "color": "#c37a73",
           "images": [
             4,
             5

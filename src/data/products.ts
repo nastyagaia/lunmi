@@ -131,8 +131,8 @@ export const products: ProductDetails[] = [
     similar,
   },
   {
-    // Фото — из папки «макияж / Для губ / Dasique_Juicy_Dewy_Lip_Tint» (scripts/catalog.extra.mjs): парами «флакон, модель»,
-    // Cherry Soda первым. Цвета кружков сняты с флаконов. Тексты вкладок — временные, проверить по сайту бренда
+    // Фото и оттенки — из папки «макияж / Для губ / Dasique_Juicy_Dewy_Lip_Tint» через scripts/import-catalog.mjs.
+    // Здесь только тексты вкладок (временные, проверить по сайту бренда)
     slug: "dasique-juicy-dewy-lip-tint",
     name: "Dasique Juicy Dewy Lip Tint",
     subtitle: "Сочный тинт для губ с глянцевым финишем",
@@ -140,14 +140,7 @@ export const products: ProductDetails[] = [
     price: "1 590 ₽",
     hit: true,
     rating: "4.8",
-    shades: [
-      { name: "07 Cherry Soda", color: "#E85563", images: [0, 1] },
-      { name: "01 Mood Mango", color: "#F0978D", images: [2, 3] },
-      { name: "03 Pink Guava", color: "#F2929C", images: [4, 5] },
-      { name: "04 Plum Dew", color: "#ED6B88", images: [6, 7] },
-      { name: "05 Mauve Berry", color: "#F06A90", images: [8, 9] },
-    ],
-    images: allProducts.find((p) => p.id === "dasique-juicy-dewy-lip-tint")?.images ?? [],
+    images: [], // фото и оттенки — из каталога (catalog-extra.json), подставляются в getProduct
     delivery,
     ingredients: "Масла для блеска и мягкости губ",
     tabs: [
@@ -163,47 +156,6 @@ export const products: ProductDetails[] = [
       {
         title: "О бренде",
         text: "Dasique — корейский бренд декоративной косметики, известный нежными палетками и тинтами в «сладких» оттенках.",
-      },
-    ],
-    reviews,
-    similar,
-  },
-  {
-    slug: "clio-crystal-glam-tint",
-    name: "Clio Crystal Glam Tint",
-    subtitle: "Тинт для губ, 3,4 г",
-    category: { title: "Макияж", href: "/catalog/makiyazh" },
-    price: "2 993 ₽",
-    rating: "4.3",
-    shades: [
-      { name: "03 Blushed Peach", color: "#F5487F" },
-      { name: "05 Fresh Cherry", color: "#FF424E" },
-      { name: "06 Pink Jelly", color: "#ED5099" },
-      { name: "07 Fuchsia Glow", color: "#EC65BF" },
-      { name: "08 Rose Berry", color: "#EC6580" },
-      { name: "09 Coral Pop", color: "#F36B6B" },
-      { name: "10 Mellow Coral", color: "#F07B7D" },
-      { name: "11 Peach Milk", color: "#FF9496", available: false },
-    ],
-    images: ["/img/pd-clio-1.webp", "/img/pd-model.webp"],
-    delivery,
-    ingredients: "Сквалан, диглицерин, бутиленгликоль",
-    tabs: [
-      {
-        title: "Характеристики",
-        text: "Тинт с эффектом стеклянных губ: яркий прозрачный цвет и сочный глянцевый блеск, как у кристалла.\n\nЛёгкая формула не липнет и не сушит губы, а сквалан в составе смягчает и ухаживает за кожей губ в течение дня.",
-      },
-      {
-        title: "Состав",
-        text: "Diisostearyl Malate, Hydrogenated Polyisobutene, Squalane, Diglycerin, Butylene Glycol, Tocopherol.",
-      },
-      {
-        title: "Применение",
-        text: "Нанесите на центр губ и растушуйте к краям — так получится эффект градиента. Для насыщенного цвета нанесите второй слой.",
-      },
-      {
-        title: "О бренде",
-        text: "Clio — корейский бренд декоративной косметики, известный кушонами и тинтами с профессиональной стойкостью.",
       },
     ],
     reviews,
@@ -402,6 +354,7 @@ function cardOf(p: CatalogProduct): Product {
   delete card.images;
   delete card.thumbs;
   delete card.also;
+  delete card.shades;
   return card as Product;
 }
 
@@ -419,7 +372,10 @@ export function getProduct(slug: string): ProductDetails | undefined {
       ? {
           ...detailed,
           tabs: withTexts(slug, detailed.tabs),
+          // фото и оттенки — всегда из каталога, чтобы совпадали с карточкой
+          images: fc.images,
           thumbs: fc.thumbs,
+          shades: fc.shades ?? detailed.shades,
           similar: similarTo(fc),
           card: cardOf(fc),
         }
@@ -437,6 +393,7 @@ export function getProduct(slug: string): ProductDetails | undefined {
     rating: fc.rating,
     images: fc.images,
     thumbs: fc.thumbs,
+    shades: fc.shades,
     delivery,
     ingredients: activesFor(fc.name, fc.id),
     tabs: withTexts(fc.id, draftTabs(fc, activesFor(fc.name, fc.id))),
