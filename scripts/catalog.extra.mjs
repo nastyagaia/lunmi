@@ -12,6 +12,7 @@ const S = "Для загара/";
 const T = "Бьюти-гаджеты/";
 const LIPS = "макияж/Для губ/блески и тинты/";
 const LIPSTICK = "макияж/Для губ/помады/";
+const FACEMK = "макияж/Для лица/";
 
 const FACE = "Уход для лица";
 const MAKEUP = "Макияж";
@@ -133,6 +134,64 @@ export const extraProducts = [
       colors: { "01": "#b5606a", "05": "#a65448", "09": "#d08a78", "14": "#b8566c", "20": "#a72d25" } } },
   { id: "unleashia-oh-happy-day-lip-pencil", category: MAKEUP, type: "Для губ", brand: "UNLEASHIA", name: "UNLEASHIA Oh! Happy Day Lip Pencil", title: "UNLEASHIA Happy Day Lip Pencil", description: "Карандаш-помада для губ", price: 1290,
     shades: { dir: "макияж/Для губ/UNLEASHIA_Oh_Happy_Day_Lip_Pencil", product: "", model: "", second: "_swatch", colorFrom: "second" } },
+
+  // ---------- макияж: для лица ----------
+  // list — оттенки с файлами вручную (у каждого товара своё устройство папки). colorFrom: "second" — цвет со свотча.
+  // На кушонах Babe Skin / Satin Wear и румянах Dough Dough — бренд UNLEASHIA (виден на упаковке).
+  { id: "unleashia-babe-skin-cushion", category: MAKEUP, type: "Кушоны", brand: "UNLEASHIA", name: "UNLEASHIA Babe Skin Baby Blue Cushion", title: "UNLEASHIA Babe Skin Cushion", description: "Лёгкий кушон с сияющим финишем", price: 2490, hit: true, rating: "4.7",
+    shades: { colorFrom: "second", list: [
+      { name: "17C Seraphic", files: [FACEMK + "Babe Skin Baby Blue Cushion /Babe Skin Baby Blue Cushion 17C Seraphic-1.png", FACEMK + "Babe Skin Baby Blue Cushion /Babe Skin Baby Blue Cushion 17C Seraphic.png"] },
+      { name: "18N Pure", files: [FACEMK + "Babe Skin Baby Blue Cushion /18N Pure-1.png", FACEMK + "Babe Skin Baby Blue Cushion /18N Pure.png"] },
+      { name: "23W Jolly", files: [FACEMK + "Babe Skin Baby Blue Cushion /23W Jolly-1.png", FACEMK + "Babe Skin Baby Blue Cushion /23W Jolly.png"] },
+      { name: "25N Good Night", files: [FACEMK + "Babe Skin Baby Blue Cushion /25N Good Night-1.png", FACEMK + "Babe Skin Baby Blue Cushion /25N Good Night.png"] },
+    ] } },
+  { id: "clio-kill-cover-founwear-cushion", category: MAKEUP, type: "Кушоны", also: [[HITS, "Бестселлеры Olive Young"]], brand: "CLIO", name: "CLIO Kill Cover Founwear Cushion The Original", title: "CLIO Kill Cover Cushion", description: "Плотный стойкий кушон", price: 2790, hit: true, rating: "4.8",
+    shades: { list: [
+      { name: "17W Cream Shell", files: [FACEMK + "CLIO_Kill_Cover_Founwear_Cushion_The_Original/CLIO_Kill_Cover_Founwear_Cushion_The_Original_17W_Cream_Shell.png"] },
+      { name: "19C Light", files: [FACEMK + "CLIO_Kill_Cover_Founwear_Cushion_The_Original/CLIO_Kill_Cover_Founwear_Cushion_The_Original_19C_Light.png"] },
+      { name: "24N Honey", files: [FACEMK + "CLIO_Kill_Cover_Founwear_Cushion_The_Original/CLIO_Kill_Cover_Founwear_Cushion_The_Original_24N_Honey.png"] },
+      { name: "34W Camel", files: [FACEMK + "CLIO_Kill_Cover_Founwear_Cushion_The_Original/CLIO_Kill_Cover_Founwear_Cushion_The_Original_34W_Camel.png"] },
+    ] } },
+  { id: "unleashia-satin-wear-cushion", category: MAKEUP, type: "Кушоны", brand: "UNLEASHIA", name: "UNLEASHIA Satin Wear Healthy-Green Cushion", title: "UNLEASHIA Satin Wear Cushion", description: "Кушон с сатиновым финишем", price: 2590,
+    files: [FACEMK + "Satin Wear Healthy-Green Cushion /Satin Wear Healthy-Green Cushion.png", FACEMK + "Satin Wear Healthy-Green Cushion /Satin Wear Healthy-Green Cushion-1.png", FACEMK + "Satin Wear Healthy-Green Cushion /Satin Wear Healthy-Green Cushion-2.png"] },
+  { id: "missha-m-perfect-cover-bb", category: MAKEUP, type: "Тональные средства", brand: "Missha", name: "MISSHA M Perfect Cover BB Cream", title: "MISSHA Perfect Cover BB Cream", description: "BB-крем с плотным покрытием", price: 1290, rating: "4.6",
+    shades: { tone: "skin", list: [
+      { name: "13 Bright Beige", files: [FACEMK + "MISSHA_M_Perfect_Cover_BB_Cream/MISSHA_M_Perfect_Cover_BB_Cream_13_Bright_Beige.png"] },
+      { name: "21 Light Beige", files: [FACEMK + "MISSHA_M_Perfect_Cover_BB_Cream/MISSHA_M_Perfect_Cover_BB_Cream_21_Light_Beige.png"] },
+      { name: "23 Natural Beige", files: [FACEMK + "MISSHA_M_Perfect_Cover_BB_Cream/MISSHA_M_Perfect_Cover_BB_Cream_23_Natural_Beige.png"] },
+      { name: "25 Warm Beige", files: [FACEMK + "MISSHA_M_Perfect_Cover_BB_Cream/MISSHA_M_Perfect_Cover_BB_Cream_25_Warm_Beige.png"] },
+      { name: "27 Honey Beige", files: [FACEMK + "MISSHA_M_Perfect_Cover_BB_Cream/MISSHA_M_Perfect_Cover_BB_Cream_27_Honey_Beige.png"] },
+    ] } },
+  { id: "missha-m-perfect-cover-serum-bb", category: MAKEUP, type: "Тональные средства", brand: "Missha", name: "MISSHA M Perfect Cover Serum BB Cream", title: "MISSHA Perfect Cover Serum BB", description: "BB-крем с ухаживающей сывороткой", price: 1490,
+    shades: { tone: "skin", list: [
+      { name: "13 Light Fair", files: [FACEMK + "MISSHA_M_Perfect_Cover_Serum_BB_Cream/оттенки/MISSHA_M_Perfect_Cover_Serum_BB_Cream_13_Light_Fair.png", FACEMK + "MISSHA_M_Perfect_Cover_Serum_BB_Cream/модели/MISSHA_M_Perfect_Cover_Serum_BB_Cream_13_Light_Fair_m.png"] },
+      { name: "17 Fair", files: [FACEMK + "MISSHA_M_Perfect_Cover_Serum_BB_Cream/оттенки/MISSHA_M_Perfect_Cover_Serum_BB_Cream_17_Fair.png", FACEMK + "MISSHA_M_Perfect_Cover_Serum_BB_Cream/модели/MISSHA_M_Perfect_Cover_Serum_BB_Cream_17_Fair_m.png"] },
+      { name: "19 Ivory", files: [FACEMK + "MISSHA_M_Perfect_Cover_Serum_BB_Cream/оттенки/MISSHA_M_Perfect_Cover_Serum_BB_Cream_19_Ivory.png", FACEMK + "MISSHA_M_Perfect_Cover_Serum_BB_Cream/модели/MISSHA_M_Perfect_Cover_Serum_BB_Cream_19_Ivory_m.png"] },
+      { name: "21 Light Beige", files: [FACEMK + "MISSHA_M_Perfect_Cover_Serum_BB_Cream/оттенки/MISSHA_M_Perfect_Cover_Serum_BB_Cream_21_Light_Beige.png"] },
+      { name: "33 Tan", files: [FACEMK + "MISSHA_M_Perfect_Cover_Serum_BB_Cream/оттенки/MISSHA_M_Perfect_Cover_Serum_BB_Cream_33_Tan.png"] },
+    ] } },
+  { id: "erborian-bb-creme-ginseng", category: MAKEUP, type: "Тональные средства", brand: "Erborian", name: "Erborian BB Crème au Ginseng", title: "Erborian BB Crème au Ginseng", description: "BB-крем с женьшенем", price: 2990, rating: "4.7",
+    shades: { colorFrom: "second", list: [
+      { name: "Clair", files: [FACEMK + "Erborian_BB_Creme_Au_Ginseng/Product/Erborian_BB_Creme_Au_Ginseng_Clair_40ml.png", FACEMK + "Erborian_BB_Creme_Au_Ginseng/Swatch/Erborian_BB_Creme_Au_Ginseng_Clair_Swatch.png"] },
+      { name: "Doré", files: [FACEMK + "Erborian_BB_Creme_Au_Ginseng/Product/Erborian_BB_Creme_Au_Ginseng_Dore_40ml.png", FACEMK + "Erborian_BB_Creme_Au_Ginseng/Swatch/Erborian_BB_Creme_Au_Ginseng_Dore_Swatch.png"] },
+      { name: "Ivoire", files: [FACEMK + "Erborian_BB_Creme_Au_Ginseng/Product/Erborian_BB_Creme_Au_Ginseng_Ivoire_40ml.png", FACEMK + "Erborian_BB_Creme_Au_Ginseng/Swatch/Erborian_BB_Creme_Au_Ginseng_Ivoire_Swatch.png"] },
+      { name: "Nude", files: [FACEMK + "Erborian_BB_Creme_Au_Ginseng/Product/Erborian_BB_Creme_Au_Ginseng_Nude_40ml.png", FACEMK + "Erborian_BB_Creme_Au_Ginseng/Swatch/Erborian_BB_Creme_Au_Ginseng_Nude_Swatch.png"] },
+    ] } },
+  { id: "erborian-cc-red", category: MAKEUP, type: "Тональные средства", brand: "Erborian", name: "Erborian CC Red Correct", title: "Erborian CC Red", description: "CC-крем против покраснений", price: 3290,
+    files: [FACEMK + "Erborian CC RED Корректирующий крем для лица 40 мл/CC RED Корректирующий крем для лица 40 мл.png", FACEMK + "Erborian CC RED Корректирующий крем для лица 40 мл/CC RED Корректирующий крем для лица 40 мл 3.png", FACEMK + "Erborian CC RED Корректирующий крем для лица 40 мл/CC RED Корректирующий крем для лица .png", FACEMK + "Erborian CC RED Корректирующий крем для лица 40 мл/CC RED Корректирующий крем для лица 15 мл-1.png"] },
+  { id: "unleashia-dough-dough-waffle-blush", category: MAKEUP, type: "Румяна", also: [[HITS, "Тренды Тиктока"]], brand: "UNLEASHIA", name: "UNLEASHIA Dough Dough Waffle Blush", title: "UNLEASHIA Waffle Blush", description: "Кремовые румяна с вафельной текстурой", price: 1690, hit: true, rating: "4.8",
+    shades: { list: [
+      { name: "01 Peachy Batter", files: [FACEMK + "Dough Dough Waffle Blush/No.1 Peachy Batter.png", FACEMK + "Dough Dough Waffle Blush/01_Peach_Batter.png"] },
+      { name: "02 Icy Berry", files: [FACEMK + "Dough Dough Waffle Blush/No.2 Icy Berry.png", FACEMK + "Dough Dough Waffle Blush/02_Icy_Berry.png"] },
+      { name: "03 Jammy Grape", files: [FACEMK + "Dough Dough Waffle Blush/No.3 Jammy Grape.png", FACEMK + "Dough Dough Waffle Blush/03_Jammy_Grape.png"] },
+      { name: "04 Toasted Crumb", files: [FACEMK + "Dough Dough Waffle Blush/No.4 Toasted Crumb.png", FACEMK + "Dough Dough Waffle Blush/04_Toasted_Crumb.png"] },
+    ] } },
+  { id: "about-tone-blur-powder-pact", category: MAKEUP, type: "Пудры и фиксаторы", brand: "About Tone", name: "ABOUT TONE Blur Powder Pact", description: "Компактная пудра с эффектом блюра", price: 1890, files: [FACEMK + "ABOUT_TONE_Blur_Powder_Pact.png"] },
+  { id: "holika-puri-pore-pact", category: MAKEUP, type: "Пудры и фиксаторы", brand: "Holika Holika", name: "Holika Holika Puri Pore No Sebum Pact", title: "Holika Holika No Sebum Pact", description: "Матирующая пудра против жирного блеска", price: 990, files: [FACEMK + "HOLIKA_HOLIKA_Puri_Pore_No_Sebum_Pact.png"] },
+  { id: "innisfree-no-sebum-pact", category: MAKEUP, type: "Пудры и фиксаторы", also: [[HITS, "Бестселлеры Olive Young"]], brand: "Innisfree", name: "Innisfree No Sebum Mineral Pact", description: "Минеральная матирующая пудра", price: 1190, hit: true, rating: "4.8", files: [FACEMK + "INNISFREE_No_Sebum_Mineral_Pact.png"] },
+  { id: "the-saem-perfect-pore-pact", category: MAKEUP, type: "Пудры и фиксаторы", brand: "The Saem", name: "The Saem Saemmul Perfect Pore Pact", title: "The Saem Perfect Pore Pact", description: "Пудра, скрывающая поры", price: 1090, files: [FACEMK + "THE_SAEM_Saemmul_Perfect_Pore_Pact.png"] },
+  { id: "espoir-fresh-setting-fixer", category: MAKEUP, type: "Пудры и фиксаторы", brand: "espoir", name: "espoir Fresh Setting Fixer", description: "Спрей-фиксатор макияжа", price: 1690, files: [FACEMK + "ESPOIR_Fresh_Setting_Fixer.png"] },
+  { id: "so-natural-setting-fixx", category: MAKEUP, type: "Пудры и фиксаторы", brand: "So Natural", name: "SO NATURAL All Day Tight Make Up Setting Fixx", title: "SO NATURAL Setting Fixx", description: "Стойкий спрей-фиксатор", price: 1390, files: [FACEMK + "SO_NATURAL_All_Day_Tight_Make_Up_Setting_Fixx.png"] },
 
   // ---------- бьюти-гаджеты ----------
   { id: "cellreturn-led-mask", category: "Бьюти-гаджеты", type: "LED-маски", brand: "CellReturn", name: "CellReturn Premium LED Mask", description: "LED-маска для омоложения кожи", price: 89990, files: [T + "CellReturn_LED_Mask.png"] },

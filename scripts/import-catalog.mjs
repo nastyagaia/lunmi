@@ -33,6 +33,13 @@ const keyOf = (part) => part.replace(/^[A-Z]?\d+_/i, "").toLowerCase().replace(/
 const labelOf = (part) => part.replace(/_/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2").trim();
 
 async function discoverShades(spec) {
+  // оттенки с файлами вручную
+  if (spec.list) {
+    const shades = spec.list.map((s) => ({ label: s.name, files: s.files }));
+    for (const s of shades)
+      s.color = await shadeColor(path.join(ROOT, s.files[spec.colorFrom === "second" ? 1 : 0] ?? s.files[0]), spec.tone);
+    return shades;
+  }
   const prefix = path.basename(spec.dir.trim()) + "_";
   const pDir = spec.product ? `${spec.dir}/${spec.product}` : spec.dir;
   const productFiles = list(pDir).filter((f) => !spec.second || !f.includes(spec.second));

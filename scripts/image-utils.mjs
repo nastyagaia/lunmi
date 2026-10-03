@@ -68,7 +68,7 @@ export const oldPrice = (price, discount) =>
   discount ? Math.round(price / (1 - parseInt(discount) / 100) / 10) * 10 : undefined;
 
 /** Цвет оттенка для кружка на странице товара: самые насыщенные пиксели самого товара (без фона), по средним 20 % */
-export async function shadeColor(src) {
+export async function shadeColor(src, tone) {
   const { data, info } = await sharp(src)
     .resize({ width: 300, withoutEnlargement: true })
     .flatten({ background: "#ffffff" })
@@ -80,6 +80,8 @@ export async function shadeColor(src) {
     const mx = Math.max(r, g, b);
     const mn = Math.min(r, g, b);
     if (mn > 222 && mx - mn < 14) continue; // фон: почти белый или серый surface
+    // tone="skin" — только телесные оттенки (тональные средства): тёплые, без красной/фиолетовой упаковки
+    if (tone === "skin" && !(r >= g && g >= b && g > r * 0.6 && r - b > 15 && r > 90)) continue;
     px.push([r, g, b, mx - mn]);
   }
   if (!px.length) return "#d9d9d9";
