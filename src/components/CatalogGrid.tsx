@@ -30,6 +30,7 @@ export function CatalogGrid({
   products,
   types,
   initialType,
+  initialTypes,
   after,
   hideBrand = false,
   countPrefix = "",
@@ -39,6 +40,8 @@ export function CatalogGrid({
   types: string[];
   /** тип, выбранный ссылкой из меню: /catalog?type=Кремы */
   initialType?: string;
+  /** сразу отметить несколько типов (подраздел-группа «Для лица») */
+  initialTypes?: string[];
   after?: ReactNode;
   /** на странице бренда фильтр «Бренд» не нужен */
   hideBrand?: boolean;
@@ -46,7 +49,7 @@ export function CatalogGrid({
   countPrefix?: string;
 }) {
   const [open, setOpen] = useState<Key | null>(null);
-  const [type, setType] = useState<string[]>(initialType ? [initialType] : []);
+  const [type, setType] = useState<string[]>(initialTypes ?? (initialType ? [initialType] : []));
   const [brand, setBrand] = useState<string[]>([]);
   const [effect, setEffect] = useState<string[]>([]);
   const [ingredient, setIngredient] = useState<string[]>([]);

@@ -35,9 +35,12 @@ const labelOf = (part) => part.replace(/_/g, " ").replace(/([a-z])([A-Z])/g, "$1
 async function discoverShades(spec) {
   // оттенки с файлами вручную
   if (spec.list) {
-    const shades = spec.list.map((s) => ({ label: s.name, files: s.files }));
+    const shades = spec.list.map((s) => ({ label: s.name, files: s.files, color: s.color }));
+    // colorFrom: "second" — со второй картинки, число — по номеру (-1 — последняя, обычно свотч)
+    const pick = (files) =>
+      typeof spec.colorFrom === "number" ? files.at(spec.colorFrom) : files[spec.colorFrom === "second" ? 1 : 0];
     for (const s of shades)
-      s.color = await shadeColor(path.join(ROOT, s.files[spec.colorFrom === "second" ? 1 : 0] ?? s.files[0]), spec.tone);
+      s.color ??= await shadeColor(path.join(ROOT, pick(s.files) ?? s.files[0]), spec.tone);
     return shades;
   }
   const prefix = path.basename(spec.dir.trim()) + "_";

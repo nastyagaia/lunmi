@@ -14,6 +14,7 @@ export function CatalogSection({
   products,
   types,
   initialType,
+  group,
   heroWide = false,
 }: {
   title: string;
@@ -21,6 +22,8 @@ export function CatalogSection({
   products: Product[];
   types: string[];
   initialType?: string;
+  /** подраздел-группа из меню («Для лица»): её название и подразделы */
+  group?: { title: string; types: string[] };
   /** обложка «Скидок» в макете шире — 692 × 320 */
   heroWide?: boolean;
 }) {
@@ -32,7 +35,9 @@ export function CatalogSection({
         {/* photo bg: фон surface 320 px, заголовок H1 слева снизу, фото 550 × 320 справа */}
         <section className="bg-surface">
           <div className="container-page flex h-[200px] items-end justify-between md:h-[320px]">
-            <h1 className="pb-8 text-h1 max-md:text-[28px] max-md:leading-[36px] md:pb-[50px]">{initialType ?? title}</h1>
+            <h1 className="pb-8 text-h1 max-md:text-[28px] max-md:leading-[36px] md:pb-[50px]">
+              {group?.title ?? initialType ?? title}
+            </h1>
             <div
               className={`relative hidden h-full shrink-0 md:block xl:mr-[66px] ${heroWide ? "w-[min(692px,55%)]" : "w-[550px]"}`}
             >
@@ -45,10 +50,11 @@ export function CatalogSection({
           {products.length ? (
             // key: при переходе из меню на другой подраздел фильтры начинаются заново
             <CatalogGrid
-              key={initialType ?? "all"}
+              key={group?.title ?? initialType ?? "all"}
               products={products}
               types={types}
               initialType={initialType}
+              initialTypes={group?.types}
               after={<HelpCard className="reveal col-span-2 self-start" />}
             />
           ) : (

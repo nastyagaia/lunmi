@@ -47,6 +47,11 @@ export function sectionProducts(title: string): Product[] {
   });
 }
 
+/** Подразделы-группы в меню: «Для лица» в макияже объединяет несколько точных подразделов */
+export const typeGroups: Record<string, string[]> = {
+  "Для лица": ["Кушоны", "Тональные средства", "Румяна", "Хайлайтеры и контуринг", "Пудры и фиксаторы"],
+};
+
 /** Подразделы раздела в порядке меню — только те, где есть товары */
 export function sectionTypes(title: string, products: Product[]) {
   const menu = catalogMenu.find((c) => c.title === title)?.items.map((i) => i.title) ?? [];

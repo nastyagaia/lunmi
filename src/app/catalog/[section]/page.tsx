@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CatalogSection } from "@/components/CatalogSection";
-import { sectionProducts, sections, sectionTypes } from "@/data/sections";
+import { sectionProducts, sections, sectionTypes, typeGroups } from "@/data/sections";
 
 const findSection = (slug: string) => sections.find((s) => s.slug && s.slug === slug);
 
@@ -23,6 +23,8 @@ export default async function SectionPage({ params, searchParams }: PageProps<"/
   const products = sectionProducts(section.title);
   const types = sectionTypes(section.title, products);
   const initialType = typeof type === "string" && types.includes(type) ? type : undefined;
+  // группа («Для лица»): заголовок — её название, в фильтре сразу отмечены все её подразделы
+  const group = typeof type === "string" ? typeGroups[type]?.filter((t) => types.includes(t)) : undefined;
 
   return (
     <CatalogSection
@@ -31,6 +33,7 @@ export default async function SectionPage({ params, searchParams }: PageProps<"/
       products={products}
       types={types}
       initialType={initialType}
+      group={group?.length && typeof type === "string" ? { title: type, types: group } : undefined}
     />
   );
 }

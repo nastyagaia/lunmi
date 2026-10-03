@@ -13,6 +13,7 @@ const T = "Бьюти-гаджеты/";
 const LIPS = "макияж/Для губ/блески и тинты/";
 const LIPSTICK = "макияж/Для губ/помады/";
 const FACEMK = "макияж/Для лица/";
+const EYES = "макияж/для глаз/";
 
 const FACE = "Уход для лица";
 const MAKEUP = "Макияж";
@@ -192,6 +193,124 @@ export const extraProducts = [
   { id: "the-saem-perfect-pore-pact", category: MAKEUP, type: "Пудры и фиксаторы", brand: "The Saem", name: "The Saem Saemmul Perfect Pore Pact", title: "The Saem Perfect Pore Pact", description: "Пудра, скрывающая поры", price: 1090, files: [FACEMK + "THE_SAEM_Saemmul_Perfect_Pore_Pact.png"] },
   { id: "espoir-fresh-setting-fixer", category: MAKEUP, type: "Пудры и фиксаторы", brand: "espoir", name: "espoir Fresh Setting Fixer", description: "Спрей-фиксатор макияжа", price: 1690, files: [FACEMK + "ESPOIR_Fresh_Setting_Fixer.png"] },
   { id: "so-natural-setting-fixx", category: MAKEUP, type: "Пудры и фиксаторы", brand: "So Natural", name: "SO NATURAL All Day Tight Make Up Setting Fixx", title: "SO NATURAL Setting Fixx", description: "Стойкий спрей-фиксатор", price: 1390, files: [FACEMK + "SO_NATURAL_All_Day_Tight_Make_Up_Setting_Fixx.png"] },
+
+  // ---------- макияж: для глаз и бровей ----------
+  // У чёрных и коричневых подводок и тушей цвет кружка задан вручную (color) — автоматика берёт цвет упаковки
+  { id: "etude-drawing-eye-brow", category: MAKEUP, type: "Для бровей", brand: "Etude", name: "ETUDE Drawing Eye Brow Pro Ash Brown", title: "ETUDE Drawing Eye Brow", description: "Карандаш для бровей", price: 690, hit: true, rating: "4.8", files: [EYES + "брови/ETUDE_Drawing_Eye_Brow_Pro_Ash_Brown/ETUDE_Drawing_Eye_Brow_Pro_Ash_Brown.png", EYES + "брови/ETUDE_Drawing_Eye_Brow_Pro_Ash_Brown/ETUDE_Drawing_Eye_Brow_Pro_Ash_Brown_m.png"] },
+  { id: "peripera-speedy-skinny-brow-mascara", category: MAKEUP, type: "Для бровей", brand: "Peripera", name: "Peripera Speedy Skinny Brow Mascara", title: "Peripera Skinny Brow Mascara", description: "Тонкая тушь для бровей", price: 990,
+    shades: { list: [
+      { name: "03 Natural Brown", files: [EYES + "брови/Peripera_Speedy_Skinny_Brow_Mascara/Product/Peripera_Speedy_Skinny_Brow_Mascara_03_Natural_Brown.png", EYES + "брови/Peripera_Speedy_Skinny_Brow_Mascara/Model/Peripera_Speedy_Skinny_Brow_Mascara_03_Natural_Brown_m.png"], color: "#7a5a44" },
+      { name: "06 Beige Ash", files: [EYES + "брови/Peripera_Speedy_Skinny_Brow_Mascara/Product/Peripera_Speedy_Skinny_Brow_Mascara_06_Beige_Ash.png", EYES + "брови/Peripera_Speedy_Skinny_Brow_Mascara/Model/Peripera_Speedy_Skinny_Brow_Mascara_06_Beige_Ash_m.png"], color: "#9a8676" },
+    ] } },
+  { id: "unleashia-shaper-pomade-brow-fixer", category: MAKEUP, type: "Для бровей", brand: "UNLEASHIA", name: "UNLEASHIA Shaper Pomade Eyebrow Fixer", title: "UNLEASHIA Brow Fixer", description: "Фиксирующий гель для бровей", price: 1290, files: [EYES + "брови/UNLEASHIA Shaper Pomade Eyebrow Fixer/Shaper Pomade Eyebrow Fixer 1.png", EYES + "брови/UNLEASHIA Shaper Pomade Eyebrow Fixer/Shaper Pomade Eyebrow Fixer 2.png"] },
+  { id: "espoir-brow-balance-pencil", category: MAKEUP, type: "Для бровей", brand: "espoir", name: "espoir The Brow Balance Pencil", description: "Карандаш для бровей с щёточкой", price: 1190, files: [EYES + "брови/espoir The Brow Balance Pencil/espoir The Brow Balance Pencil.png", EYES + "брови/espoir The Brow Balance Pencil/Image-2.png"] },
+  { id: "romand-han-all-brow-cara", category: MAKEUP, type: "Для бровей", brand: "rom&nd", name: "rom&nd Han All Brow Cara", description: "Оттеночная тушь для бровей", price: 1090,
+    shades: { list: [
+      { name: "01 Grace Taupe", files: [EYES + "брови/romand_Han_All_Brow_Cara/romand_Han_All_Brow_Cara_01_Grace_Taupe.png"], color: "#8a7a6c" },
+      { name: "03 Modern Beige", files: [EYES + "брови/romand_Han_All_Brow_Cara/romand_Han_All_Brow_Cara_03_Modern_Beige.png"], color: "#a08a74" },
+      { name: "04 Merry Blondy", files: [EYES + "брови/romand_Han_All_Brow_Cara/romand_Han_All_Brow_Cara_04_Merry_Blondy.png"], color: "#b3904e" },
+    ] } },
+  { id: "bbia-last-auto-gel-eyeliner", category: MAKEUP, type: "Для глаз", brand: "BBIA", name: "BBIA Last Auto Gel Eyeliner", description: "Автоматический гелевый карандаш", price: 990,
+    shades: { list: [
+      { name: "01 Noir", files: [EYES + "карандаш/BBIA_Last_Auto_Gel_Eyeliner/BBIA_Last_Auto_Gel_Eyeliner_01_Noir.png"], color: "#1e1e1e" },
+      { name: "02 Jazz", files: [EYES + "карандаш/BBIA_Last_Auto_Gel_Eyeliner/BBIA_Last_Auto_Gel_Eyeliner_02_Jazz.png"], color: "#3d2b25" },
+      { name: "04 Mellow Brown", files: [EYES + "карандаш/BBIA_Last_Auto_Gel_Eyeliner/BBIA_Last_Auto_Gel_Eyeliner_04_Mellow_Brown.png"], color: "#6b4a3a" },
+      { name: "18 Moon Shower", files: [EYES + "карандаш/BBIA_Last_Auto_Gel_Eyeliner/BBIA_Last_Auto_Gel_Eyeliner_18_Moon_Shower.png"], color: "#d6c1b2" },
+    ] } },
+  { id: "unleashia-pretty-easy-glitter-stick", category: MAKEUP, type: "Для глаз", brand: "UNLEASHIA", name: "UNLEASHIA Pretty Easy Glitter Stick", title: "UNLEASHIA Glitter Stick", description: "Глиттер-стик для век", price: 1190,
+    shades: { list: [
+      { name: "02 Flutter", files: [EYES + "карандаш/Pretty_Easy_Glitter_Stick/Pretty_Easy_Glitter_Stick_02_Flutter.png"], color: "#d9d2c4" },
+      { name: "03 Brave", files: [EYES + "карандаш/Pretty_Easy_Glitter_Stick/Pretty_Easy_Glitter_Stick_03_Brave.png"], color: "#d8c2c2" },
+      { name: "06 Wee Hours", files: [EYES + "карандаш/Pretty_Easy_Glitter_Stick/Pretty_Easy_Glitter_Stick_06_Wee_Hours.png"], color: "#d5c9dc" },
+      { name: "07 Sheer Skin", files: [EYES + "карандаш/Pretty_Easy_Glitter_Stick/Pretty_Easy_Glitter_Stick_07_Sheer_Skin.png"], color: "#e3b493" },
+    ] } },
+  { id: "dasique-mood-slim-liner", category: MAKEUP, type: "Для глаз", brand: "Dasique", name: "dasique Mood Slim Liner 01 Daily Black", title: "dasique Mood Slim Liner", description: "Тонкий карандаш для глаз", price: 990, files: [EYES + "карандаш/dasique_Mood_Slim_Liner_01_Daily_Black.png"] },
+  { id: "innisfree-simple-label-pencil-liner", category: MAKEUP, type: "Для глаз", brand: "Innisfree", name: "Innisfree Simple Label Waterproof Pencil Liner", title: "Innisfree Waterproof Pencil Liner", description: "Водостойкий карандаш для глаз", price: 790, files: [EYES + "карандаш/innisfree_Simple_Label_Waterproof_Pencil_Liner_01_Black.png"] },
+  { id: "3ce-eye-switch", category: MAKEUP, type: "Для глаз", brand: "3CE", name: "3CE Eye Switch Double Note", title: "3CE Eye Switch", description: "Глиттер для век с аппликатором", price: 1690, files: [EYES + "подводки/3CE_Eye_Switch/Product/3CE_Eye_Switch_Double_Note.png", EYES + "подводки/3CE_Eye_Switch/Model/3CE_Eye_Switch_Double_Note_m.png"] },
+  { id: "clio-sharp-so-simple-pencil-liner", category: MAKEUP, type: "Для глаз", brand: "CLIO", name: "CLIO Sharp So Simple Waterproof Pencil Liner", title: "CLIO Sharp So Simple Liner", description: "Водостойкий карандаш для глаз", price: 990,
+    shades: { list: [
+      { name: "001 Black", files: [EYES + "подводки/CLIO_Sharp_So_Simple_Waterproof_Pencil_Liner_1200x1100/CLIO_Sharp_So_Simple_Waterproof_Pencil_Liner_001_Black.png"], color: "#1e1e1e" },
+      { name: "013 Roasted Pink", files: [EYES + "подводки/CLIO_Sharp_So_Simple_Waterproof_Pencil_Liner_1200x1100/CLIO_Sharp_So_Simple_Waterproof_Pencil_Liner_013_Roasted_Pink.png"], color: "#a5706a" },
+    ] } },
+  { id: "clio-superproof-pen-liner", category: MAKEUP, type: "Для глаз", brand: "CLIO", name: "CLIO Superproof Pen Liner", description: "Стойкая подводка-фломастер", price: 1190, hit: true, rating: "4.8",
+    shades: { list: [
+      { name: "001 Black", files: [EYES + "подводки/CLIO_Superproof_Pen_Liner_1200x1100/CLIO_Superproof_Pen_Liner_001_Black.png"], color: "#1e1e1e" },
+      { name: "002 Brown", files: [EYES + "подводки/CLIO_Superproof_Pen_Liner_1200x1100/CLIO_Superproof_Pen_Liner_002_Brown.png"], color: "#5b3a2a" },
+    ] } },
+  { id: "merzy-first-gel-eyeliner", category: MAKEUP, type: "Для глаз", brand: "MERZY", name: "MERZY The First Gel Eyeliner", description: "Гелевая подводка", price: 990, files: [EYES + "подводки/MERZY_The_First_Gel_Eyeliner/Product/MERZY_The_First_Gel_Eyeliner.png", EYES + "подводки/MERZY_The_First_Gel_Eyeliner/Model/MERZY_The_First_Gel_Eyeliner_m.png"] },
+  { id: "lilybyred-am9-pm9-penliner", category: MAKEUP, type: "Для глаз", also: [[HITS, "Бестселлеры Olive Young"]], brand: "lilybyred", name: "lilybyred AM9 to PM9 Survival Penliner", title: "lilybyred Survival Penliner", description: "Стойкая подводка-фломастер", price: 1090,
+    shades: { list: [
+      { name: "01 Matt Black", files: [EYES + "подводки/lilybyred_AM9_to_PM9_Survival_Penliner/lilybyred_AM9_to_PM9_Survival_Penliner_01_Matt_Black.png"], color: "#1e1e1e" },
+      { name: "03 Walnut Brown", files: [EYES + "подводки/lilybyred_AM9_to_PM9_Survival_Penliner/lilybyred_AM9_to_PM9_Survival_Penliner_03_Walnut_Brown.png"], color: "#5b3d2e" },
+      { name: "Natural 01 Ash Black", files: [EYES + "подводки/lilybyred_AM9_to_PM9_Survival_Penliner_Natural/lilybyred_AM9_to_PM9_Survival_Penliner_Natural_01_Ash_Black.png"], color: "#4a4744" },
+      { name: "Natural 02 Ash Brown", files: [EYES + "подводки/lilybyred_AM9_to_PM9_Survival_Penliner_Natural/lilybyred_AM9_to_PM9_Survival_Penliner_Natural_02_Ash_Brown.png"], color: "#7a6a5e" },
+    ] } },
+  { id: "romand-twinkle-pen-liner", category: MAKEUP, type: "Для глаз", brand: "rom&nd", name: "rom&nd Twinkle Pen Liner", description: "Сияющая подводка", price: 990,
+    shades: { list: [
+      { name: "02 Golden Wave", files: [EYES + "подводки/romand_Twinkle_Pen_Liner/romand_Twinkle_Pen_Liner_02_Golden_Wave.png"], color: "#d9b56c" },
+      { name: "03 Rosy Sparkle", files: [EYES + "подводки/romand_Twinkle_Pen_Liner/romand_Twinkle_Pen_Liner_03_Rosy_Sparkle_m.png.png"], color: "#dc9a9a" },
+    ] } },
+  { id: "3ce-multi-eye-color-palette", category: MAKEUP, type: "Для глаз", also: [[HITS, "Тренды в Корее"]], brand: "3CE", name: "3CE Multi Eye Color Palette", title: "3CE Multi Eye Palette", description: "Палетка из 9 теней", price: 3490, hit: true, rating: "4.8",
+    shades: { list: [
+      { name: "Delightful", files: [EYES + "тени/3CE Multi Eye Color Palette 8.5g/3CE Multi Eye Color Palette 8.5g. Delightful.png", EYES + "тени/3CE Multi Eye Color Palette 8.5g/3CE Multi Eye Color Palette 8.5g. Delightful-1.png"] },
+      { name: "Auto Focus", files: [EYES + "тени/3CE Multi Eye Color Palette 8.5g/3CE Multi Eye Color Palette 8.5g. Auto Focus.png", EYES + "тени/3CE Multi Eye Color Palette 8.5g/Group 21208.png"] },
+    ] } },
+  { id: "clio-pro-eye-palette-air", category: MAKEUP, type: "Для глаз", brand: "CLIO", name: "CLIO Pro Eye Palette Air", description: "Палетка из 12 теней", price: 3290,
+    shades: { list: [
+      { name: "04 Pink Pairing", files: [EYES + "тени/CLIO Pro Eye Palette Air  /[CLIO] Pro Eye Palette Air 04 PINK PAIRING 12 Shades Eyeshadow Palette KOREA NEW.png", EYES + "тени/CLIO Pro Eye Palette Air  /[CLIO] Pro Eye Palette Air 04 PINK PAIRING 12 Shades Eyeshadow Palette KOREA NEW-1.png"] },
+      { name: "09 Peach Mate Apple", files: [EYES + "тени/CLIO Pro Eye Palette Air  /[CLIO] Pro Eye Palette Air 09 PEACH MATE APPLE 12 Shades Eyeshadow Palette KOREA.png", EYES + "тени/CLIO Pro Eye Palette Air  /Group 21209.png"] },
+    ] } },
+  { id: "unleashia-get-loose-glitter-gel", category: MAKEUP, type: "Для глаз", also: [[HITS, "Тренды Тиктока"]], brand: "UNLEASHIA", name: "UNLEASHIA Get Loose Glitter Gel", title: "UNLEASHIA Glitter Gel", description: "Гелевый глиттер для век и лица", price: 1290,
+    shades: { colorFrom: -1, list: [
+      { name: "N1 Aurora Catcher", files: [EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/shades/UNLEASHIA_Get_Loose_Glitter_Gel_N1_Aurora_Catcher.png", EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/models/UNLEASHIA_Get_Loose_Glitter_Gel_N1_Aurora_Catcher_model 1.png", EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/shades/UNLEASHIA_Get_Loose_Glitter_Gel_N1_Aurora_Catcher_swatch.png"] },
+      { name: "N3 Gold Obsessor", files: [EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/shades/UNLEASHIA_Get_Loose_Glitter_Gel_N3_Gold_Obsessor.png", EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/models/UNLEASHIA_Get_Loose_Glitter_Gel_N3_Gold_Obsessor_model 1.png", EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/shades/UNLEASHIA_Get_Loose_Glitter_Gel_N3_Gold_Obsessor_swatch.png"] },
+      { name: "N4 Love Dreamer", files: [EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/shades/UNLEASHIA_Get_Loose_Glitter_Gel_N4_Love_Dreamer.png", EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/models/UNLEASHIA_Get_Loose_Glitter_Gel_N4_Love_Dreamer_model 1.png", EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/shades/UNLEASHIA_Get_Loose_Glitter_Gel_N4_Love_Dreamer_swatch.png"] },
+      { name: "N5 Diamond Stealer", files: [EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/shades/UNLEASHIA_Get_Loose_Glitter_Gel_N5_Diamond_Stealer.png", EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/shades/UNLEASHIA_Get_Loose_Glitter_Gel_N5_Diamond_Stealer_swatch.png"] },
+      { name: "N6 Sunset Lover", files: [EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/shades/UNLEASHIA_Get_Loose_Glitter_Gel_N6_Sunset_Lover.png", EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/models/UNLEASHIA_Get_Loose_Glitter_Gel_N6_Sunset_Lover_model 1.png", EYES + "тени/UNLEASHIA_Get_Loose_Glitter_Gel 2/shades/UNLEASHIA_Get_Loose_Glitter_Gel_N6_Sunset_Lover_swatch.png"] },
+    ] } },
+  { id: "unleashia-glitterpedia-eye-palette", category: MAKEUP, type: "Для глаз", brand: "UNLEASHIA", name: "UNLEASHIA Glitterpedia Eye Palette", title: "UNLEASHIA Glitterpedia Palette", description: "Палетка теней с глиттером", price: 2290, hit: true, rating: "4.7",
+    shades: { list: [
+      { name: "No3 All of Coralpink", files: [EYES + "тени/UNLEASHIA_Glitterpedia_Eye_Palette/UNLEASHIA_Glitterpedia_Eye_Palette_No3_All_of_Coralpink.png"] },
+      { name: "No4 All of Lavender Fog", files: [EYES + "тени/UNLEASHIA_Glitterpedia_Eye_Palette/UNLEASHIA_Glitterpedia_Eye_Palette_No4_All_of_Lavender_Fog.png", EYES + "тени/UNLEASHIA_Glitterpedia_Eye_Palette/UNLEASHIA_Glitterpedia_Eye_Palette_No4_All_of_Lavender_Fog_texture.png"] },
+      { name: "No5 All of Dusty Rose", files: [EYES + "тени/UNLEASHIA_Glitterpedia_Eye_Palette/UNLEASHIA_Glitterpedia_Eye_Palette_No5_All_of_Dusty_Rose.png", EYES + "тени/UNLEASHIA_Glitterpedia_Eye_Palette/UNLEASHIA_Glitterpedia_Eye_Palette_No5_All_of_Dusty_Rose_texture.png"] },
+      { name: "No6 All of Citrus", files: [EYES + "тени/UNLEASHIA_Glitterpedia_Eye_Palette/UNLEASHIA_Glitterpedia_Eye_Palette_No6_All_of_Citrus.png", EYES + "тени/UNLEASHIA_Glitterpedia_Eye_Palette/UNLEASHIA_Glitterpedia_Eye_Palette_No6_All_of_Citrus_texture.png"] },
+    ] } },
+  { id: "unleashia-mood-shower-face-palette", category: MAKEUP, type: "Для глаз", brand: "UNLEASHIA", name: "UNLEASHIA Mood Shower Face Palette", title: "UNLEASHIA Mood Shower Palette", description: "Палетка для глаз и лица", price: 2490,
+    shades: { list: [
+      { name: "No100 Ballerina Shower", files: [EYES + "тени/UNLEASHIA_Mood_Shower_Face_Palette/UNLEASHIA_Mood_Shower_Face_Palette_No100_Ballerina_Shower.png", EYES + "тени/UNLEASHIA_Mood_Shower_Face_Palette/UNLEASHIA_Mood_Shower_Face_Palette_No100_Ballerina_Shower_looks.png"] },
+      { name: "No101 Ballerino Shower", files: [EYES + "тени/UNLEASHIA_Mood_Shower_Face_Palette/UNLEASHIA_Mood_Shower_Face_Palette_No101_Ballerino_Shower.png", EYES + "тени/UNLEASHIA_Mood_Shower_Face_Palette/UNLEASHIA_Mood_Shower_Face_Palette_No101_Ballerino_Shower_looks.png"] },
+    ] } },
+  { id: "dasique-starlit-jewel-liquid-glitter", category: MAKEUP, type: "Для глаз", brand: "Dasique", name: "dasique Starlit Jewel Liquid Glitter", title: "dasique Liquid Glitter", description: "Жидкий глиттер для век", price: 1390,
+    shades: { list: [
+      { name: "01 Frozen Gold", files: [EYES + "тени/dasique_Starlit_Jewel_Liquid_Glitter_shades/dasique_Starlit_Jewel_Liquid_Glitter_01_Frozen_Gold.png"], color: "#e3cf9d" },
+      { name: "03 Purple Sparkling", files: [EYES + "тени/dasique_Starlit_Jewel_Liquid_Glitter_shades/dasique_Starlit_Jewel_Liquid_Glitter_03_Purple_Sparkling.png"], color: "#cdb7d6" },
+      { name: "06 Pink Crystal", files: [EYES + "тени/dasique_Starlit_Jewel_Liquid_Glitter_shades/dasique_Starlit_Jewel_Liquid_Glitter_06_Pink_Crystal.png"], color: "#efb5c4" },
+      { name: "08 Love Flake", files: [EYES + "тени/dasique_Starlit_Jewel_Liquid_Glitter_shades/dasique_Starlit_Jewel_Liquid_Glitter_08_Love_Flake.png"], color: "#e8a3b3" },
+    ] } },
+  { id: "clio-kill-lash-superproof-mascara", category: MAKEUP, type: "Для глаз", brand: "CLIO", name: "CLIO Kill Lash Superproof Mascara", title: "CLIO Kill Lash Mascara", description: "Водостойкая тушь для ресниц", price: 1490,
+    shades: { list: [
+      { name: "001 Long Curling", files: [EYES + "туши/CLIO_Kill_Lash_Superproof_Mascara/CLIO_Kill_Lash_Superproof_Mascara_001_Long_Curling.png"], color: "#1e1e1e" },
+      { name: "010 Sharp Curl Black", files: [EYES + "туши/CLIO_Kill_Lash_Superproof_Mascara/CLIO_Kill_Lash_Superproof_Mascara_010_Sharp_Curl_Black.png"], color: "#2a2a2a" },
+      { name: "Fine 01 Vanilla Black", files: [EYES + "туши/CLIO_Kill_Lash_Superproof_Mascara/CLIO_Kill_Lash_Superproof_Mascara_Fine_01_Vanilla_Black.png"], color: "#3a3634" },
+      { name: "Fine 02 Mousse Brown", files: [EYES + "туши/CLIO_Kill_Lash_Superproof_Mascara/CLIO_Kill_Lash_Superproof_Mascara_Fine_02_Mousse_Brown.png"], color: "#5a3d2c" },
+    ] } },
+  { id: "dasique-mood-up-mascara", category: MAKEUP, type: "Для глаз", brand: "Dasique", name: "Dasique Mood Up Mascara Long Curl", title: "Dasique Mood Up Mascara", description: "Подкручивающая тушь для ресниц", price: 1390, files: [EYES + "туши/Dasique_Mood_Up_Mascara_Long_Curl/Dasique_Mood_Up_Mascara_Long_Curl.png", EYES + "туши/Dasique_Mood_Up_Mascara_Long_Curl/Image-3.png"] },
+  { id: "etude-curl-fix-mascara", category: MAKEUP, type: "Для глаз", brand: "Etude", name: "ETUDE Curl Fix Mascara", description: "Тушь, которая держит изгиб", price: 990,
+    shades: { list: [
+      { name: "Black", files: [EYES + "туши/ETUDE_Curl_Fix_Mascara/ETUDE_Curl_Fix_Mascara_Black.png", EYES + "туши/ETUDE_Curl_Fix_Mascara/Image-3.png"], color: "#1e1e1e" },
+      { name: "Brown", files: [EYES + "туши/ETUDE_Curl_Fix_Mascara/ETUDE_Curl_Fix_Mascara_Brown.png"], color: "#5b3a2a" },
+    ] } },
+  { id: "holika-lash-correcting-mascara", category: MAKEUP, type: "Для глаз", brand: "Holika Holika", name: "Holika Holika Lash Correcting Mascara Hyper Curling", title: "Holika Holika Lash Correcting Mascara", description: "Подкручивающая тушь для ресниц", price: 990, files: [EYES + "туши/HOLIKA_HOLIKA_Lash_Correcting_Mascara/HOLIKA_HOLIKA_Lash_Correcting_Mascara_Hyper_Curling_01.png", EYES + "туши/HOLIKA_HOLIKA_Lash_Correcting_Mascara/Image-1.png"] },
+  { id: "peripera-ink-all-black-cara", category: MAKEUP, type: "Для глаз", brand: "Peripera", name: "Peripera Ink All Black Cara", description: "Угольно-чёрная тушь", price: 1090, hit: true, rating: "4.7",
+    shades: { list: [
+      { name: "01 Long Curling", files: [EYES + "туши/Peripera_Ink_All_Black_Cara/Peripera_Ink_All_Black_Cara_01_Long_Curling.png", EYES + "туши/Peripera_Ink_All_Black_Cara/Image-5.png"], color: "#1e1e1e" },
+      { name: "02 Volume Curling", files: [EYES + "туши/Peripera_Ink_All_Black_Cara/Peripera_Ink_All_Black_Cara_02_Volume_Curling.png"], color: "#262626" },
+    ] } },
+  { id: "mude-inspire-skinny-curling-mascara", category: MAKEUP, type: "Для глаз", brand: "mude", name: "mude Inspire Skinny Curling Mascara", title: "mude Skinny Curling Mascara", description: "Тонкая подкручивающая тушь", price: 1190,
+    shades: { list: [
+      { name: "01 Black", files: [EYES + "туши/mude_Inspire_Skinny_Curling_Mascara/mude_Inspire_Skinny_Curling_Mascara_01_Black.png"], color: "#1e1e1e" },
+      { name: "02 Brown", files: [EYES + "туши/mude_Inspire_Skinny_Curling_Mascara/mude_Inspire_Skinny_Curling_Mascara_02_Brown.png"], color: "#5b3a2a" },
+    ] } },
 
   // ---------- бьюти-гаджеты ----------
   { id: "cellreturn-led-mask", category: "Бьюти-гаджеты", type: "LED-маски", brand: "CellReturn", name: "CellReturn Premium LED Mask", description: "LED-маска для омоложения кожи", price: 89990, files: [T + "CellReturn_LED_Mask.png"] },
