@@ -5,7 +5,11 @@ import { ArrowRight } from "./icons";
 const buyers = ["О нас", "Как заказать", "Доставка", "Возврат товара", "Документы сайта"];
 const contacts = ["Написать в поддержку", "Telegram", "Whatsapp", "Instagram"];
 /** куда ведут ссылки, у которых уже есть страницы; остальные пока «#» */
-const hrefs: Record<string, string> = { Доставка: "/delivery", "Возврат товара": "/delivery" };
+const hrefs: Record<string, string> = {
+  Доставка: "/delivery",
+  "Возврат товара": "/offer",
+  "Документы сайта": "/documents",
+};
 
 function Column({ title, links }: { title: string; links: string[] }) {
   return (
@@ -54,8 +58,11 @@ export function Footer() {
               </button>
             </div>
             <p className="text-base-xs text-secondary">
-              Продолжая, я даю согласие на обработку персональных данных и соглашаюсь с&nbsp;политикой
-              конфиденциальности.
+              Продолжая, я даю согласие на обработку персональных данных и соглашаюсь с&nbsp;
+              <Link href="/privacy" className="underline underline-offset-2 hover:text-primary">
+                политикой конфиденциальности
+              </Link>
+              .
             </p>
           </form>
           <p className="text-base-s text-secondary max-lg:order-last">«Beauty Lunmi» All rights reserved. 2026©</p>

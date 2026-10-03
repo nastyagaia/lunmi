@@ -172,12 +172,13 @@ const ACTIVES: [RegExp, string][] = [
   [/pdrn/i, "PDRN"],
   [/collagen/i, "коллаген"],
   [/vitamin ?c|vita ?c|vita 10|tangerine/i, "витамин C"],
-  [/retin/i, "ретиналь"],
+  [/retinal/i, "ретиналь"],
+  [/retinol/i, "ретинол"],
   [/ceramid|atobarrier/i, "церамиды"],
   [/snail|mucin/i, "муцин улитки"],
   [/heartleaf/i, "экстракт хауттюйнии"],
   [/peptide/i, "пептиды"],
-  [/aha|bha|pha|clarifying|clear ?pad/i, "AHA/BHA-кислоты"],
+  [/\b(aha|bha|pha)\b|clarifying|clear ?pad/i, "AHA/BHA-кислоты"],
   [/glutathione/i, "глутатион"],
   [/arbutin/i, "альфа-арбутин"],
   [/propolis|honey/i, "прополис"],
@@ -202,7 +203,7 @@ const ACTIVES: [RegExp, string][] = [
   [/carrot/i, "бета-каротин"],
   [/olive|avocado/i, "растительные масла"],
   [/agave|cactus|aloe/i, "экстракт агавы"],
-  [/sun|uv|spf/i, "UV-фильтры"],
+  [/\b(sun|uv|spf)|spf\d/i, "UV-фильтры"],
 ];
 
 /** Узнаваемые активы в русском тексте вкладки «Состав» — от более «громких» к базовым */
@@ -246,31 +247,72 @@ const ACTIVES_RU: [RegExp, string][] = [
   [/сквалан/i, "сквалан"],
   [/витамин E|токоферол/i, "витамин E"],
   [/кофеин/i, "кофеин"],
+  [/кератин/i, "кератин"],
+  [/шёлк|шелк/i, "протеины шёлка"],
+  [/мочевин/i, "мочевина"],
+  [/оксид цинка/i, "оксид цинка"],
+  [/УФ-фильтр|UV-фильтр|солнцезащитн\S* фильтр/i, "UV-фильтры"],
+  [/икр/i, "экстракт икры"],
+  [/жемчуг/i, "экстракт жемчуга"],
+  [/экстракт\S* розы|дамасск|розов\S* вод/i, "экстракт розы"],
+  [/мёд|мед[ау]?\b|манук/i, "мёд"],
+  [/авокадо/i, "экстракт авокадо"],
+  [/лимон(?!н)/i, "экстракт лимона"],
+  [/опунци|кактус/i, "экстракт кактуса"],
+  [/агав/i, "экстракт агавы"],
+  [/алоэ/i, "алоэ вера"],
+  [/облепих/i, "облепиха"],
+  [/олив/i, "масло оливы"],
+  [/жожоба/i, "масло жожоба"],
+  [/арган/i, "аргановое масло"],
+  [/масл\S* ши\b/i, "масло ши"],
+  [/макадами/i, "масло макадамии"],
+  [/цинк/i, "цинк"],
+  [/витамин/i, "витамины"],
+  [/бетаин/i, "бетаин"],
   [/пантенол/i, "пантенол"],
   [/аллантоин/i, "аллантоин"],
+  [/глицерин/i, "глицерин"],
 ];
 
 /** Активные компоненты: сначала «громкий» актив из названия товара (Kojic, PDRN…), потом — из настоящего
  *  текста «Состава» или «Характеристик» в том порядке, как они там названы (главное идёт первым) */
 function activesFor(name: string, slug?: string) {
   const texts = slug ? (productTexts as Record<string, Record<string, string | null>>)[slug] : undefined;
-  const text = texts?.["Состав"] ?? texts?.["Характеристики"];
+  const text = [texts?.["Состав"], texts?.["Характеристики"]].filter(Boolean).join(" ");
   if (!text) return activesByName(name);
-  const fromName = ACTIVES.filter(([re]) => re.test(name)).map(([, a]) => a);
+  // из названия — в том порядке, как активы в нём стоят
+  const fromName = ACTIVES.map(([re, a]) => ({ a, at: name.search(re) }))
+    .filter((h) => h.at >= 0)
+    .sort((x, y) => x.at - y.at)
+    .map((h) => h.a);
   const fromText = ACTIVES_RU.map(([re, a]) => ({ a, at: text.search(re) }))
     .filter((h) => h.at >= 0)
     .sort((x, y) => x.at - y.at)
     .map((h) => h.a);
-  const found = [...new Set([...fromName, ...fromText])].slice(0, 3);
-  return found.length ? capitalize(found.join(", ")) : activesByName(name);
+  const found = withoutRepeats([...new Set([...fromName, ...fromText])]).slice(0, 3);
+  // ничего узнаваемого в настоящем тексте — строку не показываем, чем выдумывать
+  return found.length ? capitalize(found.join(", ")) : undefined;
 }
 
 const capitalize = (t: string) => t[0].toUpperCase() + t.slice(1);
 
+/** убираем общее, когда рядом уже есть частное: «витамины» при «витамин C», «BHA-кислота» при «AHA/BHA» */
+function withoutRepeats(list: string[]) {
+  const has = (re: RegExp) => list.some((a) => re.test(a));
+  return list.filter(
+    (a) =>
+      !(a === "витамины" && has(/^витамин /)) &&
+      !(a === "BHA-кислота" && list.includes("AHA/BHA-кислоты")) &&
+      !(a === "цинк" && list.includes("оксид цинка")) &&
+      !(a === "растительные масла" && has(/^масло |масло$/)),
+  );
+}
+
 function activesByName(name: string) {
   const found = [...new Set(ACTIVES.filter(([re]) => re.test(name)).map(([, a]) => a))].slice(0, 3);
-  const text = (found.length ? found : ["гиалуроновая кислота", "пантенол"]).join(", ");
-  return text[0].toUpperCase() + text.slice(1);
+  if (!found.length) return undefined;
+  return capitalize(found.join(", "));
 }
 
 /** Как наносить — по типу товара (рыба до настоящих данных) */
@@ -410,7 +452,10 @@ export function getProduct(slug: string): ProductDetails | undefined {
     delivery,
     // «активные компоненты» — это про уход; у макияжа и гаджетов строку не показываем
     ingredients: fc.category === "Макияж" || fc.category === "Бьюти-гаджеты" ? undefined : activesFor(fc.name, fc.id),
-    tabs: withTexts(fc.id, draftTabs(fc, activesFor(fc.name, fc.id))),
+    tabs: withTexts(
+      fc.id,
+      draftTabs(fc, activesFor(fc.name, fc.id) ?? activesByName(fc.name) ?? "увлажняющие компоненты"),
+    ),
     // ВНИМАНИЕ: отзывы — из макета, одинаковые у всех товаров. Перед запуском магазина заменить настоящими
     reviews,
     similar: similarTo(fc),
