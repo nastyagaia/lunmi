@@ -11,6 +11,7 @@ const H = "Для волос/Product/";
 const S = "Для загара/";
 const T = "Бьюти-гаджеты/";
 const LIPS = "макияж/Для губ/блески и тинты/";
+const LIPSTICK = "макияж/Для губ/помады/";
 
 const FACE = "Уход для лица";
 const MAKEUP = "Макияж";
@@ -90,21 +91,44 @@ export const extraProducts = [
   { id: "haruharu-black-rice-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Haruharu", name: "Haruharu Wonder Black Rice Moisture Airyfit Daily Sunscreen", title: "Haruharu Black Rice Sunscreen", description: "Увлажняющий крем с чёрным рисом", price: 1890, files: [S + "Haruharu Wonder Black Rice Moisture Airyfit Daily Sunscreen.png"] },
   { id: "makeprem-sun-essence", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "make p:rem", name: "make p:rem UV Defense Me Daily Sun Essence", title: "make p:rem Daily Sun Essence", description: "Солнцезащитная эссенция на каждый день", price: 1590, files: [S + "make_prem_UV_Defense_Me_Daily_Sun_Essence.png"] },
 
-  // ---------- макияж ----------
-  // Оттенки: фото идут парами «флакон, модель» — Cherry Soda первым (обложка), дальше по номерам.
-  // Порядок важен: страница товара показывает фото выбранного оттенка по этим номерам (products.ts → shades.images)
-  { id: "dasique-juicy-dewy-lip-tint", category: MAKEUP, type: "Для губ", also: [[HITS, "Тренды в Корее"]], brand: "Dasique", name: "Dasique Juicy Dewy Lip Tint", title: "Dasique Juicy Dewy Tint", description: "Сочный тинт с глянцевым финишем", price: 1590, hit: true, rating: "4.8", files: [
-    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Product/Dasique_Juicy_Dewy_Lip_Tint_07_Cherry_Soda 1.png",
-    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Model/Dasique_Juicy_Dewy_Lip_Tint_07_Cherry_Soda_m.png",
-    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Product/Dasique_Juicy_Dewy_Lip_Tint_01_Mood_Mango 1 1.png",
-    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Model/Dasique_Juicy_Dewy_Lip_Tint_01_Mood_Mango_m.png",
-    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Product/Dasique_Juicy_Dewy_Lip_Tint_03_Pink_Guava 1 1.png",
-    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Model/Dasique_Juicy_Dewy_Lip_Tint_03_Pink_Guava_m.png",
-    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Product/Dasique_Juicy_Dewy_Lip_Tint_04_Plum_Dew1 1.png",
-    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Model/Dasique_Juicy_Dewy_Lip_Tint_04_Plum_Dew_m.png",
-    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Product/Dasique_Juicy_Dewy_Lip_Tint_05_Mauve_Berry1 1.png",
-    LIPS + "Dasique_Juicy_Dewy_Lip_Tint/Model/Dasique_Juicy_Dewy_Lip_Tint_05_Mauve_Berry_m.png",
-  ] },
+  // ---------- макияж: для губ ----------
+  // shades — товар с оттенками: скрипт сам находит пары «флакон + модель» по названию оттенка
+  // (папки product / model внутри dir; у UNLEASHIA вторая картинка — свотч рядом с флаконом, суффикс _swatch).
+  // Обложка — оттенок cover (часть названия), дальше по номерам. Цвет кружка снимается с флакона.
+  { id: "dasique-juicy-dewy-lip-tint", category: MAKEUP, type: "Для губ", also: [[HITS, "Тренды в Корее"]], brand: "Dasique", name: "Dasique Juicy Dewy Lip Tint", title: "Dasique Juicy Dewy Tint", description: "Сочный тинт с глянцевым финишем", price: 1590, hit: true, rating: "4.8",
+    shades: { dir: LIPS + "Dasique_Juicy_Dewy_Lip_Tint", product: "Product", model: "Model", cover: "Cherry_Soda" } },
+  { id: "3ce-drop-glow-gel", category: MAKEUP, type: "Для губ", brand: "3CE", name: "3CE Drop Glow Gel", description: "Гелевый тинт с прозрачным сиянием", price: 1890, rating: "4.7",
+    shades: { dir: LIPS + "3CE_Drop_Glow_Gel", product: "3CE_Drop_Glow_Gel_shades", model: "3CE_Drop_Glow_Gel_models" } },
+  { id: "amuse-jel-fit-tint", category: MAKEUP, type: "Для губ", also: [[HITS, "Тренды Тиктока"]], brand: "AMUSE", name: "AMUSE Jel-Fit Tint", description: "Желейный тинт с влажным блеском", price: 1590, hit: true, rating: "4.8",
+    shades: { dir: LIPS + "AMUSE_JelFitTint", product: "Packshots", model: "Model" } },
+  { id: "clio-crystal-glam-tint", category: MAKEUP, type: "Для губ", brand: "CLIO", name: "CLIO Crystal Glam Tint", description: "Тинт с эффектом стеклянных губ", price: 1490, rating: "4.6",
+    shades: { dir: LIPS + "CLIO_Crystal_Glam_Tint", product: "CLIO_Crystal_Glam_Tint_shades", model: "CLIO_Crystal_Glam_Tint_models" } },
+  { id: "etude-glow-fixing-tint", category: MAKEUP, type: "Для губ", brand: "Etude", name: "ETUDE Glow Fixing Tint", description: "Стойкий тинт с глянцевым финишем", price: 1290,
+    shades: { dir: LIPS + "ETUDE_Glow_Fixing_Tint", product: "Product", model: "Model" } },
+  { id: "holika-soft-rolling-gloss", category: MAKEUP, type: "Для губ", brand: "Holika Holika", name: "Holika Holika Soft Rolling Gloss", description: "Мягкий блеск для губ", price: 990,
+    shades: { dir: LIPS + "Holika_Holika_Soft_Rolling_Gloss", product: "Product", model: "Model" } },
+  { id: "milk-touch-jelly-fit-tint", category: MAKEUP, type: "Для губ", brand: "Milk Touch", name: "Milk Touch Jelly Fit Tinted Glow Tint", title: "Milk Touch Jelly Fit Glow Tint", description: "Сияющий желейный тинт", price: 1390,
+    shades: { dir: LIPS + "Milk_Touch_Jelly_Fit_Tinted_Glow_Tint", product: "Product", model: "Model" } },
+  { id: "colorgram-fruity-glass-tint-deep-glaze", category: MAKEUP, type: "Для губ", brand: "colorgram", name: "colorgram Fruity Glass Tint Deep Glaze", title: "colorgram Fruity Glass Tint", description: "Глянцевый тинт в глубоких оттенках", price: 1190,
+    shades: { dir: LIPS + "colorgram_Fruity_Glass_Tint_Deep_Glaze", product: "Product", model: "Model" } },
+  { id: "fwee-3d-voluming-gloss", category: MAKEUP, type: "Для губ", also: [[HITS, "Тренды Тиктока"]], brand: "fwee", name: "fwee 3D Voluming Gloss", description: "Блеск для объёма губ", price: 1890, hit: true, rating: "4.8",
+    shades: { dir: LIPS + "fwee_3D_Voluming_Gloss", product: "fwee_3D_Voluming_Gloss_6_shades", model: "fwee_3D_Voluming_Gloss_models" } },
+  { id: "fwee-3d-voluming-tint", category: MAKEUP, type: "Для губ", brand: "fwee", name: "fwee 3D Voluming Tint", description: "Тинт с эффектом объёма", price: 1790,
+    shades: { dir: LIPS + "fwee_3D_Voluming_Tint", product: "fwee_3D_Voluming_Tint_shades", model: "fwee_3D_Voluming_Tint_models" } },
+  { id: "hince-raw-glow-gel-tint", category: MAKEUP, type: "Для губ", brand: "hince", name: "hince Raw Glow Gel Tint", description: "Гелевый тинт с естественным сиянием", price: 2290, rating: "4.7",
+    shades: { dir: LIPS + "hince_RawGlowGelTint ", product: "Packshots", model: "Model" } },
+  { id: "nuse-care-liptual", category: MAKEUP, type: "Для губ", brand: "nuse", name: "nuse Care Liptual", description: "Ухаживающий оттеночный бальзам", price: 1690,
+    shades: { dir: LIPS + "nuse_Care_Liptual", product: "Product", model: "Model" } },
+  { id: "romand-glasting-color-gloss", category: MAKEUP, type: "Для губ", brand: "rom&nd", name: "rom&nd Glasting Color Gloss", description: "Цветной блеск со стеклянным финишем", price: 1290,
+    shades: { dir: LIPS + "romand_Glasting_Color_Gloss", product: "romand_Glasting_Color_Gloss_shades", model: "romand_Glasting_Color_Gloss_models" } },
+  { id: "romand-juicy-lasting-tint", category: MAKEUP, type: "Для губ", also: [[HITS, "Бестселлеры Olive Young"]], brand: "rom&nd", name: "rom&nd The Juicy Lasting Tint", title: "rom&nd Juicy Lasting Tint", description: "Стойкий сочный тинт", price: 1090, hit: true, rating: "4.9",
+    shades: { dir: LIPS + "romand_The_Juicy_Lasting_Tint", product: "romand_The_Juicy_Lasting_Tint_shades", model: "romand_The_Juicy_Lasting_Tint_models" } },
+  { id: "bbia-last-powder-lipstick", category: MAKEUP, type: "Для губ", brand: "BBIA", name: "BBIA Last Powder Lipstick 2", title: "BBIA Last Powder Lipstick", description: "Матовая помада с пудровым финишем", price: 1490,
+    shades: { dir: LIPSTICK + "BBIA_Last_Powder_Lipstick_2", product: "Product", model: "Model" } },
+  { id: "romand-zero-matte-lipstick", category: MAKEUP, type: "Для губ", brand: "rom&nd", name: "rom&nd Zero Matte Lipstick", description: "Лёгкая матовая помада", price: 1290, rating: "4.7",
+    shades: { dir: LIPSTICK + "romand_Zero_Matte_Lipstick", product: "Product", model: "Model" } },
+  { id: "unleashia-oh-happy-day-lip-pencil", category: MAKEUP, type: "Для губ", brand: "UNLEASHIA", name: "UNLEASHIA Oh! Happy Day Lip Pencil", title: "UNLEASHIA Happy Day Lip Pencil", description: "Карандаш-помада для губ", price: 1290,
+    shades: { dir: "макияж/Для губ/UNLEASHIA_Oh_Happy_Day_Lip_Pencil", product: "", model: "", second: "_swatch" } },
 
   // ---------- бьюти-гаджеты ----------
   { id: "cellreturn-led-mask", category: "Бьюти-гаджеты", type: "LED-маски", brand: "CellReturn", name: "CellReturn Premium LED Mask", description: "LED-маска для омоложения кожи", price: 89990, files: [T + "CellReturn_LED_Mask.png"] },

@@ -66,3 +66,25 @@ export const rub = (n) => `${n.toLocaleString("ru-RU").replace(/ /g, " ")} ₽`;
 /** Цена до скидки, округлённая до 10 ₽ */
 export const oldPrice = (price, discount) =>
   discount ? Math.round(price / (1 - parseInt(discount) / 100) / 10) * 10 : undefined;
+
+/** Цвет оттенка для кружка на странице товара: самые насыщенные пиксели самого товара (без фона), по средним 20 % */
+export async function shadeColor(src) {
+  const { data, info } = await sharp(src)
+    .resize({ width: 300, withoutEnlargement: true })
+    .flatten({ background: "#ffffff" })
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const px = [];
+  for (let i = 0; i < data.length; i += info.channels) {
+    const [r, g, b] = [data[i], data[i + 1], data[i + 2]];
+    const mx = Math.max(r, g, b);
+    const mn = Math.min(r, g, b);
+    if (mn > 222 && mx - mn < 14) continue; // фон: почти белый или серый surface
+    px.push([r, g, b, mx - mn]);
+  }
+  if (!px.length) return "#d9d9d9";
+  px.sort((a, b) => b[3] - a[3]);
+  const top = px.slice(Math.floor(px.length * 0.05), Math.max(1, Math.floor(px.length * 0.25)));
+  const avg = [0, 1, 2].map((c) => Math.round(top.reduce((s, p) => s + p[c], 0) / top.length));
+  return "#" + avg.map((v) => v.toString(16).padStart(2, "0")).join("");
+}
