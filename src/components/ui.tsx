@@ -80,7 +80,7 @@ export function Tag({
 
 /** Filter Chips из UI KIT (3076:1822).
  *  Default — обводка border/tetriary (так попросила Настя, в ките border/secondary), стрелка вниз; Hover — фон surface и тёмная обводка.
- *  Selected — тёмный, рядом число выбранных значений (accent-2) и крестик: он сбрасывает только этот фильтр.
+ *  Selected — тёмный, рядом число выбранных значений и крестик цвета pink/300 (accent-300): он сбрасывает только этот фильтр.
  *  У «число + крестик» своя увеличенная зона нажатия — на всю высоту чипса. */
 export function FilterChip({
   label,
@@ -116,7 +116,7 @@ export function FilterChip({
           type="button"
           onClick={onClear}
           aria-label={`Сбросить фильтр «${label}»`}
-          className="flex cursor-pointer items-center gap-0.5 rounded-r-sm pr-2 pl-3 text-accent-soft transition-colors hover:text-white"
+          className="flex cursor-pointer items-center gap-0.5 rounded-r-sm pr-2 pl-3 text-accent-300 transition-colors hover:text-white"
         >
           {count}
           <CloseIcon className="size-4" />
