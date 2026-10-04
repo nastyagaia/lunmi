@@ -15,7 +15,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { CloseIcon, MinusIcon, PlusIcon } from "./icons";
+import { CloseIcon, MinusIcon, QuantityPlusIcon } from "./icons";
 import { Button } from "./ui";
 import { isPrepared } from "@/lib/images";
 
@@ -298,7 +298,7 @@ function CartDrawer() {
                           aria-label="Добавить ещё одну"
                           className="-m-1.5 flex size-7 items-center justify-center transition-colors hover:text-accent"
                         >
-                          <PlusIcon className="size-4" />
+                          <QuantityPlusIcon className="size-4" />
                         </button>
                       </div>
                     </>

@@ -180,10 +180,22 @@ export function CheckIcon(props: P) {
 }
 
 /** minus (24) — для счётчика количества */
+/** Icons/minus из UI KIT (4230:23305): залитая полоска 10.42 × 1.8 на холсте 16 × 16 — для счётчиков количества.
+ *  В корзине 16 px (линия 1.8), на странице товара 24 px (линия 2.7), как в макетах */
 export function MinusIcon(props: P) {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden {...stroke} {...props}>
-      <path d="M5 12h14" />
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden {...props}>
+      <rect x="2.79" y="7.1" width="10.42" height="1.8" />
+    </svg>
+  );
+}
+
+/** Icons/plus из UI KIT (4230:23307) — пара к MinusIcon: две такие же полоски крестом по центру */
+export function QuantityPlusIcon(props: P) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden {...props}>
+      <rect x="2.79" y="7.1" width="10.42" height="1.8" />
+      <rect x="7.1" y="2.79" width="1.8" height="10.42" />
     </svg>
   );
 }

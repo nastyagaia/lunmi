@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { rememberViewed } from "@/lib/account";
 import type { ProductDetails } from "@/data/products";
 import { priceToNumber, useCart } from "./Cart";
-import { HeartIcon, MinusIcon, PlusIcon, StarIcon } from "./icons";
+import { HeartIcon, MinusIcon, QuantityPlusIcon, StarIcon } from "./icons";
 import { Tag } from "./ui";
 import { useFavorites } from "./Favorites";
 import { useShade } from "./ProductShade";
@@ -199,7 +199,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
               aria-label="Убрать одну штуку"
               className="flex size-10 items-center justify-center transition-opacity hover:opacity-70"
             >
-              <MinusIcon />
+              <MinusIcon className="size-6" />
             </button>
             <span aria-live="polite" className="min-w-4 text-center">
               {qty}
@@ -210,7 +210,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
               aria-label="Добавить ещё одну"
               className="flex size-10 items-center justify-center transition-opacity hover:opacity-70"
             >
-              <PlusIcon />
+              <QuantityPlusIcon className="size-6" />
             </button>
           </div>
         )}
