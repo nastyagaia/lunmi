@@ -33,7 +33,7 @@ export function HelpCard({ className = "", layout = "tall" }: { className?: stri
         <div className="flex max-w-[388px] flex-col justify-between gap-6 self-stretch pt-3 pb-5">
           <div className="flex flex-col gap-2">
             <h2 className="text-h3">Нужна помощь в выборе?</h2>
-            <p className="text-base-s">Пишите куда удобно — подскажем:</p>
+            <p className="text-base-s">Пишите, куда удобнее, — подскажем:</p>
           </div>
           <Contacts wide />
         </div>
@@ -46,7 +46,7 @@ export function HelpCard({ className = "", layout = "tall" }: { className?: stri
     <aside className={`flex justify-between gap-4 rounded-xs bg-surface p-5 sm:h-[270px] ${className}`}>
       <div className="flex flex-col gap-4">
         <h2 className="w-[242px] max-w-full text-h3">Нужна помощь в выборе?</h2>
-        <p className="text-base-s">Пишите куда удобно — подскажем:</p>
+        <p className="text-base-s">Пишите, куда удобнее, — подскажем:</p>
         <Contacts wide={false} />
       </div>
       <div className="relative hidden aspect-square w-[230px] shrink-0 sm:block">
