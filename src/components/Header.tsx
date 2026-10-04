@@ -8,7 +8,7 @@ import { useCart } from "./Cart";
 import { CatalogMenu } from "./CatalogMenu";
 import { CityMenu, ProfileMenu } from "./HeaderMenus";
 import { SearchPanel } from "./SearchPanel";
-import { ArrowLeft, BurgerIcon, CartIcon, ChevronDown, CloseIcon, HeartIcon, Logo, ProfileIcon, SearchIcon } from "./icons";
+import { ArrowLeft, BurgerIcon, CartIcon, ChevronDown, CloseIcon, HeartIcon, Logo, SearchIcon } from "./icons";
 
 const nav = ["Каталог", "Скидки", "Бренды", "Подбор косметики", "Доставка"];
 const navHref: Record<string, string> = {
@@ -87,8 +87,14 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                   <li key={item}>
                     <button
                       type="button"
-                      onMouseEnter={() => setCatalogOpen(true)}
-                      onClick={() => setCatalogOpen((v) => !v)}
+                      onMouseEnter={() => {
+                        setSearchOpen(false);
+                        setCatalogOpen(true);
+                      }}
+                      onClick={() => {
+                        setSearchOpen(false);
+                        setCatalogOpen((v) => !v);
+                      }}
                       aria-expanded={catalogOpen}
                       aria-controls="catalog-menu"
                       className="flex h-11 items-center text-base-s transition-colors hover:text-accent"
@@ -115,7 +121,9 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
             <button
               type="button"
               onClick={() => {
+                // открываем поиск — меню и каталог закрываются, чтобы не было двух крестиков
                 setCatalogOpen(false);
+                setOpen(false);
                 setSearchOpen((v) => !v);
               }}
               aria-expanded={searchOpen}
@@ -127,15 +135,19 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
             <Link
               href="/favorites"
               aria-label="Избранное"
-              className="relative hidden size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent sm:flex"
+              className="relative flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
             >
               {/* без счётчика — по просьбе Насти */}
               <HeartIcon />
             </Link>
-            <ProfileMenu className="hidden sm:block" />
+            <ProfileMenu />
             <button
               type="button"
-              onClick={() => cart.setOpen(true)}
+              onClick={() => {
+                setOpen(false);
+                setSearchOpen(false);
+                cart.setOpen(true);
+              }}
               aria-label={cart.count ? `Корзина, товаров: ${cart.count}` : "Корзина"}
               className="relative flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
             >
@@ -150,6 +162,8 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
             <button
               type="button"
               onClick={() => {
+                // открываем меню — поиск закрывается
+                setSearchOpen(false);
                 setOpen((v) => !v);
                 setMobileCatalog(false);
               }}
@@ -243,14 +257,6 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                 ))}
               </ul>
             )}
-            <div className="mt-2 flex gap-2 sm:hidden">
-              <Link href="/favorites" className="flex items-center gap-2 py-2 text-base-s">
-                <HeartIcon /> Избранное
-              </Link>
-              <Link href="/account" className="ml-4 flex items-center gap-2 py-2 text-base-s">
-                <ProfileIcon /> Кабинет
-              </Link>
-            </div>
           </div>
         </nav>
       </div>

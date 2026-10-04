@@ -124,7 +124,7 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
                           type="button"
                           onClick={() => write(history.filter((x) => x !== q))}
                           aria-label={`Удалить «${q}» из истории`}
-                          className="flex size-10 items-center justify-center text-tertiary opacity-0 transition-opacity group-hover:opacity-100 hover:text-primary focus-visible:opacity-100"
+                          className="flex size-10 items-center justify-center text-tertiary opacity-0 transition-opacity group-hover:opacity-100 hover:text-primary focus-visible:opacity-100 [@media(hover:none)]:opacity-100"
                         >
                           <CloseIcon className="size-4" />
                         </button>
