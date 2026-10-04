@@ -66,13 +66,13 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="relative flex max-h-full w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-6 overflow-y-auto rounded-xs bg-white p-6 shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)]"
+        className="relative flex max-h-full w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-6 overflow-y-auto rounded-xs bg-white p-8 shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)]"
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Закрыть"
-          className="absolute top-4 right-4 flex size-10 items-center justify-center transition-colors hover:text-accent"
+          className="absolute top-6 right-6 flex size-10 items-center justify-center transition-colors hover:text-accent"
         >
           <CloseIcon />
         </button>

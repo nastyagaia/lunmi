@@ -230,3 +230,12 @@ body {
   color: var(--color-primary);
   box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
 }
+
+/* автозаполнение браузера (имя, телефон, почта) не красит поля голубым — фон остаётся белым, текст text/primary */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-white) inset;
+  -webkit-text-fill-color: var(--color-primary);
+  caret-color: var(--color-accent);
+}
