@@ -211,7 +211,9 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           aria-label={liked ? "Убрать из избранного" : "В избранное"}
           className="group/heart flex size-10 shrink-0 items-center justify-center"
         >
+          {/* иконка 32 px: линия 1.5 × 24/32, чтобы на экране была ровно 1.5 px, как у остальных иконок */}
           <HeartIcon
+            strokeWidth={1.125}
             className={`size-8 transition-colors ${
               liked ? "fill-accent text-accent" : "group-hover/heart:fill-accent-300 group-hover/heart:text-accent-300"
             }`}
