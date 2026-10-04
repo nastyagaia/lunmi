@@ -5,12 +5,13 @@ import { Carousel } from "@/components/Carousel";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HeroSlider } from "@/components/HeroSlider";
-import { ArrowRight, TelegramIcon, WhatsappIcon } from "@/components/icons";
+import { TelegramIcon, WhatsappIcon } from "@/components/icons";
 import { ProductCard } from "@/components/ProductCard";
 import { Button, SectionHeader } from "@/components/ui";
 import { brands as allBrands } from "@/data/brands";
 import { catalog, heroSlides } from "@/data/home";
 import { FaqList } from "@/components/FaqList";
+import { Newsletter } from "@/components/Newsletter";
 import { allProducts } from "@/data/sections";
 
 /** Bestsellers — настоящие товары каталога: тинт Dasique (обложка Cherry Soda, при наведении — модель),
@@ -44,7 +45,7 @@ export default function Home() {
       <Header />
       <main>
         <HeroSlider slides={heroSlides} />
-        <div className="flex flex-col gap-20 pt-20 md:gap-[140px] md:pt-[100px]">
+        <div className="flex flex-col gap-[100px] pt-20 md:gap-[140px] md:pt-[100px]">
           <Bestsellers />
           <Catalog />
           <Brands />
@@ -245,35 +246,7 @@ function Contacts() {
             уходе и вообще о чём угодно.
           </p>
         </div>
-        <form className="flex flex-col gap-3" action="#">
-          <label htmlFor="near-newsletter" className="text-base-s text-secondary">
-            Подписаться на рассылку
-          </label>
-          <div className="flex h-[52px] items-center rounded-xs border border-line bg-white pl-3 pr-2 focus-within:border-primary">
-            <input
-              id="near-newsletter"
-              type="email"
-              required
-              placeholder="Ваша почта"
-              autoComplete="email"
-              className="min-w-0 flex-1 bg-transparent text-base-s outline-none placeholder:text-tertiary"
-            />
-            <button
-              type="submit"
-              aria-label="Подписаться"
-              className="flex size-9 shrink-0 items-center justify-center rounded-full bg-line text-white transition-colors hover:bg-primary"
-            >
-              <ArrowRight className="size-4" />
-            </button>
-          </div>
-          <p className="text-base-xs text-secondary">
-            Продолжая, я даю согласие на обработку персональных данных и соглашаюсь с&nbsp;
-            <Link href="/privacy" className="underline underline-offset-2 hover:text-primary">
-              политикой конфиденциальности
-            </Link>
-            .
-          </p>
-        </form>
+        <Newsletter />
       </div>
 
       <div className="flex flex-col gap-2">
