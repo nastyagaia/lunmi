@@ -182,7 +182,9 @@ function Brands() {
   const top = [...allBrands]
     .sort((a, b) => b.products.length - a.products.length)
     .slice(0, 40)
-    .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
+    .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }))
+    // бренды на цифру (3CE) — в конце, как на странице «Бренды»
+    .sort((a, b) => Number(/^\d/.test(a.name)) - Number(/^\d/.test(b.name)));
   return (
     <section className="container-page reveal md:py-6">
       <SectionHeader title="Бренды" href="/brands" />
