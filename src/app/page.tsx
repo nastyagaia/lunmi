@@ -151,11 +151,11 @@ function AiBanner() {
 }
 
 /* ---------- Скидки недели ---------- */
-/** Скидки недели — настоящие товары каталога со скидкой, сначала самые большие скидки (12 штук) */
+/** Скидки недели — настоящие товары каталога со скидкой, сначала самые большие скидки (16 штук) */
 const weeklyDeals = allProducts
   .filter((p) => p.discount)
   .sort((a, b) => parseInt(b.discount ?? "0") - parseInt(a.discount ?? "0"))
-  .slice(0, 12);
+  .slice(0, 16);
 
 function WeeklyDeals() {
   return (
