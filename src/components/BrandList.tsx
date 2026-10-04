@@ -34,7 +34,7 @@ export function BrandList({ brands }: { brands: Item[] }) {
           <section
             key={letter}
             aria-label={`Бренды на букву ${letter}`}
-            className="mb-12 flex break-inside-avoid flex-col gap-4"
+            className="mb-16 flex break-inside-avoid flex-col gap-4"
           >
             <h2 className="text-cell text-tertiary">{letter}</h2>
             <ul className="flex flex-col gap-4">
