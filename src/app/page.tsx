@@ -14,17 +14,21 @@ import { FaqList } from "@/components/FaqList";
 import { allProducts } from "@/data/sections";
 
 /** Bestsellers — настоящие товары каталога: тинт Dasique (обложка Cherry Soda, при наведении — модель),
- *  патчи Petitfee Aura Quartz, бустер Celimax и дальше хиты, чтобы ленту было что листать */
+ *  патчи Petitfee Aura Quartz, бустер Celimax и дальше яркий макияж, чтобы ленту было что листать */
 const BESTSELLER_IDS = [
   "dasique-juicy-dewy-lip-tint",
   "petitfee-aura-quartz-patch",
   "celimax-retinal-shot",
-  "anua-pore-cleansing-oil",
-  "numbuzin-no5-pad",
-  "skin1004-centella-ampoule",
-  "dr-althea-345-cream",
-  "biodance-caviar-eye-patch",
-  "torriden-dive-in-cream",
+  // дальше — яркие блески, тинты и палетки, цвета чередуются, чтобы лента не бледнела
+  "amuse-jel-fit-tint",
+  "milk-touch-jelly-fit-tint",
+  "fwee-3d-voluming-tint",
+  "unleashia-dough-dough-waffle-blush",
+  "clio-crystal-glam-tint",
+  "nuse-care-liptual",
+  "3ce-multi-eye-color-palette",
+  "colorgram-fruity-glass-tint-deep-glaze",
+  "fwee-3d-voluming-gloss",
 ];
 /** на главной у части карточек вместо упаковки — фото с моделью, кадр как в макете; упаковка — при наведении */
 const BESTSELLER_COVERS: Record<string, string> = {
