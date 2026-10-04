@@ -1,4 +1,4 @@
-// Review Section «Нужна помощь» + способы связи и фото.
+// Review Section «Не можете выбрать?» (каталог) / «Нужна помощь в выборе?» (товар) + способы связи и фото.
 // tall — в сетке каталога (10146:13746): плитка размером с карточку (304 × 270), розовый фон, поля 20 px,
 // способы связи столбиком через 24 px, фото-«цветочек» 116 × 116 в правом нижнем углу.
 // wide — на странице товара (3715:9364): 708 × 180, розовый фон blush, поля 16 px, фото 148 × 148, способы связи в строку.
@@ -51,11 +51,11 @@ export function HelpCard({ className = "", layout = "tall" }: { className?: stri
 
   return (
     <aside
-      className={`relative flex min-h-[270px] flex-col justify-between gap-8 overflow-hidden rounded-xs bg-accent-soft p-5 lg:aspect-[300/270] lg:min-h-0 ${className}`}
+      className={`relative flex min-h-[270px] flex-col justify-between gap-6 overflow-hidden rounded-xs bg-accent-soft p-5 lg:aspect-[300/270] lg:min-h-0 ${className}`}
     >
       <div className="flex flex-col gap-2">
-        <h2 className="text-h3">Нужна помощь?</h2>
-        <p className="max-w-[264px] text-base-s">Пишите, куда удобнее, — проконсультируем без проблем</p>
+        <h2 className="max-w-[264px] text-h3">Не можете выбрать?</h2>
+        <p className="max-w-[264px] text-base-s">Пишите, подскажем:</p>
       </div>
       <Contacts wide={false} />
       <Image
