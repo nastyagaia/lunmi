@@ -69,9 +69,10 @@ export function BagIcon(props: P) {
 
 export function PlusIcon(props: P) {
   return (
-    <svg width="24" height="24" viewBox="0 0 25 24" aria-hidden {...stroke} {...props}>
-      <path d="M12.502 4V20" />
-      <path d="M20.834 12L4.16732 12" />
+    // ровно по сетке 24 × 24 и той же длины, что минус (14 px), — иначе вертикальная линия встаёт на полпикселя
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden {...stroke} {...props}>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
     </svg>
   );
 }

@@ -910,6 +910,24 @@
       "discount": "20%",
       "hit": true,
       "rating": "4.9",
+      "volumes": [
+        {
+          "name": "530 мл",
+          "price": "1 290 ₽",
+          "oldPrice": "1 610 ₽",
+          "images": [
+            0
+          ]
+        },
+        {
+          "name": "150 мл",
+          "price": "590 ₽",
+          "oldPrice": "740 ₽",
+          "images": [
+            1
+          ]
+        }
+      ],
       "image": "/img/catalog/lador-hydro-lpp-1-600-99d12b.webp",
       "hoverImage": "/img/catalog/lador-hydro-lpp-2-600-c5eee1.webp",
       "images": [

@@ -22,9 +22,15 @@ function reviewsWord(n: number) {
 }
 
 export function ProductBuy({ product }: { product: ProductDetails }) {
-  const [volume, setVolume] = useState(product.volumes?.[0]);
-  // оттенок общий с галереей: выбрали оттенок — галерея показывает его фото
-  const { shade, setShade } = useShade(product.shades?.find((s) => s.available !== false)?.name);
+  // оттенок или объём — общий с галереей (у товара бывает что-то одно): выбрали — галерея показывает его фото
+  const { shade: picked, setShade } = useShade(
+    product.shades?.find((s) => s.available !== false)?.name ?? product.volumes?.[0]?.name,
+  );
+  const shade = product.shades ? picked : undefined;
+  const volume = product.volumes?.find((v) => v.name === picked) ?? product.volumes?.[0];
+  // у объёма своя цена
+  const price = volume?.price ?? product.price;
+  const oldPrice = volume ? volume.oldPrice : product.oldPrice;
   const cart = useCart();
   const favorites = useFavorites();
   // в избранное кладём карточку как в каталоге; у товаров не из каталога — собираем её из данных страницы
@@ -47,7 +53,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
   // выбранный оттенок закончился → вместо цены «Не в наличии», вместо «В корзину» — «Узнать о поступлении»
   const soldOut = product.shades?.find((s) => s.name === shade)?.available === false;
   // в корзине разные оттенки и объёмы — отдельные строки
-  const variant = shade ?? volume;
+  const variant = shade ?? volume?.name;
   const key = variant ? `${product.slug}:${variant}` : product.slug;
   const qty = cart.qtyOf(key);
   const addOne = () =>
@@ -56,8 +62,10 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
         key,
         name: product.name,
         description: variant ? `${product.subtitle}, ${variant}` : product.subtitle,
-        price: priceToNumber(product.price),
-        image: product.thumbs?.[0] ?? product.images[0],
+        price: priceToNumber(price),
+        image: (volume?.images?.[0] !== undefined ? product.thumbs?.[volume.images[0]] : undefined) ??
+          product.thumbs?.[0] ??
+          product.images[0],
         href: `/product/${product.slug}`,
       },
       // первое добавление показывает корзину, дальше «+» просто увеличивает количество
@@ -136,16 +144,18 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           <div className="flex gap-4 text-base-s" role="radiogroup" aria-label="Объём">
             {product.volumes.map((v) => (
               <button
-                key={v}
+                key={v.name}
                 type="button"
                 role="radio"
-                aria-checked={v === volume}
-                onClick={() => setVolume(v)}
+                aria-checked={v.name === volume?.name}
+                onClick={() => setShade(v.name)}
                 className={
-                  v === volume ? "underline underline-offset-2" : "text-tertiary transition-colors hover:text-primary"
+                  v.name === volume?.name
+                    ? "underline underline-offset-2"
+                    : "text-tertiary transition-colors hover:text-primary"
                 }
               >
-                {v}
+                {v.name}
               </button>
             ))}
           </div>
@@ -155,8 +165,8 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           <p className="text-base-m">Не в наличии</p>
         ) : (
           <p className="text-base-m">
-            {product.price}
-            {product.oldPrice && <s className="ml-2 text-secondary">{product.oldPrice}</s>}
+            {price}
+            {oldPrice && <s className="ml-2 text-secondary">{oldPrice}</s>}
           </p>
         )}
       </div>

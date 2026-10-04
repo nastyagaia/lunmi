@@ -59,7 +59,9 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
 
           <div className="container-page">
             {/* оттенок общий у галереи и блока покупки: выбрали оттенок — показываем его фото */}
-            <ShadeProvider initial={product.shades?.find((s) => s.available !== false)?.name}>
+            <ShadeProvider
+              initial={product.shades?.find((s) => s.available !== false)?.name ?? product.volumes?.[0]?.name}
+            >
               <div className="mt-6 grid gap-8 lg:mt-[26px] lg:grid-cols-[600px_minmax(0,512px)] lg:justify-between">
                 <ProductGallery
                   images={product.images}
@@ -68,7 +70,9 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
                   shadeImages={
                     product.shades?.some((s) => s.images)
                       ? Object.fromEntries(product.shades.map((s) => [s.name, s.images ?? []]))
-                      : undefined
+                      : product.volumes?.some((v) => v.images)
+                        ? Object.fromEntries(product.volumes.map((v) => [v.name, v.images ?? []]))
+                        : undefined
                   }
                 />
 

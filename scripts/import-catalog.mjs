@@ -99,6 +99,15 @@ for (const p of extraProducts) {
     ...(p.hit ? { hit: true } : {}),
     ...(p.rating ? { rating: p.rating } : {}),
     ...(shades ? { shades } : {}),
+    // объёмы: своя цена (со скидкой товара) и номера фото; первый объём — основной, его цена в карточке
+    ...(p.volumes
+      ? {
+          volumes: p.volumes.map((v) => {
+            const vOld = oldPrice(v.price, p.discount);
+            return { name: v.name, price: rub(v.price), ...(vOld ? { oldPrice: rub(vOld) } : {}), images: v.images };
+          }),
+        }
+      : {}),
     image: thumbs[0],
     ...(thumbs[1] ? { hoverImage: thumbs[1] } : {}),
     images,

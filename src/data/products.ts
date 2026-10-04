@@ -7,6 +7,7 @@ import { allProducts, sectionHref, type CatalogProduct } from "./sections";
 import productTexts from "./product-texts.json";
 
 /** images — номера фото этого оттенка в images: при выборе оттенка галерея показывает только их */
+export type Volume = { name: string; price: string; oldPrice?: string; images?: number[] };
 export type Shade = { name: string; color: string; available?: boolean; images?: number[] };
 
 export type ProductDetails = {
@@ -21,8 +22,8 @@ export type ProductDetails = {
   discount?: string;
   hit?: boolean;
   rating?: string;
-  /** выбор объёма: «50 ml», «100 ml» */
-  volumes?: string[];
+  /** выбор объёма: «150 мл», «530 мл» — у каждого своя цена и свои фото (номера в images) */
+  volumes?: Volume[];
   /** выбор оттенка (для декоративной косметики) */
   shades?: Shade[];
   images: string[];
@@ -105,7 +106,6 @@ export const products: ProductDetails[] = [
     discount: "5%",
     hit: true,
     rating: "4.3",
-    volumes: ["30 ml", "50 ml"],
     images: allProducts.find((p) => p.id === "anua-peach-70-niacin-serum")?.images ?? [],
     delivery,
     ingredients: "Ниацинамид, экстракт персика, гиалуроновая кислота",
@@ -431,6 +431,7 @@ export function getProduct(slug: string): ProductDetails | undefined {
           images: fc.images,
           thumbs: fc.thumbs,
           shades: fc.shades ?? detailed.shades,
+          volumes: fc.volumes,
           similar: similarTo(fc),
           card: cardOf(fc),
         }
@@ -449,6 +450,7 @@ export function getProduct(slug: string): ProductDetails | undefined {
     images: fc.images,
     thumbs: fc.thumbs,
     shades: fc.shades,
+    volumes: fc.volumes,
     delivery,
     // «активные компоненты» — это про уход; у макияжа и гаджетов строку не показываем
     ingredients: fc.category === "Макияж" || fc.category === "Бьюти-гаджеты" ? undefined : activesFor(fc.name, fc.id),

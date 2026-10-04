@@ -15,6 +15,8 @@ export type CatalogProduct = Product & {
   also?: string[][];
   /** оттенки (scripts/import-catalog.mjs): images — номера фото этого оттенка в images */
   shades?: { name: string; color: string; images?: number[] }[];
+  /** объёмы с ценой и номерами фото (Lador Hydro LPP: 530 и 150 мл) */
+  volumes?: { name: string; price: string; oldPrice?: string; images?: number[] }[];
 };
 
 const FACE = "Уход для лица";
