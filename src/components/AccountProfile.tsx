@@ -214,7 +214,7 @@ function ProfileForm() {
       </section>
 
       <Checkbox checked={saved.news} onChange={() => profileStore.set((p) => ({ ...p, news: !p.news }))}>
-        <span className="text-base-xs">Хочу получать новости и специальные предложения.</span>
+        <span className="text-base-s">Хочу получать новости и специальные предложения.</span>
       </Checkbox>
 
       <button

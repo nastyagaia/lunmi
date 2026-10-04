@@ -113,7 +113,7 @@ function AboutYou({ onDone, onClose }: { onDone: () => void; onClose: () => void
           ))}
         </div>
         <Checkbox checked={news} onChange={() => setNews((v) => !v)}>
-          <span className="text-base-xs">Хочу получать новости и специальные предложения.</span>
+          <span className="text-base-s">Хочу получать новости и специальные предложения.</span>
         </Checkbox>
       </div>
       <Button size="M" disabled={!valid} onClick={save} className={`self-end ${darkButton} disabled:border-tertiary disabled:bg-tertiary`}>
