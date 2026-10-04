@@ -12,7 +12,10 @@ export function BrandList({ brands }: { brands: Item[] }) {
   const [query, setQuery] = useState("");
   const q = query.trim().toLowerCase();
   const shown = q ? brands.filter((b) => b.name.toLowerCase().includes(q)) : brands;
-  const letters = Object.entries(Object.groupBy(shown, (b) => b.letter));
+  // бренды на цифру («#», например 3CE) — в самом конце, после букв
+  const letters = Object.entries(Object.groupBy(shown, (b) => b.letter)).sort(
+    ([a], [b]) => Number(a === "#") - Number(b === "#"),
+  );
 
   return (
     <>
