@@ -26,7 +26,13 @@ const BESTSELLER_IDS = [
   "biodance-caviar-eye-patch",
   "torriden-dive-in-cream",
 ];
-const bestsellerList = BESTSELLER_IDS.flatMap((id) => allProducts.filter((p) => p.id === id));
+/** на главной у части карточек вместо упаковки — фото с моделью, кадр как в макете; упаковка — при наведении */
+const BESTSELLER_COVERS: Record<string, string> = {
+  "petitfee-aura-quartz-patch": "/img/b-aura-quartz-model-651ccd.webp",
+};
+const bestsellerList = BESTSELLER_IDS.flatMap((id) => allProducts.filter((p) => p.id === id)).map((p) =>
+  BESTSELLER_COVERS[p.id] ? { ...p, image: BESTSELLER_COVERS[p.id], hoverImage: p.images?.[0] ?? p.image } : p,
+);
 
 export default function Home() {
   return (
