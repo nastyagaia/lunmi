@@ -37,7 +37,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
       <Header />
       <main>
         {/* верх страницы на фоне surface: хлебные крошки, фото, информация и покупка */}
-        <section className="bg-surface pt-[70px] pb-10 md:pt-20 lg:min-h-[680px]">
+        <section className="bg-surface pt-[70px] pb-10 md:pt-20 lg:min-h-[680px] lg:pb-0">
           {/* хлебные крошки — по линии логотипа: те же поля, что у шапки */}
           <div className="px-4 md:px-6 xl:px-[96px]">
             {/* breadcrumbs: стрелка назад (32 × 28), через 16 px путь серым; последний пункт не кликается */}

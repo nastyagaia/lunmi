@@ -36,7 +36,8 @@ export function ProductGallery({
   }
 
   return (
-    <div className="relative aspect-[600/550] w-full max-w-[600px]">
+    // фото стоит на нижнем крае серого блока — у фото с моделями нет пустой полосы снизу
+    <div className="relative aspect-[600/550] w-full max-w-[600px] lg:self-end">
       {images.map((src, i) => (
         <Image
           key={src}
@@ -46,7 +47,7 @@ export function ProductGallery({
           priority={i === 0}
           unoptimized={ready(src)}
           sizes="(min-width: 1024px) 600px, 100vw"
-          className={`object-contain transition-opacity duration-300 ${i === active ? "opacity-100" : "opacity-0"}`}
+          className={`object-contain object-bottom transition-opacity duration-300 ${i === active ? "opacity-100" : "opacity-0"}`}
         />
       ))}
 
