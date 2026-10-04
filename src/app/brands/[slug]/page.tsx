@@ -62,7 +62,7 @@ export default async function BrandPage({ params }: PageProps<"/brands/[slug]">)
             products={brand.products}
             types={types}
             hideBrand
-            after={<HelpCard className="reveal col-span-2 self-start" />}
+            after={<HelpCard className="reveal col-span-2 self-start lg:col-span-1" />}
           />
         </div>
       </main>

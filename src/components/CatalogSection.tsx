@@ -55,7 +55,7 @@ export function CatalogSection({
               types={types}
               initialType={initialType}
               initialTypes={group?.types}
-              after={<HelpCard className="reveal col-span-2 self-start" />}
+              after={<HelpCard className="reveal col-span-2 self-start lg:col-span-1" />}
             />
           ) : (
             <div className="flex flex-col items-start gap-6 pb-10">

@@ -1,5 +1,6 @@
-// Review Section «Нужна помощь в выборе?» + способы связи и фото.
-// tall — в сетке каталога (10146:13746): 606 × 270, фон surface, поля 20 px, способы связи столбиком.
+// Review Section «Нужна помощь» + способы связи и фото.
+// tall — в сетке каталога (10146:13746): плитка размером с карточку (304 × 270), розовый фон, поля 20 px,
+// способы связи столбиком через 24 px, фото-«цветочек» 116 × 116 в правом нижнем углу.
 // wide — на странице товара (3715:9364): 708 × 180, розовый фон blush, поля 16 px, фото 148 × 148, способы связи в строку.
 import Image from "next/image";
 import Link from "next/link";
@@ -13,10 +14,16 @@ const contacts = [
 
 function Contacts({ wide }: { wide: boolean }) {
   return (
-    <ul className={wide ? "flex flex-wrap gap-x-8 gap-y-3" : "flex flex-col gap-4"}>
+    <ul className={wide ? "flex flex-wrap gap-x-8 gap-y-3" : "flex flex-col gap-6"}>
       {contacts.map((c) => (
         <li key={c.label}>
-          <Link href={c.href} className="flex items-center gap-2 text-base-m transition-colors hover:text-accent">
+          {/* в столбике зона нажатия 44 px (палец на телефоне), а на вид строки 24 px через 24, как в макете */}
+          <Link
+            href={c.href}
+            className={`flex items-center gap-2 text-base-m transition-colors hover:text-accent ${
+              wide ? "" : "-my-2.5 py-2.5"
+            }`}
+          >
             {c.icon}
             {c.label}
           </Link>
@@ -43,15 +50,21 @@ export function HelpCard({ className = "", layout = "tall" }: { className?: stri
   }
 
   return (
-    <aside className={`flex justify-between gap-4 rounded-xs bg-surface p-5 sm:h-[270px] ${className}`}>
-      <div className="flex flex-col gap-4">
-        <h2 className="w-[242px] max-w-full text-h3">Нужна помощь в выборе?</h2>
-        <p className="text-base-s">Пишите, куда удобнее, — подскажем:</p>
-        <Contacts wide={false} />
+    <aside
+      className={`relative flex min-h-[270px] flex-col justify-between gap-8 overflow-hidden rounded-xs bg-accent-soft p-5 lg:aspect-[300/270] lg:min-h-0 ${className}`}
+    >
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3">Нужна помощь?</h2>
+        <p className="max-w-[264px] text-base-s">Пишите, куда удобнее, — проконсультируем без проблем</p>
       </div>
-      <div className="relative hidden aspect-square w-[230px] shrink-0 sm:block">
-        <Image src="/img/help.webp" alt="" fill sizes="230px" className="object-cover" />
-      </div>
+      <Contacts wide={false} />
+      <Image
+        src="/img/help-clover-5bcb9f.webp"
+        alt=""
+        width={116}
+        height={116}
+        className="absolute right-[13px] bottom-4"
+      />
     </aside>
   );
 }
