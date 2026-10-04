@@ -2073,11 +2073,14 @@
     "hit": true,
     "image": "/img/face/petitfee-aura-quartz-patch-1-600-932f15.webp",
     "images": [
-      "/img/face/petitfee-aura-quartz-patch-1-1200-ccb1b5.webp"
+      "/img/face/petitfee-aura-quartz-patch-1-1200-ccb1b5.webp",
+      "/img/face/petitfee-aura-quartz-patch-2-1200-daf18b.webp"
     ],
     "thumbs": [
-      "/img/face/petitfee-aura-quartz-patch-1-600-932f15.webp"
-    ]
+      "/img/face/petitfee-aura-quartz-patch-1-600-932f15.webp",
+      "/img/face/petitfee-aura-quartz-patch-2-600-d0d5b4.webp"
+    ],
+    "hoverImage": "/img/face/petitfee-aura-quartz-patch-2-600-d0d5b4.webp"
   },
   {
     "id": "round-lab-birch-pad",
