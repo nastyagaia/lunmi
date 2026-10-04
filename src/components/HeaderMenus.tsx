@@ -1,27 +1,15 @@
 "use client";
 
-// Выпадающие списки шапки (Figma над кадром home, 2570:929):
-// город — dropdown 5097:7282: поиск по городу, строки 44 px, у выбранного серый фон surface и галочка;
-// профиль — dropdown 5306:12746: строки 47 px с иконкой 24 px и текстом 14 px.
+// Шапка: выбор города — dropdown 5097:7282 (поиск по городу, строки 44 px, у выбранного серый фон surface и галочка);
+// иконка профиля — сразу в личный кабинет (выпадающее меню 5306:12746 убрано по просьбе Насти).
 import Link from "next/link";
-import { useCallback, useState, type ReactNode } from "react";
+import { useCallback, useState } from "react";
 import { cities } from "@/data/cities";
-import { authStore, logOut } from "@/lib/account";
+import { authStore } from "@/lib/account";
 import { createStore } from "@/lib/persist";
 import { Popover } from "./Dropdown";
-import { useFavorites } from "./Favorites";
 import { openLogin } from "./Login";
-import {
-  BagIcon,
-  CheckIcon,
-  ChevronDown,
-  HeartIcon,
-  LogoutIcon,
-  ProfileIcon,
-  ReviewIcon,
-  SparkleIcon,
-  SupportIcon,
-} from "./icons";
+import { CheckIcon, ChevronDown, ProfileIcon } from "./icons";
 import { Search } from "./Search";
 
 /** выбранный город запоминается в браузере */
@@ -88,81 +76,22 @@ export function CityMenu({ className = "" }: { className?: string }) {
   );
 }
 
-/** Пункты меню профиля — разделы личного кабинета; «Выйти» выходит и ведёт на главную */
-const profileItems: { title: string; href: string; icon: ReactNode }[] = [
-  { title: "Главная", href: "/account", icon: <SparkleIcon /> },
-  { title: "Заказы", href: "/account/orders", icon: <BagIcon /> },
-  { title: "Избранное", href: "/favorites", icon: <HeartIcon /> },
-  { title: "Отзывы", href: "/account/reviews", icon: <ReviewIcon /> },
-  { title: "Мои данные", href: "/account/profile", icon: <ProfileIcon /> },
-  { title: "Поддержка", href: "/account/help", icon: <SupportIcon /> },
-  { title: "Выйти", href: "/", icon: <LogoutIcon /> },
-];
-
+/** Иконка профиля: вошли — сразу «Главная» личного кабинета, не вошли — окно входа. Выпадающего меню нет */
 export function ProfileMenu({ className = "" }: { className?: string }) {
-  const [open, setOpen] = useState(false);
-  const close = useCallback(() => setOpen(false), []);
-  const favorites = useFavorites();
   const email = authStore.useValue().email;
-
-  // не вошли — иконка открывает окно входа
-  if (!email)
-    return (
-      <div className={className}>
-        <button
-          type="button"
-          onClick={openLogin}
-          aria-label="Войти в личный кабинет"
-          className="flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
-        >
-          <ProfileIcon />
-        </button>
-      </div>
-    );
+  const cls = "flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent";
 
   return (
     <div className={className}>
-      <Popover
-        open={open}
-        onClose={close}
-        align="right"
-        trigger={
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-haspopup="menu"
-            aria-label="Личный кабинет"
-            className={`flex size-9 items-center justify-center rounded-full transition-colors hover:text-accent ${
-              open ? "text-accent" : "text-primary"
-            }`}
-          >
-            <ProfileIcon />
-          </button>
-        }
-      >
-        <ul role="menu" className="flex flex-col gap-0.5">
-          {profileItems.map((it) => (
-            <li key={it.title} role="none">
-              <Link
-                role="menuitem"
-                href={it.href}
-                onClick={() => {
-                  close();
-                  if (it.title === "Выйти") logOut();
-                }}
-                className="flex h-[47px] items-center gap-2 px-4 text-base-s transition-colors hover:bg-surface"
-              >
-                <span className="flex size-6 shrink-0 items-center justify-center">{it.icon}</span>
-                {it.title}
-                {it.title === "Избранное" && favorites.count > 0 && (
-                  <span className="ml-auto text-base-xs text-tertiary">{favorites.count}</span>
-                )}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Popover>
+      {email ? (
+        <Link href="/account" aria-label="Личный кабинет" className={cls}>
+          <ProfileIcon />
+        </Link>
+      ) : (
+        <button type="button" onClick={openLogin} aria-label="Войти в личный кабинет" className={cls}>
+          <ProfileIcon />
+        </button>
+      )}
     </div>
   );
 }
