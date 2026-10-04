@@ -81,20 +81,30 @@ export function AccountProfile() {
     () => true,
     () => false,
   );
-  return ready ? <ProfileForm /> : null;
+  const saved = profileStore.useValue();
+  const contact = contactStore.useValue();
+  const [done, setDone] = useState(false);
+  if (!ready) return null;
+  // данные поменялись где-то ещё (регистрация, оформление заказа) — форма заново берёт их, а не держит старые
+  const key = JSON.stringify([saved, contact?.name, contact?.phone]);
+  return <ProfileForm key={key} done={done} setDone={setDone} />;
 }
 
-function ProfileForm() {
+function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) => void }) {
   const router = useRouter();
   const saved = profileStore.useValue();
   const contact = contactStore.useValue();
   const { list: addresses } = addressStore.useValue();
 
-  const [form, setForm] = useState<Profile>(saved);
+  // имени в профиле нет, а в контактах заказа есть — подставляем его
+  const [form, setForm] = useState<Profile>(() => {
+    if (saved.firstName || !contact?.name) return saved;
+    const [firstName, ...rest] = contact.name.trim().split(/\s+/);
+    return { ...saved, firstName, lastName: saved.lastName || rest.join(" ") };
+  });
   const [phone, setPhone] = useState(contact?.phone ?? "");
   const [panel, setPanel] = useState<{ edit?: Address } | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [done, setDone] = useState(false);
 
   const set = <K extends keyof Profile>(k: K, v: Profile[K]) => {
     setForm((f) => ({ ...f, [k]: v }));
