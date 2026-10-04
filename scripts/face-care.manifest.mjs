@@ -66,7 +66,7 @@ export const products = [
   { id: "medicube-kojic-serum", type: "Сыворотки и ампулы", brand: "Medicube", name: "Medicube Kojic Acid Turmeric Niacinamide Serum", description: "Сыворотка с койевой кислотой и куркумой", price: 2490, files: [S + "medicube_Kojic_Acid_Turmeric_Niacinamide_Serum.png"] },
   { id: "axis-y-dark-spot-serum", type: "Сыворотки и ампулы", brand: "AXIS-Y", name: "AXIS-Y Dark Spot Correcting Glow Serum", description: "Сыворотка против тёмных пятен", price: 1890, rating: "4.6", files: [C + "AXIS_Y_Dark_Spot_Correcting_Glow_Serum.png"] },
   { id: "arencia-vitamin-c-shot", type: "Сыворотки и ампулы", brand: "Arencia", name: "Arencia Vitamin C Booster Shot", description: "Бустер с витамином C", price: 2390, files: [C + "Arencia_Vitamin_C_Booster_Shot.png", D + "23.png"] },
-  { id: "celimax-retinal-shot", type: "Сыворотки и ампулы", brand: "celimax", name: "celimax Retinal Shot Tightening Booster", description: "Бустер с ретиналем для упругости", price: 2290, files: [C + "celimax_Retinal_Shot_Tightening_Booster.png", D + "21.png"] },
+  { id: "celimax-retinal-shot", type: "Сыворотки и ампулы", brand: "Celimax", name: "Celimax Retinal Shot Tightening Booster", description: "Бустер с ретиналем для упругости", price: 2290, files: [REPO + "scripts/sources/celimax-retinal-shot.png", D + "21.png"] },
 
   // ---------- Кремы ----------
   { id: "aestura-atobarrier-cream", type: "Кремы", brand: "Aestura", name: "AESTURA Atobarrier 365 Cream", description: "Крем с керамидами для сухой кожи", price: 2790, rating: "4.8", files: [C + "AESTURA_Atobarrier_365_Cream.png", D + "16.png"] },
@@ -90,7 +90,7 @@ export const products = [
   { id: "torriden-dive-in-cream", type: "Кремы", brand: "Torriden", name: "Torriden Dive-In Low Molecular Hyaluronic Acid Cream", description: "Лёгкий увлажняющий крем", price: 2190, hit: true, files: [C + "Torriden_DIVE_IN_Low_Molecular_Hyaluronic_Acid_Cream.png"] },
   { id: "vely-vely-spicule-cream", type: "Кремы", brand: "Vely Vely", name: "Vely Vely Nano Spicule 1200 Lifting Cream", description: "Лифтинг-крем со спикулами", price: 2890, files: [C + "VELY_VELY_Nano_Spicule_1200_Lifting_Cream.png"] },
   { id: "wellage-hyaluronic-cream", type: "Кремы", brand: "Wellage", name: "Wellage Real Hyaluronic Soothing Cream 100", description: "Успокаивающий крем с гиалуроновой кислотой", price: 2390, files: [C + "WELLAGE_Real_Hyaluronic_Soothing_Cream_100.png"] },
-  { id: "celimax-dual-barrier-cream", type: "Кремы", brand: "celimax", name: "celimax Dual Barrier Skin Wearable Cream", description: "Крем для защиты барьера кожи", price: 1990, files: [C + "celimax_Dual_Barrier_Skin_Wearable_Cream.png"] },
+  { id: "celimax-dual-barrier-cream", type: "Кремы", brand: "Celimax", name: "Celimax Dual Barrier Skin Wearable Cream", description: "Крем для защиты барьера кожи", price: 1990, files: [C + "celimax_Dual_Barrier_Skin_Wearable_Cream.png"] },
   { id: "manyo-bifida-cream", type: "Кремы", brand: "Manyo", name: "Manyo Bifida Biome Concentrate Cream", description: "Крем с бифидобактериями", price: 2690, files: [C + "manyo_Bifida_Biome_Concentrate_Cream.png"] },
   { id: "medicube-collagen-jelly-cream", type: "Кремы", brand: "Medicube", name: "Medicube Collagen Jelly Cream", description: "Крем-желе с коллагеном для сияния", price: 2490, discount: "20%", hit: true, rating: "4.7", files: [C + "medicube_Collagen_Jelly_Cream.png", D + "17.png"] },
 

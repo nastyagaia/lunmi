@@ -14,7 +14,7 @@ import { FaqList } from "@/components/FaqList";
 import { allProducts } from "@/data/sections";
 
 /** Bestsellers — настоящие товары каталога: тинт Dasique (обложка Cherry Soda, при наведении — модель),
- *  патчи Petitfee Aura Quartz, бустер celimax и дальше хиты, чтобы ленту было что листать */
+ *  патчи Petitfee Aura Quartz, бустер Celimax и дальше хиты, чтобы ленту было что листать */
 const BESTSELLER_IDS = [
   "dasique-juicy-dewy-lip-tint",
   "petitfee-aura-quartz-patch",
