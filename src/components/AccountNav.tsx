@@ -8,7 +8,8 @@ import type { ReactNode } from "react";
 import { contactStore, displayName, logOut, profileStore } from "@/lib/account";
 import { BagIcon, LogoutIcon, ProfileIcon, ReviewIcon, SparkleIcon, SupportIcon } from "./icons";
 
-export const AVATAR = "/img/account/avatar-3b099d.webp";
+/** аватар по полу из «Моих данных»: «Мужчина» — мужской, иначе — девушка с косичками */
+const AVATAR = { female: "/img/account/avatar-3b099d.webp", male: "/img/account/avatar-male-2e5354.webp" };
 
 const menu: { title: string; href: string; icon: ReactNode }[] = [
   { title: "Главная", href: "/account", icon: <SparkleIcon /> },
@@ -22,12 +23,14 @@ const menu: { title: string; href: string; icon: ReactNode }[] = [
 
 export function AccountNav() {
   const path = usePathname();
-  const name = displayName(profileStore.useValue(), contactStore.useValue());
+  const profile = profileStore.useValue();
+  const name = displayName(profile, contactStore.useValue());
+  const avatar = profile.gender === "Мужчина" ? AVATAR.male : AVATAR.female;
 
   return (
     <aside className="flex flex-col gap-6 lg:gap-8">
       <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-6">
-        <Image src={AVATAR} alt="" width={173} height={173} priority className="size-16 rounded-full lg:size-[173px]" />
+        <Image key={avatar} src={avatar} alt="" width={173} height={173} priority className="size-16 rounded-full lg:size-[173px]" />
         {name && <p className="text-h4">{name}</p>}
       </div>
       <nav aria-label="Личный кабинет" className="-mx-4 overflow-x-auto px-4 lg:mx-0 lg:overflow-visible lg:px-0">
