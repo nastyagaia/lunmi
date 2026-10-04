@@ -9,7 +9,7 @@ import { ArrowRight, TelegramIcon, WhatsappIcon } from "@/components/icons";
 import { ProductCard } from "@/components/ProductCard";
 import { Button, SectionHeader } from "@/components/ui";
 import { brands as allBrands } from "@/data/brands";
-import { catalog, heroSlides, weeklyDeals } from "@/data/home";
+import { catalog, heroSlides } from "@/data/home";
 import { FaqList } from "@/components/FaqList";
 import { allProducts } from "@/data/sections";
 
@@ -151,10 +151,16 @@ function AiBanner() {
 }
 
 /* ---------- Скидки недели ---------- */
+/** Скидки недели — настоящие товары каталога со скидкой, сначала самые большие скидки (12 штук) */
+const weeklyDeals = allProducts
+  .filter((p) => p.discount)
+  .sort((a, b) => parseInt(b.discount ?? "0") - parseInt(a.discount ?? "0"))
+  .slice(0, 12);
+
 function WeeklyDeals() {
   return (
     <section className="container-page">
-      <SectionHeader title="Скидки недели" />
+      <SectionHeader title="Скидки недели" href="/sale" />
       <Carousel label="Скидки недели" arrowTop={119} className="items-start">
         {weeklyDeals.map((p) => (
           <div

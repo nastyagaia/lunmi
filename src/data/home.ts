@@ -1,5 +1,4 @@
 // Контент главной страницы. Тексты и картинки взяты из макета home в Figma.
-import type { Product } from "@/components/ProductCard";
 
 /** Слайды первого экрана (Figma: hero anua pdrn, hero korea trends и др.).
  *  tone: "light" — белый текст на тёмном фото, "dark" — тёмный текст на светлом фото.
@@ -42,44 +41,6 @@ export const heroSlides: HeroSlide[] = [
     text: "Домашний уход как в салоне:\nлифтинг, микротоки и сияние кожи",
     image: "/img/hero-medicube.webp",
     tone: "light",
-  },
-];
-
-export const weeklyDeals: Product[] = [
-  {
-    id: "s1",
-    name: "Dr.Ceuracle Tea Tree Purifine крем",
-    description: "бустер-сыворотка с микроиглами",
-    price: "2 993 ₽",
-    oldPrice: "4 393 ₽",
-    image: "/img/s1.webp",
-    discount: "15%",
-  },
-  {
-    id: "s2",
-    name: "Dr.Ceuracle Tea Tree Purifine крем",
-    description: "Флюид несмываемый для уплотнения волос",
-    price: "2 993 ₽",
-    image: "/img/s2.webp",
-    discount: "15%",
-  },
-  {
-    id: "s3",
-    name: "Dr.Ceuracle Tea Tree Purifine крем",
-    description: "бустер-сыворотка с микроиглами",
-    price: "2 993 ₽",
-    oldPrice: "4 393 ₽",
-    image: "/img/s3.webp",
-    discount: "10%",
-  },
-  {
-    id: "s4",
-    name: "Dr.Ceuracle Tea Tree Purifine крем",
-    description: "бустер-сыворотка с микроиглами",
-    price: "2 993 ₽",
-    oldPrice: "4 393 ₽",
-    image: "/img/s4.webp",
-    discount: "15%",
   },
 ];
 
