@@ -1,7 +1,7 @@
 "use client";
 
 // carousel arrow из UI KIT (arrow 143:587): тёмная (#292929, text/primary), при наведении — на серой плашке surface;
-// ховер работает всегда, даже когда листать некуда — отдельного disabled в ките нет) + лента со скроллом.
+// когда листать некуда (начало или конец ленты) — disabled: серая #b8b8b8 (border/secondary), без ховера.
 // На телефоне и планшете листается пальцем, на широком экране появляются стрелки по бокам.
 // focus: карточка в центре ленты плавно вытягивается — каждому слайду ставится --focus от 0 до 1
 // (1 — ровно по центру), карточка сама решает, как на это ответить (ProductCard grow).
@@ -86,7 +86,7 @@ export function Carousel({
           onClick={() => scroll(-1)}
           disabled={edge.start}
           aria-label="Назад"
-          className="pointer-events-auto cursor-pointer rounded-sm text-primary transition-colors hover:bg-surface"
+          className="pointer-events-auto cursor-pointer rounded-sm text-primary transition-colors hover:bg-surface disabled:cursor-default disabled:text-line disabled:hover:bg-transparent"
         >
           <ChevronLeft />
         </button>
@@ -95,7 +95,7 @@ export function Carousel({
           onClick={() => scroll(1)}
           disabled={edge.end}
           aria-label="Вперёд"
-          className="pointer-events-auto cursor-pointer rounded-sm text-primary transition-colors hover:bg-surface"
+          className="pointer-events-auto cursor-pointer rounded-sm text-primary transition-colors hover:bg-surface disabled:cursor-default disabled:text-line disabled:hover:bg-transparent"
         >
           <ChevronRight />
         </button>
