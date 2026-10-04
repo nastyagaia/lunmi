@@ -22,7 +22,7 @@ export default function BrandsPage() {
         <section className="bg-surface">
           <div className="container-page flex h-[200px] items-end justify-between md:h-[320px]">
             <h1 className="pb-8 text-h1 max-md:text-[28px] max-md:leading-[36px] md:pb-[50px]">Бренды</h1>
-            <div className="relative hidden h-full w-[550px] shrink-0 md:block xl:mr-[66px]">
+            <div className="relative hidden h-full w-[min(550px,60%)] shrink-0 md:block xl:mr-[66px]">
               <Image src="/img/brands-hero.webp" alt="" fill priority sizes="550px" className="object-cover" />
             </div>
           </div>

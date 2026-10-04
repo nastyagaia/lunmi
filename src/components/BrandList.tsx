@@ -28,9 +28,14 @@ export function BrandList({ brands }: { brands: Item[] }) {
         className="mt-4 max-w-[720px]"
       />
 
-      <div className="mt-[34px] grid grid-cols-2 items-start gap-x-2 gap-y-8 md:grid-cols-3 lg:grid-cols-4">
+      {/* буквы идут по колонкам сверху вниз, как в газете: следующая буква встаёт сразу под предыдущей — без дырок */}
+      <div className="mt-[34px] columns-2 gap-x-2 md:columns-3 lg:columns-4">
         {letters.map(([letter, items = []]) => (
-          <section key={letter} aria-label={`Бренды на букву ${letter}`} className="flex flex-col gap-4">
+          <section
+            key={letter}
+            aria-label={`Бренды на букву ${letter}`}
+            className="mb-8 flex break-inside-avoid flex-col gap-4"
+          >
             <h2 className="text-cell text-tertiary">{letter}</h2>
             <ul className="flex flex-col gap-4">
               {items.map((b) => (
@@ -44,7 +49,7 @@ export function BrandList({ brands }: { brands: Item[] }) {
           </section>
         ))}
         {letters.length === 0 && (
-          <p className="col-span-full text-base-s text-secondary">
+          <p className="text-base-s text-secondary">
             Такого бренда пока нет. Попробуйте другое название — или загляните в каталог.
           </p>
         )}

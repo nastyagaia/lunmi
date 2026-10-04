@@ -39,7 +39,7 @@ export function CatalogSection({
               {group?.title ?? initialType ?? title}
             </h1>
             <div
-              className={`relative hidden h-full shrink-0 md:block xl:mr-[66px] ${heroWide ? "w-[min(692px,55%)]" : "w-[550px]"}`}
+              className={`relative hidden h-full shrink-0 md:block xl:mr-[66px] ${heroWide ? "w-[min(692px,55%)]" : "w-[min(550px,60%)]"}`}
             >
               <Image src={hero} alt="" fill priority sizes={heroWide ? "692px" : "550px"} className="object-cover" />
             </div>
