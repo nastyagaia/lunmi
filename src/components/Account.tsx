@@ -51,7 +51,7 @@ export function OrderCard({ order }: { order: Order }) {
   return (
     <Link
       href={`/account/orders/${order.number}`}
-      className="flex flex-col gap-4 rounded-xs border border-line-light p-4 transition-colors hover:border-primary md:flex-row md:items-center md:justify-between"
+      className="flex flex-col gap-4 rounded-xs border border-line-light p-4 md:flex-row md:items-center md:justify-between"
     >
       <div className="flex flex-col gap-2">
         <OrderNumber order={order} />
