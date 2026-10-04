@@ -24,9 +24,9 @@ function AddressRow({ address, onEdit }: { address: Address; onEdit: () => void 
   const [open, setOpen] = useState(false);
   const sub = address.kind === "courier" ? addressSubtitle(address) : undefined;
   return (
-    <li className="relative flex items-center justify-between gap-4 py-3">
+    <li className="relative flex min-h-6 items-center justify-between gap-4">
       <p className="text-base-s">
-        {address.kind === "pickup" && <span className="text-secondary">Пункт выдачи СДЭК: </span>}
+        {address.kind === "pickup" && "СДЭК: "}
         {addressTitle(address)}
         {sub && `, ${sub}`}
       </p>
@@ -35,7 +35,7 @@ function AddressRow({ address, onEdit }: { address: Address; onEdit: () => void 
         aria-label="Действия с адресом"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="flex size-8 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
+        className="-my-1 -mr-2 flex size-8 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
       >
         <svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor" aria-hidden>
           <circle cx="2" cy="2" r="1.5" />
@@ -204,10 +204,11 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
         </div>
       </section>
 
-      <section className="flex flex-col gap-4">
+      {/* заголовок, строки адресов и «Добавить адрес» — через 12 px */}
+      <section className="flex flex-col gap-3">
         <Heading>Адреса доставки</Heading>
         {addresses.length > 0 && (
-          <ul className="flex flex-col">
+          <ul className="flex flex-col gap-3">
             {addresses.map((a) => (
               <AddressRow key={a.id} address={a} onEdit={() => setPanel({ edit: a })} />
             ))}
