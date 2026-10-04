@@ -265,7 +265,12 @@ function clean(text) {
       return ok.join("; ").replace(/[.!?]*$/, ".");
     })
     .filter(Boolean);
-  return kept.join(" ").replace(/\s+/g, " ").trim();
+  // предложение начинается с бренда со строчной буквы («fwee — …») — делаем заглавную, как в названиях товаров
+  return kept
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/(^|[.!?] )([a-z])/g, (_, p, c) => p + c.toUpperCase());
 }
 
 const faceCare = JSON.parse(fs.readFileSync("src/data/face-care.json", "utf8"));
