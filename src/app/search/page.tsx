@@ -27,16 +27,13 @@ export default async function SearchPage({ searchParams }: PageProps<"/search">)
         </div>
         <div className="container-page pt-6">
           {found.length ? (
-            <CatalogGrid
-              key={query}
-              products={found}
-              types={types}
-              countPrefix="Найдено"
-            />
+            <CatalogGrid key={query} products={found} types={types} countPrefix="Найдено" />
           ) : (
             // как в панели поиска (Figma 11021:19490)
             <p aria-live="polite" className="pb-10 text-base-s">
-              {query ? "Ничего не найдено." : "Введите запрос — например, Anua или сыворотка с витамином C."}
+              {query
+                ? "Ничего не нашлось. Попробуйте написать иначе — например, название бренда или «сыворотка»."
+                : "Что ищем? Например, Anua или сыворотку с витамином C."}
             </p>
           )}
         </div>

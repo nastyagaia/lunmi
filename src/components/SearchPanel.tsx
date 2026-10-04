@@ -103,7 +103,7 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
 
             {nothing ? (
               <p aria-live="polite" className="mt-8 text-base-s">
-                Ничего не найдено.
+                Ничего не нашлось. Попробуйте написать иначе — например, название бренда или «сыворотка».
               </p>
             ) : (
               history.length > 0 && (

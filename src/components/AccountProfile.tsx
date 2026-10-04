@@ -286,7 +286,8 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
                 Удалить аккаунт?
               </h2>
               <p className="text-base-s">
-                Мы удалим ваши данные, адреса, историю заказов и отзывы. Отменить это будет нельзя.
+                Мы удалим ваши данные, адреса, историю заказов и отзывы. Вернуть их потом не получится — даже если очень
+                попросить.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">

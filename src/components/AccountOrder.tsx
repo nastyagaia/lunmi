@@ -73,7 +73,8 @@ export function AccountOrder({ number }: { number: string }) {
       <div className="flex flex-col items-start gap-6 py-10">
         <h1 className="text-h2">Заказ не найден</h1>
         <p className="text-base-s text-secondary">
-          Заказы сохраняются в этом браузере. Если вы оформляли заказ на другом устройстве, откройте кабинет там.
+          Заказы хранятся в браузере, где вы их оформляли. Если это было на другом устройстве, загляните в кабинет
+          оттуда.
         </p>
         <Link href="/account/orders" className="text-caps underline underline-offset-2 hover:text-accent">
           к заказам
@@ -200,7 +201,7 @@ export function AccountOrder({ number }: { number: string }) {
             order.status !== "Отменён" &&
             order.status !== "Доставлен" && (
               <p className="text-center text-base-s">
-                Отменить или изменить заказ уже нельзя. Но мы поможем —{" "}
+                Заказ уже в пути, и отменить его отсюда не выйдет. Но мы что-нибудь придумаем —{" "}
                 <Link href="/account/help" className="text-accent hover:underline">
                   напишите в поддержку
                 </Link>
@@ -240,7 +241,8 @@ export function AccountOrder({ number }: { number: string }) {
                 Отменить заказ?
               </h2>
               <p className="text-base-s">
-                Заказ № {order.number} будет отменён. Товары снова можно будет положить в корзину.
+                Заказ № {order.number} отменится, а деньги вернутся. Товары никуда не денутся — их можно снова положить
+                в корзину.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">

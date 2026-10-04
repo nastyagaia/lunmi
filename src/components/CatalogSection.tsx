@@ -59,7 +59,9 @@ export function CatalogSection({
             />
           ) : (
             <div className="flex flex-col items-start gap-6 pb-10">
-              <p className="text-base-s text-secondary">Раздел скоро наполнится — мы уже везём новинки из Кореи.</p>
+              <p className="text-base-s text-secondary">
+                Здесь пока пусто, но ненадолго: новинки уже летят к нам из Кореи.
+              </p>
               <Button href="/catalog" size="M">
                 в каталог
               </Button>

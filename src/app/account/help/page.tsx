@@ -20,7 +20,7 @@ export default function HelpPage() {
         <section className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <h1 className="text-h2">Поддержка</h1>
-            <p className="text-base-s">Напишите нам, как вам удобнее, — ответим в течение дня:</p>
+            <p className="text-base-s">Пишите, как вам удобнее, — ответим в течение дня, а то и быстрее:</p>
           </div>
           <ul className="grid gap-2 sm:grid-cols-3">
             {ways.map((w) => (

@@ -116,7 +116,12 @@ function AboutYou({ onDone, onClose }: { onDone: () => void; onClose: () => void
           <span className="text-base-s">Хочу получать новости и специальные предложения.</span>
         </Checkbox>
       </div>
-      <Button size="M" disabled={!valid} onClick={save} className={`self-end ${darkButton} disabled:border-tertiary disabled:bg-tertiary`}>
+      <Button
+        size="M"
+        disabled={!valid}
+        onClick={save}
+        className={`self-end ${darkButton} disabled:border-tertiary disabled:bg-tertiary`}
+      >
         создать аккаунт
       </Button>
     </Modal>
@@ -303,7 +308,9 @@ export function LoginGate({ children }: { children: ReactNode }) {
   return (
     <div className="flex flex-col items-start gap-6 py-10">
       <h1 className="text-h2">Личный кабинет</h1>
-      <p className="max-w-[504px] text-base-s">Войдите, чтобы увидеть свои заказы, отзывы и данные для доставки.</p>
+      <p className="max-w-[504px] text-base-s">
+        Тут живут ваши заказы, отзывы, адреса и бонусы. Войдите — и всё будет под рукой.
+      </p>
       <button type="button" onClick={openLogin} className={`h-10 px-8 text-caps transition-colors ${darkButton}`}>
         войти
       </button>

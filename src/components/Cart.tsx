@@ -213,13 +213,15 @@ function CartDrawer() {
         <div className="flex flex-col gap-2 px-5 pb-6 md:px-8">
           <h2 className="text-h2">Корзина{count > 0 && <span className="ml-2 text-tertiary">{count}</span>}</h2>
           {rows.length > 0 && (
-            <p className="text-base-s">Проверьте состав заказа, заполните детали и переходите к оплате. 🌸</p>
+            <p className="text-base-s">Всё на месте? Проверьте баночки, заполните детали — и вперёд к оформлению. 🌸</p>
           )}
         </div>
 
         {rows.length === 0 ? (
           <div className="flex flex-1 flex-col items-start gap-6 px-5 md:px-8">
-            <p className="text-base-s text-secondary">Пока здесь пусто. Загляни в каталог — там много хорошего.</p>
+            <p className="text-base-s text-secondary">
+              Корзина пока налегке. Загляните в каталог — там много того, что захочется унести с собой.
+            </p>
             <Button href="/catalog" size="M" onClick={() => setOpen(false)}>
               в каталог
             </Button>
@@ -256,7 +258,9 @@ function CartDrawer() {
                   {gone ? (
                     // товар удалили: красная подпись и «Отменить» вместо описания и количества
                     <>
-                      <p className="min-w-0 flex-1 text-base-s text-error">Вы удалили этот товар из корзины.</p>
+                      <p className="min-w-0 flex-1 text-base-s text-error">
+                        Товар убран из корзины. Передумали — верните одним нажатием.
+                      </p>
                       <button
                         type="button"
                         onClick={() => undo(item.key)}

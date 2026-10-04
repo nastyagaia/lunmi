@@ -94,13 +94,26 @@ export function CatalogGrid({
   const close = () => setOpen(null);
   const toggle = (k: Key) => setOpen((o) => (o === k ? null : k));
 
-  const multi = (k: Key, label: string, placeholder: string, options: string[], value: string[], set: (v: string[]) => void) => (
+  const multi = (
+    k: Key,
+    label: string,
+    placeholder: string,
+    options: string[],
+    value: string[],
+    set: (v: string[]) => void,
+  ) => (
     <Popover
       key={k}
       open={open === k}
       onClose={close}
       trigger={
-        <FilterChip label={label} count={value.length} expanded={open === k} onClick={() => toggle(k)} onClear={() => set([])} />
+        <FilterChip
+          label={label}
+          count={value.length}
+          expanded={open === k}
+          onClick={() => toggle(k)}
+          onClear={() => set([])}
+        />
       }
     >
       <MultiSelect
@@ -119,7 +132,10 @@ export function CatalogGrid({
 
   return (
     <>
-      <p className="text-caps text-secondary">{countPrefix ? `${countPrefix} ` : ""}{productsCount(shown.length)}</p>
+      <p className="text-caps text-secondary">
+        {countPrefix ? `${countPrefix} ` : ""}
+        {productsCount(shown.length)}
+      </p>
 
       {/* ряд фильтров «прилипает» под шапку (или к верху экрана, когда шапка спрятана).
           Стеклянная подложка — псевдоэлемент на всю ширину экрана, видна только когда ряд прилип. На телефоне не прилипает:
@@ -186,7 +202,7 @@ export function CatalogGrid({
         ))}
         {shown.length === 0 && (
           <p className="col-span-full py-10 text-base-s text-secondary">
-            По этим фильтрам ничего не нашлось — попробуйте сбросить один из них.
+            С такими фильтрами пусто — слишком строгий отбор. Снимите один-два, и средства найдутся.
           </p>
         )}
         {after}

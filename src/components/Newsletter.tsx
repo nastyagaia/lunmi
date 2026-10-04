@@ -29,7 +29,7 @@ export function Newsletter() {
       </label>
       {subscribed ? (
         <p className="flex h-[52px] items-center text-base-s">
-          Спасибо! Будем писать на {subscribed} — только по делу и про скидки.
+          Готово! Будем писать на {subscribed} — только по делу, про новинки и скидки. Спамом не балуемся.
         </p>
       ) : (
         <div className="flex h-[52px] items-center rounded-xs border border-line bg-white pl-3 pr-2 focus-within:border-primary">

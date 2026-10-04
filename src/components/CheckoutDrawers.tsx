@@ -292,7 +292,7 @@ export function AddressDrawer({
             onClear={() => setComment("")}
             className="mt-5"
           />
-          <p className="mt-3 text-base-xs text-tertiary">Можно просто нажать на нужный дом на карте.</p>
+          <p className="mt-3 text-base-xs text-tertiary">Или просто ткните в нужный дом на карте — так тоже можно.</p>
         </>
       ) : (
         <PickupList points={cityPoints} value={pointId} onChange={setPointId} />
@@ -325,7 +325,9 @@ function PickupList({
       <p className="text-caps text-secondary">Ближайшие пункты выдачи</p>
       {!value && (
         // notification из UI KIT: розовая плашка surface/accent 2
-        <p className="rounded-xs bg-accent-soft px-3 py-3 text-base-s">Пожалуйста, выберите пункт выдачи.</p>
+        <p className="rounded-xs bg-accent-soft px-3 py-3 text-base-s">
+          Выберите пункт выдачи на карте или в списке — и поедем дальше.
+        </p>
       )}
       <ul className="flex flex-col gap-3">
         {points.map((p) => (
@@ -341,7 +343,9 @@ function PickupList({
           </li>
         ))}
       </ul>
-      <p className="text-base-xs text-tertiary">Пункты выдачи СДЭК. Список пока демонстрационный.</p>
+      <p className="text-base-xs text-tertiary">
+        Пункты выдачи СДЭК. Пока это демонстрационный список — скоро подключим настоящий.
+      </p>
     </div>
   );
 }
@@ -574,8 +578,8 @@ export function AddCardDrawer({
         </div>
       </div>
       <p className="mt-4 max-w-[504px] text-base-xs text-tertiary">
-        Онлайн-оплата пока в тестовом режиме: данные карты никуда не отправляются и не сохраняются, деньги не
-        списываются.
+        Онлайн-оплата пока в тестовом режиме: данные карты никуда не уходят и нигде не хранятся, деньги не списываются.
+        Можно смело тренироваться.
       </p>
     </Drawer>
   );

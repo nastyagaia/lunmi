@@ -162,7 +162,7 @@ function RateCard({ item }: { item: OrderItem }) {
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={3}
-            placeholder="Расскажите, как вам средство"
+            placeholder="Как вам средство? Пишите честно — нам и другим покупателям важно"
             className="rounded-xs border border-line p-3 text-base-s outline-none placeholder:text-tertiary focus:border-primary"
           />
           <button
@@ -306,7 +306,7 @@ export function AccountOrders() {
             ))}
           </div>
         ) : (
-          <AccountEmpty image={EMPTY_ORDERS}>Заказов пока нет, это нужно скорее исправлять!</AccountEmpty>
+          <AccountEmpty image={EMPTY_ORDERS}>Заказов пока нет — непорядок! Каталог уже заждался.</AccountEmpty>
         )
       ) : bought.length ? (
         <div className="grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3">
@@ -315,7 +315,7 @@ export function AccountOrders() {
           ))}
         </div>
       ) : (
-        <AccountEmpty image={EMPTY_ORDERS}>Покупок пока нет, это нужно скорее исправлять!</AccountEmpty>
+        <AccountEmpty image={EMPTY_ORDERS}>Покупок пока нет — самое время начать коллекцию.</AccountEmpty>
       )}
     </div>
   );
@@ -327,7 +327,7 @@ export function AccountReviews() {
   const orders = ordersStore.useValue();
   const reviews = reviewsStore.useValue();
   const toRate = useToRate();
-  const intro = `За каждый отзыв на купленный товар вы получите ${loyalty.bonusPerReview} баллов, которые сможете потратить при следующей покупке.`;
+  const intro = `За каждый отзыв на купленный товар вы получите ${loyalty.bonusPerReview} баллов (1 балл = 1 ₽). Честное мнение — лучшая валюта.`;
 
   if (!toRate.length && !reviews.length) {
     return (
@@ -336,8 +336,8 @@ export function AccountReviews() {
         <p className="max-w-[720px] text-base-s">{intro}</p>
         <AccountEmpty image={EMPTY_REVIEWS}>
           {orders.length
-            ? "Оценить товары можно, когда заказ будет доставлен."
-            : "Заказов пока нет, это нужно скорее исправлять!"}
+            ? "Оценить средства можно, когда заказ приедет и вы их попробуете. Ждём ваш вердикт!"
+            : "Заказов пока нет — непорядок! Каталог уже заждался."}
         </AccountEmpty>
       </div>
     );

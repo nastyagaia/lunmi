@@ -193,7 +193,9 @@ export function Checkout() {
   if (cart.items.length === 0 && !order) {
     return (
       <div className="flex flex-col items-start gap-6 pt-8 pb-20">
-        <p className="text-base-s text-secondary">В корзине пока ничего нет — оформлять нечего.</p>
+        <p className="text-base-s text-secondary">
+          Корзина пустая, а оформлять пустоту мы пока не научились. Загляните в каталог!
+        </p>
         <Button href="/catalog" size="M">
           в каталог
         </Button>
@@ -206,7 +208,7 @@ export function Checkout() {
       {order ? (
         // после оформления корзина пуста — вместо формы спокойное «спасибо»
         <div className="flex flex-col items-start gap-6 pt-6 pb-20">
-          <p className="text-base-s">Спасибо! Заказ {order} оформлен — мы скоро свяжемся, чтобы его подтвердить.</p>
+          <p className="text-base-s">Ура, заказ {order} оформлен! Скоро свяжемся, чтобы всё подтвердить.</p>
           <Button href="/catalog" size="M">
             в каталог
           </Button>
@@ -225,7 +227,10 @@ export function Checkout() {
                 />
               ) : (
                 <>
-                  <p className="text-base-s">Чтобы оформить заказ, войдите в личный кабинет или зарегистрируйтесь.</p>
+                  <p className="text-base-s">
+                    Чтобы оформить заказ, войдите в личный кабинет или зарегистрируйтесь — это быстрее, чем выбрать
+                    оттенок тинта.
+                  </p>
                   {/* входа по почте пока нет — «Войти» открывает панель контактов; потом поведёт во вход */}
                   <Button size="M" className={darkButton} onClick={() => setPanel({ kind: "contact" })}>
                     войти
@@ -237,9 +242,7 @@ export function Checkout() {
             {contact && (
               <Step title="Адрес доставки">
                 {!address && (
-                  <p className="text-base-s">
-                    Выберите адрес доставки, вы можете выбрать курьера или пункт выдачи заказов.
-                  </p>
+                  <p className="text-base-s">Куда везём? Курьером до двери или в пункт выдачи — как удобнее.</p>
                 )}
                 <div className="flex flex-wrap gap-6">
                   <Radio name="method" checked={kind === "courier"} onChange={() => switchMethod("courier")}>
@@ -286,8 +289,8 @@ export function Checkout() {
                   </h2>
                   <p className="text-base-s">
                     {address.kind === "courier"
-                      ? "Выберите день и время доставки, также мы пришлём вам СМС за день до доставки."
-                      : "Выберите день и время, когда удобно забрать заказ. Мы пришлём СМС, когда он приедет в пункт."}
+                      ? "Выберите день и время, когда вы дома. За день до доставки пришлём СМС-напоминание."
+                      : "Выберите, когда удобно забрать заказ. Пришлём СМС, как только он приедет в пункт."}
                   </p>
                 </div>
                 <div className="flex flex-col gap-4">
@@ -354,9 +357,7 @@ export function Checkout() {
                   />
                 ) : (
                   <>
-                    <p className="text-base-s">
-                      Выберите способ оплаты, возможна оплата онлайн банковской картой или СБП.
-                    </p>
+                    <p className="text-base-s">Картой или по СБП — выбирайте, как привычнее.</p>
                     <Button size="M" className={darkButton} onClick={() => setPanel({ kind: "payment" })}>
                       выбрать
                     </Button>
@@ -585,8 +586,9 @@ export function Checkout() {
               Заказ оформлен
             </h2>
             <p className="text-base-s">
-              Номер заказа {order}. Мы позвоним или напишем, чтобы подтвердить его, и будем информировать о статусе
-              {contact ? ` через ${contact.notify}` : ""}. Онлайн-оплата пока в тестовом режиме — деньги не списаны.
+              Номер заказа {order}. Скоро позвоним или напишем, чтобы всё подтвердить, и будем держать в курсе
+              {contact ? ` через ${contact.notify}` : ""}. Онлайн-оплата пока в тестовом режиме — деньги не списаны, так
+              что можно выдохнуть.
             </p>
             <Image src="/img/order-done-kitty.webp" alt="" width={400} height={300} className="mx-auto my-4" />
             <Button href="/catalog" size="M" className="self-end bg-primary text-white hover:bg-primary/85">
