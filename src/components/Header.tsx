@@ -7,7 +7,6 @@ import { catalogMenu } from "@/data/menu";
 import { useCart } from "./Cart";
 import { CatalogMenu } from "./CatalogMenu";
 import { CityMenu, ProfileMenu } from "./HeaderMenus";
-import { useFavorites } from "./Favorites";
 import { SearchPanel } from "./SearchPanel";
 import { ArrowLeft, BurgerIcon, CartIcon, ChevronDown, CloseIcon, HeartIcon, Logo, ProfileIcon, SearchIcon } from "./icons";
 
@@ -27,7 +26,6 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
   // в мобильном меню «Каталог» открывает список разделов вместо перехода
   const [mobileCatalog, setMobileCatalog] = useState(false);
   const cart = useCart();
-  const favorites = useFavorites();
   const [searchOpen, setSearchOpen] = useState(false);
   const closeSearch = useCallback(() => setSearchOpen(false), []);
   // меню «Каталог» на десктопе: открывается наведением или кликом, закрывается, когда мышь ушла из шапки
@@ -128,16 +126,11 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
             </button>
             <Link
               href="/favorites"
-              aria-label={favorites.count ? `Избранное, товаров: ${favorites.count}` : "Избранное"}
+              aria-label="Избранное"
               className="relative hidden size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent sm:flex"
             >
+              {/* без счётчика — по просьбе Насти */}
               <HeartIcon />
-              {favorites.count > 0 && (
-                // как у корзины: розовая плашка поверх правого верхнего угла иконки
-                <span className="absolute top-[7px] left-[11px] flex h-[14px] min-w-[19px] items-center justify-center rounded-full bg-accent px-1 text-[12px] leading-[11px] font-bold text-white">
-                  {favorites.count}
-                </span>
-              )}
             </Link>
             <ProfileMenu className="hidden sm:block" />
             <button
