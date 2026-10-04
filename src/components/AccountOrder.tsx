@@ -231,11 +231,11 @@ export function AccountOrder({ number }: { number: string }) {
               type="button"
               onClick={() => setConfirm(false)}
               aria-label="Закрыть"
-              className="absolute top-5 right-5 flex size-10 items-center justify-center transition-colors hover:text-accent"
+              className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
             >
               <CloseIcon />
             </button>
-            <div className="flex flex-col gap-2 pr-10">
+            <div className="flex flex-col gap-2 pr-12">
               <h2 id="cancel-title" className="text-h3">
                 Отменить заказ?
               </h2>

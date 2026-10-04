@@ -72,11 +72,11 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
           type="button"
           onClick={onClose}
           aria-label="Закрыть"
-          className="absolute top-6 right-6 flex size-10 items-center justify-center transition-colors hover:text-accent"
+          className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
         >
           <CloseIcon />
         </button>
-        <h2 className="pr-10 text-h2 max-md:text-[20px] max-md:leading-[26px]">{title}</h2>
+        <h2 className="pr-12 text-h2 max-md:text-[20px] max-md:leading-[26px]">{title}</h2>
         {children}
       </div>
     </div>

@@ -577,11 +577,11 @@ export function Checkout() {
               type="button"
               onClick={() => setOrder(undefined)}
               aria-label="Закрыть"
-              className="absolute top-5 right-5 flex size-10 items-center justify-center transition-colors hover:text-accent"
+              className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
             >
               <CloseIcon />
             </button>
-            <h2 id="order-done-title" className="pr-10 text-h3">
+            <h2 id="order-done-title" className="pr-12 text-h3">
               Заказ оформлен
             </h2>
             <p className="text-base-s">
