@@ -204,7 +204,7 @@ export function AccountHome({ picks }: { picks: Product[] }) {
           <div className="flex flex-col gap-2">
             <p className="text-h4">Ваша персональная скидка</p>
             <p className="text-h1">{loyalty.discount}%</p>
-            <p className="text-base-xs">на весь заказ</p>
+            <p className="text-base-s">на весь заказ</p>
           </div>
           <p className="text-base-xs">Больше покупаешь — больше экономишь.</p>
           <Image src={EMPTY_REVIEWS} alt="" width={130} height={130} className="absolute top-4 right-4" />
@@ -213,7 +213,7 @@ export function AccountHome({ picks }: { picks: Product[] }) {
           <div className="flex flex-col gap-2">
             <p className="text-h4">Оплачивай бонусами</p>
             <p className="text-h2">{bonus} баллов</p>
-            <p className="text-base-xs">на вашем счёте</p>
+            <p className="text-base-s">на вашем счёте</p>
           </div>
           <p className="text-base-xs">1 бонус = 1 ₽</p>
           <Image
