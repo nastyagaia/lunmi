@@ -1,7 +1,8 @@
-// Review Section «Не можете выбрать?» (каталог) / «Нужна помощь в выборе?» (товар) + способы связи и фото.
+// Review Section «Не можете выбрать?» + способы связи и фото-«цветочек».
 // tall — в сетке каталога (10146:13746): плитка размером с карточку (304 × 270), розовый фон, поля 20 px,
 // способы связи столбиком через 24 px, фото-«цветочек» 116 × 116 в правом нижнем углу.
-// wide — на странице товара (3715:9364): 708 × 180, розовый фон blush, поля 16 px, фото 148 × 148, способы связи в строку.
+// wide — на странице товара (4622:4981): 720 × 161, фон blush, поля 16 px, способы связи в строку через 32 px
+// (кнопки 40 px высотой), фото-«цветочек» 129 × 129 в 24 px от правого края.
 import Image from "next/image";
 import Link from "next/link";
 import { MailIcon, TelegramIcon, WhatsappIcon } from "./icons";
@@ -14,14 +15,14 @@ const contacts = [
 
 function Contacts({ wide }: { wide: boolean }) {
   return (
-    <ul className={wide ? "flex flex-wrap gap-x-8 gap-y-3" : "flex flex-col gap-6"}>
+    <ul className={wide ? "flex flex-wrap gap-x-8 gap-y-1" : "flex flex-col gap-6"}>
       {contacts.map((c) => (
         <li key={c.label}>
           {/* в столбике зона нажатия 44 px (палец на телефоне), а на вид строки 24 px через 24, как в макете */}
           <Link
             href={c.href}
             className={`flex items-center gap-2 text-base-m transition-colors hover:text-accent ${
-              wide ? "" : "-my-2.5 py-2.5"
+              wide ? "h-10" : "-my-2.5 py-2.5"
             }`}
           >
             {c.icon}
@@ -36,15 +37,23 @@ function Contacts({ wide }: { wide: boolean }) {
 export function HelpCard({ className = "", layout = "tall" }: { className?: string; layout?: "tall" | "wide" }) {
   if (layout === "wide") {
     return (
-      <aside className={`flex items-center justify-between gap-4 rounded-xs bg-blush p-4 ${className}`}>
-        <div className="flex max-w-[388px] flex-col justify-between gap-6 self-stretch pt-3 pb-5">
+      <aside className={`flex justify-between gap-4 rounded-xs bg-blush p-4 ${className}`}>
+        <div className="flex max-w-[392px] flex-col justify-between gap-6">
           <div className="flex flex-col gap-2">
-            <h2 className="text-h3">Нужна помощь в выборе?</h2>
-            <p className="text-base-s">Пишите, куда удобнее, — подскажем:</p>
+            <h2 className="text-h3">Не можете выбрать?</h2>
+            <p className="text-base-s">Пишите, подскажем:</p>
           </div>
-          <Contacts wide />
+          <div className="pb-2">
+            <Contacts wide />
+          </div>
         </div>
-        <Image src="/img/help-product.webp" alt="" width={148} height={148} className="hidden shrink-0 sm:block" />
+        <Image
+          src="/img/help-clover-wide-927aa0.webp"
+          alt=""
+          width={129}
+          height={129}
+          className="mr-6 hidden shrink-0 self-start sm:block"
+        />
       </aside>
     );
   }
