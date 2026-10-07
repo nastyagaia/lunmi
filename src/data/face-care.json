@@ -468,14 +468,11 @@
     "discount": "5%",
     "hit": true,
     "rating": "4.3",
-    "image": "/img/face/anua-peach-70-niacin-serum-1-600-e89655.webp",
-    "hoverImage": "/img/face/anua-peach-70-niacin-serum-2-600-e80578.webp",
+    "image": "/img/face/anua-peach-70-niacin-serum-2-600-e80578.webp",
     "images": [
-      "/img/face/anua-peach-70-niacin-serum-1-1200-e6ef09.webp",
       "/img/face/anua-peach-70-niacin-serum-2-1200-188d2a.webp"
     ],
     "thumbs": [
-      "/img/face/anua-peach-70-niacin-serum-1-600-e89655.webp",
       "/img/face/anua-peach-70-niacin-serum-2-600-e80578.webp"
     ]
   },
