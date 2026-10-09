@@ -118,6 +118,23 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
           </nav>
 
           <div className="flex items-center gap-1 md:gap-2">
+            {/* на телефоне и планшете «Каталог» — словом рядом с иконками: сразу открывает разделы, без бургера */}
+            <button
+              type="button"
+              onClick={() => {
+                setSearchOpen(false);
+                const show = !(open && mobileCatalog);
+                setOpen(show);
+                setMobileCatalog(show);
+              }}
+              aria-expanded={open && mobileCatalog}
+              aria-controls="mobile-menu"
+              className={`flex h-9 items-center px-1.5 text-base-s transition-colors hover:text-accent lg:hidden ${
+                open && mobileCatalog ? "text-accent" : ""
+              }`}
+            >
+              Каталог
+            </button>
             <button
               type="button"
               onClick={() => {
