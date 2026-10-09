@@ -61,7 +61,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               }`}
             />
 
-            <div className="container-page relative flex h-full flex-col justify-end pb-16 md:pb-[98px]">
+            <div className="container-page relative flex h-full flex-col justify-end pb-[94px] md:pb-[98px]">
               <div
                 className={`flex max-w-[709px] flex-col gap-5 transition-[opacity,translate] delay-200 duration-700 ease-out ${
                   current ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"

@@ -32,7 +32,7 @@ export function HeroVideo({ active = true, onEnded }: { active?: boolean; onEnde
     <video
       ref={ref}
       className="absolute inset-0 size-full object-cover"
-      poster="/img/hero.webp"
+      poster="/img/hero-poster-57b1e8.webp"
       muted
       loop={!onEnded}
       playsInline
@@ -42,11 +42,9 @@ export function HeroVideo({ active = true, onEnded }: { active?: boolean; onEnde
     >
       {/* телефоны — отдельное вертикальное видео 720 × 960 (15 с, без звука) под блок 390 × 700 (макет iPhone 16) */}
       <source src="/video/hero-mobile-bfe2da.mp4" type="video/mp4" media="(max-width: 767px)" />
-      {/* WebM — для Chrome/Firefox/Android, MP4 — для Safari и старых браузеров */}
-      <source src="/video/hero-1280.webm" type="video/webm" media="(max-width: 1023px)" />
-      <source src="/video/hero-1280.mp4" type="video/mp4" media="(max-width: 1023px)" />
-      <source src="/video/hero-1920.webm" type="video/webm" />
-      <source src="/video/hero-1920.mp4" type="video/mp4" />
+      {/* планшет и компьютер — видео без чёрных полос (обрезано до 1920 × 888), 15 с, без звука */}
+      <source src="/video/hero-1280-364c59.mp4" type="video/mp4" media="(max-width: 1023px)" />
+      <source src="/video/hero-1920-cc0766.mp4" type="video/mp4" />
     </video>
   );
 }
