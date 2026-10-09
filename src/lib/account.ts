@@ -108,8 +108,26 @@ export function logIn(email: string) {
 }
 export const logOut = () => authStore.set((a) => ({ ...a, email: null }));
 
+/** Пароли почтовых аккаунтов — только в этом браузере, как и весь фейковый вход (ВНИМАНИЕ: не для настоящего магазина).
+ *  Нужны, чтобы при неверном пароле показать «Забыли пароль?», как просила Настя */
+export const passwordStore = createStore<Record<string, string>>("lunmi-passwords", {});
+export const savePassword = (email: string, password: string) =>
+  passwordStore.set((p) => ({ ...p, [email.toLowerCase()]: password }));
+/** true — пароль верный; у почт, заведённых до появления паролей, подходит любой */
+export const checkPassword = (email: string, password: string) => {
+  const saved = passwordStore.read()[email.toLowerCase()];
+  return saved === undefined || saved === password;
+};
+
 /** Удалить все данные покупателя с этого устройства («Удалить аккаунт») */
 export function forgetEverything() {
+  const me = authStore.read().email;
+  if (me)
+    passwordStore.set((p) => {
+      const rest = { ...p };
+      delete rest[me];
+      return rest;
+    });
   authStore.set((a) => ({ email: null, known: a.known.filter((e) => e !== a.email) }));
   contactStore.set(null);
   addressStore.set({ list: [] });

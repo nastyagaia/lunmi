@@ -4,11 +4,21 @@
 // вход по почте 11317:16405…16592, «sign up» 11100:15818). Панель справа:
 // телефон → код из СМС (4 цифры) или «продолжить с email» → почта → пароль / «Придумайте пароль».
 // Новичок после входа видит окно «Давай знакомиться» (имя + почта или телефон — то, чего ещё нет), затем «Привет!».
-// ВНИМАНИЕ: вход фейковый — СМС и писем не отправляем, подходит любой код и любой пароль.
+// ВНИМАНИЕ: вход фейковый — СМС и писем не отправляем, подходит любой код; пароль почты хранится в браузере,
+// при неверном — «Забыли пароль?» (предлагает войти по телефону).
 // «Продолжить с Google» пока не работает — показываем подсказку. Данные кабинета хранятся только в этом браузере.
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
-import { authStore, contactStore, isKnownEmail, logIn, profileStore, type Profile } from "@/lib/account";
+import {
+  authStore,
+  checkPassword,
+  contactStore,
+  isKnownEmail,
+  logIn,
+  profileStore,
+  savePassword,
+  type Profile,
+} from "@/lib/account";
 import { loyalty } from "@/data/loyalty";
 import { formatPhone } from "./CheckoutDrawers";
 import { ArrowLeft, CloseIcon } from "./icons";
@@ -229,6 +239,9 @@ export function LoginLayer() {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [google, setGoogle] = useState(false);
+  // неверный пароль → ошибка под полем и «Забыли пароль?»; note — подсказка после «Забыли пароль?»
+  const [wrong, setWrong] = useState(false);
+  const [note, setNote] = useState(false);
 
   const close = () => {
     setLoginOpen(false);
@@ -237,6 +250,8 @@ export function LoginLayer() {
     setPassword("");
     setShow(false);
     setGoogle(false);
+    setWrong(false);
+    setNote(false);
   };
 
   // Esc закрывает, страница под панелью не прокручивается
@@ -291,7 +306,13 @@ export function LoginLayer() {
       setStep(isKnownEmail(email.trim()) ? "password" : "register");
       return;
     }
-    if (passwordOk) finish(email.trim(), "email");
+    if (!passwordOk) return;
+    if (step === "password" && !checkPassword(email.trim(), password)) {
+      setWrong(true);
+      return;
+    }
+    if (step === "register") savePassword(email.trim(), password);
+    finish(email.trim(), "email");
   };
 
   const byEmail = step === "email" || step === "password" || step === "register";
@@ -345,8 +366,13 @@ export function LoginLayer() {
                 {step === "register" ? "Зарегистрироваться" : "Войти в личный кабинет"}
               </h2>
 
+              {step === "phone" && note && (
+                <p role="status" className="mt-4 text-base-s">
+                  Войдите по номеру телефона — пришлём код в СМС, и пароль не понадобится.
+                </p>
+              )}
               {step === "phone" && (
-                <div className="mt-8 flex flex-col gap-3">
+                <div className={`${note ? "mt-6" : "mt-8"} flex flex-col gap-3`}>
                   <TextField
                     label="Телефон"
                     type="tel"
@@ -411,8 +437,12 @@ export function LoginLayer() {
                       type={show ? "text" : "password"}
                       autoComplete={step === "register" ? "new-password" : "current-password"}
                       value={password}
-                      onChange={setPassword}
+                      onChange={(v) => {
+                        setPassword(v);
+                        setWrong(false);
+                      }}
                       hint={step === "register" ? "Не менее 8 символов" : undefined}
+                      error={wrong ? "Неверный пароль" : undefined}
                       trailing={
                         <button
                           type="button"
@@ -426,6 +456,20 @@ export function LoginLayer() {
                         </button>
                       }
                     />
+                  )}
+                  {wrong && (
+                    // СМС и писем у нас нет, поэтому «Забыли пароль?» предлагает войти по телефону
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStep("phone");
+                        setWrong(false);
+                        setNote(true);
+                      }}
+                      className="-mt-1 self-start text-base-xs underline underline-offset-2 transition-colors hover:text-accent"
+                    >
+                      Забыли пароль?
+                    </button>
                   )}
                   <button
                     type="submit"
@@ -464,11 +508,11 @@ export function LoginLayer() {
               <p className={`${step === "code" ? "mt-auto pt-10" : "mt-8"} text-base-xs`}>
                 Продолжая, вы даёте согласие на{" "}
                 <Link href="/privacy" onClick={close} className="text-accent hover:underline">
-                  обработку персональных данных
+                  Обработку персональных данных
                 </Link>{" "}
                 и соглашаетесь с{" "}
                 <Link href="/privacy" onClick={close} className="text-accent hover:underline">
-                  политикой конфиденциальности
+                  Политикой конфиденциальности
                 </Link>
                 .
               </p>
