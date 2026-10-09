@@ -39,7 +39,18 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             className={`absolute inset-0 transition-opacity duration-700 ${current ? "opacity-100" : "opacity-0"}`}
           >
             {s.image ? (
-              <Image src={s.image} alt="" fill sizes="100vw" className="object-cover" />
+              <>
+                <Image
+                  src={s.image}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className={`object-cover ${s.mobileImage ? "max-md:hidden" : ""}`}
+                />
+                {s.mobileImage && (
+                  <Image src={s.mobileImage} alt="" fill sizes="100vw" className="object-cover md:hidden" />
+                )}
+              </>
             ) : (
               <HeroVideo active={current} onEnded={next} />
             )}

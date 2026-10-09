@@ -9,6 +9,8 @@ export type HeroSlide = {
   title: string;
   text: string;
   image?: string;
+  /** картинка для телефона 393 × 700 (Figma: iPhone 16 - 2…6, 11316:15910 и правее) */
+  mobileImage?: string;
   tone: "light" | "dark";
 };
 
@@ -18,30 +20,35 @@ export const heroSlides: HeroSlide[] = [
     title: "Тренды Кореи",
     text: "Корейские бьюти-хиты, которые уже покорили Сеул.\nОткройте новинки ухода для сияющей кожи.",
     image: "/img/hero-korea.webp",
+    mobileImage: "/img/hero-korea-mobile-f36a55.webp",
     tone: "light",
   },
   {
     title: "−10% SPF",
     text: "Лёгкие корейские санскрины без белых следов\nи липкости. Скидка до 31 июля",
     image: "/img/hero-spf.webp",
+    mobileImage: "/img/hero-spf-mobile-fb1923.webp",
     tone: "light",
   },
   {
     title: "−10% fwee",
     text: "Сочные бальзамы, румяна и тинты fwee\nв оттенках весеннего неба",
     image: "/img/hero-fwee.webp",
+    mobileImage: "/img/hero-fwee-mobile-cf5f1b.webp",
     tone: "dark",
   },
   {
     title: "Dr. Althea",
     text: "Мягкий уход для чувствительной кожи:\nуспокаивает и восстанавливает барьер",
     image: "/img/hero-althea-62353f.webp",
+    mobileImage: "/img/hero-althea-mobile-9545cc.webp",
     tone: "dark",
   },
   {
     title: "Medicube девайсы",
     text: "Домашний уход как в салоне:\nлифтинг, микротоки и сияние кожи",
     image: "/img/hero-medicube.webp",
+    mobileImage: "/img/hero-medicube-mobile-5d0602.webp",
     tone: "light",
   },
 ];
