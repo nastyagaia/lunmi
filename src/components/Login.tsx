@@ -5,7 +5,6 @@
 // «Зарегистрироваться» с «Придумайте пароль» (новая) → окно «Давай знакомиться» → окно «Привет!».
 // ВНИМАНИЕ: вход фейковый — подходит любой пароль, писем не отправляем (поэтому без окон «мы отправили ссылку»
 // и без «Сбросить пароль»). Данные кабинета хранятся только в этом браузере.
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { authStore, contactStore, isKnownEmail, logIn, profileStore, type Profile } from "@/lib/account";
@@ -134,12 +133,14 @@ function Hello({ onClose }: { onClose: () => void }) {
       <p className="-mt-4 text-base-s">
         Рады тебя видеть! Тебя ждёт приветственная скидка {loyalty.discount}%. Приятных покупок!
       </p>
-      <Image
-        src="/img/account/welcome-kitty-59b41a.webp"
-        alt=""
-        width={400}
-        height={300}
-        className="mx-auto h-auto w-full max-w-[400px]"
+      {/* анимация коробочки-подарка (Figma: welcoome 10810:18558) — играет один раз и замирает на последнем кадре */}
+      <video
+        src="/video/welcome-box-white-0c8fc3.mp4"
+        autoPlay
+        muted
+        playsInline
+        aria-hidden="true"
+        className="mx-auto aspect-square w-full max-w-[450px]"
       />
       <Button href="/catalog" size="M" onClick={onClose} className={`self-end ${darkButton}`}>
         за покупками

@@ -40,6 +40,8 @@ export function HeroVideo({ active = true, onEnded }: { active?: boolean; onEnde
       onEnded={onEnded}
       aria-hidden
     >
+      {/* телефоны — отдельное вертикальное видео 720 × 960 (15 с, без звука) под блок 390 × 700 (макет iPhone 16) */}
+      <source src="/video/hero-mobile-bfe2da.mp4" type="video/mp4" media="(max-width: 767px)" />
       {/* WebM — для Chrome/Firefox/Android, MP4 — для Safari и старых браузеров */}
       <source src="/video/hero-1280.webm" type="video/webm" media="(max-width: 1023px)" />
       <source src="/video/hero-1280.mp4" type="video/mp4" media="(max-width: 1023px)" />

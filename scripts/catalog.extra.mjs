@@ -6,6 +6,8 @@ export const ROOT = "/Users/anastasiagajkalova/Desktop/lunmi материалы 
 
 const G = "glow skin/";
 const A = "антивозрастной уход/Lunmi_Anti_Age/";
+const A2 = "антивозрастной уход/новые 9.10/";
+const AN = "уход для лица/Anua новые 9.10/";
 const B = "Для тела/";
 const H = "Для волос/Product/";
 const S = "Для загара/";
@@ -45,6 +47,29 @@ export const extraProducts = [
   { id: "arencia-nad-booster", category: FACE, type: "Сыворотки и ампулы", also: [[AGE, "Сыворотки и ампулы"]], brand: "Arencia", name: "Arencia NAD+ Time-Rewind Booster Shot", title: "Arencia NAD+ Booster Shot", description: "Антивозрастной бустер с NAD+", price: 2790, files: [A + "Arencia NAD+ Time-Rewind Booster Shot.png"] },
   { id: "drdifferent-vitalift-a", category: FACE, type: "Кремы", also: [[AGE, "Ретинол и ретиноиды"]], brand: "Dr.Different", name: "Dr.Different Vitalift-A Forte", description: "Крем с ретиналем для упругости", price: 3990, files: [A + "DrDifferent_Vitalift_A_Forte.png"] },
   { id: "hera-signia-lifting-serum", category: FACE, type: "Сыворотки и ампулы", also: [[AGE, "Лифтинг и упругость"]], brand: "HERA", name: "HERA Signia Core Lifting Serum", title: "HERA Signia Lifting Serum", description: "Лифтинг-сыворотка", price: 8990, files: [A + "HERA_Signia_Core_Lifting_Serum.png"] },
+  // ---------- антивозрастной уход: фото от Насти 9.10.2026 ----------
+  { id: "axis-y-collagen-eye-serum", category: FACE, type: "Сыворотки и ампулы", also: [[AGE, "Кремы для глаз"]], brand: "AXIS-Y", name: "AXIS-Y Vegan Collagen Eye Serum", title: "AXIS-Y Collagen Eye Serum", description: "Роликовая сыворотка для кожи вокруг глаз", price: 1890, files: [A2 + "AXIS-Y_Vegan_Collagen_Eye_Serum.png"] },
+  { id: "boj-revive-firming-cream", category: FACE, type: "Кремы", also: [[AGE, "Ретинол и ретиноиды"]], brand: "Beauty of Joseon", name: "Beauty of Joseon Revive Firming Moisturizer", title: "Beauty of Joseon Revive Firming Cream", description: "Укрепляющий крем с женьшенем и ретинолом", price: 2290, hit: true, rating: "4.8", files: [A2 + "BoJ_Revive_Firming_Moisturizer.png"] },
+  { id: "celimax-retinol-shot-serum", category: FACE, type: "Сыворотки и ампулы", also: [[AGE, "Ретинол и ретиноиды"]], brand: "Celimax", name: "Celimax Retinol Shot Tightening Serum", title: "Celimax Retinol Shot Serum", description: "Сыворотка с ретинолом и пептидами", price: 2190, files: [A2 + "Celimax_Retinol_Shot_Tightening_Serum.png"] },
+  { id: "cosrx-6-peptide-booster", category: FACE, type: "Сыворотки и ампулы", also: [[AGE, "Пептиды"]], brand: "COSRX", name: "COSRX The 6 Peptide Skin Booster Serum", title: "COSRX 6 Peptide Skin Booster", description: "Сыворотка-бустер с пептидами", price: 2490, rating: "4.7", files: [A2 + "COSRX_The_6_Peptide_Skin_Booster.png"] },
+  { id: "cosrx-retinol-05-oil", category: FACE, type: "Сыворотки и ампулы", also: [[AGE, "Ретинол и ретиноиды"]], brand: "COSRX", name: "COSRX The Retinol 0.5 Oil", title: "COSRX Retinol 0.5 Oil", description: "Масло с ретинолом 0,5 % для вечернего ухода", price: 2290, files: [A2 + "COSRX_The_Retinol_0.5_Oil.png"] },
+  { id: "missha-night-repair-ampoule", category: FACE, type: "Сыворотки и ампулы", also: [[AGE, "Сыворотки и ампулы"]], brand: "Missha", name: "Missha Time Revolution Night Repair Ampoule 5X", title: "Missha Night Repair Ampoule 5X", description: "Ночная ампула для восстановления кожи", price: 3290, discount: "15%", files: [A2 + "Missha_Time_Revolution_Night_Repair_Ampoule_5X.png"] },
+  { id: "innisfree-retinol-cica-ampoule", category: FACE, type: "Сыворотки и ампулы", also: [[AGE, "Ретинол и ретиноиды"]], brand: "Innisfree", name: "Innisfree Retinol Cica Repair Ampoule", title: "Innisfree Retinol Cica Ampoule", description: "Ампула с ретинолом и центеллой", price: 2790, files: [A2 + "Innisfree_Retinol_Cica_Repair_Ampoule.webp"] },
+  { id: "iope-retinol-expert", category: FACE, type: "Кремы", also: [[AGE, "Ретинол и ретиноиды"]], brand: "IOPE", name: "IOPE Retinol Expert 0.1% Wrinkle Corrector", title: "IOPE Retinol Expert 0.1%", description: "Крем-корректор морщин с ретинолом", price: 4490, files: [A2 + "IOPE_Retinol_Expert_0.1.png"] },
+  { id: "laneige-perfect-renew-serum", category: FACE, type: "Сыворотки и ампулы", also: [[AGE, "Лифтинг и упругость"]], brand: "Laneige", name: "Laneige Perfect Renew 3X Signature Serum Advanced", title: "Laneige Perfect Renew 3X Serum", description: "Антивозрастная сыворотка для упругости и сияния", price: 5990, files: [A2 + "Laneige_Perfect_Renew_3X_Signature_Serum.png"] },
+  { id: "mizon-collagen-lifting-cream", category: FACE, type: "Кремы", also: [[AGE, "Коллаген"]], brand: "Mizon", name: "Mizon Collagen Power Lifting Cream", title: "Mizon Collagen Lifting Cream", description: "Лифтинг-крем с коллагеном", price: 1990, files: [A2 + "Mizon_Collagen_Power_Lifting_Cream.webp"] },
+  // ---------- Anua: фото от Насти 9.10.2026 (архив «Anua product cards») ----------
+  { id: "anua-pdrn-collagen-patch", category: FACE, type: "Пэды и патчи", also: [[AGE, "Коллаген"], [GLOW, "Экспресс-уход"]], brand: "Anua", name: "Anua PDRN Collagen Melting Patch", title: "Anua PDRN Collagen Patch", description: "Тающие патчи с PDRN и коллагеном", price: 1890, files: [AN + "01 Anua PDRN Collagen Melting Patch.png"] },
+  { id: "anua-pdrn-capsule-mist", category: FACE, type: "Мисты", also: [[GLOW, "Увлажнение"]], brand: "Anua", name: "Anua PDRN Hyaluronic Acid Capsule Mist", title: "Anua PDRN Capsule Mist", description: "Мист с капсулами PDRN и гиалуроновой кислотой", price: 2190, files: [AN + "02 Anua PDRN Hyaluronic Capsule Mist.png"] },
+  { id: "anua-pdrn-booster-toner", category: FACE, type: "Тонеры и пэды", also: [[GLOW, "Увлажнение"], [AGE, "Увлажняющие средства"]], brand: "Anua", name: "Anua PDRN 100 Hyaluronic Booster Toner", title: "Anua PDRN 100 Booster Toner", description: "Тонер-бустер с PDRN и гиалуроновой кислотой", price: 2290, hit: true, files: [AN + "03 Anua PDRN 100 Hyaluronic Booster Toner.png"] },
+  { id: "anua-pdrn-cleansing-foam", category: FACE, type: "Очищение", brand: "Anua", name: "Anua PDRN Hyaluronic Acid Cleansing Foam", title: "Anua PDRN Cleansing Foam", description: "Увлажняющая пенка для умывания", price: 1590, files: [AN + "04 Anua PDRN Hyaluronic Cleansing Foam.png"] },
+  { id: "anua-pdrn-capsule-serum-pack", category: FACE, type: "Сыворотки и ампулы", also: [[AGE, "Сыворотки и ампулы"]], brand: "Anua", name: "Anua PDRN Hyaluronic Acid Capsule 100 Serum Pack", title: "Anua PDRN Capsule Serum, 10 ампул", description: "Набор ампул с PDRN: 10 × 1 мл", price: 2990, files: [AN + "05 Anua PDRN Hyaluronic Capsule Serum Pack.png"] },
+  { id: "anua-rice-70-milky-toner", category: FACE, type: "Тонеры и пэды", also: [[GLOW, "Сияние кожи"]], brand: "Anua", name: "Anua Rice 70 Glow Milky Toner", title: "Anua Rice 70 Milky Toner", description: "Молочный тонер с рисом для сияния", price: 2190, files: [AN + "06 Anua Rice 70 Glow Milky Toner.png"] },
+  { id: "anua-heartleaf-70-intense-cream", category: FACE, type: "Кремы", also: [[GLOW, "Успокаивающий уход"]], brand: "Anua", name: "Anua Heartleaf 70 Intense Calming Cream", title: "Anua Heartleaf 70 Intense Cream", description: "Успокаивающий крем с хауттюйнией и керамидами", price: 2490, files: [AN + "07 Anua Heartleaf 70 Intense Calming Cream.png"] },
+  { id: "anua-3-ceramide-cream", category: FACE, type: "Кремы", also: [[GLOW, "Восстановление барьера"]], brand: "Anua", name: "Anua 3 Ceramide Panthenol Moisture Barrier Cream", title: "Anua 3 Ceramide Barrier Cream", description: "Крем с керамидами и пантенолом для барьера кожи", price: 2190, files: [AN + "08 Anua 3 Ceramide Panthenol Barrier Cream.png"] },
+  { id: "anua-peach-77-milk", category: FACE, type: "Кремы", also: [[GLOW, "Сияние кожи"]], brand: "Anua", name: "Anua Peach 77 Niacin Conditioning Milk", title: "Anua Peach 77 Conditioning Milk", description: "Эмульсия с персиком и ниацинамидом", price: 2290, files: [AN + "09 Anua Peach 77 Niacin Conditioning Milk.png"] },
+  { id: "anua-heartleaf-pha-pad", category: FACE, type: "Пэды и патчи", also: [[GLOW, "Уход за порами"]], brand: "Anua", name: "Anua Heartleaf 77 + PHA Pore Care Pad", title: "Anua Heartleaf PHA Pore Pad", description: "Пэды с хауттюйнией и PHA для пор", price: 2390, files: [AN + "10 Anua Heartleaf 77 Clear Pad.png"] },
+  { id: "anua-niacinamide-txa-pad", category: FACE, type: "Пэды и патчи", also: [[GLOW, "Выравнивание тона"], [AGE, "От пигментации"]], brand: "Anua", name: "Anua Niacinamide 5 + TXA Brightening Pad", title: "Anua Niacinamide TXA Pad", description: "Осветляющие пэды с ниацинамидом и транексамовой кислотой", price: 2390, files: [AN + "11 Anua Niacinamide 5 TXA Brightening Pad.png"] },
   { id: "elizavecca-piggy-collagen", category: FACE, type: "Маски", also: [[AGE, "Коллаген"]], brand: "Elizavecca", name: "Elizavecca Green Piggy Collagen Jella Pack", title: "Elizavecca Piggy Collagen Pack", description: "Коллагеновая маска-желе", price: 990, files: [A + "Elizavecca Green Piggy Collagen Jella Pack.png"] },
 
   // ---------- для тела ----------
@@ -81,7 +106,7 @@ export const extraProducts = [
 
   // ---------- для загара: солнцезащитные средства живут и в «SPF для лица» ----------
   { id: "manyo-sun-serum", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Manyo", name: "Manyo Galactomy Moisture Sun Serum SPF50+ PA++++", title: "Manyo Galactomy Sun Serum", description: "Увлажняющая солнцезащитная сыворотка", price: 1990, files: [S + "Manyo Galactomy Moisture Sun Serum SPF 50+ PA++++.png"] },
-  { id: "manyo-sun-stick", category: FACE, type: "SPF для лица", also: [[SUN, "SPF-стики"]], brand: "Manyo", name: "Manyo Hyaluron Hydrating Sun Stick SPF50+ PA++++", title: "Manyo Hyaluron Sun Stick", description: "Увлажняющий солнцезащитный стик", price: 1790, files: [S + "Manyo Hyaluron Hydrating Sun Stick SPF50+ PA++++.png"] },
+  { id: "manyo-sun-stick", category: FACE, type: "SPF для лица", also: [[SUN, "SPF-стики"], [AGE, "Солнцезащитные кремы"]], brand: "Manyo", name: "Manyo Hyaluron Hydrating Sun Stick SPF50+ PA++++", title: "Manyo Hyaluron Sun Stick", description: "Увлажняющий солнцезащитный стик", price: 1790, files: [S + "Manyo Hyaluron Hydrating Sun Stick SPF50+ PA++++.png"] },
   { id: "anua-glow-sunstick", category: FACE, type: "SPF для лица", also: [[SUN, "SPF-стики"]], brand: "Anua", name: "Anua Invisible Glow Finish Sunstick", title: "Anua Glow Finish Sunstick", description: "Невидимый стик с сияющим финишем", price: 1890, discount: "10%", hit: true, files: [S + "Anua_Invisible_Glow_Finish_Sunstick.png"] },
   { id: "drg-green-mild-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Dr.G", name: "Dr.G Green Mild Up Sun+", description: "Минеральный крем для чувствительной кожи", price: 1890, files: [S + "Dr.G_Green_Mild_Up_Sun+.png"] },
   { id: "benton-air-fit-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Benton", name: "Benton Air Fit UV Defense Sun Cream", title: "Benton Air Fit Sun Cream", description: "Лёгкий солнцезащитный крем", price: 1590, files: [S + "Benton_Air_Fit_UV_Defense_Sun_Cream.png"] },
@@ -89,7 +114,7 @@ export const extraProducts = [
   { id: "cosrx-invisible-sunscreen", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "COSRX", name: "COSRX Ultra-Light Invisible Sunscreen", title: "COSRX Invisible Sunscreen", description: "Невесомый солнцезащитный крем", price: 1590, rating: "4.6", files: [S + "COSRX_Ultra-Light_Invisible_Sunscreen.png"] },
   { id: "purito-soft-touch-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Purito", name: "Purito Daily Soft Touch Sunscreen", title: "Purito Soft Touch Sunscreen", description: "Солнцезащитный крем с бархатным финишем", price: 1490, files: [S + "Purito_Daily_Soft_Touch_Sunscreen.png"] },
   { id: "thank-you-farmer-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Thank You Farmer", name: "Thank You Farmer Sun Project Skin Relief Sun Cream", title: "Thank You Farmer Relief Sun Cream", description: "Успокаивающий солнцезащитный крем", price: 1690, files: [S + "Thank_You_Farmer_Sun_Project_Skin_Relief_Sun_Cream.png"] },
-  { id: "skin1004-hyalu-cica-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"], [HITS, "Бестселлеры Olive Young"]], brand: "SKIN1004", name: "SKIN1004 Hyalu-Cica Water-Fit Sun Serum", title: "SKIN1004 Hyalu-Cica Sun Serum", description: "Солнцезащитная сыворотка с центеллой", price: 1790, discount: "15%", hit: true, rating: "4.9", files: [S + "SKIN1004_Hyalu-Cica_Water-Fit_Sun_Serum.png"] },
+  { id: "skin1004-hyalu-cica-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"], [HITS, "Бестселлеры Olive Young"], [AGE, "Солнцезащитные кремы"]], brand: "SKIN1004", name: "SKIN1004 Hyalu-Cica Water-Fit Sun Serum", title: "SKIN1004 Hyalu-Cica Sun Serum", description: "Солнцезащитная сыворотка с центеллой", price: 1790, discount: "15%", hit: true, rating: "4.9", files: [S + "SKIN1004_Hyalu-Cica_Water-Fit_Sun_Serum.png"] },
   { id: "tocobo-bio-watery-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Tocobo", name: "Tocobo Bio Watery Sun Cream SPF50+", title: "Tocobo Bio Watery Sun Cream", description: "Водянистый солнцезащитный крем", price: 1690, files: [S + "TOCOBO_Bio_Watery_Sun_Cream_SPF50+.png"] },
   { id: "haruharu-black-rice-sun", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Haruharu", name: "Haruharu Wonder Black Rice Moisture Airyfit Daily Sunscreen", title: "Haruharu Black Rice Sunscreen", description: "Увлажняющий крем с чёрным рисом", price: 1890, files: [S + "Haruharu Wonder Black Rice Moisture Airyfit Daily Sunscreen.png"] },
   { id: "makeprem-sun-essence", category: FACE, type: "SPF для лица", also: [[SUN, "Увлажняющие кремы с SPF"]], brand: "Make p:rem", name: "Make p:rem UV Defense Me Daily Sun Essence", title: "Make p:rem Daily Sun Essence", description: "Солнцезащитная эссенция на каждый день", price: 1590, files: [S + "make_prem_UV_Defense_Me_Daily_Sun_Essence.png"] },
@@ -329,13 +354,13 @@ export const tags = {
   "numbuzin-no5-glutathione": [[GLOW, "Выравнивание тона"]],
   "skin1004-tone-brightening": [[GLOW, "Выравнивание тона"]],
   "medipeel-peptide-9-cream": [[GLOW, "Антивозрастной уход"], [AGE, "Пептиды"]],
-  "torriden-dive-in-serum": [[GLOW, "Увлажнение"], [HITS, "Бестселлеры Olive Young"]],
+  "torriden-dive-in-serum": [[GLOW, "Увлажнение"], [HITS, "Бестселлеры Olive Young"], [AGE, "Сыворотки и ампулы"]],
   "round-lab-birch-cream": [[GLOW, "Увлажнение"]],
   "aestura-atobarrier-cream": [[GLOW, "Восстановление барьера"], [HITS, "Бестселлеры Olive Young"]],
   "cosrx-ceramide-cream": [[GLOW, "Восстановление барьера"]],
   "skin1004-centella-ampoule": [[GLOW, "Успокаивающий уход"], [HITS, "Бестселлеры Olive Young"]],
   "mediheal-nmf-ampoule-mask": [[GLOW, "Экспресс-уход"]],
-  "anua-pdrn-cream": [[GLOW, "Питание и восстановление"], [HITS, "Тренды в Корее"]],
+  "anua-pdrn-cream": [[GLOW, "Питание и восстановление"], [HITS, "Тренды в Корее"], [AGE, "Кремы"]],
   "anua-heartleaf-sun-cream": [[GLOW, "Защита от солнца"], [SUN, "Увлажняющие кремы с SPF"]],
   "anua-peach-tone-up": [[SUN, "Увлажняющие кремы с SPF"]],
   "celimax-retinal-shot": [[AGE, "Ретинол и ретиноиды"], [HITS, "Тренды в Корее"]],
@@ -354,7 +379,7 @@ export const tags = {
   "cosrx-pdrn-overnight-mask": [[HITS, "Тренды в Корее"]],
   "medicube-pdrn-caffeine-mask": [[HITS, "Тренды в Корее"]],
   "anua-pore-cleansing-oil": [[HITS, "Бестселлеры Olive Young"]],
-  "torriden-dive-in-cream": [[HITS, "Бестселлеры Olive Young"]],
+  "torriden-dive-in-cream": [[HITS, "Бестселлеры Olive Young"], [AGE, "Кремы"]],
   "dr-althea-345-cream": [[HITS, "Бестселлеры Olive Young"]],
   "mediheal-nmf-ampoule-mask": [[HITS, "Бестселлеры Olive Young"]],
   "medicube-zero-pore-pad": [[HITS, "Тренды Тиктока"]],
@@ -362,4 +387,12 @@ export const tags = {
   "medicube-kojic-serum": [[HITS, "Тренды Тиктока"]],
   "biodance-caviar-eye-patch": [[HITS, "Тренды в Корее"]],
   "abib-pdrn-glow-serum": [[HITS, "Тренды в Корее"]],
+  "isntree-hyaluronic-toner": [[AGE, "Увлажняющие средства"]],
+  "torriden-dive-in-toner": [[AGE, "Увлажняющие средства"]],
+  "anua-azelaic-serum": [[AGE, "Сыворотки и ампулы"]],
+  "illiyoon-hyaluronic-cream": [[AGE, "Кремы"]],
+  "laneige-water-bank-cream": [[AGE, "Кремы"]],
+  "wellage-hyaluronic-cream": [[AGE, "Кремы"]],
+  "torriden-dive-in-mask": [[AGE, "Увлажняющие средства"]],
+  "torriden-multi-pad": [[AGE, "Увлажняющие средства"]],
 };

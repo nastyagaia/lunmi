@@ -24,7 +24,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
 
   return (
     <section
-      className="relative h-[560px] overflow-hidden bg-primary md:h-[660px]"
+      className="relative h-[700px] overflow-hidden bg-primary md:h-[660px]"
       aria-roledescription="карусель"
       aria-label="Акции"
     >
