@@ -35,7 +35,7 @@ export const heroSlides: HeroSlide[] = [
   {
     title: "Dr. Althea",
     text: "Мягкий уход для чувствительной кожи:\nуспокаивает и восстанавливает барьер",
-    image: "/img/hero-althea.webp",
+    image: "/img/hero-althea-62353f.webp",
     tone: "dark",
   },
   {
