@@ -11,6 +11,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   useSyncExternalStore,
   type ReactNode,
@@ -85,6 +86,9 @@ const subscribe = (l: () => void) => {
 export function CartProvider({ children }: { children: ReactNode }) {
   const items = useSyncExternalStore(subscribe, read, () => EMPTY);
   const [open, setOpen] = useState(false);
+  // снекбар «… добавлено в корзину»: какой товар показываем; сам прячется через 3 секунды
+  const [snack, setSnack] = useState<{ name: string; id: number } | null>(null);
+  const snackTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const add = useCallback<Cart["add"]>((item, opts) => {
     write((list) => {
@@ -93,7 +97,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         ? list.map((i) => (i.key === item.key ? { ...i, qty: i.qty + 1 } : i))
         : [...list, { ...item, qty: 1 }];
     });
-    if (opts?.show !== false) setOpen(true);
+    if (opts?.show !== false) {
+      setSnack({ name: item.name, id: Date.now() });
+      clearTimeout(snackTimer.current);
+      snackTimer.current = setTimeout(() => setSnack(null), 3000);
+    }
   }, []);
 
   const setQty = useCallback((key: string, qty: number) => {
@@ -129,7 +137,29 @@ export function CartProvider({ children }: { children: ReactNode }) {
     <CartContext.Provider value={value}>
       {children}
       <CartDrawer />
+      <Snackbar item={snack} />
     </CartContext.Provider>
+  );
+}
+
+/** Snackbar из Figma (7557:47768, на макете product 5 — 10402:22776): под шапкой у правого края сетки,
+    стекло #292929 70 % (в Figma без переменной), размытие 10, белый Base/S. Вместо выезда корзины при добавлении */
+function Snackbar({ item }: { item: { name: string; id: number } | null }) {
+  return (
+    <div role="status" aria-live="polite" className="pointer-events-none fixed inset-x-0 top-[68px] z-40">
+      {item && (
+        <div className="container-page flex justify-end">
+          <p
+            key={item.id}
+            className="max-w-80 animate-[dropdown-in_200ms_ease-out] rounded-sm bg-primary/70 p-3 text-base-s text-white backdrop-blur-[10px]"
+          >
+            {item.name}
+            <br />
+            добавлено в корзину
+          </p>
+        </div>
+      )}
+    </div>
   );
 }
 

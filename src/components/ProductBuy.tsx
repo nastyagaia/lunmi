@@ -3,7 +3,9 @@
 // Product Info из UI KIT (10228:14275): бейджи, рейтинг с отзывами, название, описание,
 // выбор оттенка или объёма, цена, «В корзину» и избранное. Порядок не меняем.
 // После «В корзину» кнопка превращается в счётчик «− 1 +» (Figma: Frame 21289). На нуле — снова кнопка.
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { brandSlug } from "@/data/brands";
 import { rememberViewed } from "@/lib/account";
 import type { ProductDetails } from "@/data/products";
 import { priceToNumber, useCart } from "./Cart";
@@ -21,12 +23,19 @@ function reviewsWord(n: number) {
   return `${n} отзывов`;
 }
 
+/** Начало названия, совпадающее с брендом («CLIO»; у «VT Cosmetics» — «VT», у «Tony Moly» — «TONYMOLY») — оно станет ссылкой на бренд */
+function brandPrefix(name: string, brand?: string) {
+  if (!brand) return;
+  return [brand, brand.split(" ")[0], brand.replaceAll(" ", "")].find((b) => name.toLowerCase().startsWith(b.toLowerCase() + " "));
+}
+
 export function ProductBuy({ product }: { product: ProductDetails }) {
   // оттенок или объём — общий с галереей (у товара бывает что-то одно): выбрали — галерея показывает его фото
   const { shade: picked, setShade } = useShade(
     product.shades?.find((s) => s.available !== false)?.name ?? product.volumes?.[0]?.name,
   );
   const shade = product.shades ? picked : undefined;
+  const brand = brandPrefix(product.name, product.card?.brand);
   const volume = product.volumes?.find((v) => v.name === picked) ?? product.volumes?.[0];
   // у объёма своя цена
   const price = volume?.price ?? product.price;
@@ -68,7 +77,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           product.images[0],
         href: `/product/${product.slug}`,
       },
-      // первое добавление показывает корзину, дальше «+» просто увеличивает количество
+      // первое добавление показывает снекбар, дальше «+» просто увеличивает количество
       { show: qty === 0 },
     );
 
@@ -99,7 +108,18 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <h1 className="text-h3 leading-8 max-md:text-[18px] max-md:leading-7">{product.name}</h1>
+          <h1 className="text-h3 leading-8 max-md:text-[18px] max-md:leading-7">
+            {brand ? (
+              <>
+                <Link href={`/brands/${brandSlug(product.card!.brand!)}`} className="transition-colors hover:text-accent">
+                  {product.name.slice(0, brand.length)}
+                </Link>
+                {product.name.slice(brand.length)}
+              </>
+            ) : (
+              product.name
+            )}
+          </h1>
           <p className="text-base-s text-secondary">{product.subtitle}</p>
         </div>
 
