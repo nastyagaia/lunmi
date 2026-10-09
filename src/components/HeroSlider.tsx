@@ -2,10 +2,10 @@
 
 // Первый экран — слайдер из макета (hero anua pdrn, hero korea trends и др.).
 // Первый слайд — видео (доигрывает до конца), остальные — фото, сменяются каждые 6 секунд.
-// Нажатие на полоску переключает слайд и запускает отсчёт заново.
+// Нажатие на полоску переключает слайд и запускает отсчёт заново. На телефоне листается свайпом.
 // Если в системе включено «уменьшить движение», слайды сами не листаются.
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { HeroSlide } from "@/data/home";
 import { HeroVideo } from "./HeroVideo";
 import { Button } from "./ui";
@@ -13,6 +13,20 @@ import { Button } from "./ui";
 export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   const [active, setActive] = useState(0);
   const next = useCallback(() => setActive((i) => (i + 1) % slides.length), [slides.length]);
+  const prev = () => setActive((i) => (i - 1 + slides.length) % slides.length);
+
+  // свайп: палец проехал по горизонтали больше 50 px и больше, чем по вертикали (иначе это прокрутка страницы)
+  const touch = useRef<{ x: number; y: number } | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!touch.current) return;
+    const dx = e.changedTouches[0].clientX - touch.current.x;
+    const dy = e.changedTouches[0].clientY - touch.current.y;
+    touch.current = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) (dx < 0 ? next : prev)();
+  };
 
   // фото-слайды: через 6 секунд — следующий (видео-слайд переключается сам, когда доиграет)
   useEffect(() => {
@@ -27,6 +41,8 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
       className="relative h-[700px] overflow-hidden bg-primary md:h-[660px]"
       aria-roledescription="карусель"
       aria-label="Акции"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
     >
       {slides.map((s, i) => {
         const light = s.tone === "light";
