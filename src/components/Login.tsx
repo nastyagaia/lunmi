@@ -1,15 +1,17 @@
 "use client";
 
-// Вход в личный кабинет (Figma: «Вход по почте уже зарегистрированного пользователя», «Вход по почте новичка»,
-// «если пользователь новый», «Frame 21292»). Панель справа: почта → пароль (знакомая почта) или
-// «Зарегистрироваться» с «Придумайте пароль» (новая) → окно «Давай знакомиться» → окно «Привет!».
-// ВНИМАНИЕ: вход фейковый — подходит любой пароль, писем не отправляем (поэтому без окон «мы отправили ссылку»
-// и без «Сбросить пароль»). Данные кабинета хранятся только в этом браузере.
+// Вход в личный кабинет (Figma: «вход по телефону» 11100:15886, «login sms code / typing / error / resend»,
+// вход по почте 11317:16405…16592, «sign up» 11100:15818). Панель справа:
+// телефон → код из СМС (4 цифры) или «продолжить с email» → почта → пароль / «Придумайте пароль».
+// Новичок после входа видит окно «Давай знакомиться» (имя + почта или телефон — то, чего ещё нет), затем «Привет!».
+// ВНИМАНИЕ: вход фейковый — СМС и писем не отправляем, подходит любой код и любой пароль.
+// «Продолжить с Google» пока не работает — показываем подсказку. Данные кабинета хранятся только в этом браузере.
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { authStore, contactStore, isKnownEmail, logIn, profileStore, type Profile } from "@/lib/account";
 import { loyalty } from "@/data/loyalty";
-import { CloseIcon } from "./icons";
+import { formatPhone } from "./CheckoutDrawers";
+import { ArrowLeft, CloseIcon } from "./icons";
 import { Button, Checkbox, Radio, TextField } from "./ui";
 
 /* ---------- открыть окно входа можно из любого места: openLogin() ---------- */
@@ -84,18 +86,23 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 
 const darkButton = "bg-primary text-white hover:bg-primary/85";
 
-/** Шаг после регистрации: имя, телефон, пол, рассылка → профиль и контакты кабинета */
-function AboutYou({ onDone, onClose }: { onDone: () => void; onClose: () => void }) {
+/** Шаг после регистрации (Figma: sign up): имя, почта или телефон (то, чем не входили), пол, рассылка */
+function AboutYou({ by, onDone, onClose }: { by: "phone" | "email"; onDone: () => void; onClose: () => void }) {
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [extra, setExtra] = useState("");
   const [gender, setGender] = useState<Profile["gender"]>();
   const [news, setNews] = useState(true);
-  const valid = name.trim().length >= 2;
+  const valid = name.trim().length >= 2 && (by === "phone" ? !extra || EMAIL_RE.test(extra.trim()) : true);
 
   const save = () => {
     const [firstName, ...rest] = name.trim().split(/\s+/);
-    profileStore.set((p) => ({ ...p, firstName, lastName: rest.join(" "), gender, news }));
-    if (phone.trim()) contactStore.set((c) => ({ notify: c?.notify ?? "СМС", name: name.trim(), phone: phone.trim() }));
+    const email = by === "phone" && extra.trim() ? { email: extra.trim().toLowerCase() } : {};
+    profileStore.set((p) => ({ ...p, firstName, lastName: rest.join(" "), gender, news, ...email }));
+    contactStore.set((c) => ({
+      notify: c?.notify ?? "СМС",
+      name: name.trim(),
+      phone: by === "email" && extra.trim() ? extra.trim() : (c?.phone ?? ""),
+    }));
     onDone();
   };
 
@@ -103,7 +110,18 @@ function AboutYou({ onDone, onClose }: { onDone: () => void; onClose: () => void
     <Modal title="Давай знакомиться" onClose={onClose}>
       <div className="flex flex-col gap-5">
         <TextField label="Твоё имя" value={name} onChange={setName} autoComplete="name" />
-        <TextField label="Телефон" value={phone} onChange={setPhone} type="tel" inputMode="tel" autoComplete="tel" />
+        {by === "phone" ? (
+          <TextField label="Email" value={extra} onChange={setExtra} type="email" autoComplete="email" />
+        ) : (
+          <TextField
+            label="Телефон"
+            value={extra}
+            onChange={(v) => setExtra(formatPhone(v))}
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+          />
+        )}
         <div className="flex gap-6">
           {(["Женщина", "Мужчина"] as const).map((g) => (
             <Radio key={g} name="about-gender" checked={gender === g} onChange={() => setGender(g)}>
@@ -149,20 +167,76 @@ function Hello({ onClose }: { onClose: () => void }) {
   );
 }
 
+/** «G» Google — фирменные цвета (Figma: кнопка «продолжить с Google») */
+function GoogleIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden>
+      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z" />
+      <path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+      <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z" />
+      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z" />
+    </svg>
+  );
+}
+
+/** Код из СМС (Figma: login sms code / typing / error): 4 клетки 36 × 52 через 4 px.
+ *  Одно поле ввода поверх клеток — так работают вставка и автоподстановка кода из СМС на телефоне */
+function CodeInput({ value, onChange, error }: { value: string; onChange: (v: string) => void; error?: boolean }) {
+  return (
+    <div className="relative flex w-max gap-1">
+      {[0, 1, 2, 3].map((i) => (
+        <span
+          key={i}
+          className={`flex h-[52px] w-9 items-center justify-center rounded-xs border text-h3 ${
+            error ? "border-error" : i === value.length ? "border-accent" : "border-primary"
+          }`}
+        >
+          {value[i] ?? ""}
+        </span>
+      ))}
+      <input
+        autoFocus
+        value={value}
+        onChange={(e) => onChange(e.target.value.replace(/\D/g, "").slice(0, 4))}
+        inputMode="numeric"
+        autoComplete="one-time-code"
+        aria-label="Код из СМС"
+        aria-invalid={error}
+        className="absolute inset-0 bg-transparent text-transparent caret-transparent outline-none"
+      />
+    </div>
+  );
+}
+
+/** «через 20 секунд», «через 3 секунды», «через 1 секунду» */
+function secondsWord(n: number) {
+  const m10 = n % 10;
+  const m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return `${n} секунду`;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return `${n} секунды`;
+  return `${n} секунд`;
+}
+
 /** Панель входа + окна после регистрации. Стоит один раз на весь сайт (в layout) */
 export function LoginLayer() {
   const open = useLoginOpen();
-  const [step, setStep] = useState<"email" | "password" | "register">("email");
-  const [after, setAfter] = useState<"about" | "hello" | null>(null);
+  const [step, setStep] = useState<"phone" | "code" | "email" | "password" | "register">("phone");
+  const [after, setAfter] = useState<{ step: "about" | "hello"; by: "phone" | "email" } | null>(null);
+  const [phone, setPhone] = useState("");
+  const [code, setCode] = useState("");
+  const [wait, setWait] = useState(0);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const [google, setGoogle] = useState(false);
 
   const close = () => {
     setLoginOpen(false);
-    setStep("email");
+    setStep("phone");
+    setCode("");
     setPassword("");
     setShow(false);
+    setGoogle(false);
   };
 
   // Esc закрывает, страница под панелью не прокручивается
@@ -177,21 +251,52 @@ export function LoginLayer() {
     };
   });
 
+  // отсчёт до «получить код повторно»
+  useEffect(() => {
+    if (step !== "code" || wait <= 0) return;
+    const t = setTimeout(() => setWait((w) => w - 1), 1000);
+    return () => clearTimeout(t);
+  }, [step, wait]);
+
+  const phoneOk = phone.replace(/\D/g, "").length === 11;
   const emailOk = EMAIL_RE.test(email.trim());
   const passwordOk = step === "register" ? password.length >= 8 : password.length > 0;
 
+  const finish = (id: string, by: "phone" | "email") => {
+    const isNew = !isKnownEmail(id);
+    logIn(id);
+    close();
+    if (isNew) setAfter({ step: "about", by });
+  };
+
+  const sendCode = () => {
+    setCode("");
+    setWait(60);
+    setStep("code");
+  };
+
+  // ввели 4 цифры — сразу входим (СМС фейковые, подходит любой код)
+  const enterCode = (v: string) => {
+    setCode(v);
+    if (v.length === 4) finish(phone, "phone");
+  };
+
   const submit = () => {
+    if (step === "phone") {
+      if (phoneOk) sendCode();
+      return;
+    }
     if (step === "email") {
       if (!emailOk) return;
       setStep(isKnownEmail(email.trim()) ? "password" : "register");
       return;
     }
-    if (!passwordOk) return;
-    const isNew = step === "register";
-    logIn(email.trim());
-    close();
-    if (isNew) setAfter("about");
+    if (passwordOk) finish(email.trim(), "email");
   };
+
+  const byEmail = step === "email" || step === "password" || step === "register";
+  const outline =
+    "flex h-10 items-center justify-center gap-2 rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white";
 
   return (
     <>
@@ -210,6 +315,16 @@ export function LoginLayer() {
             aria-labelledby="login-title"
             className="relative flex h-full w-full max-w-[717px] animate-[drawer-in_300ms_ease-out] flex-col bg-white"
           >
+            {step === "code" && (
+              <button
+                type="button"
+                onClick={() => setStep("phone")}
+                aria-label="Назад"
+                className="absolute top-5 left-5 flex size-10 items-center justify-center transition-colors hover:text-accent md:top-6 md:left-6"
+              >
+                <ArrowLeft />
+              </button>
+            )}
             <button
               type="button"
               onClick={close}
@@ -218,64 +333,135 @@ export function LoginLayer() {
             >
               <CloseIcon />
             </button>
-            {/* колонка 432 px по центру панели, как в макете */}
+            {/* колонка 433 px по центру панели, как в макете (с запасом в 1 px — заголовок помещается в строку) */}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 submit();
               }}
-              className="mx-auto flex w-full max-w-[464px] flex-1 flex-col px-5 pt-24 pb-8 md:px-4 md:pt-[130px]"
+              className="mx-auto flex w-full max-w-[466px] flex-1 flex-col overflow-y-auto px-5 pt-24 pb-8 md:px-4 md:pt-[130px]"
             >
               <h2 id="login-title" className="text-h2 max-md:text-[20px] max-md:leading-[26px]">
                 {step === "register" ? "Зарегистрироваться" : "Войти в личный кабинет"}
               </h2>
-              <div className="mt-6 flex flex-col gap-3">
-                <TextField
-                  label="Email"
-                  type="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(v) => {
-                    setEmail(v);
-                    // поменяли почту — заново решаем, вход это или регистрация
-                    if (step !== "email") setStep("email");
-                  }}
-                  onClear={() => {
-                    setEmail("");
-                    setStep("email");
-                  }}
-                />
-                {step !== "email" && (
+
+              {step === "phone" && (
+                <div className="mt-8 flex flex-col gap-3">
                   <TextField
-                    label={step === "register" ? "Придумайте пароль" : "Пароль"}
-                    type={show ? "text" : "password"}
-                    autoComplete={step === "register" ? "new-password" : "current-password"}
-                    value={password}
-                    onChange={setPassword}
-                    hint={step === "register" ? "Не менее 8 символов" : undefined}
-                    trailing={
+                    label="Телефон"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    value={phone}
+                    onChange={(v) => setPhone(formatPhone(v))}
+                    onClear={() => setPhone("")}
+                  />
+                  <button
+                    type="submit"
+                    disabled={!phoneOk}
+                    className={`mt-1 h-[52px] text-caps transition-colors disabled:bg-tertiary ${darkButton}`}
+                  >
+                    получить код
+                  </button>
+                </div>
+              )}
+
+              {step === "code" && (
+                <div className="mt-4 flex flex-col gap-6">
+                  <p className="text-base-s">Мы отправили СМС с кодом на номер {phone}.</p>
+                  <div className="flex flex-col gap-2">
+                    <CodeInput value={code} onChange={enterCode} />
+                    {wait > 0 ? (
+                      <p className="text-base-xs text-secondary">
+                        Получить новый код можно через {secondsWord(wait)}
+                      </p>
+                    ) : (
                       <button
                         type="button"
-                        onClick={() => setShow((v) => !v)}
-                        aria-label={show ? "Скрыть пароль" : "Показать пароль"}
-                        className={`-mr-1 flex size-9 shrink-0 items-center justify-center transition-colors hover:text-primary ${
-                          show ? "text-accent" : "text-tertiary"
-                        }`}
+                        onClick={sendCode}
+                        className="self-start text-caps underline underline-offset-2 transition-colors hover:text-accent"
                       >
-                        <EyeIcon open={show} />
+                        получить код повторно
                       </button>
-                    }
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {byEmail && (
+                <div className="mt-8 flex flex-col gap-3">
+                  <TextField
+                    label="Email"
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(v) => {
+                      setEmail(v);
+                      // поменяли почту — заново решаем, вход это или регистрация
+                      if (step !== "email") setStep("email");
+                    }}
+                    onClear={() => {
+                      setEmail("");
+                      setStep("email");
+                    }}
                   />
-                )}
-                <button
-                  type="submit"
-                  disabled={step === "email" ? !emailOk : !passwordOk}
-                  className={`mt-1 h-[52px] text-caps transition-colors disabled:bg-tertiary ${darkButton}`}
-                >
-                  продолжить
-                </button>
-              </div>
-              <p className="mt-auto pt-10 text-base-xs">
+                  {step !== "email" && (
+                    <TextField
+                      label={step === "register" ? "Придумайте пароль" : "Пароль"}
+                      type={show ? "text" : "password"}
+                      autoComplete={step === "register" ? "new-password" : "current-password"}
+                      value={password}
+                      onChange={setPassword}
+                      hint={step === "register" ? "Не менее 8 символов" : undefined}
+                      trailing={
+                        <button
+                          type="button"
+                          onClick={() => setShow((v) => !v)}
+                          aria-label={show ? "Скрыть пароль" : "Показать пароль"}
+                          className={`-mr-1 flex size-9 shrink-0 items-center justify-center transition-colors hover:text-primary ${
+                            show ? "text-accent" : "text-tertiary"
+                          }`}
+                        >
+                          <EyeIcon open={show} />
+                        </button>
+                      }
+                    />
+                  )}
+                  <button
+                    type="submit"
+                    disabled={step === "email" ? !emailOk : !passwordOk}
+                    className={`mt-1 h-[52px] text-caps transition-colors disabled:bg-tertiary ${darkButton}`}
+                  >
+                    продолжить
+                  </button>
+                </div>
+              )}
+
+              {/* другие способы входа (Figma: «продолжить с email» / «продолжить с Google») */}
+              {step !== "code" && (
+                <div className="mt-auto flex flex-col gap-4 pt-10">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setGoogle(false);
+                      setStep(byEmail ? "phone" : "email");
+                    }}
+                    className={outline}
+                  >
+                    {byEmail ? "продолжить по телефону" : "продолжить с email"}
+                  </button>
+                  <button type="button" onClick={() => setGoogle(true)} className={outline}>
+                    <GoogleIcon />
+                    продолжить с Google
+                  </button>
+                  {google && (
+                    <p role="status" className="text-base-xs text-secondary">
+                      Вход через Google скоро появится — пока войдите по телефону или почте.
+                    </p>
+                  )}
+                </div>
+              )}
+              <p className={`${step === "code" ? "mt-auto pt-10" : "mt-8"} text-base-xs`}>
                 Продолжая, вы даёте согласие на{" "}
                 <Link href="/privacy" onClick={close} className="text-accent hover:underline">
                   обработку персональных данных
@@ -290,8 +476,14 @@ export function LoginLayer() {
           </aside>
         </div>
       )}
-      {after === "about" && <AboutYou onDone={() => setAfter("hello")} onClose={() => setAfter(null)} />}
-      {after === "hello" && <Hello onClose={() => setAfter(null)} />}
+      {after?.step === "about" && (
+        <AboutYou
+          by={after.by}
+          onDone={() => setAfter({ step: "hello", by: after.by })}
+          onClose={() => setAfter(null)}
+        />
+      )}
+      {after?.step === "hello" && <Hello onClose={() => setAfter(null)} />}
     </>
   );
 }

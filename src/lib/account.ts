@@ -97,12 +97,14 @@ export const authStore = createStore<{ email: string | null; known: string[] }>(
   email: null,
   known: [],
 });
+/** Вход — по почте или по телефону («+7 (995) 100 01 11»); в authStore.email лежит то, чем вошли */
 export const isKnownEmail = (email: string) => authStore.read().known.includes(email.toLowerCase());
 export function logIn(email: string) {
   const e = email.toLowerCase();
   authStore.set((a) => ({ email: e, known: a.known.includes(e) ? a.known : [...a.known, e] }));
-  // почта входа сразу появляется в «Моих данных»
-  profileStore.set((p) => (p.email ? p : { ...p, email: e }));
+  // почта или телефон входа сразу появляются в «Моих данных» и контактах для заказа
+  if (e.includes("@")) profileStore.set((p) => (p.email ? p : { ...p, email: e }));
+  else contactStore.set((c) => (c?.phone ? c : { notify: c?.notify ?? "СМС", name: c?.name ?? "", phone: e }));
 }
 export const logOut = () => authStore.set((a) => ({ ...a, email: null }));
 
