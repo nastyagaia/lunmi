@@ -1,0 +1,29 @@
+/* Свой курсор (Cursor.tsx): виден только когда скрипт его включил */
+.cursor-layer {
+  display: none;
+  pointer-events: none;
+}
+html.custom-cursor .cursor-layer {
+  display: block;
+}
+.cursor-dot,
+.cursor-ring {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  will-change: transform;
+}
+html[data-cursor="on"] .cursor-dot,
+html[data-cursor="on"] .cursor-ring {
+  opacity: 1;
+}
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+/* в полях ввода оставляем привычный текстовый курсор */
+html.custom-cursor input,
+html.custom-cursor textarea {
+  cursor: text !important;
+}
+

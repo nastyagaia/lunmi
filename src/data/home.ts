@@ -1,135 +1,95 @@
 // Контент главной страницы. Тексты и картинки взяты из макета home в Figma.
-import type { Product } from "@/components/ProductCard";
+import { delivery } from "./delivery";
+import { loyalty } from "./loyalty";
 
-export const bestsellers: Product[] = [
+/** Слайды первого экрана (Figma: hero anua pdrn, hero korea trends и др.).
+ *  tone: "light" — белый текст на тёмном фото, "dark" — тёмный текст на светлом фото.
+ *  Первый слайд без image — на нём видео. */
+export type HeroSlide = {
+  title: string;
+  text: string;
+  image?: string;
+  tone: "light" | "dark";
+};
+
+export const heroSlides: HeroSlide[] = [
+  { title: "Anua PDRN", text: "Дополнительная скидка −10%\nтолько онлайн до 31 июля", tone: "light" },
   {
-    id: "b1",
-    name: "Dr.Ceuracle Tea Tree Purifine",
-    description: "бустер-сыворотка с микроиглами, 100 ml",
-    price: "2 993 ₽",
-    image: "/img/b1.webp",
-    discount: "5%",
-    hit: true,
+    title: "Тренды Кореи",
+    text: "Корейские бьюти-хиты, которые уже покорили Сеул.\nОткройте новинки ухода для сияющей кожи.",
+    image: "/img/hero-korea.webp",
+    tone: "light",
   },
   {
-    id: "b2",
-    name: "Petitfee Aura Quartz Hydrogel Eye Mask Pure Opal",
-    description: "Охлаждающие патчи от морщин и отеков",
-    price: "2 993 ₽",
-    image: "/img/b2.webp",
-    discount: "5%",
-    hit: true,
-    aspect: "402/478",
+    title: "−10% SPF",
+    text: "Лёгкие корейские санскрины без белых следов\nи липкости. Скидка до 31 июля",
+    image: "/img/hero-spf.webp",
+    tone: "light",
   },
   {
-    id: "b3",
-    name: "Dr.Ceuracle Tea Tree Purifine",
-    description: "бустер-сыворотка с микроиглами, 50 ml",
-    price: "2 993 ₽",
-    image: "/img/b3.webp",
-    discount: "5%",
-    hit: true,
+    title: "−10% fwee",
+    text: "Сочные бальзамы, румяна и тинты fwee\nв оттенках весеннего неба",
+    image: "/img/hero-fwee.webp",
+    tone: "dark",
+  },
+  {
+    title: "Dr. Althea",
+    text: "Мягкий уход для чувствительной кожи:\nуспокаивает и восстанавливает барьер",
+    image: "/img/hero-althea.webp",
+    tone: "dark",
+  },
+  {
+    title: "Medicube девайсы",
+    text: "Домашний уход как в салоне:\nлифтинг, микротоки и сияние кожи",
+    image: "/img/hero-medicube.webp",
+    tone: "light",
   },
 ];
 
-export const weeklyDeals: Product[] = [
-  {
-    id: "s1",
-    name: "Dr.Ceuracle Tea Tree Purifine крем",
-    description: "бустер-сыворотка с микроиглами",
-    price: "2 993 ₽",
-    oldPrice: "4 393 ₽",
-    image: "/img/s1.webp",
-    discount: "15%",
-  },
-  {
-    id: "s2",
-    name: "Dr.Ceuracle Tea Tree Purifine крем",
-    description: "Флюид несмываемый для уплотнения волос",
-    price: "2 993 ₽",
-    image: "/img/s2.webp",
-    discount: "15%",
-  },
-  {
-    id: "s3",
-    name: "Dr.Ceuracle Tea Tree Purifine крем",
-    description: "бустер-сыворотка с микроиглами",
-    price: "2 993 ₽",
-    oldPrice: "4 393 ₽",
-    image: "/img/s3.webp",
-    discount: "10%",
-  },
-  {
-    id: "s4",
-    name: "Dr.Ceuracle Tea Tree Purifine крем",
-    description: "бустер-сыворотка с микроиглами",
-    price: "2 993 ₽",
-    oldPrice: "4 393 ₽",
-    image: "/img/s4.webp",
-    discount: "15%",
-  },
-];
-
-/** Плитки каталога. wide = широкая плитка (606px в макете) */
+/** Плитки каталога. wide = широкая плитка (616px в макете); left = фото прижато к левому краю —
+ *  на узких экранах обрезается справа, и светлое поле под подписью остаётся */
 export const catalog = [
-  { title: "Для кожи лица", image: "/img/c1.webp" },
-  { title: "Glow Skin", image: "/img/c2.webp" },
-  { title: "Антивозрастной уход", image: "/img/c3.webp", wide: true },
-  { title: "Хиты в Корее", image: "/img/c4.webp" },
-  { title: "Макияж", image: "/img/c5.webp", wide: true },
-  { title: "Для тела", image: "/img/c6.webp" },
-  { title: "Для волос", image: "/img/c7.webp", wide: true },
-  { title: "Бьюти-гаджеты", image: "/img/c8.webp" },
+  { title: "Для кожи лица", image: "/img/c-face-af880b.webp", href: "/catalog" },
+  { title: "Glow Skin", image: "/img/c-glow-ea90a9.webp", href: "/catalog/glow-skin" },
+  { title: "Антивозрастной уход", image: "/img/c3.webp", wide: true, href: "/catalog/antivozrastnoy-uhod" },
+  { title: "Хиты в Корее", image: "/img/c4.webp", href: "/catalog/hity-korei" },
+  { title: "Макияж", image: "/img/c-makeup-d6bce6.webp", wide: true, left: true, href: "/catalog/makiyazh" },
+  { title: "Для тела", image: "/img/c6.webp", href: "/catalog/dlya-tela" },
+  { title: "Для волос", image: "/img/c-hair-0e5ead.webp", wide: true, left: true, href: "/catalog/dlya-volos" },
+  { title: "Бьюти-гаджеты", image: "/img/c8.webp", href: "/catalog/beauty-gadgets" },
 ];
 
-export const brands = [
-  "A’Pieu", "Amorepacific", "Anua", "Axis-Y", "Banila Co", "By Wishtrend", "Clio", "COSRX", "Dr. Althea", "Dr. Jart+",
-  "Hera", "Holika Holika", "Innisfree", "Klairs", "Laneige", "Lador", "Manyo Factory", "MediCube", "Missha", "Neogen",
-  "Peripera", "Purito", "Pyunkang Yul", "Round Lab", "Sioris", "Skin Food", "Somang", "Son & Park", "Su:m37", "Sulwhasoo",
-  "The Face Shop", "The Saem", "Tony Moly", "VT Cosmetics", "Whamisa", "W.Lab", "Yadah", "YesStyle", "Young Skin", "Zem",
-];
+// Частые вопросы (главная и «Поддержка» в кабинете). Цифры доставки — из src/data/delivery.ts, как на странице «Доставка»,
+// скидка и бонусы — из src/data/loyalty.ts: поменяются там — поменяются и здесь.
+const rub = (n: number) => `${n.toLocaleString("ru-RU")} ₽`;
 
-export const reviews = [
-  {
-    name: "Алина",
-    avatar: "/img/ava1.webp",
-    text: "Заказываю уже второй раз, доставка по Питеру супер быстрая — всё пришло за день! Упаковка очень аккуратная, как подарок!",
-  },
-  {
-    name: "Алина",
-    avatar: "/img/ava2.webp",
-    text: "Заказываю уже второй раз, доставка по Питеру супер быстрая — всё пришло за день! Упаковка очень аккуратная, как подарок!",
-  },
-];
-
-// Ответов в макете нет — это временные тексты, их можно заменить
 export const faq = [
   {
     q: "О нас",
-    a: "Lunmi — магазин корейской косметики в Санкт-Петербурге. Мы сами отбираем бренды и возим средства напрямую.",
+    a: "Мы — Lunmi, интернет-магазин корейской косметики для тех, кто давно смотрит на полки Olive Young с тихой завистью. Уход для лица, макияж, тело, волосы, SPF и бьюти-гаджеты — от проверенных хитов до новинок, о которых в Сеуле уже говорят, а у нас ещё нет. К каждой баночке пишем по-человечески: что внутри, как наносить и кому зайдёт.",
   },
   {
     q: "Доставка и оплата",
-    a: "По Петербургу привезём курьером на следующий день, в другие города — через пункты выдачи. Оплата картой онлайн или при получении.",
+    a: `Москва и Петербург, курьером до двери — ${rub(delivery.courier.price)}, ${delivery.courier.days}. Те же города, но в пункт выдачи СДЭК — ${rub(delivery.pickup.price)}, ${delivery.pickup.days}. Все остальные города — тоже возим, курьером или в СДЭК: от ${rub(delivery.regions.priceFrom)}, ${delivery.regions.days}. Точную цену и срок посчитает сам СДЭК, как только вы укажете адрес, — без сюрпризов на кассе. В пункте выдачи посылка терпеливо ждёт ${delivery.storageDays} дней, а когда приедет, мы пришлём СМС. Как платить, выбираете при оформлении.`,
   },
   {
     q: "Оригинальность продукции",
-    a: "Работаем с официальными дистрибьюторами. На каждый товар есть сертификаты — покажем по запросу.",
+    a: "Только оригинал, никаких «почти как». Закупаем у официальных дистрибьюторов брендов, а сертификаты и декларации покажем по первой просьбе — напишите в поддержку. Если что-то в посылке смутило, сфотографируйте упаковку и пришлите нам: разберёмся, не отправляя вас в бесконечную переписку.",
   },
   {
     q: "Как отменить заказ или отредактировать",
-    a: "Пока заказ собирается, его можно изменить или отменить в личном кабинете. Если он уже в пути — напишите в поддержку.",
+    a: "Передумали — бывает. Пока заказ не собран, откройте его в личном кабинете («Заказы») и нажмите «Отменить заказ»: деньги вернём. Хотите поменять адрес, дату или состав — напишите в поддержку, пока посылка не уехала. А если приехал брак или вообще не то, что вы заказывали, — тоже пишите: заменим или вернём деньги, без допросов.",
   },
   {
     q: "Как использовать промокод",
-    a: "Введите промокод в корзине в поле «Промокод» и нажмите «Применить». Скидка пересчитается сразу.",
+    a: "При оформлении заказа в блоке «Ваш заказ» нажмите «ввести промокод», впишите его и нажмите стрелочку — итоговая сумма сразу уменьшится. Промокод и персональная скидка не складываются: сработает та, что выгоднее, мы не жадничаем.",
   },
   {
     q: "Проконсультироваться перед покупкой",
-    a: "Напишите нам в Telegram или WhatsApp — поможем подобрать уход под ваш тип кожи.",
+    a: "Глаза разбегаются — понимаем, у нас тоже. Напишите в Telegram, WhatsApp или на lunmicosm@gmail.com: расскажите про кожу и про то, что хочется исправить, — подберём уход без лишних баночек. Или загляните в «Подбор косметики»: пара вопросов — и у вас готовая подборка из каталога.",
   },
   {
     q: "Программа лояльности или бонусы для постоянных клиентов",
-    a: "С каждой покупки начисляем баллы. Ими можно оплатить часть следующего заказа.",
+    a: `Зарегистрируйтесь — и получите персональную скидку ${loyalty.discount}% на каждый заказ, пока вы в личном кабинете. За отзыв на купленный товар дарим ${loyalty.bonusPerReview} баллов, 1 балл = 1 ₽: пишите честно, нам важно. Баллы копятся в кабинете, а тратить их при оплате можно будет совсем скоро — мы уже доделываем.`,
   },
 ];

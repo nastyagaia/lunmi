@@ -1,0 +1,50 @@
+"use client";
+
+// Видео первого экрана: без звука. Пока грузится — кадр-заставка.
+// В слайдере играет с начала, когда его слайд активен, и сообщает, что доиграло (onEnded).
+// Если в системе включено «уменьшить движение», видео не проигрывается.
+import { useEffect, useRef } from "react";
+
+export function HeroVideo({ active = true, onEnded }: { active?: boolean; onEnded?: () => void }) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    if (!active || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      v.pause();
+      return;
+    }
+    v.currentTime = 0;
+    // если браузер не дал запустить видео (экономия энергии и т.п.) — через 6 секунд идём дальше
+    let fallback: ReturnType<typeof setTimeout> | undefined;
+    let cancelled = false;
+    v.play().catch(() => {
+      if (onEnded && !cancelled) fallback = setTimeout(onEnded, 6000);
+    });
+    return () => {
+      cancelled = true;
+      clearTimeout(fallback);
+    };
+  }, [active, onEnded]);
+
+  return (
+    <video
+      ref={ref}
+      className="absolute inset-0 size-full object-cover"
+      poster="/img/hero.webp"
+      muted
+      loop={!onEnded}
+      playsInline
+      preload="auto"
+      onEnded={onEnded}
+      aria-hidden
+    >
+      {/* WebM — для Chrome/Firefox/Android, MP4 — для Safari и старых браузеров */}
+      <source src="/video/hero-1280.webm" type="video/webm" media="(max-width: 1023px)" />
+      <source src="/video/hero-1280.mp4" type="video/mp4" media="(max-width: 1023px)" />
+      <source src="/video/hero-1920.webm" type="video/webm" />
+      <source src="/video/hero-1920.mp4" type="video/mp4" />
+    </video>
+  );
+}

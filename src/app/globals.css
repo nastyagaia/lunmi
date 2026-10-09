@@ -8,14 +8,15 @@
 @theme {
   --color-white: #ffffff;
   --color-primary: #292929; /* text/primary, icon/primary, border/primary */
-  --color-secondary: #787878; /* text/secondary */
+  --color-secondary: #6e6d72; /* text/secondary (палитра Figma: gray 600) */
   --color-tertiary: #939393; /* text/tetriary, icon/secondary */
   --color-line: #b8b8b8; /* border/secondary */
   --color-line-light: #cecece; /* border/tetriary */
-  --color-surface: #f3f4f6; /* surface/neutral 2 */
+  --color-surface: #f3f4f5; /* surface/neutral 2 (Colours/neutral/200) */
   --color-accent: #f04a97; /* pink/500 */
   --color-accent-soft: #ffddf0; /* pink/100 */
   --color-accent-300: #f8abd7; /* pink/300 */
+  --color-blush: #ffdddd; /* фон «Нужна помощь в выборе?» на странице товара — в Figma цвет без переменной */
   --color-error: #e33629;
   --color-success: #319f43;
 
@@ -81,13 +82,21 @@
   line-height: 16px;
   text-transform: uppercase;
 }
+/* cellbutton из UI KIT (список брендов): Unbounded Medium 12/20, капс */
+@utility text-cell {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: uppercase;
+}
 
-/* Контейнер: 1218px как в макете (поля 111px на 1440), на узких экранах поля 16/24px */
+/* Контейнер: 1240px — сетка page в Figma: 12 колонок по 96 px через 8 px (поля 100px на 1440), на узких экранах поля 16/24px */
 @utility container-page {
-  width: min(1218px, 100% - 32px);
+  width: min(1240px, 100% - 32px);
   margin-inline: auto;
   @media (width >= 48rem) {
-    width: min(1218px, 100% - 48px);
+    width: min(1240px, 100% - 48px);
   }
 }
 
@@ -102,9 +111,78 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+/* в слое base, чтобы утилиты вроде outline-none могли его отменить (поле почты в подвале) */
+@layer base {
+  /* Tailwind v4 убрал «лапку» у кнопок — возвращаем: всё, что нажимается, показывает руку */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  label:has(input) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+/* Стекло как у Gentle Monster: светло-серая подложка 60%, мягкий блик сверху,
+   сильное размытие того, что проезжает под ней */
+@utility glass {
+  background-color: rgb(243 244 245 / 0.6);
+  background-image: linear-gradient(rgb(255 255 255 / 0.25), rgb(242 242 242 / 0));
+  -webkit-backdrop-filter: blur(15px) saturate(1.4);
+  backdrop-filter: blur(15px) saturate(1.4);
+}
+
+/* для раскрытого мобильного меню: плотнее, чтобы текст пунктов читался */
+@utility glass-strong {
+  background-color: rgb(243 244 245 / 0.88);
+}
+
+/* Микро-анимации.
+   reveal — элемент мягко «всплывает», когда доходит до экрана при прокрутке. Делает сам браузер
+   (scroll-driven animations), без скриптов; где это не поддерживается — элемент просто виден сразу.
+   Не ставить внутрь горизонтальных каруселей: там своя прокрутка. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+/* боковая панель оформления выезжает справа */
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+/* подразделы в меню «Каталог» мягко проявляются при смене категории */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
 }
 
 .no-scrollbar {
@@ -118,4 +196,46 @@ body {
   html {
     scroll-behavior: auto;
   }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Карта оформления (MapView, OpenStreetMap): подложка приглушена почти до серой, как в макете courier address,
+   но с каплей цвета — чтобы парки, вода и дороги не сливались */
+.map-tiles-grey {
+  filter: grayscale(0.65) brightness(1.05) contrast(0.92);
+}
+.map-pin {
+  background: none;
+  border: 0;
+}
+.map-pin-inner {
+  position: relative;
+  display: block;
+}
+/* белая плашка с адресом рядом с выбранной булавкой */
+.map-label {
+  position: absolute;
+  left: 32px;
+  top: 4px;
+  white-space: nowrap;
+  border-radius: 2px;
+  background: #fff;
+  padding: 6px 10px;
+  font: 500 14px/20px var(--font-sans, inherit);
+  color: var(--color-primary);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
+}
+
+/* автозаполнение браузера (имя, телефон, почта) не красит поля голубым — фон остаётся белым, текст text/primary */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-white) inset;
+  -webkit-text-fill-color: var(--color-primary);
+  caret-color: var(--color-accent);
 }

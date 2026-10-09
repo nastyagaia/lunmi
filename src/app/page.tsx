@@ -4,24 +4,53 @@ import Link from "next/link";
 import { Carousel } from "@/components/Carousel";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { InstagramIcon, PlusIcon, TelegramIcon, WhatsappIcon } from "@/components/icons";
+import { HeroSlider } from "@/components/HeroSlider";
+import { TelegramIcon, WhatsappIcon } from "@/components/icons";
 import { ProductCard } from "@/components/ProductCard";
 import { Button, SectionHeader } from "@/components/ui";
-import { bestsellers, brands, catalog, faq, reviews, weeklyDeals } from "@/data/home";
+import { brands as allBrands } from "@/data/brands";
+import { catalog, heroSlides } from "@/data/home";
+import { FaqList } from "@/components/FaqList";
+import { Newsletter } from "@/components/Newsletter";
+import { allProducts } from "@/data/sections";
+
+/** Bestsellers — настоящие товары каталога: тинт Dasique (обложка Cherry Soda, при наведении — модель),
+ *  патчи Petitfee Aura Quartz, бустер Celimax и дальше яркий макияж, чтобы ленту было что листать */
+const BESTSELLER_IDS = [
+  "dasique-juicy-dewy-lip-tint",
+  "petitfee-aura-quartz-patch",
+  "celimax-retinal-shot",
+  // дальше — яркие блески, тинты и палетки, цвета чередуются, чтобы лента не бледнела
+  "amuse-jel-fit-tint",
+  "milk-touch-jelly-fit-tint",
+  "fwee-3d-voluming-tint",
+  "unleashia-dough-dough-waffle-blush",
+  "clio-crystal-glam-tint",
+  "nuse-care-liptual",
+  "3ce-multi-eye-color-palette",
+  "colorgram-fruity-glass-tint-deep-glaze",
+  "fwee-3d-voluming-gloss",
+];
+/** на главной у части карточек вместо упаковки — фото с моделью, кадр как в макете; упаковка — при наведении */
+const BESTSELLER_COVERS: Record<string, string> = {
+  "petitfee-aura-quartz-patch": "/img/b-aura-quartz-model-651ccd.webp",
+};
+const bestsellerList = BESTSELLER_IDS.flatMap((id) => allProducts.filter((p) => p.id === id)).map((p) =>
+  BESTSELLER_COVERS[p.id] ? { ...p, image: BESTSELLER_COVERS[p.id], hoverImage: p.images?.[0] ?? p.image } : p,
+);
 
 export default function Home() {
   return (
     <>
       <Header />
       <main>
-        <Hero />
-        <div className="flex flex-col gap-16 pt-16 md:gap-[100px] md:pt-[67px]">
+        <HeroSlider slides={heroSlides} />
+        <div className="flex flex-col gap-[100px] pt-20 md:gap-[140px] md:pt-[100px]">
           <Bestsellers />
           <Catalog />
-          <AiBanner />
-          <WeeklyDeals />
           <Brands />
-          <Reviews />
+          <WeeklyDeals />
+          <AiBanner />
           <Faq />
           <Contacts />
         </div>
@@ -31,56 +60,19 @@ export default function Home() {
   );
 }
 
-/* ---------- Первый экран ---------- */
-function Hero() {
-  return (
-    <section className="relative h-[560px] overflow-hidden bg-primary md:h-[660px]">
-      <Image
-        src="/img/hero.webp"
-        alt="Девушка с цветком в волосах среди тропических листьев"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-[60%_center] md:object-center"
-      />
-      {/* затемнение снизу только на телефоне, чтобы белый текст читался поверх лица */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent md:hidden" />
-
-      <div className="container-page relative flex h-full flex-col justify-end pb-16 md:pb-[98px]">
-        <div className="flex max-w-[709px] flex-col gap-5 text-white">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">By Wishtrend</h1>
-            <p className="text-base-s">
-              Дополнительная скидка −10%
-              <br />
-              только онлайн до 31 июля
-            </p>
-          </div>
-          <Button href="#bestsellers" tone="inverse" className="self-start">
-            за покупками
-          </Button>
-        </div>
-      </div>
-
-      {/* индикатор слайдов */}
-      <div aria-hidden className="absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-1.5">
-        {[0, 1, 2, 3, 4].map((i) => (
-          <span key={i} className={`h-[3px] w-[33px] bg-surface ${i === 0 ? "" : "opacity-40"}`} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
 /* ---------- Bestsellers ---------- */
 function Bestsellers() {
   return (
     <section id="bestsellers" className="container-page scroll-mt-20">
       <SectionHeader title="Bestsellers" />
-      <Carousel label="Бестселлеры" arrowTop={194} className="items-start">
-        {bestsellers.map((p) => (
-          <div key={p.id} className="w-[85%] shrink-0 snap-start sm:w-[calc((100%-6px)/2)] lg:w-[calc((100%-12px)/3)]">
-            <ProductCard product={p} size="L" />
+      {/* focus: карточка в центре ленты плавно вытягивается по высоте при листании */}
+      <Carousel label="Бестселлеры" arrowTop={194} className="items-start" focus>
+        {bestsellerList.map((p) => (
+          <div
+            key={p.id}
+            className="w-[85%] shrink-0 snap-start @container sm:w-[calc((100%-8px)/2)] lg:w-[calc((100%-16px)/3)]"
+          >
+            <ProductCard product={p} size="L" grow />
           </div>
         ))}
       </Carousel>
@@ -91,14 +83,14 @@ function Bestsellers() {
 /* ---------- Каталог (мозаика) ---------- */
 function Catalog() {
   return (
-    <section className="container-page">
-      <SectionHeader title="Каталог" />
-      <div className="grid grid-flow-dense grid-cols-2 gap-1.5 md:grid-cols-4">
+    <section className="container-page reveal">
+      <SectionHeader title="Каталог" href="/catalog" />
+      <div className="grid grid-flow-dense grid-cols-2 gap-2 md:grid-cols-4">
         {catalog.map((c) => (
           <Link
             key={c.title}
-            href="#"
-            className={`group relative flex h-[180px] items-end overflow-hidden rounded-xs bg-surface p-3 sm:h-[220px] md:h-[200px] md:p-4 lg:h-[260px] ${
+            href={c.href}
+            className={`group relative flex h-[180px] items-end overflow-hidden rounded-xs bg-surface p-3 sm:h-[220px] md:h-[200px] md:p-4 lg:h-[280px] ${
               c.wide ? "col-span-2" : ""
             }`}
           >
@@ -106,17 +98,19 @@ function Catalog() {
               src={c.image}
               alt=""
               fill
-              sizes={c.wide ? "(min-width: 1024px) 606px, 100vw" : "(min-width: 1024px) 300px, 50vw"}
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              sizes={c.wide ? "(min-width: 1024px) 616px, 100vw" : "(min-width: 1024px) 304px, 50vw"}
+              className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${
+                "left" in c && c.left ? "object-left" : ""
+              }`}
             />
             <span className="relative text-base-m">{c.title}</span>
           </Link>
         ))}
         <Link
-          href="#"
-          className="group flex h-[180px] flex-col items-center justify-center gap-4 rounded-xs bg-accent-soft sm:h-[220px] md:h-[200px] lg:h-[260px]"
+          href="/catalog"
+          className="group flex h-[180px] flex-col items-center justify-center gap-4 rounded-xs bg-accent-soft sm:h-[220px] md:h-[200px] lg:h-[280px]"
         >
-          <Image src="/img/c9.webp" alt="" width={43} height={51} className="transition-transform duration-500 group-hover:rotate-45" />
+          <Image src="/img/c9.webp" alt="" width={43} height={51} />
           <span className="text-caps text-center underline underline-offset-2">Смотреть весь каталог</span>
         </Link>
       </div>
@@ -147,12 +141,12 @@ function AiBanner() {
           <div className="flex flex-col gap-5 text-base-s">
             <p>
               Давай разберёмся вместе, что тебе подойдёт. Загрузи селфи в хорошем качестве и освещении и расскажи, что
-              тебя беспокоит. AI проанализирует состояние твоей кожи и предложит подборку корейских средств, которые могут
-              подойти именно тебе.
+              тебя беспокоит. AI проанализирует состояние твоей кожи и предложит подборку корейских средств, которые
+              могут подойти именно тебе.
             </p>
             <p>Попробуй — это просто и удобно!</p>
           </div>
-          <Button href="#" tone="inverse" className="self-start">
+          <Button href="/ai" tone="glass" className="self-start">
             Попробовать
           </Button>
         </div>
@@ -162,13 +156,22 @@ function AiBanner() {
 }
 
 /* ---------- Скидки недели ---------- */
+/** Скидки недели — настоящие товары каталога со скидкой, сначала самые большие скидки (16 штук) */
+const weeklyDeals = allProducts
+  .filter((p) => p.discount)
+  .sort((a, b) => parseInt(b.discount ?? "0") - parseInt(a.discount ?? "0"))
+  .slice(0, 16);
+
 function WeeklyDeals() {
   return (
     <section className="container-page">
-      <SectionHeader title="Скидки недели" />
+      <SectionHeader title="Скидки недели" href="/sale" />
       <Carousel label="Скидки недели" arrowTop={119} className="items-start">
         {weeklyDeals.map((p) => (
-          <div key={p.id} className="w-[70%] shrink-0 snap-start xs:w-[calc((100%-6px)/2)] md:w-[calc((100%-12px)/3)] lg:w-[calc((100%-18px)/4)]">
+          <div
+            key={p.id}
+            className="w-[70%] shrink-0 snap-start xs:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)]"
+          >
             <ProductCard product={p} />
           </div>
         ))}
@@ -179,14 +182,22 @@ function WeeklyDeals() {
 
 /* ---------- Бренды ---------- */
 function Brands() {
+  // 40 настоящих брендов (4 колонки по 10, как в макете): больше всего товаров — по алфавиту.
+  // Остальные — на странице «Бренды» по ссылке «Показать все»
+  const top = [...allBrands]
+    .sort((a, b) => b.products.length - a.products.length)
+    .slice(0, 40)
+    .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }))
+    // бренды на цифру (3CE) — в конце, как на странице «Бренды»
+    .sort((a, b) => Number(/^\d/.test(a.name)) - Number(/^\d/.test(b.name)));
   return (
-    <section className="container-page">
-      <SectionHeader title="Бренды" />
-      <ul className="grid grid-flow-row grid-cols-2 gap-x-1.5 gap-y-6 md:grid-cols-4 md:grid-flow-col md:grid-rows-10">
-        {brands.map((b) => (
-          <li key={b}>
-            <Link href="#" className="block text-h4 transition-colors hover:text-accent">
-              {b}
+    <section className="container-page reveal md:py-6">
+      <SectionHeader title="Бренды" href="/brands" />
+      <ul className="grid grid-flow-row grid-cols-2 gap-x-2 gap-y-6 md:grid-cols-4 md:grid-flow-col md:grid-rows-10">
+        {top.map((b) => (
+          <li key={b.slug}>
+            <Link href={`/brands/${b.slug}`} className="block text-h4 transition-colors hover:text-accent">
+              {b.name}
             </Link>
           </li>
         ))}
@@ -195,108 +206,77 @@ function Brands() {
   );
 }
 
-/* ---------- Отзывы ---------- */
-function Reviews() {
-  return (
-    <section className="container-page">
-      <SectionHeader title="Отзывы" />
-      <Carousel label="Отзывы" arrowTop={111} className="items-stretch">
-        {reviews.map((r, i) => (
-          <article
-            key={i}
-            className="flex w-[85%] shrink-0 snap-start flex-col items-end gap-8 rounded-xs bg-surface p-6 sm:w-[392px]"
-          >
-            <Image src={r.avatar} alt="" width={70} height={70} />
-            <div className="flex w-full flex-col">
-              <h3 className="text-h4">{r.name}</h3>
-              <p className="text-base-s text-secondary">{r.text}</p>
-            </div>
-          </article>
-        ))}
-        <article className="relative flex min-h-[254px] w-[85%] shrink-0 snap-start flex-col justify-between rounded-xs bg-accent-soft p-6 sm:w-[422px]">
-          <div>
-            <p className="text-h4">скидка за отзыв</p>
-            <p className="text-h1">5%</p>
-          </div>
-          <p className="max-w-[321px] text-base-s">
-            Напиши честный отзыв о магазине или о товаре, купленном у нас, и получи скидку 5% на следующую покупку.
-          </p>
-          <Image src="/img/av3.webp" alt="" width={66} height={61} className="absolute right-12 top-8" />
-        </article>
-      </Carousel>
-    </section>
-  );
-}
-
 /* ---------- Частые вопросы ---------- */
 function Faq() {
   return (
-    <section className="container-page grid gap-6 lg:grid-cols-[minmax(0,1fr)_810px]">
+    <section className="container-page reveal grid gap-6 md:py-5 lg:grid-cols-[minmax(0,1fr)_824px]">
       <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">
         Частые
         <br className="hidden lg:block" /> вопросы
       </h2>
-      <div>
-        {faq.map((item, i) => (
-          <details key={item.q} className="group border-b border-line-light">
-            <summary
-              className={`flex cursor-pointer list-none items-center justify-between gap-4 pb-6 text-h4 transition-colors hover:text-accent [&::-webkit-details-marker]:hidden ${
-                i === 0 ? "" : "pt-6"
-              }`}
-            >
-              {item.q}
-              <PlusIcon className="shrink-0 transition-transform duration-300 group-open:rotate-45" />
-            </summary>
-            <p className="-mt-2 pb-6 text-base-s text-secondary">{item.a}</p>
-          </details>
-        ))}
-      </div>
+      <FaqList />
     </section>
   );
 }
 
-/* ---------- Мы рядом ---------- */
-function Social({ icon, label }: { icon: React.ReactNode; label: string }) {
+/* ---------- Мы рядом (Figma 11102:19256, высота 540 — на 30 ниже макета по просьбе Насти): три колонки по 4 — поддержка и рассылка, фото + почта, мессенджеры + фото ---------- */
+function NearPhoto({ src }: { src: string }) {
   return (
-    <Link
-      href="#"
-      className="flex h-[200px] items-center justify-center gap-2.5 rounded-xs bg-surface text-h4 transition-colors hover:text-accent md:h-[270px]"
-    >
-      {icon}
-      {label}
-    </Link>
-  );
-}
-
-function Photo({ src, sizes }: { src: string; sizes: string }) {
-  return (
-    <div className="relative h-[200px] overflow-hidden rounded-xs md:h-[270px]">
-      <Image src={src} alt="" fill sizes={sizes} className="object-cover" />
+    <div className="relative h-[280px] overflow-hidden rounded-xs md:h-[240px] lg:h-auto lg:flex-1">
+      <Image
+        src={src}
+        alt=""
+        fill
+        sizes="(min-width: 1024px) 408px, (min-width: 768px) 50vw, 100vw"
+        className="object-cover"
+      />
     </div>
   );
 }
 
 function Contacts() {
   return (
-    <section className="container-page flex flex-col gap-1.5">
-      <div className="grid grid-cols-2 gap-1.5 lg:grid-cols-3">
-        <div className="col-span-2 flex flex-col items-start gap-4 rounded-xs bg-accent-soft p-6 lg:col-span-1 lg:h-[270px] lg:p-[30px]">
+    <section className="container-page reveal grid gap-2 md:grid-cols-2 lg:h-[540px] lg:grid-cols-3">
+      <div className="flex flex-col justify-between gap-10 rounded-xs bg-surface p-6 md:row-span-2 lg:row-span-1 lg:px-[30px] lg:pt-8 lg:pb-[30px]">
+        <p className="text-base-s text-secondary">Поддержка</p>
+        <div className="flex flex-col gap-4">
           <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">Мы рядом</h2>
           <p className="text-base-s">
-            Хотим быть лучше благодаря вам — оставляйте ваши отзывы и пожелания или задавайте вопросы! Мы обещаем всё учесть!
+            Хотим становиться лучше благодаря вам — оставляйте отзывы и пожелания или задавайте вопросы: о доставке,
+            уходе и вообще о чём угодно.
           </p>
-          <Button href="#" size="M">
-            связаться
-          </Button>
         </div>
-        <Photo src="/img/n1.webp" sizes="(min-width: 768px) 402px, 50vw" />
-        <Social icon={<InstagramIcon />} label="Instagram" />
+        <Newsletter />
       </div>
-      <div className="grid grid-cols-2 gap-1.5 lg:grid-cols-4">
-        <Photo src="/img/n2.webp" sizes="(min-width: 768px) 300px, 50vw" />
-        <Social icon={<WhatsappIcon />} label="whatsapp" />
-        <Photo src="/img/n3.webp" sizes="(min-width: 768px) 300px, 50vw" />
-        <Social icon={<TelegramIcon />} label="telegram" />
+
+      <div className="flex flex-col gap-2">
+        <NearPhoto src="/img/near1-99ff3c.webp" />
+        <a
+          href="mailto:lunmicosm@gmail.com"
+          className="group flex h-[180px] shrink-0 flex-col justify-between rounded-xs bg-primary p-4 transition-colors hover:bg-primary/90"
+        >
+          <span className="text-base-s text-tertiary">Наш email</span>
+          <span className="text-h3 break-all text-line-light transition-colors group-hover:text-white max-md:text-[16px]">
+            lunmicosm@gmail.com
+          </span>
+        </a>
+      </div>
+
+      <div className="flex flex-col gap-2 md:col-start-2 lg:col-start-auto">
+        <div className="flex h-[180px] shrink-0 flex-col justify-between rounded-xs bg-accent-soft p-4">
+          <span className="text-base-s text-secondary">Поддержка в мессенджерах</span>
+          <div className="flex flex-wrap gap-x-[60px] gap-y-3">
+            <Link href="#" className="flex h-10 items-center gap-2.5 text-h4 transition-colors hover:text-accent">
+              <WhatsappIcon className="size-8" />
+              whatsapp
+            </Link>
+            <Link href="#" className="flex h-10 items-center gap-2.5 text-h4 transition-colors hover:text-accent">
+              <TelegramIcon className="size-8" />
+              telegram
+            </Link>
+          </div>
+        </div>
+        <NearPhoto src="/img/near2-4492f6.webp" />
       </div>
     </section>
   );
