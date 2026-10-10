@@ -53,7 +53,7 @@ export function addressSubtitle(a: Address) {
 const uid = () => Math.random().toString(36).slice(2, 10);
 
 /** +7 (995) 100 03 03 — маска по мере ввода */
-function formatPhone(raw: string) {
+export function formatPhone(raw: string) {
   let d = raw.replace(/\D/g, "");
   if (d.startsWith("8")) d = "7" + d.slice(1);
   if (d && !d.startsWith("7")) d = "7" + d;

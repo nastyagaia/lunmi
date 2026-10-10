@@ -71,7 +71,7 @@ export const products = [
   // ---------- Кремы ----------
   { id: "aestura-atobarrier-cream", type: "Кремы", brand: "Aestura", name: "AESTURA Atobarrier 365 Cream", description: "Крем с керамидами для сухой кожи", price: 2790, rating: "4.8", files: [C + "AESTURA_Atobarrier_365_Cream.png", D + "16.png"] },
   { id: "abib-pdrn-cream", type: "Кремы", brand: "Abib", name: "Abib PDRN Intensive Cream 1.5 Tube", description: "Восстанавливающий крем с PDRN", price: 2490, files: [C + "Abib_PDRN_Intensive_Cream_1_5_Tube.png"] },
-  { id: "anua-heartleaf-70-cream", type: "Кремы", brand: "Anua", name: "Anua Heartleaf 70 Soothing Cream", description: "Успокаивающий крем с хауттюйнией", price: 2290, files: [C + "Anua_Heartleaf_70_Soothing_Cream.png", C + "Anua_Heartleaf_70_Soothing_Cream_2.png"] },
+  { id: "anua-heartleaf-70-cream", type: "Кремы", brand: "Anua", name: "Anua Heartleaf 70 Soothing Cream", description: "Успокаивающий крем с хауттюйнией", price: 2290, files: [C + "Anua_Heartleaf_70_Soothing_Cream.png"] },
   { id: "anua-pdrn-cream", type: "Кремы", brand: "Anua", name: "Anua PDRN Hyaluronic Acid 100 Moisturizing Cream", description: "Увлажняющий крем с PDRN", price: 2690, hit: true, files: [C + "Anua_PDRN_Hyaluronic_Acid_100_Moisturizing_Cream.png"] },
   { id: "anua-peach-77-cream", type: "Кремы", brand: "Anua", name: "Anua Peach 77 Niacin Enriched Cream", description: "Питательный крем с ниацинамидом", price: 2490, files: [C + "Anua_Peach_77_Niacin_Enriched_Cream.png", D + "20.png"] },
   { id: "boj-dynasty-cream", type: "Кремы", brand: "Beauty of Joseon", name: "Beauty of Joseon Dynasty Cream", description: "Питательный крем с рисовой водой", price: 2190, rating: "4.8", files: [C + "Beauty_of_Joseon_Dynasty_Cream.png", D + "24.png"] },

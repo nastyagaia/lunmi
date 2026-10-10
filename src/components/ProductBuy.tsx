@@ -212,12 +212,13 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
             в корзину
           </button>
         ) : (
-          <div className="flex h-10 w-full max-w-[304px] items-center justify-center gap-8 rounded-xs bg-primary text-base-s text-white">
+          // счётчик из UI KIT (Figma 5886:30118): кнопки 36 px через 24 px, цифра Base/M
+          <div className="flex h-10 w-full max-w-[304px] items-center justify-center gap-6 rounded-xs bg-primary text-base-m text-white">
             <button
               type="button"
               onClick={() => cart.setQty(key, qty - 1)}
               aria-label="Убрать одну штуку"
-              className="flex size-10 items-center justify-center transition-opacity hover:opacity-70"
+              className="flex size-9 items-center justify-center transition-opacity hover:opacity-70"
             >
               <MinusIcon className="size-6" />
             </button>
@@ -228,7 +229,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
               type="button"
               onClick={addOne}
               aria-label="Добавить ещё одну"
-              className="flex size-10 items-center justify-center transition-opacity hover:opacity-70"
+              className="flex size-9 items-center justify-center transition-opacity hover:opacity-70"
             >
               <QuantityPlusIcon className="size-6" />
             </button>

@@ -73,10 +73,27 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
       {/* Menu/desktop из Figma: 1440 × 54, поля 96 px */}
       <div className="px-4 md:px-6 xl:px-[96px]">
         <div className="flex h-[54px] items-center justify-between">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4 lg:gap-8">
             <Link href="/" aria-label="Lunmi, на главную" className="-ml-0.5 text-accent">
               <Logo className="h-5 w-auto md:h-6" />
             </Link>
+            {/* на телефоне и планшете «Каталог» — словом рядом с логотипом: сразу открывает разделы, без бургера */}
+            <button
+              type="button"
+              onClick={() => {
+                setSearchOpen(false);
+                const show = !(open && mobileCatalog);
+                setOpen(show);
+                setMobileCatalog(show);
+              }}
+              aria-expanded={open && mobileCatalog}
+              aria-controls="mobile-menu"
+              className={`flex h-9 items-center px-1.5 text-base-s transition-colors hover:text-accent lg:hidden ${
+                open && mobileCatalog ? "text-accent" : ""
+              }`}
+            >
+              Каталог
+            </button>
             <CityMenu className="hidden lg:block" />
           </div>
 
@@ -135,9 +152,9 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
             <Link
               href="/favorites"
               aria-label="Избранное"
-              className="relative flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
+              className="relative flex size-9 max-md:hidden items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
             >
-              {/* без счётчика — по просьбе Насти */}
+              {/* без счётчика — по просьбе Насти; на телефоне сердечка нет — «Избранное» в бургер-меню */}
               <HeartIcon />
             </Link>
             <ProfileMenu />
@@ -255,6 +272,16 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                     )}
                   </li>
                 ))}
+                {/* на телефоне сердечка в шапке нет — «Избранное» здесь */}
+                <li className="md:hidden">
+                  <Link
+                    href="/favorites"
+                    onClick={() => setOpen(false)}
+                    className="flex h-12 items-center text-base-s transition-colors hover:text-accent"
+                  >
+                    Избранное
+                  </Link>
+                </li>
               </ul>
             )}
           </div>

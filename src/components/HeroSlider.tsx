@@ -2,10 +2,10 @@
 
 // Первый экран — слайдер из макета (hero anua pdrn, hero korea trends и др.).
 // Первый слайд — видео (доигрывает до конца), остальные — фото, сменяются каждые 6 секунд.
-// Нажатие на полоску переключает слайд и запускает отсчёт заново.
+// Нажатие на полоску переключает слайд и запускает отсчёт заново. На телефоне листается свайпом.
 // Если в системе включено «уменьшить движение», слайды сами не листаются.
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { HeroSlide } from "@/data/home";
 import { HeroVideo } from "./HeroVideo";
 import { Button } from "./ui";
@@ -13,6 +13,20 @@ import { Button } from "./ui";
 export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   const [active, setActive] = useState(0);
   const next = useCallback(() => setActive((i) => (i + 1) % slides.length), [slides.length]);
+  const prev = () => setActive((i) => (i - 1 + slides.length) % slides.length);
+
+  // свайп: палец проехал по горизонтали больше 50 px и больше, чем по вертикали (иначе это прокрутка страницы)
+  const touch = useRef<{ x: number; y: number } | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!touch.current) return;
+    const dx = e.changedTouches[0].clientX - touch.current.x;
+    const dy = e.changedTouches[0].clientY - touch.current.y;
+    touch.current = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) (dx < 0 ? next : prev)();
+  };
 
   // фото-слайды: через 6 секунд — следующий (видео-слайд переключается сам, когда доиграет)
   useEffect(() => {
@@ -24,9 +38,11 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
 
   return (
     <section
-      className="relative h-[560px] overflow-hidden bg-primary md:h-[660px]"
+      className="relative h-[700px] overflow-hidden bg-primary md:h-[660px]"
       aria-roledescription="карусель"
       aria-label="Акции"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
     >
       {slides.map((s, i) => {
         const light = s.tone === "light";
@@ -39,7 +55,18 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             className={`absolute inset-0 transition-opacity duration-700 ${current ? "opacity-100" : "opacity-0"}`}
           >
             {s.image ? (
-              <Image src={s.image} alt="" fill sizes="100vw" className="object-cover" />
+              <>
+                <Image
+                  src={s.image}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className={`object-cover ${s.mobileImage ? "max-md:hidden" : ""}`}
+                />
+                {s.mobileImage && (
+                  <Image src={s.mobileImage} alt="" fill sizes="100vw" className="object-cover md:hidden" />
+                )}
+              </>
             ) : (
               <HeroVideo active={current} onEnded={next} />
             )}
@@ -50,7 +77,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               }`}
             />
 
-            <div className="container-page relative flex h-full flex-col justify-end pb-16 md:pb-[98px]">
+            <div className="container-page relative flex h-full flex-col justify-end pb-[94px] md:pb-[98px]">
               <div
                 className={`flex max-w-[709px] flex-col gap-5 transition-[opacity,translate] delay-200 duration-700 ease-out ${
                   current ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"

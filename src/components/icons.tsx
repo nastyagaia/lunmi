@@ -179,23 +179,21 @@ export function CheckIcon(props: P) {
   );
 }
 
-/** minus (24) — для счётчика количества */
-/** Icons/minus из UI KIT (4230:23305): залитая полоска 10.42 × 1.8 на холсте 16 × 16 — для счётчиков количества.
- *  В корзине 16 px (линия 1.8), на странице товара 24 px (линия 2.7), как в макетах */
+/** Icons/minus из счётчика «− 1 +» (Figma 5886:30118): полоска 12.25 × 2.1 на холсте 24 × 24.
+ *  На странице товара 24 px, в корзине уменьшена до 16 px */
 export function MinusIcon(props: P) {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden {...props}>
-      <rect x="2.79" y="7.1" width="10.42" height="1.8" />
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <path d="M6 10.5H18.2543V12.615H6V10.5Z" />
     </svg>
   );
 }
 
-/** Icons/plus из UI KIT (4230:23307) — пара к MinusIcon: две такие же полоски крестом по центру */
+/** Icons/plus из счётчика «− 1 +» (Figma 5886:30118) — пара к MinusIcon */
 export function QuantityPlusIcon(props: P) {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden {...props}>
-      <rect x="2.79" y="7.1" width="10.42" height="1.8" />
-      <rect x="7.1" y="2.79" width="1.8" height="10.42" />
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <path d="M12.7568 6.7126V17.2874H11.2224V6.7126H12.7568ZM6.72296 11.295H17.277V12.705H6.72296V11.295Z" />
     </svg>
   );
 }

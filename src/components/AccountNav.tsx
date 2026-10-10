@@ -9,7 +9,7 @@ import { contactStore, displayName, logOut, profileStore } from "@/lib/account";
 import { BagIcon, LogoutIcon, ProfileIcon, ReviewIcon, SparkleIcon, SupportIcon } from "./icons";
 
 /** аватар по полу из «Моих данных»: «Мужчина» — мужской, иначе — девушка с косичками */
-const AVATAR = { female: "/img/account/avatar-3b099d.webp", male: "/img/account/avatar-male-2e5354.webp" };
+const AVATAR = { female: "/img/account/avatar-girl-3d3548.webp", male: "/img/account/avatar-boy-ee0cce.webp" };
 
 const menu: { title: string; href: string; icon: ReactNode }[] = [
   { title: "Главная", href: "/account", icon: <SparkleIcon /> },

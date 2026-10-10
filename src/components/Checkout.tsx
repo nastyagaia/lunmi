@@ -587,10 +587,21 @@ export function Checkout() {
             </h2>
             <p className="text-base-s">
               Номер заказа {order}. Скоро позвоним или напишем, чтобы всё подтвердить, и будем держать в курсе
-              {contact ? ` через ${contact.notify}` : ""}. Онлайн-оплата пока в тестовом режиме — деньги не списаны, так
-              что можно выдохнуть.
+              {contact ? ` через ${contact.notify}` : ""}.
             </p>
-            <Image src="/img/order-done-kitty.webp" alt="" width={400} height={300} className="mx-auto my-4" />
+            {/* девочка с пакетами (Figma: order paid 10699:14269) — видео играет один раз; блёстки — статичные картинки */}
+            <div aria-hidden="true" className="relative mx-auto w-full max-w-[400px]">
+              <video
+                src="/video/order-done-girl-fc024e.mp4"
+                poster="/img/account/order-done-girl-f5f849.webp"
+                autoPlay
+                muted
+                playsInline
+                className="aspect-square w-full"
+              />
+              <Image src="/img/account/order-sparkle-right-f09d5c.webp" alt="" width={43} height={51} className="absolute top-[16%] -right-[10%] h-auto w-[11%]" />
+              <Image src="/img/account/order-sparkle-left-06ed5b.webp" alt="" width={39} height={46} className="absolute top-[60%] -left-[7%] h-auto w-[10%]" />
+            </div>
             <Button href="/catalog" size="M" className="self-end bg-primary text-white hover:bg-primary/85">
               вернуться в каталог
             </Button>

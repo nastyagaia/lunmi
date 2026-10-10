@@ -97,17 +97,37 @@ export const authStore = createStore<{ email: string | null; known: string[] }>(
   email: null,
   known: [],
 });
+/** Вход — по почте или по телефону («+7 (995) 100 01 11»); в authStore.email лежит то, чем вошли */
 export const isKnownEmail = (email: string) => authStore.read().known.includes(email.toLowerCase());
 export function logIn(email: string) {
   const e = email.toLowerCase();
   authStore.set((a) => ({ email: e, known: a.known.includes(e) ? a.known : [...a.known, e] }));
-  // почта входа сразу появляется в «Моих данных»
-  profileStore.set((p) => (p.email ? p : { ...p, email: e }));
+  // почта или телефон входа сразу появляются в «Моих данных» и контактах для заказа
+  if (e.includes("@")) profileStore.set((p) => (p.email ? p : { ...p, email: e }));
+  else contactStore.set((c) => (c?.phone ? c : { notify: c?.notify ?? "СМС", name: c?.name ?? "", phone: e }));
 }
 export const logOut = () => authStore.set((a) => ({ ...a, email: null }));
 
+/** Пароли почтовых аккаунтов — только в этом браузере, как и весь фейковый вход (ВНИМАНИЕ: не для настоящего магазина).
+ *  Нужны, чтобы при неверном пароле показать «Забыли пароль?», как просила Настя */
+export const passwordStore = createStore<Record<string, string>>("lunmi-passwords", {});
+export const savePassword = (email: string, password: string) =>
+  passwordStore.set((p) => ({ ...p, [email.toLowerCase()]: password }));
+/** true — пароль верный; у почт, заведённых до появления паролей, подходит любой */
+export const checkPassword = (email: string, password: string) => {
+  const saved = passwordStore.read()[email.toLowerCase()];
+  return saved === undefined || saved === password;
+};
+
 /** Удалить все данные покупателя с этого устройства («Удалить аккаунт») */
 export function forgetEverything() {
+  const me = authStore.read().email;
+  if (me)
+    passwordStore.set((p) => {
+      const rest = { ...p };
+      delete rest[me];
+      return rest;
+    });
   authStore.set((a) => ({ email: null, known: a.known.filter((e) => e !== a.email) }));
   contactStore.set(null);
   addressStore.set({ list: [] });
