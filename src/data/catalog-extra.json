@@ -1566,7 +1566,9 @@
       ],
       "thumbs": [
         "/img/catalog/manyo-sun-serum-1-600-b2efe7.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "2 210 ₽"
     },
     {
       "id": "manyo-sun-stick",
@@ -1594,7 +1596,9 @@
       ],
       "thumbs": [
         "/img/catalog/manyo-sun-stick-1-600-de1fea.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "1 990 ₽"
     },
     {
       "id": "anua-glow-sunstick",
@@ -1644,7 +1648,9 @@
       ],
       "thumbs": [
         "/img/catalog/drg-green-mild-sun-1-600-898d77.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "2 100 ₽"
     },
     {
       "id": "benton-air-fit-sun",
@@ -1668,7 +1674,9 @@
       ],
       "thumbs": [
         "/img/catalog/benton-air-fit-sun-1-600-ceb5a3.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "1 770 ₽"
     },
     {
       "id": "axis-y-physical-sunscreen",
@@ -1692,7 +1700,9 @@
       ],
       "thumbs": [
         "/img/catalog/axis-y-physical-sunscreen-1-600-60a655.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "1 880 ₽"
     },
     {
       "id": "cosrx-invisible-sunscreen",
@@ -1717,7 +1727,9 @@
       ],
       "thumbs": [
         "/img/catalog/cosrx-invisible-sunscreen-1-600-eb73cb.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "1 770 ₽"
     },
     {
       "id": "purito-soft-touch-sun",
@@ -1741,7 +1753,9 @@
       ],
       "thumbs": [
         "/img/catalog/purito-soft-touch-sun-1-600-0e77ce.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "1 660 ₽"
     },
     {
       "id": "thank-you-farmer-sun",
@@ -1765,7 +1779,9 @@
       ],
       "thumbs": [
         "/img/catalog/thank-you-farmer-sun-1-600-ac979f.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "1 880 ₽"
     },
     {
       "id": "skin1004-hyalu-cica-sun",
@@ -1791,8 +1807,8 @@
       "title": "SKIN1004 Hyalu-Cica Sun Serum",
       "description": "Солнцезащитная сыворотка с центеллой",
       "price": "1 790 ₽",
-      "oldPrice": "2 110 ₽",
-      "discount": "15%",
+      "oldPrice": "1 990 ₽",
+      "discount": "10%",
       "hit": true,
       "rating": "4.9",
       "image": "/img/catalog/skin1004-hyalu-cica-sun-1-600-b27653.webp",
@@ -1825,7 +1841,9 @@
       ],
       "thumbs": [
         "/img/catalog/tocobo-bio-watery-sun-1-600-b2c8a5.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "1 880 ₽"
     },
     {
       "id": "haruharu-black-rice-sun",
@@ -1849,7 +1867,9 @@
       ],
       "thumbs": [
         "/img/catalog/haruharu-black-rice-sun-1-600-3f6724.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "2 100 ₽"
     },
     {
       "id": "makeprem-sun-essence",
@@ -1873,7 +1893,9 @@
       ],
       "thumbs": [
         "/img/catalog/makeprem-sun-essence-1-600-d54604.webp"
-      ]
+      ],
+      "discount": "10%",
+      "oldPrice": "1 770 ₽"
     },
     {
       "id": "dasique-juicy-dewy-lip-tint",
@@ -2629,6 +2651,8 @@
       "name": "Fwee 3D Voluming Tint",
       "description": "Тинт с эффектом объёма",
       "price": "1 790 ₽",
+      "oldPrice": "1 990 ₽",
+      "discount": "10%",
       "shades": [
         {
           "name": "01 Sweetie Dew",

@@ -95,8 +95,8 @@ export const products = [
   { id: "medicube-collagen-jelly-cream", type: "Кремы", brand: "Medicube", name: "Medicube Collagen Jelly Cream", description: "Крем-желе с коллагеном для сияния", price: 2490, discount: "20%", hit: true, rating: "4.7", files: [C + "medicube_Collagen_Jelly_Cream.png", D + "17.png"] },
 
   // ---------- SPF для лица ----------
-  { id: "anua-heartleaf-sun-cream", type: "SPF для лица", brand: "Anua", name: "Anua Heartleaf Silky Moisture Sun Cream", description: "Увлажняющий солнцезащитный крем SPF50+", price: 1990, files: [C + "Anua_Heartleaf_Silky_Moisture_Sun_Cream.png"] },
-  { id: "anua-peach-tone-up", type: "SPF для лица", brand: "Anua", name: "Anua Peach Niacin UV Tone Up 01 Melting Peach", description: "Тонирующий солнцезащитный крем SPF50+", price: 2190, files: [C + "Anua_Peach_Niacin_UV_Tone_Up_Protection_01_Melting_Peach.png"] },
+  { id: "anua-heartleaf-sun-cream", type: "SPF для лица", brand: "Anua", name: "Anua Heartleaf Silky Moisture Sun Cream", description: "Увлажняющий солнцезащитный крем SPF50+", price: 1990, discount: "10%", files: [C + "Anua_Heartleaf_Silky_Moisture_Sun_Cream.png"] },
+  { id: "anua-peach-tone-up", type: "SPF для лица", brand: "Anua", name: "Anua Peach Niacin UV Tone Up 01 Melting Peach", description: "Тонирующий солнцезащитный крем SPF50+", price: 2190, discount: "10%", files: [C + "Anua_Peach_Niacin_UV_Tone_Up_Protection_01_Melting_Peach.png"] },
 
   // ---------- Маски ----------
   { id: "biodance-collagen-mask", type: "Маски", brand: "Biodance", name: "Biodance Bio-Collagen Real Deep Mask", description: "Гидрогелевая маска с коллагеном", price: 690, discount: "10%", hit: true, rating: "4.9", files: [MH + "Biodance_Bio_Collagen_Real_Deep_Mask/Biodance_Bio_Collagen_Real_Deep_Mask.png", MH + "Biodance_Bio_Collagen_Real_Deep_Mask/Biodance_Bio_Collagen_Real_Deep_Mask_Model.png"] },

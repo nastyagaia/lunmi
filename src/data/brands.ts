@@ -24,8 +24,8 @@ function describe(name: string, products: Product[]) {
   return `${name} — корейский бренд косметики.`;
 }
 
-/** Линейки, которые на странице бренда стоят первыми (Настя, 17.10.2026: Anua PDRN — на главном баннере) */
-const featured: Record<string, RegExp> = { Anua: /PDRN/i };
+/** Линейки, которые на странице бренда стоят первыми — то, о чём баннер на главной (Anua PDRN, девайсы Medicube) */
+const featured: Record<string, RegExp> = { Anua: /PDRN/i, Medicube: /Age-R/i };
 /** сначала товары выделенной линейки, остальные — в прежнем порядке */
 const featuredFirst = (name: string, products: Product[]) => {
   const re = featured[name];
