@@ -24,13 +24,26 @@ function describe(name: string, products: Product[]) {
   return `${name} — корейский бренд косметики.`;
 }
 
+/** Линейки, которые на странице бренда стоят первыми (Настя, 17.10.2026: Anua PDRN — на главном баннере) */
+const featured: Record<string, RegExp> = { Anua: /PDRN/i };
+/** сначала товары выделенной линейки, остальные — в прежнем порядке */
+const featuredFirst = (name: string, products: Product[]) => {
+  const re = featured[name];
+  return re ? [...products.filter((p) => re.test(p.name)), ...products.filter((p) => !re.test(p.name))] : products;
+};
+
 export const brands: Brand[] = Object.entries(
   Object.groupBy(
     allProducts.filter((p) => p.brand),
     (p) => p.brand!,
   ),
 )
-  .map(([name, products = []]) => ({ slug: brandSlug(name), name, description: describe(name, products), products }))
+  .map(([name, products = []]) => ({
+    slug: brandSlug(name),
+    name,
+    description: describe(name, products),
+    products: featuredFirst(name, products),
+  }))
   .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 
 export const getBrand = (slug: string) => brands.find((b) => b.slug === slug);
