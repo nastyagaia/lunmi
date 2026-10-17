@@ -2851,6 +2851,81 @@
       ]
     },
     {
+      "id": "fwee-glowy-jelly-pot",
+      "href": "/product/fwee-glowy-jelly-pot",
+      "category": "Макияж",
+      "type": "Для губ",
+      "brand": "Fwee",
+      "name": "Fwee Glowy Jelly Pot",
+      "title": "Fwee Glowy Jelly Pot",
+      "description": "Желе для губ и щёк с сияющим финишем",
+      "price": "1 890 ₽",
+      "oldPrice": "2 100 ₽",
+      "discount": "10%",
+      "shades": [
+        {
+          "name": "JC01 Honey Peach",
+          "color": "#f3515c",
+          "images": [
+            0
+          ]
+        },
+        {
+          "name": "JC03 Juicy Punch",
+          "color": "#ff748d",
+          "images": [
+            1
+          ]
+        },
+        {
+          "name": "JR01 Squeezed",
+          "color": "#ea4449",
+          "images": [
+            2
+          ]
+        },
+        {
+          "name": "JN02 Milky",
+          "color": "#e99fbc",
+          "images": [
+            3
+          ]
+        },
+        {
+          "name": "JS03 Couverture",
+          "color": "#7e3241",
+          "images": [
+            4
+          ]
+        },
+        {
+          "name": "JM02 Berry Jam",
+          "color": "#e06c93",
+          "images": [
+            5
+          ]
+        }
+      ],
+      "image": "/img/catalog/fwee-glowy-jelly-pot-1-600-3823c1.webp",
+      "hoverImage": "/img/catalog/fwee-glowy-jelly-pot-2-600-c3b22e.webp",
+      "images": [
+        "/img/catalog/fwee-glowy-jelly-pot-1-1200-72c201.webp",
+        "/img/catalog/fwee-glowy-jelly-pot-2-1200-ac310c.webp",
+        "/img/catalog/fwee-glowy-jelly-pot-3-1200-4f7255.webp",
+        "/img/catalog/fwee-glowy-jelly-pot-4-1200-c5adc0.webp",
+        "/img/catalog/fwee-glowy-jelly-pot-5-1200-fe7b8c.webp",
+        "/img/catalog/fwee-glowy-jelly-pot-6-1200-8e29fe.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/fwee-glowy-jelly-pot-1-600-3823c1.webp",
+        "/img/catalog/fwee-glowy-jelly-pot-2-600-c3b22e.webp",
+        "/img/catalog/fwee-glowy-jelly-pot-3-600-c236c5.webp",
+        "/img/catalog/fwee-glowy-jelly-pot-4-600-f7f005.webp",
+        "/img/catalog/fwee-glowy-jelly-pot-5-600-de5b03.webp",
+        "/img/catalog/fwee-glowy-jelly-pot-6-600-3c0fee.webp"
+      ]
+    },
+    {
       "id": "hince-raw-glow-gel-tint",
       "href": "/product/hince-raw-glow-gel-tint",
       "category": "Макияж",
