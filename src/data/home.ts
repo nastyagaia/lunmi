@@ -12,10 +12,12 @@ export type HeroSlide = {
   /** картинка для телефона 393 × 700 (Figma: iPhone 16 - 2…6, 11316:15910 и правее) */
   mobileImage?: string;
   tone: "light" | "dark";
+  /** куда ведёт «за покупками»; без href — к бестселлерам ниже на странице */
+  href?: string;
 };
 
 export const heroSlides: HeroSlide[] = [
-  { title: "Anua PDRN", text: "Дополнительная скидка −10%\nтолько онлайн до 31 июля", tone: "light" },
+  { title: "Anua PDRN", text: "Дополнительная скидка −10%\nтолько онлайн до 31 июля", tone: "light", href: "/brands/anua" },
   {
     title: "Тренды Кореи",
     text: "Корейские бьюти-хиты, которые уже покорили Сеул.\nОткройте новинки ухода для сияющей кожи.",
