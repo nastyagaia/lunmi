@@ -107,7 +107,7 @@ function Catalog() {
           </Link>
         ))}
         <Link
-          href="/catalog"
+          href="/catalog/all"
           className="group flex h-[180px] flex-col items-center justify-center gap-4 rounded-xs bg-accent-soft sm:h-[220px] md:h-[200px] lg:h-[280px]"
         >
           <Image src="/img/c9.webp" alt="" width={43} height={51} />

@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { filterOptions } from "@/data/catalog";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
 import { ProductCard, type Product } from "./ProductCard";
+import { ChevronLeft, ChevronRight } from "./icons";
 import { DropdownButton, FilterChip } from "./ui";
 
 type Key = "type" | "brand" | "price" | "effect" | "ingredient" | "sort";
@@ -25,6 +26,19 @@ export function productsCount(n: number) {
 }
 
 const toNumber = (price: string) => Number(price.replace(/\D/g, ""));
+
+/** на странице — 10 рядов по 4 карточки (десктоп); больше — появляется пагинация */
+const PAGE = 40;
+
+/** номера страниц с пропусками: 1 … 4 5 6 … 12 */
+function pageList(page: number, pages: number): (number | "…")[] {
+  const out: (number | "…")[] = [];
+  for (let i = 1; i <= pages; i++) {
+    if (i === 1 || i === pages || Math.abs(i - page) <= 1) out.push(i);
+    else if (out[out.length - 1] !== "…") out.push("…");
+  }
+  return out;
+}
 
 export function CatalogGrid({
   products,
@@ -90,6 +104,19 @@ export function CatalogGrid({
   if (sort === "сначала дешевле") shown = [...shown].sort((a, b) => toNumber(a.price) - toNumber(b.price));
   if (sort === "сначала дороже") shown = [...shown].sort((a, b) => toNumber(b.price) - toNumber(a.price));
   if (sort === "по рейтингу") shown = [...shown].sort((a, b) => Number(b.rating ?? 0) - Number(a.rating ?? 0));
+
+  // страница пагинации; при смене фильтров или сортировки — снова первая
+  const sig = JSON.stringify([type, brand, price, sort]);
+  const [pg, setPg] = useState({ sig, n: 1 });
+  const pages = Math.max(1, Math.ceil(shown.length / PAGE));
+  const page = pg.sig === sig ? Math.min(pg.n, pages) : 1;
+  const goTo = (n: number) => {
+    setPg({ sig, n });
+    // к началу сетки, чтобы не остаться внизу страницы
+    const top = (bar.current?.getBoundingClientRect().top ?? 0) + window.scrollY - 80;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+  };
+  const onPage = shown.slice((page - 1) * PAGE, page * PAGE);
 
   const close = () => setOpen(null);
   const toggle = (k: Key) => setOpen((o) => (o === k ? null : k));
@@ -195,7 +222,7 @@ export function CatalogGrid({
       </div>
 
       <div className="mt-5 grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
-        {shown.map((p) => (
+        {onPage.map((p) => (
           <div key={p.id} className="reveal">
             <ProductCard product={p} />
           </div>
@@ -205,8 +232,50 @@ export function CatalogGrid({
             С такими фильтрами пусто — слишком строгий отбор. Снимите один-два, и средства найдутся.
           </p>
         )}
-        {after}
+        {page === pages && after}
       </div>
+
+      {pages > 1 && (
+        <nav aria-label="Страницы" className="mt-16 flex items-center justify-center gap-1 md:mt-20">
+          <button
+            type="button"
+            onClick={() => goTo(page - 1)}
+            disabled={page === 1}
+            aria-label="Предыдущая страница"
+            className="flex size-10 items-center justify-center transition-colors hover:text-accent disabled:text-line-light disabled:hover:text-line-light"
+          >
+            <ChevronLeft className="size-5" />
+          </button>
+          {pageList(page, pages).map((n, i) =>
+            n === "…" ? (
+              <span key={`gap${i}`} className="flex size-10 items-center justify-center text-base-s text-tertiary">
+                …
+              </span>
+            ) : (
+              <button
+                key={n}
+                type="button"
+                onClick={() => goTo(n)}
+                aria-current={n === page ? "page" : undefined}
+                className={`flex size-10 items-center justify-center rounded-xs text-base-s transition-colors ${
+                  n === page ? "bg-primary text-white" : "hover:text-accent"
+                }`}
+              >
+                {n}
+              </button>
+            ),
+          )}
+          <button
+            type="button"
+            onClick={() => goTo(page + 1)}
+            disabled={page === pages}
+            aria-label="Следующая страница"
+            className="flex size-10 items-center justify-center transition-colors hover:text-accent disabled:text-line-light disabled:hover:text-line-light"
+          >
+            <ChevronRight className="size-5" />
+          </button>
+        </nav>
+      )}
     </>
   );
 }
