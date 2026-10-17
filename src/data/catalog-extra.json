@@ -1560,15 +1560,15 @@
       "title": "Manyo Galactomy Sun Serum",
       "description": "Увлажняющая солнцезащитная сыворотка",
       "price": "1 990 ₽",
+      "oldPrice": "2 210 ₽",
+      "discount": "10%",
       "image": "/img/catalog/manyo-sun-serum-1-600-b2efe7.webp",
       "images": [
         "/img/catalog/manyo-sun-serum-1-1200-b60c12.webp"
       ],
       "thumbs": [
         "/img/catalog/manyo-sun-serum-1-600-b2efe7.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "2 210 ₽"
+      ]
     },
     {
       "id": "manyo-sun-stick",
@@ -1590,15 +1590,15 @@
       "title": "Manyo Hyaluron Sun Stick",
       "description": "Увлажняющий солнцезащитный стик",
       "price": "1 790 ₽",
+      "oldPrice": "1 990 ₽",
+      "discount": "10%",
       "image": "/img/catalog/manyo-sun-stick-1-600-de1fea.webp",
       "images": [
         "/img/catalog/manyo-sun-stick-1-1200-338b9b.webp"
       ],
       "thumbs": [
         "/img/catalog/manyo-sun-stick-1-600-de1fea.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "1 990 ₽"
+      ]
     },
     {
       "id": "anua-glow-sunstick",
@@ -1642,15 +1642,15 @@
       "name": "Dr.G Green Mild Up Sun+",
       "description": "Минеральный крем для чувствительной кожи",
       "price": "1 890 ₽",
+      "oldPrice": "2 100 ₽",
+      "discount": "10%",
       "image": "/img/catalog/drg-green-mild-sun-1-600-898d77.webp",
       "images": [
         "/img/catalog/drg-green-mild-sun-1-1200-983b07.webp"
       ],
       "thumbs": [
         "/img/catalog/drg-green-mild-sun-1-600-898d77.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "2 100 ₽"
+      ]
     },
     {
       "id": "benton-air-fit-sun",
@@ -1668,15 +1668,15 @@
       "title": "Benton Air Fit Sun Cream",
       "description": "Лёгкий солнцезащитный крем",
       "price": "1 590 ₽",
+      "oldPrice": "1 770 ₽",
+      "discount": "10%",
       "image": "/img/catalog/benton-air-fit-sun-1-600-ceb5a3.webp",
       "images": [
         "/img/catalog/benton-air-fit-sun-1-1200-149493.webp"
       ],
       "thumbs": [
         "/img/catalog/benton-air-fit-sun-1-600-ceb5a3.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "1 770 ₽"
+      ]
     },
     {
       "id": "axis-y-physical-sunscreen",
@@ -1694,15 +1694,15 @@
       "title": "AXIS-Y Physical Sunscreen",
       "description": "Минеральный солнцезащитный крем",
       "price": "1 690 ₽",
+      "oldPrice": "1 880 ₽",
+      "discount": "10%",
       "image": "/img/catalog/axis-y-physical-sunscreen-1-600-60a655.webp",
       "images": [
         "/img/catalog/axis-y-physical-sunscreen-1-1200-a4b415.webp"
       ],
       "thumbs": [
         "/img/catalog/axis-y-physical-sunscreen-1-600-60a655.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "1 880 ₽"
+      ]
     },
     {
       "id": "cosrx-invisible-sunscreen",
@@ -1720,6 +1720,8 @@
       "title": "COSRX Invisible Sunscreen",
       "description": "Невесомый солнцезащитный крем",
       "price": "1 590 ₽",
+      "oldPrice": "1 770 ₽",
+      "discount": "10%",
       "rating": "4.6",
       "image": "/img/catalog/cosrx-invisible-sunscreen-1-600-eb73cb.webp",
       "images": [
@@ -1727,9 +1729,7 @@
       ],
       "thumbs": [
         "/img/catalog/cosrx-invisible-sunscreen-1-600-eb73cb.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "1 770 ₽"
+      ]
     },
     {
       "id": "purito-soft-touch-sun",
@@ -1747,15 +1747,15 @@
       "title": "Purito Soft Touch Sunscreen",
       "description": "Солнцезащитный крем с бархатным финишем",
       "price": "1 490 ₽",
+      "oldPrice": "1 660 ₽",
+      "discount": "10%",
       "image": "/img/catalog/purito-soft-touch-sun-1-600-0e77ce.webp",
       "images": [
         "/img/catalog/purito-soft-touch-sun-1-1200-735fc4.webp"
       ],
       "thumbs": [
         "/img/catalog/purito-soft-touch-sun-1-600-0e77ce.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "1 660 ₽"
+      ]
     },
     {
       "id": "thank-you-farmer-sun",
@@ -1773,15 +1773,15 @@
       "title": "Thank You Farmer Relief Sun Cream",
       "description": "Успокаивающий солнцезащитный крем",
       "price": "1 690 ₽",
+      "oldPrice": "1 880 ₽",
+      "discount": "10%",
       "image": "/img/catalog/thank-you-farmer-sun-1-600-ac979f.webp",
       "images": [
         "/img/catalog/thank-you-farmer-sun-1-1200-9cd39e.webp"
       ],
       "thumbs": [
         "/img/catalog/thank-you-farmer-sun-1-600-ac979f.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "1 880 ₽"
+      ]
     },
     {
       "id": "skin1004-hyalu-cica-sun",
@@ -1835,15 +1835,15 @@
       "title": "Tocobo Bio Watery Sun Cream",
       "description": "Водянистый солнцезащитный крем",
       "price": "1 690 ₽",
+      "oldPrice": "1 880 ₽",
+      "discount": "10%",
       "image": "/img/catalog/tocobo-bio-watery-sun-1-600-b2c8a5.webp",
       "images": [
         "/img/catalog/tocobo-bio-watery-sun-1-1200-ab6234.webp"
       ],
       "thumbs": [
         "/img/catalog/tocobo-bio-watery-sun-1-600-b2c8a5.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "1 880 ₽"
+      ]
     },
     {
       "id": "haruharu-black-rice-sun",
@@ -1861,15 +1861,15 @@
       "title": "Haruharu Black Rice Sunscreen",
       "description": "Увлажняющий крем с чёрным рисом",
       "price": "1 890 ₽",
+      "oldPrice": "2 100 ₽",
+      "discount": "10%",
       "image": "/img/catalog/haruharu-black-rice-sun-1-600-3f6724.webp",
       "images": [
         "/img/catalog/haruharu-black-rice-sun-1-1200-0141be.webp"
       ],
       "thumbs": [
         "/img/catalog/haruharu-black-rice-sun-1-600-3f6724.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "2 100 ₽"
+      ]
     },
     {
       "id": "makeprem-sun-essence",
@@ -1887,15 +1887,15 @@
       "title": "Make p:rem Daily Sun Essence",
       "description": "Солнцезащитная эссенция на каждый день",
       "price": "1 590 ₽",
+      "oldPrice": "1 770 ₽",
+      "discount": "10%",
       "image": "/img/catalog/makeprem-sun-essence-1-600-d54604.webp",
       "images": [
         "/img/catalog/makeprem-sun-essence-1-1200-2ba2cb.webp"
       ],
       "thumbs": [
         "/img/catalog/makeprem-sun-essence-1-600-d54604.webp"
-      ],
-      "discount": "10%",
-      "oldPrice": "1 770 ₽"
+      ]
     },
     {
       "id": "dasique-juicy-dewy-lip-tint",
@@ -2756,6 +2756,80 @@
         "/img/catalog/fwee-3d-voluming-tint-14-600-9c1306.webp",
         "/img/catalog/fwee-3d-voluming-tint-15-600-22f06d.webp",
         "/img/catalog/fwee-3d-voluming-tint-16-600-73687d.webp"
+      ]
+    },
+    {
+      "id": "fwee-4d-voluming-plumper",
+      "href": "/product/fwee-4d-voluming-plumper",
+      "category": "Макияж",
+      "type": "Для губ",
+      "brand": "Fwee",
+      "name": "Fwee 4D Voluming Plumper",
+      "title": "Fwee 4D Voluming Plumper",
+      "description": "Блеск-плампер для объёма губ",
+      "price": "1 990 ₽",
+      "oldPrice": "2 210 ₽",
+      "discount": "10%",
+      "image": "/img/catalog/fwee-4d-voluming-plumper-1-600-48ca76.webp",
+      "images": [
+        "/img/catalog/fwee-4d-voluming-plumper-1-1200-05332d.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/fwee-4d-voluming-plumper-1-600-48ca76.webp"
+      ]
+    },
+    {
+      "id": "fwee-blurry-pudding-pot",
+      "href": "/product/fwee-blurry-pudding-pot",
+      "category": "Макияж",
+      "type": "Румяна",
+      "also": [
+        [
+          "Хиты Кореи",
+          "Тренды в Корее"
+        ]
+      ],
+      "brand": "Fwee",
+      "name": "Fwee Blurry Pudding Pot",
+      "title": "Fwee Blurry Pudding Pot",
+      "description": "Пудинг для губ и щёк с размытым финишем",
+      "price": "1 890 ₽",
+      "oldPrice": "2 100 ₽",
+      "discount": "10%",
+      "shades": [
+        {
+          "name": "ND02 Like",
+          "color": "#fb869c",
+          "images": [
+            0
+          ]
+        },
+        {
+          "name": "ND04 My",
+          "color": "#eb776a",
+          "images": [
+            1
+          ]
+        },
+        {
+          "name": "ND05 Be",
+          "color": "#db755e",
+          "images": [
+            2
+          ]
+        }
+      ],
+      "image": "/img/catalog/fwee-blurry-pudding-pot-1-600-f6f5e1.webp",
+      "hoverImage": "/img/catalog/fwee-blurry-pudding-pot-2-600-02fae5.webp",
+      "images": [
+        "/img/catalog/fwee-blurry-pudding-pot-1-1200-45f99f.webp",
+        "/img/catalog/fwee-blurry-pudding-pot-2-1200-aac772.webp",
+        "/img/catalog/fwee-blurry-pudding-pot-3-1200-be39b7.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/fwee-blurry-pudding-pot-1-600-f6f5e1.webp",
+        "/img/catalog/fwee-blurry-pudding-pot-2-600-02fae5.webp",
+        "/img/catalog/fwee-blurry-pudding-pot-3-600-8edf77.webp"
       ]
     },
     {

@@ -15,6 +15,7 @@ const T = "Бьюти-гаджеты/";
 const LIPS = "макияж/Для губ/блески и тинты/";
 const LIPSTICK = "макияж/Для губ/помады/";
 const FACEMK = "макияж/Для лица/";
+const FW = "макияж/fwee новые 17.10/";
 const EYES = "макияж/для глаз/";
 
 const FACE = "Уход для лица";
@@ -143,6 +144,14 @@ export const extraProducts = [
     shades: { dir: LIPS + "fwee_3D_Voluming_Gloss", product: "fwee_3D_Voluming_Gloss_6_shades", model: "fwee_3D_Voluming_Gloss_models" } },
   { id: "fwee-3d-voluming-tint", category: MAKEUP, type: "Для губ", brand: "Fwee", name: "Fwee 3D Voluming Tint", description: "Тинт с эффектом объёма", price: 1790, discount: "10%",
     shades: { dir: LIPS + "fwee_3D_Voluming_Tint", product: "fwee_3D_Voluming_Tint_shades", model: "fwee_3D_Voluming_Tint_models" } },
+  // fwee — фото от Насти 17.10.2026; оттенки и названия — с fwee.us (Blurry Pudding Pot: 35 оттенков, у нас 3 с фото)
+  { id: "fwee-4d-voluming-plumper", category: MAKEUP, type: "Для губ", brand: "Fwee", name: "Fwee 4D Voluming Plumper", title: "Fwee 4D Voluming Plumper", description: "Блеск-плампер для объёма губ", price: 1990, discount: "10%", files: [FW + "fwee_4D_Voluming_Plumper.webp"] },
+  { id: "fwee-blurry-pudding-pot", category: MAKEUP, type: "Румяна", also: [[HITS, "Тренды в Корее"]], brand: "Fwee", name: "Fwee Blurry Pudding Pot", title: "Fwee Blurry Pudding Pot", description: "Пудинг для губ и щёк с размытым финишем", price: 1890, discount: "10%",
+    shades: { list: [
+      { name: "ND02 Like", color: "#fb869c", files: [FW + "fwee_Blurry_Pudding_Pot_ND02_Like.webp"] },
+      { name: "ND04 My", color: "#eb776a", files: [FW + "fwee_Blurry_Pudding_Pot_ND04_My.webp"] },
+      { name: "ND05 Be", color: "#db755e", files: [FW + "fwee_Blurry_Pudding_Pot_ND05_Be.webp"] },
+    ] } },
   { id: "hince-raw-glow-gel-tint", category: MAKEUP, type: "Для губ", brand: "Hince", name: "Hince Raw Glow Gel Tint", description: "Гелевый тинт с естественным сиянием", price: 2290, rating: "4.7",
     shades: { dir: LIPS + "hince_RawGlowGelTint ", product: "Packshots", model: "Model" } },
   { id: "nuse-care-liptual", category: MAKEUP, type: "Для губ", brand: "Nuse", name: "Nuse Care Liptual", description: "Ухаживающий оттеночный бальзам", price: 1690,
