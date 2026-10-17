@@ -7,7 +7,6 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { filterOptions } from "@/data/catalog";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
 import { ProductCard, type Product } from "./ProductCard";
-import { ChevronLeft, ChevronRight } from "./icons";
 import { DropdownButton, FilterChip } from "./ui";
 
 type Key = "type" | "brand" | "price" | "effect" | "ingredient" | "sort";
@@ -30,14 +29,13 @@ const toNumber = (price: string) => Number(price.replace(/\D/g, ""));
 /** на странице — 10 рядов по 4 карточки (десктоп); больше — появляется пагинация */
 const PAGE = 40;
 
-/** номера страниц с пропусками: 1 … 4 5 6 … 12 */
+/** номера страниц с пропусками, как в макете: «1 2 3 4 … 10», «1 … 5 6 7 … 10», «1 … 7 8 9 10» */
 function pageList(page: number, pages: number): (number | "…")[] {
-  const out: (number | "…")[] = [];
-  for (let i = 1; i <= pages; i++) {
-    if (i === 1 || i === pages || Math.abs(i - page) <= 1) out.push(i);
-    else if (out[out.length - 1] !== "…") out.push("…");
-  }
-  return out;
+  if (pages <= 6) return Array.from({ length: pages }, (_, i) => i + 1);
+  const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+  if (page <= 3) return [...range(1, 4), "…", pages];
+  if (page >= pages - 2) return [1, "…", ...range(pages - 3, pages)];
+  return [1, "…", page - 1, page, page + 1, "…", pages];
 }
 
 export function CatalogGrid({
@@ -235,21 +233,19 @@ export function CatalogGrid({
         {page === pages && after}
       </div>
 
+      {/* pagination из Figma (11341:16467): стрелки 36 × 36 и номера 30 × 36 в рамке через 12 px,
+          текущая страница тёмная, недоступная стрелка полупрозрачная, пропуск — три точки */}
       {pages > 1 && (
-        <nav aria-label="Страницы" className="mt-16 flex items-center justify-center gap-1 md:mt-20">
-          <button
-            type="button"
-            onClick={() => goTo(page - 1)}
-            disabled={page === 1}
-            aria-label="Предыдущая страница"
-            className="flex size-10 items-center justify-center transition-colors hover:text-accent disabled:text-line-light disabled:hover:text-line-light"
-          >
-            <ChevronLeft className="size-5" />
-          </button>
+        <nav aria-label="Страницы" className="mt-16 flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:mt-20">
+          <PageArrow dir="prev" disabled={page === 1} onClick={() => goTo(page - 1)} />
           {pageList(page, pages).map((n, i) =>
             n === "…" ? (
-              <span key={`gap${i}`} className="flex size-10 items-center justify-center text-base-s text-tertiary">
-                …
+              <span key={`gap${i}`} aria-hidden className="flex size-9 items-center justify-center">
+                <svg width="16" height="3.2" viewBox="0 0 16 3.2" fill="currentColor">
+                  <circle cx="2" cy="1.6" r="1.5" />
+                  <circle cx="8" cy="1.6" r="1.5" />
+                  <circle cx="14" cy="1.6" r="1.5" />
+                </svg>
               </span>
             ) : (
               <button
@@ -257,25 +253,35 @@ export function CatalogGrid({
                 type="button"
                 onClick={() => goTo(n)}
                 aria-current={n === page ? "page" : undefined}
-                className={`flex size-10 items-center justify-center rounded-xs text-base-s transition-colors ${
-                  n === page ? "bg-primary text-white" : "hover:text-accent"
+                aria-label={`Страница ${n}`}
+                className={`flex h-9 min-w-[30px] items-center justify-center rounded-sm px-2 text-base-s transition-colors ${
+                  n === page ? "bg-primary text-white" : "border border-line-light hover:border-primary"
                 }`}
               >
                 {n}
               </button>
             ),
           )}
-          <button
-            type="button"
-            onClick={() => goTo(page + 1)}
-            disabled={page === pages}
-            aria-label="Следующая страница"
-            className="flex size-10 items-center justify-center transition-colors hover:text-accent disabled:text-line-light disabled:hover:text-line-light"
-          >
-            <ChevronRight className="size-5" />
-          </button>
+          <PageArrow dir="next" disabled={page === pages} onClick={() => goTo(page + 1)} />
         </nav>
       )}
     </>
+  );
+}
+
+/** стрелка пагинации (Figma: Pagination / Navigation): белый квадрат 36 в рамке, шеврон 16 серый; недоступная — 40 % */
+function PageArrow({ dir, disabled, onClick }: { dir: "prev" | "next"; disabled: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={dir === "prev" ? "Предыдущая страница" : "Следующая страница"}
+      className="flex size-9 items-center justify-center rounded-sm border border-line-light bg-white text-tertiary transition-colors enabled:hover:border-primary enabled:hover:text-primary disabled:opacity-40"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d={dir === "prev" ? "M10 4L6 8L10 12" : "M6 12L10 8L6 4"} />
+      </svg>
+    </button>
   );
 }
