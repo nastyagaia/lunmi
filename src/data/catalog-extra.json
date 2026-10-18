@@ -2974,6 +2974,78 @@
       ]
     },
     {
+      "id": "fwee-mellow-dual-blush",
+      "href": "/product/fwee-mellow-dual-blush",
+      "category": "Макияж",
+      "type": "Румяна",
+      "also": [
+        [
+          "Хиты Кореи",
+          "Тренды в Корее"
+        ]
+      ],
+      "brand": "Fwee",
+      "name": "Fwee Mellow Dual Blush",
+      "title": "Fwee Mellow Dual Blush",
+      "description": "Двойные румяна: мягкий и яркий оттенок в одной палетке",
+      "price": "2 190 ₽",
+      "oldPrice": "2 430 ₽",
+      "discount": "10%",
+      "shades": [
+        {
+          "name": "CR02 Baby Smile",
+          "color": "#f1bead",
+          "images": [
+            0
+          ]
+        },
+        {
+          "name": "MV02 Icy Cupid",
+          "color": "#e7dceb",
+          "images": [
+            1
+          ]
+        },
+        {
+          "name": "PK02 Fall In Highkey",
+          "color": "#eab5dc",
+          "images": [
+            2
+          ]
+        },
+        {
+          "name": "RD01 Follow Me",
+          "color": "#f3b6b7",
+          "images": [
+            3
+          ]
+        },
+        {
+          "name": "RD02 Another Me",
+          "color": "#fbc8a7",
+          "images": [
+            4
+          ]
+        }
+      ],
+      "image": "/img/catalog/fwee-mellow-dual-blush-1-600-56248c.webp",
+      "hoverImage": "/img/catalog/fwee-mellow-dual-blush-2-600-f3854d.webp",
+      "images": [
+        "/img/catalog/fwee-mellow-dual-blush-1-1200-834a9c.webp",
+        "/img/catalog/fwee-mellow-dual-blush-2-1200-5d783e.webp",
+        "/img/catalog/fwee-mellow-dual-blush-3-1200-acb179.webp",
+        "/img/catalog/fwee-mellow-dual-blush-4-1200-17c94c.webp",
+        "/img/catalog/fwee-mellow-dual-blush-5-1200-e45cf6.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/fwee-mellow-dual-blush-1-600-56248c.webp",
+        "/img/catalog/fwee-mellow-dual-blush-2-600-f3854d.webp",
+        "/img/catalog/fwee-mellow-dual-blush-3-600-59b2f6.webp",
+        "/img/catalog/fwee-mellow-dual-blush-4-600-c13fc9.webp",
+        "/img/catalog/fwee-mellow-dual-blush-5-600-947f40.webp"
+      ]
+    },
+    {
       "id": "hince-raw-glow-gel-tint",
       "href": "/product/hince-raw-glow-gel-tint",
       "category": "Макияж",
