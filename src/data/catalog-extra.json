@@ -3046,6 +3046,69 @@
       ]
     },
     {
+      "id": "fwee-glitz-stone-highlighter",
+      "href": "/product/fwee-glitz-stone-highlighter",
+      "category": "Макияж",
+      "type": "Хайлайтеры и контуринг",
+      "also": [
+        [
+          "Хиты Кореи",
+          "Тренды в Корее"
+        ]
+      ],
+      "brand": "Fwee",
+      "name": "Fwee Glitz Stone Highlighter",
+      "title": "Fwee Glitz Stone Highlighter",
+      "description": "Сияющий хайлайтер с мерцанием как у драгоценных камней",
+      "price": "2 190 ₽",
+      "oldPrice": "2 430 ₽",
+      "discount": "10%",
+      "shades": [
+        {
+          "name": "HL01 Fever Garnet",
+          "color": "#e0789b",
+          "images": [
+            0
+          ]
+        },
+        {
+          "name": "HL02 Heroine Purple",
+          "color": "#fae1ee",
+          "images": [
+            1
+          ]
+        },
+        {
+          "name": "HL05 Lucky Clover",
+          "color": "#ede6d8",
+          "images": [
+            2
+          ]
+        },
+        {
+          "name": "HL09 Love Quartz",
+          "color": "#ffd4b5",
+          "images": [
+            3
+          ]
+        }
+      ],
+      "image": "/img/catalog/fwee-glitz-stone-highlighter-1-600-94afdf.webp",
+      "hoverImage": "/img/catalog/fwee-glitz-stone-highlighter-2-600-089c5d.webp",
+      "images": [
+        "/img/catalog/fwee-glitz-stone-highlighter-1-1200-df8de0.webp",
+        "/img/catalog/fwee-glitz-stone-highlighter-2-1200-c818ae.webp",
+        "/img/catalog/fwee-glitz-stone-highlighter-3-1200-b8b260.webp",
+        "/img/catalog/fwee-glitz-stone-highlighter-4-1200-4d44fe.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/fwee-glitz-stone-highlighter-1-600-94afdf.webp",
+        "/img/catalog/fwee-glitz-stone-highlighter-2-600-089c5d.webp",
+        "/img/catalog/fwee-glitz-stone-highlighter-3-600-e7ff3c.webp",
+        "/img/catalog/fwee-glitz-stone-highlighter-4-600-5dcbb4.webp"
+      ]
+    },
+    {
       "id": "hince-raw-glow-gel-tint",
       "href": "/product/hince-raw-glow-gel-tint",
       "category": "Макияж",

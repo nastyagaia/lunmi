@@ -171,6 +171,13 @@ export const extraProducts = [
       { name: "RD01 Follow Me", color: "#f3b6b7", files: [FW + "fwee_Mellow_Dual_Blush_RD01_Follow_Me.png"] },
       { name: "RD02 Another Me", color: "#fbc8a7", files: [FW + "fwee_Mellow_Dual_Blush_RD02_Another_Me.png"] },
     ] } },
+  { id: "fwee-glitz-stone-highlighter", category: MAKEUP, type: "Хайлайтеры и контуринг", also: [[HITS, "Тренды в Корее"]], brand: "Fwee", name: "Fwee Glitz Stone Highlighter", title: "Fwee Glitz Stone Highlighter", description: "Сияющий хайлайтер с мерцанием как у драгоценных камней", price: 2190, discount: "10%",
+    shades: { list: [
+      { name: "HL01 Fever Garnet", color: "#e0789b", files: [FW + "fwee_Glitz_Stone_Highlighter_HL01_Fever_Garnet.png"] },
+      { name: "HL02 Heroine Purple", color: "#fae1ee", files: [FW + "fwee_Glitz_Stone_Highlighter_HL02_Heroine_Purple.png"] },
+      { name: "HL05 Lucky Clover", color: "#ede6d8", files: [FW + "fwee_Glitz_Stone_Highlighter_HL05_Lucky_Clover.png"] },
+      { name: "HL09 Love Quartz", color: "#ffd4b5", files: [FW + "fwee_Glitz_Stone_Highlighter_HL09_Love_Quartz.png"] },
+    ] } },
   { id: "hince-raw-glow-gel-tint", category: MAKEUP, type: "Для губ", brand: "Hince", name: "Hince Raw Glow Gel Tint", description: "Гелевый тинт с естественным сиянием", price: 2290, rating: "4.7",
     shades: { dir: LIPS + "hince_RawGlowGelTint ", product: "Packshots", model: "Model" } },
   { id: "nuse-care-liptual", category: MAKEUP, type: "Для губ", brand: "Nuse", name: "Nuse Care Liptual", description: "Ухаживающий оттеночный бальзам", price: 1690,
