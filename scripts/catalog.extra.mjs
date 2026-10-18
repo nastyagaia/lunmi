@@ -8,6 +8,7 @@ const G = "glow skin/";
 const A = "антивозрастной уход/Lunmi_Anti_Age/";
 const A2 = "антивозрастной уход/новые 9.10/";
 const AN = "уход для лица/Anua новые 9.10/";
+const DA = "уход для лица/Dr.Althea новые 18.10/";
 const B = "Для тела/";
 const H = "Для волос/Product/";
 const S = "Для загара/";
@@ -72,6 +73,12 @@ export const extraProducts = [
   { id: "anua-peach-77-milk", category: FACE, type: "Кремы", also: [[GLOW, "Сияние кожи"]], brand: "Anua", name: "Anua Peach 77 Niacin Conditioning Milk", title: "Anua Peach 77 Conditioning Milk", description: "Эмульсия с персиком и ниацинамидом", price: 2290, files: [AN + "09 Anua Peach 77 Niacin Conditioning Milk.png"] },
   { id: "anua-heartleaf-pha-pad", category: FACE, type: "Пэды и патчи", also: [[GLOW, "Уход за порами"]], brand: "Anua", name: "Anua Heartleaf 77 + PHA Pore Care Pad", title: "Anua Heartleaf PHA Pore Pad", description: "Пэды с хауттюйнией и PHA для пор", price: 2390, files: [AN + "10 Anua Heartleaf 77 Clear Pad.png"] },
   { id: "anua-niacinamide-txa-pad", category: FACE, type: "Пэды и патчи", also: [[GLOW, "Выравнивание тона"], [AGE, "От пигментации"]], brand: "Anua", name: "Anua Niacinamide 5 + TXA Brightening Pad", title: "Anua Niacinamide TXA Pad", description: "Осветляющие пэды с ниацинамидом и транексамовой кислотой", price: 2390, files: [AN + "11 Anua Niacinamide 5 TXA Brightening Pad.png"] },
+  // ---------- Dr.Althea: фото от Насти 18.10.2026 ----------
+  { id: "dr-althea-melaclear-cream", category: FACE, type: "Кремы", also: [[AGE, "От пигментации"], [GLOW, "Выравнивание тона"]], brand: "Dr.Althea", name: "Dr.Althea Melaclear Cream", title: "Dr.Althea Melaclear Cream", description: "Крем против пигментных пятен с транексамовой кислотой", price: 2190, files: [DA + "Melaclear_Cream.png"] },
+  { id: "dr-althea-345-cream-mist", category: FACE, type: "Мисты", also: [[GLOW, "Успокаивающий уход"]], brand: "Dr.Althea", name: "Dr.Althea 345 Relief Cream Mist", title: "Dr.Althea 345 Relief Cream Mist", description: "Успокаивающий крем-мист для лица, 100 мл", price: 1990, files: [DA + "345_Relief_Cream_Mist.png"] },
+  { id: "dr-althea-345-gel-cleanser", category: FACE, type: "Очищение", brand: "Dr.Althea", name: "Dr.Althea 345 Relief Daily Gel Cleanser", title: "Dr.Althea 345 Gel Cleanser", description: "Мягкий гель для умывания, 100 мл", price: 1590, files: [DA + "345_Relief_Daily_Gel_Cleanser.png"] },
+  { id: "dr-althea-147-barrier-cream", category: FACE, type: "Кремы", also: [[GLOW, "Восстановление барьера"]], brand: "Dr.Althea", name: "Dr.Althea 147 Barrier Cream", title: "Dr.Althea 147 Barrier Cream", description: "Крем для защитного барьера сухой кожи, 15 мл", price: 990, files: [DA + "147_Barrier_Cream.png"] },
+  { id: "dr-althea-pore-cleansing-oil", category: FACE, type: "Очищение", brand: "Dr.Althea", name: "Dr.Althea Gentle Pore Cleansing Oil", title: "Dr.Althea Pore Cleansing Oil", description: "Лёгкое гидрофильное масло для очищения пор, 150 мл", price: 1890, files: [DA + "Gentle_Pore_Cleansing_Oil.png"] },
   { id: "elizavecca-piggy-collagen", category: FACE, type: "Маски", also: [[AGE, "Коллаген"]], brand: "Elizavecca", name: "Elizavecca Green Piggy Collagen Jella Pack", title: "Elizavecca Piggy Collagen Pack", description: "Коллагеновая маска-желе", price: 990, files: [A + "Elizavecca Green Piggy Collagen Jella Pack.png"] },
 
   // ---------- для тела ----------

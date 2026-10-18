@@ -1039,6 +1039,118 @@
       ]
     },
     {
+      "id": "dr-althea-melaclear-cream",
+      "href": "/product/dr-althea-melaclear-cream",
+      "category": "Уход для лица",
+      "type": "Кремы",
+      "also": [
+        [
+          "Антивозрастной уход",
+          "От пигментации"
+        ],
+        [
+          "Glow-skin",
+          "Выравнивание тона"
+        ]
+      ],
+      "brand": "Dr.Althea",
+      "name": "Dr.Althea Melaclear Cream",
+      "title": "Dr.Althea Melaclear Cream",
+      "description": "Крем против пигментных пятен с транексамовой кислотой",
+      "price": "2 190 ₽",
+      "image": "/img/catalog/dr-althea-melaclear-cream-1-600-cb0f7e.webp",
+      "images": [
+        "/img/catalog/dr-althea-melaclear-cream-1-1200-7866e7.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/dr-althea-melaclear-cream-1-600-cb0f7e.webp"
+      ]
+    },
+    {
+      "id": "dr-althea-345-cream-mist",
+      "href": "/product/dr-althea-345-cream-mist",
+      "category": "Уход для лица",
+      "type": "Мисты",
+      "also": [
+        [
+          "Glow-skin",
+          "Успокаивающий уход"
+        ]
+      ],
+      "brand": "Dr.Althea",
+      "name": "Dr.Althea 345 Relief Cream Mist",
+      "title": "Dr.Althea 345 Relief Cream Mist",
+      "description": "Успокаивающий крем-мист для лица, 100 мл",
+      "price": "1 990 ₽",
+      "image": "/img/catalog/dr-althea-345-cream-mist-1-600-16bac7.webp",
+      "images": [
+        "/img/catalog/dr-althea-345-cream-mist-1-1200-8aaa5b.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/dr-althea-345-cream-mist-1-600-16bac7.webp"
+      ]
+    },
+    {
+      "id": "dr-althea-345-gel-cleanser",
+      "href": "/product/dr-althea-345-gel-cleanser",
+      "category": "Уход для лица",
+      "type": "Очищение",
+      "brand": "Dr.Althea",
+      "name": "Dr.Althea 345 Relief Daily Gel Cleanser",
+      "title": "Dr.Althea 345 Gel Cleanser",
+      "description": "Мягкий гель для умывания, 100 мл",
+      "price": "1 590 ₽",
+      "image": "/img/catalog/dr-althea-345-gel-cleanser-1-600-270ee2.webp",
+      "images": [
+        "/img/catalog/dr-althea-345-gel-cleanser-1-1200-de1b50.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/dr-althea-345-gel-cleanser-1-600-270ee2.webp"
+      ]
+    },
+    {
+      "id": "dr-althea-147-barrier-cream",
+      "href": "/product/dr-althea-147-barrier-cream",
+      "category": "Уход для лица",
+      "type": "Кремы",
+      "also": [
+        [
+          "Glow-skin",
+          "Восстановление барьера"
+        ]
+      ],
+      "brand": "Dr.Althea",
+      "name": "Dr.Althea 147 Barrier Cream",
+      "title": "Dr.Althea 147 Barrier Cream",
+      "description": "Крем для защитного барьера сухой кожи, 15 мл",
+      "price": "990 ₽",
+      "image": "/img/catalog/dr-althea-147-barrier-cream-1-600-c35b79.webp",
+      "images": [
+        "/img/catalog/dr-althea-147-barrier-cream-1-1200-fa8725.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/dr-althea-147-barrier-cream-1-600-c35b79.webp"
+      ]
+    },
+    {
+      "id": "dr-althea-pore-cleansing-oil",
+      "href": "/product/dr-althea-pore-cleansing-oil",
+      "category": "Уход для лица",
+      "type": "Очищение",
+      "brand": "Dr.Althea",
+      "name": "Dr.Althea Gentle Pore Cleansing Oil",
+      "title": "Dr.Althea Pore Cleansing Oil",
+      "description": "Лёгкое гидрофильное масло для очищения пор, 150 мл",
+      "price": "1 890 ₽",
+      "image": "/img/catalog/dr-althea-pore-cleansing-oil-1-600-c0ac4e.webp",
+      "images": [
+        "/img/catalog/dr-althea-pore-cleansing-oil-1-1200-1f473c.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/dr-althea-pore-cleansing-oil-1-600-c0ac4e.webp"
+      ]
+    },
+    {
       "id": "elizavecca-piggy-collagen",
       "href": "/product/elizavecca-piggy-collagen",
       "category": "Уход для лица",
