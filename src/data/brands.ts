@@ -4,6 +4,7 @@
 import type { Product } from "@/components/ProductCard";
 import { allProducts } from "./sections";
 import productTexts from "./product-texts.json";
+import { brandDescriptions } from "./brand-descriptions";
 
 export type Brand = { slug: string; name: string; description: string; products: Product[] };
 
@@ -17,6 +18,7 @@ export const brandSlug = (name: string) =>
 const texts = productTexts as Record<string, Record<string, string | null>>;
 
 function describe(name: string, products: Product[]) {
+  if (brandDescriptions[name]) return brandDescriptions[name];
   for (const p of products) {
     const first = texts[p.id]?.["О бренде"]?.match(/^[^.]*бренд[^.]*\./)?.[0];
     if (first) return first;
