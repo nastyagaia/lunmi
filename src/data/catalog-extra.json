@@ -393,6 +393,24 @@
       "price": "12 990 ₽",
       "oldPrice": "14 430 ₽",
       "discount": "10%",
+      "volumes": [
+        {
+          "name": "60 мл",
+          "price": "12 990 ₽",
+          "oldPrice": "14 430 ₽",
+          "images": [
+            0
+          ]
+        },
+        {
+          "name": "30 мл",
+          "price": "7 490 ₽",
+          "oldPrice": "8 320 ₽",
+          "images": [
+            0
+          ]
+        }
+      ],
       "image": "/img/catalog/sulwhasoo-ginseng-cream-1-600-4eca08.webp",
       "images": [
         "/img/catalog/sulwhasoo-ginseng-cream-1-1200-b024a5.webp"
@@ -1183,6 +1201,24 @@
       "discount": "15%",
       "hit": true,
       "rating": "4.9",
+      "volumes": [
+        {
+          "name": "200 мл",
+          "price": "1 890 ₽",
+          "oldPrice": "2 220 ₽",
+          "images": [
+            0
+          ]
+        },
+        {
+          "name": "500 мл",
+          "price": "3 490 ₽",
+          "oldPrice": "4 110 ₽",
+          "images": [
+            0
+          ]
+        }
+      ],
       "image": "/img/catalog/illiyoon-ato-concentrate-cream-1-600-6b8ce3.webp",
       "images": [
         "/img/catalog/illiyoon-ato-concentrate-cream-1-1200-e9f129.webp"
@@ -4006,6 +4042,22 @@
       "title": "Erborian CC Red",
       "description": "CC-крем против покраснений",
       "price": "3 290 ₽",
+      "volumes": [
+        {
+          "name": "40 мл",
+          "price": "3 290 ₽",
+          "images": [
+            0
+          ]
+        },
+        {
+          "name": "15 мл",
+          "price": "1 590 ₽",
+          "images": [
+            0
+          ]
+        }
+      ],
       "image": "/img/catalog/erborian-cc-red-1-600-a8c229.webp",
       "hoverImage": "/img/catalog/erborian-cc-red-2-600-65732f.webp",
       "images": [
