@@ -234,7 +234,14 @@ export const extraProducts = [
       { name: "21 Light Beige", files: [FACEMK + "MISSHA_M_Perfect_Cover_Serum_BB_Cream/оттенки/MISSHA_M_Perfect_Cover_Serum_BB_Cream_21_Light_Beige.png"] },
       { name: "33 Tan", files: [FACEMK + "MISSHA_M_Perfect_Cover_Serum_BB_Cream/оттенки/MISSHA_M_Perfect_Cover_Serum_BB_Cream_33_Tan.png"] },
     ] } },
-  { id: "erborian-bb-creme-ginseng", category: MAKEUP, type: "Тональные средства", brand: "Erborian", name: "Erborian BB Crème au Ginseng", title: "Erborian BB Crème au Ginseng", description: "BB-крем с женьшенем", price: 2990, rating: "4.7",
+  { id: "erborian-bb-creme-ginseng", category: MAKEUP, type: "Тональные средства", brand: "Erborian", name: "Erborian BB Crème au Ginseng", title: "Erborian BB Crème au Ginseng", description: "BB-крем с женьшенем, 40 мл", price: 2990, rating: "4.7",
+    shades: { colorFrom: "second", list: [
+      { name: "Clair", files: [FACEMK + "Erborian_BB_Creme_Au_Ginseng/Product/Erborian_BB_Creme_Au_Ginseng_Clair_40ml.png", FACEMK + "Erborian_BB_Creme_Au_Ginseng/Swatch/Erborian_BB_Creme_Au_Ginseng_Clair_Swatch.png"] },
+      { name: "Doré", files: [FACEMK + "Erborian_BB_Creme_Au_Ginseng/Product/Erborian_BB_Creme_Au_Ginseng_Dore_40ml.png", FACEMK + "Erborian_BB_Creme_Au_Ginseng/Swatch/Erborian_BB_Creme_Au_Ginseng_Dore_Swatch.png"] },
+      { name: "Ivoire", files: [FACEMK + "Erborian_BB_Creme_Au_Ginseng/Product/Erborian_BB_Creme_Au_Ginseng_Ivoire_40ml.png", FACEMK + "Erborian_BB_Creme_Au_Ginseng/Swatch/Erborian_BB_Creme_Au_Ginseng_Ivoire_Swatch.png"] },
+      { name: "Nude", files: [FACEMK + "Erborian_BB_Creme_Au_Ginseng/Product/Erborian_BB_Creme_Au_Ginseng_Nude_40ml.png", FACEMK + "Erborian_BB_Creme_Au_Ginseng/Swatch/Erborian_BB_Creme_Au_Ginseng_Nude_Swatch.png"] },
+    ] } },
+  { id: "erborian-bb-creme-ginseng-mini", category: MAKEUP, type: "Тональные средства", brand: "Erborian", name: "Erborian BB Crème au Ginseng mini", title: "Erborian BB Crème mini", description: "BB-крем с женьшенем, мини 15 мл", price: 1590, rating: "4.7",
     shades: { colorFrom: "second", list: [
       { name: "Clair", files: [FACEMK + "Erborian_BB_Creme_Au_Ginseng/Product/Erborian_BB_Creme_Au_Ginseng_Clair_40ml.png", FACEMK + "Erborian_BB_Creme_Au_Ginseng/Swatch/Erborian_BB_Creme_Au_Ginseng_Clair_Swatch.png"] },
       { name: "Doré", files: [FACEMK + "Erborian_BB_Creme_Au_Ginseng/Product/Erborian_BB_Creme_Au_Ginseng_Dore_40ml.png", FACEMK + "Erborian_BB_Creme_Au_Ginseng/Swatch/Erborian_BB_Creme_Au_Ginseng_Dore_Swatch.png"] },
