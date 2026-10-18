@@ -124,12 +124,13 @@ function AiBanner() {
     <section className="relative overflow-hidden">
       <Image src="/img/banner.webp" alt="" fill sizes="100vw" className="object-cover" />
       <div className="container-page relative flex flex-col-reverse items-center lg:h-[511px] lg:flex-row lg:items-stretch lg:justify-between">
-        <div className="relative -mb-px aspect-[632/511] w-full max-w-[632px] self-center lg:self-end lg:-ml-[6px]">
+        {/* на телефоне голова целиком; на десктопе фото чуть выше блока (548 > 511) — макушка мягко срезана краем */}
+        <div className="relative -mb-px aspect-[1664/1342] w-full max-w-[632px] self-center lg:w-[680px] lg:max-w-[680px] lg:shrink-0 lg:self-end lg:-ml-[6px]">
           <Image
-            src="/img/bannerPhoto.webp"
+            src="/img/banner-photo-ebcbfe.webp"
             alt="Девушка с сияющей кожей"
             fill
-            sizes="(min-width: 1024px) 632px, 100vw"
+            sizes="(min-width: 1024px) 680px, 100vw"
             className="object-contain object-bottom"
           />
         </div>
