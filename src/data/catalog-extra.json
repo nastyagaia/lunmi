@@ -1151,6 +1151,54 @@
       ]
     },
     {
+      "id": "dr-althea-grinding-cleansing-balm",
+      "href": "/product/dr-althea-grinding-cleansing-balm",
+      "category": "Уход для лица",
+      "type": "Очищение",
+      "brand": "Dr.Althea",
+      "name": "Dr.Althea Pure Grinding Cleansing Balm",
+      "title": "Dr.Althea Pure Grinding Balm",
+      "description": "Очищающий бальзам с центеллой, 50 мл",
+      "price": "1 790 ₽",
+      "image": "/img/catalog/dr-althea-grinding-cleansing-balm-1-600-98cb20.webp",
+      "hoverImage": "/img/catalog/dr-althea-grinding-cleansing-balm-2-600-19bbbe.webp",
+      "images": [
+        "/img/catalog/dr-althea-grinding-cleansing-balm-1-1200-3a7273.webp",
+        "/img/catalog/dr-althea-grinding-cleansing-balm-2-1200-207cec.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/dr-althea-grinding-cleansing-balm-1-600-98cb20.webp",
+        "/img/catalog/dr-althea-grinding-cleansing-balm-2-600-19bbbe.webp"
+      ]
+    },
+    {
+      "id": "dr-althea-vitamin-c-serum",
+      "href": "/product/dr-althea-vitamin-c-serum",
+      "category": "Уход для лица",
+      "type": "Сыворотки и ампулы",
+      "also": [
+        [
+          "Glow-skin",
+          "Сияние кожи"
+        ]
+      ],
+      "brand": "Dr.Althea",
+      "name": "Dr.Althea Vitamin C Boosting Serum",
+      "title": "Dr.Althea Vitamin C Serum",
+      "description": "Сыворотка с облепихой для сияния, 30 мл",
+      "price": "2 290 ₽",
+      "image": "/img/catalog/dr-althea-vitamin-c-serum-1-600-be7ffe.webp",
+      "hoverImage": "/img/catalog/dr-althea-vitamin-c-serum-2-600-b2213e.webp",
+      "images": [
+        "/img/catalog/dr-althea-vitamin-c-serum-1-1200-c3d5e6.webp",
+        "/img/catalog/dr-althea-vitamin-c-serum-2-1200-e657d6.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/dr-althea-vitamin-c-serum-1-600-be7ffe.webp",
+        "/img/catalog/dr-althea-vitamin-c-serum-2-600-b2213e.webp"
+      ]
+    },
+    {
       "id": "elizavecca-piggy-collagen",
       "href": "/product/elizavecca-piggy-collagen",
       "category": "Уход для лица",
