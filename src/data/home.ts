@@ -54,7 +54,7 @@ export const heroSlides: HeroSlide[] = [
     title: "Medicube девайсы",
     text: "Домашний уход как в салоне:\nлифтинг, микротоки и сияние кожи",
     image: "/img/hero-medicube.webp",
-    href: "/brands/medicube",
+    href: "/catalog/beauty-gadgets?brand=Medicube",
     mobileImage: "/img/hero-medicube-mobile-5d0602.webp",
     tone: "light",
   },

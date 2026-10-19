@@ -43,6 +43,7 @@ export function CatalogGrid({
   types,
   initialType,
   initialTypes,
+  initialBrand,
   after,
   hideBrand = false,
   countPrefix = "",
@@ -54,6 +55,8 @@ export function CatalogGrid({
   initialType?: string;
   /** сразу отметить несколько типов (подраздел-группа «Для лица») */
   initialTypes?: string[];
+  /** бренд, отмеченный ссылкой: /catalog/beauty-gadgets?brand=Medicube (баннер «Medicube девайсы») */
+  initialBrand?: string;
   after?: ReactNode;
   /** на странице бренда фильтр «Бренд» не нужен */
   hideBrand?: boolean;
@@ -62,7 +65,7 @@ export function CatalogGrid({
 }) {
   const [open, setOpen] = useState<Key | null>(null);
   const [type, setType] = useState<string[]>(initialTypes ?? (initialType ? [initialType] : []));
-  const [brand, setBrand] = useState<string[]>([]);
+  const [brand, setBrand] = useState<string[]>(initialBrand ? [initialBrand] : []);
   const [effect, setEffect] = useState<string[]>([]);
   const [ingredient, setIngredient] = useState<string[]>([]);
   const [price, setPrice] = useState<PriceRange>({ from: "", to: "" });
