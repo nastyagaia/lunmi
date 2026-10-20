@@ -5645,15 +5645,35 @@
       "discount": "10%",
       "hit": true,
       "rating": "4.8",
-      "image": "/img/catalog/medicube-age-r-booster-pro-1-600-48be64.webp",
-      "hoverImage": "/img/catalog/medicube-age-r-booster-pro-2-600-03cd13.webp",
+      "image": "/img/catalog/medicube-age-r-booster-pro-1-600-da9a3f.webp",
+      "hoverImage": "/img/catalog/medicube-age-r-booster-pro-2-600-48be64.webp",
       "images": [
-        "/img/catalog/medicube-age-r-booster-pro-1-1200-79d5cb.webp",
-        "/img/catalog/medicube-age-r-booster-pro-2-1200-0c5dff.webp"
+        "/img/catalog/medicube-age-r-booster-pro-1-1200-1d63eb.webp",
+        "/img/catalog/medicube-age-r-booster-pro-2-1200-79d5cb.webp",
+        "/img/catalog/medicube-age-r-booster-pro-3-1200-0c5dff.webp"
       ],
       "thumbs": [
-        "/img/catalog/medicube-age-r-booster-pro-1-600-48be64.webp",
-        "/img/catalog/medicube-age-r-booster-pro-2-600-03cd13.webp"
+        "/img/catalog/medicube-age-r-booster-pro-1-600-da9a3f.webp",
+        "/img/catalog/medicube-age-r-booster-pro-2-600-48be64.webp",
+        "/img/catalog/medicube-age-r-booster-pro-3-600-03cd13.webp"
+      ]
+    },
+    {
+      "id": "medicube-age-r-booster-pro-mini",
+      "href": "/product/medicube-age-r-booster-pro-mini",
+      "category": "Бьюти-гаджеты",
+      "type": "Аппараты для лица",
+      "brand": "Medicube",
+      "name": "Medicube Age-R Booster Pro Mini",
+      "title": "Medicube Age-R Booster Pro Mini",
+      "description": "Компактный прибор для сияния и упругости кожи",
+      "price": "12 990 ₽",
+      "image": "/img/catalog/medicube-age-r-booster-pro-mini-1-600-8a3860.webp",
+      "images": [
+        "/img/catalog/medicube-age-r-booster-pro-mini-1-1200-2f8a86.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/medicube-age-r-booster-pro-mini-1-600-8a3860.webp"
       ]
     },
     {

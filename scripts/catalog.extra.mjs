@@ -13,6 +13,7 @@ const B = "Для тела/";
 const H = "Для волос/Product/";
 const S = "Для загара/";
 const T = "Бьюти-гаджеты/";
+const MD = "Бьюти-гаджеты/Medicube новые 19.10/";
 const LIPS = "макияж/Для губ/блески и тинты/";
 const LIPSTICK = "макияж/Для губ/помады/";
 const FACEMK = "макияж/Для лица/";
@@ -396,7 +397,8 @@ export const extraProducts = [
   { id: "cellreturn-led-mask", category: "Бьюти-гаджеты", type: "LED-маски", brand: "CellReturn", name: "CellReturn Premium LED Mask", description: "LED-маска для омоложения кожи", price: 89990, files: [T + "CellReturn_LED_Mask.png"] },
   { id: "currentbody-led-mask", category: "Бьюти-гаджеты", type: "LED-маски", brand: "CurrentBody", name: "CurrentBody Skin LED Light Therapy Mask", title: "CurrentBody Skin LED Mask", description: "Гибкая LED-маска для лица", price: 39990, discount: "15%", hit: true, files: [T + "CurrentBody_Skin_LED_Mask.png"] },
   { id: "caelumen-micro-led-mask", category: "Бьюти-гаджеты", type: "LED-маски", brand: "Caelumen", name: "Caelumen Micro LED Mask", description: "Компактная LED-маска", price: 29990, files: [T + "Caelumen_Micro_LED_Mask.png"] },
-  { id: "medicube-age-r-booster-pro", category: "Бьюти-гаджеты", type: "Микротоки", also: [[HITS, "Тренды Тиктока"]], brand: "Medicube", name: "Medicube Age-R Booster Pro", description: "Аппарат 6 в 1: микротоки, EMS, электропорация", price: 24990, discount: "10%", hit: true, rating: "4.8", files: [T + "Medicube_AGE-R_Booster_Pro.png", T + "Medicube_AGE-R_Booster_Pro_Pink.png"] },
+  { id: "medicube-age-r-booster-pro", category: "Бьюти-гаджеты", type: "Микротоки", also: [[HITS, "Тренды Тиктока"]], brand: "Medicube", name: "Medicube Age-R Booster Pro", description: "Аппарат 6 в 1: микротоки, EMS, электропорация", price: 24990, discount: "10%", hit: true, rating: "4.8", files: [MD + "device_3.png", T + "Medicube_AGE-R_Booster_Pro.png", T + "Medicube_AGE-R_Booster_Pro_Pink.png"] },
+  { id: "medicube-age-r-booster-pro-mini", category: "Бьюти-гаджеты", type: "Аппараты для лица", brand: "Medicube", name: "Medicube Age-R Booster Pro Mini", title: "Medicube Age-R Booster Pro Mini", description: "Компактный прибор для сияния и упругости кожи", price: 12990, files: [MD + "device_4.png"] },
   { id: "medicube-age-r-derma-tox", category: "Бьюти-гаджеты", type: "Аппараты для лица", brand: "Medicube", name: "Medicube Age-R Derma EMS Shot", title: "Medicube Age-R Derma EMS Shot", description: "Роликовый EMS-массажёр для упругости кожи", price: 19990, files: [T + "Medicube_AGE-R_Derma_Tox.png"] },
 ];
 
