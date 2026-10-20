@@ -5749,6 +5749,117 @@
       ]
     },
     {
+      "id": "makeon-skin-light-therapy-3s",
+      "href": "/product/makeon-skin-light-therapy-3s",
+      "category": "Бьюти-гаджеты",
+      "type": "Аппараты для лица",
+      "also": [
+        [
+          "Хиты Кореи",
+          "Тренды в Корее"
+        ]
+      ],
+      "brand": "makeON",
+      "name": "makeON Skin Light Therapy 3S",
+      "title": "makeON Skin Light Therapy 3S",
+      "description": "Прибор со светотерапией и EMS, анализ кожи за 3 секунды",
+      "price": "24 990 ₽",
+      "image": "/img/catalog/makeon-skin-light-therapy-3s-1-600-fc2ed1.webp",
+      "hoverImage": "/img/catalog/makeon-skin-light-therapy-3s-2-600-93f3f5.webp",
+      "images": [
+        "/img/catalog/makeon-skin-light-therapy-3s-1-1200-9271a2.webp",
+        "/img/catalog/makeon-skin-light-therapy-3s-2-1200-f7170f.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/makeon-skin-light-therapy-3s-1-600-fc2ed1.webp",
+        "/img/catalog/makeon-skin-light-therapy-3s-2-600-93f3f5.webp"
+      ]
+    },
+    {
+      "id": "lg-pral-derma-led-mask",
+      "href": "/product/lg-pral-derma-led-mask",
+      "category": "Бьюти-гаджеты",
+      "type": "LED-маски",
+      "brand": "LG Pra.L",
+      "name": "LG Pra.L Derma LED Mask",
+      "title": "LG Pra.L Derma LED Mask",
+      "description": "LED-маска для упругости кожи, процедура 9 минут",
+      "price": "69 990 ₽",
+      "image": "/img/catalog/lg-pral-derma-led-mask-1-600-80abab.webp",
+      "hoverImage": "/img/catalog/lg-pral-derma-led-mask-2-600-bc3dd0.webp",
+      "images": [
+        "/img/catalog/lg-pral-derma-led-mask-1-1200-dbb35d.webp",
+        "/img/catalog/lg-pral-derma-led-mask-2-1200-927a5a.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/lg-pral-derma-led-mask-1-600-80abab.webp",
+        "/img/catalog/lg-pral-derma-led-mask-2-600-bc3dd0.webp"
+      ]
+    },
+    {
+      "id": "lg-pral-galvanic-ion-booster",
+      "href": "/product/lg-pral-galvanic-ion-booster",
+      "category": "Бьюти-гаджеты",
+      "type": "Аппараты для лица",
+      "brand": "LG Pra.L",
+      "name": "LG Pra.L Galvanic Ion Booster",
+      "title": "LG Pra.L Galvanic Ion Booster",
+      "description": "Прибор для глубокого очищения и усиления ухода",
+      "price": "24 990 ₽",
+      "image": "/img/catalog/lg-pral-galvanic-ion-booster-1-600-b81dea.webp",
+      "hoverImage": "/img/catalog/lg-pral-galvanic-ion-booster-2-600-51ff7d.webp",
+      "images": [
+        "/img/catalog/lg-pral-galvanic-ion-booster-1-1200-e1312b.webp",
+        "/img/catalog/lg-pral-galvanic-ion-booster-2-1200-766dd0.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/lg-pral-galvanic-ion-booster-1-600-b81dea.webp",
+        "/img/catalog/lg-pral-galvanic-ion-booster-2-600-51ff7d.webp"
+      ]
+    },
+    {
+      "id": "lg-pral-total-lift-up-care",
+      "href": "/product/lg-pral-total-lift-up-care",
+      "category": "Бьюти-гаджеты",
+      "type": "RF-лифтинг",
+      "brand": "LG Pra.L",
+      "name": "LG Pra.L Total Lift Up Care",
+      "title": "LG Pra.L Total Lift Up Care",
+      "description": "RF, микротоки и LED для лифтинга",
+      "price": "34 990 ₽",
+      "image": "/img/catalog/lg-pral-total-lift-up-care-1-600-86cbab.webp",
+      "hoverImage": "/img/catalog/lg-pral-total-lift-up-care-2-600-c5b246.webp",
+      "images": [
+        "/img/catalog/lg-pral-total-lift-up-care-1-1200-70e21e.webp",
+        "/img/catalog/lg-pral-total-lift-up-care-2-1200-957aac.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/lg-pral-total-lift-up-care-1-600-86cbab.webp",
+        "/img/catalog/lg-pral-total-lift-up-care-2-600-c5b246.webp"
+      ]
+    },
+    {
+      "id": "face-factory-z-peeling",
+      "href": "/product/face-factory-z-peeling",
+      "category": "Бьюти-гаджеты",
+      "type": "Ультразвуковой уход",
+      "brand": "face factory",
+      "name": "face factory Z Peeling Device",
+      "title": "face factory Z Peeling Device",
+      "description": "Ультразвуковая лопатка для очищения пор",
+      "price": "4 990 ₽",
+      "image": "/img/catalog/face-factory-z-peeling-1-600-bd9fe2.webp",
+      "hoverImage": "/img/catalog/face-factory-z-peeling-2-600-9d9feb.webp",
+      "images": [
+        "/img/catalog/face-factory-z-peeling-1-1200-0895b4.webp",
+        "/img/catalog/face-factory-z-peeling-2-1200-4e4f1b.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/face-factory-z-peeling-1-600-bd9fe2.webp",
+        "/img/catalog/face-factory-z-peeling-2-600-9d9feb.webp"
+      ]
+    },
+    {
       "id": "medicube-age-r-derma-tox",
       "href": "/product/medicube-age-r-derma-tox",
       "category": "Бьюти-гаджеты",

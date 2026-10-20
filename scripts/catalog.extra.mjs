@@ -14,6 +14,7 @@ const H = "Для волос/Product/";
 const S = "Для загара/";
 const T = "Бьюти-гаджеты/";
 const MD = "Бьюти-гаджеты/Medicube новые 19.10/";
+const G2 = "Бьюти-гаджеты/новые 21.10/";
 const LIPS = "макияж/Для губ/блески и тинты/";
 const LIPSTICK = "макияж/Для губ/помады/";
 const FACEMK = "макияж/Для лица/";
@@ -402,6 +403,12 @@ export const extraProducts = [
   { id: "medicube-age-r-booster-pro-mini", category: "Бьюти-гаджеты", type: "Аппараты для лица", brand: "Medicube", name: "Medicube Age-R Booster Pro Mini", title: "Medicube Age-R Booster Pro Mini", description: "Компактный прибор для сияния и упругости кожи", price: 12990, files: [MD + "device_4.png"] },
   { id: "medicube-age-r-ultra-tune", category: "Бьюти-гаджеты", type: "RF-лифтинг", also: [[HITS, "Тренды в Корее"]], brand: "Medicube", name: "Medicube Age-R Ultra Tune 40.68", title: "Medicube Age-R Ultra Tune 40.68", description: "Прибор 2 в 1 для лифтинга и упругости кожи", price: 29990, files: [MD + "device_2.png"] },
   { id: "medicube-age-r-booster-v-roller", category: "Бьюти-гаджеты", type: "EMS", brand: "Medicube", name: "Medicube Age-R Booster V Roller Mini Plus", title: "Medicube Age-R Booster V Roller Mini Plus", description: "Набор: EMS-ролик для чёткого овала и мини-бустер", price: 15990, files: [MD + "v_roller.png", MD + "device_6.png"] },
+  // корейские гаджеты (фото с сайтов брендов, 21.10.2026 — перед запуском заменить на фото поставщика)
+  { id: "makeon-skin-light-therapy-3s", category: "Бьюти-гаджеты", type: "Аппараты для лица", also: [[HITS, "Тренды в Корее"]], brand: "makeON", name: "makeON Skin Light Therapy 3S", title: "makeON Skin Light Therapy 3S", description: "Прибор со светотерапией и EMS, анализ кожи за 3 секунды", price: 24990, files: [G2 + "makeON_Skin_Light_Therapy_3S_1.png", G2 + "makeON_Skin_Light_Therapy_3S_2.png"] },
+  { id: "lg-pral-derma-led-mask", category: "Бьюти-гаджеты", type: "LED-маски", brand: "LG Pra.L", name: "LG Pra.L Derma LED Mask", title: "LG Pra.L Derma LED Mask", description: "LED-маска для упругости кожи, процедура 9 минут", price: 69990, files: [G2 + "LG_PraL_Derma_LED_Mask_1.png", G2 + "LG_PraL_Derma_LED_Mask_2.png"] },
+  { id: "lg-pral-galvanic-ion-booster", category: "Бьюти-гаджеты", type: "Аппараты для лица", brand: "LG Pra.L", name: "LG Pra.L Galvanic Ion Booster", title: "LG Pra.L Galvanic Ion Booster", description: "Прибор для глубокого очищения и усиления ухода", price: 24990, files: [G2 + "LG_PraL_Galvanic_Ion_Booster_1.png", G2 + "LG_PraL_Galvanic_Ion_Booster_2.png"] },
+  { id: "lg-pral-total-lift-up-care", category: "Бьюти-гаджеты", type: "RF-лифтинг", brand: "LG Pra.L", name: "LG Pra.L Total Lift Up Care", title: "LG Pra.L Total Lift Up Care", description: "RF, микротоки и LED для лифтинга", price: 34990, files: [G2 + "LG_PraL_Total_Lift_Up_Care_1.png", G2 + "LG_PraL_Total_Lift_Up_Care_2.png"] },
+  { id: "face-factory-z-peeling", category: "Бьюти-гаджеты", type: "Ультразвуковой уход", brand: "face factory", name: "face factory Z Peeling Device", title: "face factory Z Peeling Device", description: "Ультразвуковая лопатка для очищения пор", price: 4990, files: [G2 + "face_factory_Z_Peeling_Device_1.png", G2 + "face_factory_Z_Peeling_Device_2.png"] },
   { id: "medicube-age-r-derma-tox", category: "Бьюти-гаджеты", type: "Аппараты для лица", brand: "Medicube", name: "Medicube Age-R Derma EMS Shot", title: "Medicube Age-R Derma EMS Shot", description: "Роликовый EMS-массажёр для упругости кожи", price: 19990, files: [T + "Medicube_AGE-R_Derma_Tox.png"] },
 ];
 
