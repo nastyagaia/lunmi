@@ -5638,24 +5638,51 @@
         ]
       ],
       "brand": "Medicube",
-      "name": "Medicube Age-R Booster Pro",
+      "name": "Medicube Age-R Booster Pro Black",
+      "title": "Medicube Age-R Booster Pro, чёрный",
       "description": "Аппарат 6 в 1: микротоки, EMS, электропорация",
       "price": "24 990 ₽",
       "oldPrice": "27 770 ₽",
       "discount": "10%",
       "hit": true,
       "rating": "4.8",
-      "image": "/img/catalog/medicube-age-r-booster-pro-1-600-da9a3f.webp",
-      "hoverImage": "/img/catalog/medicube-age-r-booster-pro-2-600-48be64.webp",
+      "image": "/img/catalog/medicube-age-r-booster-pro-1-600-48be64.webp",
       "images": [
-        "/img/catalog/medicube-age-r-booster-pro-1-1200-1d63eb.webp",
-        "/img/catalog/medicube-age-r-booster-pro-2-1200-79d5cb.webp",
-        "/img/catalog/medicube-age-r-booster-pro-3-1200-0c5dff.webp"
+        "/img/catalog/medicube-age-r-booster-pro-1-1200-79d5cb.webp"
       ],
       "thumbs": [
-        "/img/catalog/medicube-age-r-booster-pro-1-600-da9a3f.webp",
-        "/img/catalog/medicube-age-r-booster-pro-2-600-48be64.webp",
-        "/img/catalog/medicube-age-r-booster-pro-3-600-03cd13.webp"
+        "/img/catalog/medicube-age-r-booster-pro-1-600-48be64.webp"
+      ]
+    },
+    {
+      "id": "medicube-age-r-booster-pro-pink",
+      "href": "/product/medicube-age-r-booster-pro-pink",
+      "category": "Бьюти-гаджеты",
+      "type": "Микротоки",
+      "also": [
+        [
+          "Хиты Кореи",
+          "Тренды Тиктока"
+        ]
+      ],
+      "brand": "Medicube",
+      "name": "Medicube Age-R Booster Pro Pink",
+      "title": "Medicube Age-R Booster Pro, розовый",
+      "description": "Аппарат 6 в 1: микротоки, EMS, электропорация",
+      "price": "24 990 ₽",
+      "oldPrice": "27 770 ₽",
+      "discount": "10%",
+      "hit": true,
+      "rating": "4.8",
+      "image": "/img/catalog/medicube-age-r-booster-pro-pink-1-600-da9a3f.webp",
+      "hoverImage": "/img/catalog/medicube-age-r-booster-pro-pink-2-600-03cd13.webp",
+      "images": [
+        "/img/catalog/medicube-age-r-booster-pro-pink-1-1200-1d63eb.webp",
+        "/img/catalog/medicube-age-r-booster-pro-pink-2-1200-0c5dff.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/medicube-age-r-booster-pro-pink-1-600-da9a3f.webp",
+        "/img/catalog/medicube-age-r-booster-pro-pink-2-600-03cd13.webp"
       ]
     },
     {
