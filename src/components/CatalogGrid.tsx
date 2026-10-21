@@ -26,11 +26,24 @@ export function productsCount(n: number) {
 
 const toNumber = (price: string) => Number(price.replace(/\D/g, ""));
 
+/** на странице — 10 рядов по 4 карточки (десктоп); больше — появляется пагинация */
+const PAGE = 40;
+
+/** номера страниц с пропусками, как в макете: «1 2 3 4 … 10», «1 … 5 6 7 … 10», «1 … 7 8 9 10» */
+function pageList(page: number, pages: number): (number | "…")[] {
+  if (pages <= 6) return Array.from({ length: pages }, (_, i) => i + 1);
+  const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+  if (page <= 3) return [...range(1, 4), "…", pages];
+  if (page >= pages - 2) return [1, "…", ...range(pages - 3, pages)];
+  return [1, "…", page - 1, page, page + 1, "…", pages];
+}
+
 export function CatalogGrid({
   products,
   types,
   initialType,
   initialTypes,
+  initialBrand,
   after,
   hideBrand = false,
   countPrefix = "",
@@ -42,6 +55,8 @@ export function CatalogGrid({
   initialType?: string;
   /** сразу отметить несколько типов (подраздел-группа «Для лица») */
   initialTypes?: string[];
+  /** бренд, отмеченный ссылкой: /catalog/beauty-gadgets?brand=Medicube (баннер «Medicube девайсы») */
+  initialBrand?: string;
   after?: ReactNode;
   /** на странице бренда фильтр «Бренд» не нужен */
   hideBrand?: boolean;
@@ -50,7 +65,7 @@ export function CatalogGrid({
 }) {
   const [open, setOpen] = useState<Key | null>(null);
   const [type, setType] = useState<string[]>(initialTypes ?? (initialType ? [initialType] : []));
-  const [brand, setBrand] = useState<string[]>([]);
+  const [brand, setBrand] = useState<string[]>(initialBrand ? [initialBrand] : []);
   const [effect, setEffect] = useState<string[]>([]);
   const [ingredient, setIngredient] = useState<string[]>([]);
   const [price, setPrice] = useState<PriceRange>({ from: "", to: "" });
@@ -90,6 +105,19 @@ export function CatalogGrid({
   if (sort === "сначала дешевле") shown = [...shown].sort((a, b) => toNumber(a.price) - toNumber(b.price));
   if (sort === "сначала дороже") shown = [...shown].sort((a, b) => toNumber(b.price) - toNumber(a.price));
   if (sort === "по рейтингу") shown = [...shown].sort((a, b) => Number(b.rating ?? 0) - Number(a.rating ?? 0));
+
+  // страница пагинации; при смене фильтров или сортировки — снова первая
+  const sig = JSON.stringify([type, brand, price, sort]);
+  const [pg, setPg] = useState({ sig, n: 1 });
+  const pages = Math.max(1, Math.ceil(shown.length / PAGE));
+  const page = pg.sig === sig ? Math.min(pg.n, pages) : 1;
+  const goTo = (n: number) => {
+    setPg({ sig, n });
+    // к началу сетки, чтобы не остаться внизу страницы
+    const top = (bar.current?.getBoundingClientRect().top ?? 0) + window.scrollY - 80;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+  };
+  const onPage = shown.slice((page - 1) * PAGE, page * PAGE);
 
   const close = () => setOpen(null);
   const toggle = (k: Key) => setOpen((o) => (o === k ? null : k));
@@ -195,7 +223,7 @@ export function CatalogGrid({
       </div>
 
       <div className="mt-5 grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
-        {shown.map((p) => (
+        {onPage.map((p) => (
           <div key={p.id} className="reveal">
             <ProductCard product={p} />
           </div>
@@ -205,8 +233,58 @@ export function CatalogGrid({
             С такими фильтрами пусто — слишком строгий отбор. Снимите один-два, и средства найдутся.
           </p>
         )}
-        {after}
+        {page === pages && after}
       </div>
+
+      {/* pagination из Figma (11341:16467): стрелки 36 × 36 и номера 30 × 36 в рамке через 12 px,
+          текущая страница тёмная, недоступная стрелка полупрозрачная, пропуск — три точки */}
+      {pages > 1 && (
+        <nav aria-label="Страницы" className="mt-16 flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:mt-20">
+          <PageArrow dir="prev" disabled={page === 1} onClick={() => goTo(page - 1)} />
+          {pageList(page, pages).map((n, i) =>
+            n === "…" ? (
+              <span key={`gap${i}`} aria-hidden className="flex size-9 items-center justify-center">
+                <svg width="16" height="3.2" viewBox="0 0 16 3.2" fill="currentColor">
+                  <circle cx="2" cy="1.6" r="1.5" />
+                  <circle cx="8" cy="1.6" r="1.5" />
+                  <circle cx="14" cy="1.6" r="1.5" />
+                </svg>
+              </span>
+            ) : (
+              <button
+                key={n}
+                type="button"
+                onClick={() => goTo(n)}
+                aria-current={n === page ? "page" : undefined}
+                aria-label={`Страница ${n}`}
+                className={`flex h-9 min-w-[30px] items-center justify-center rounded-sm px-2 text-base-s transition-colors ${
+                  n === page ? "bg-primary text-white" : "border border-line-light hover:border-primary"
+                }`}
+              >
+                {n}
+              </button>
+            ),
+          )}
+          <PageArrow dir="next" disabled={page === pages} onClick={() => goTo(page + 1)} />
+        </nav>
+      )}
     </>
+  );
+}
+
+/** стрелка пагинации (Figma: Pagination / Navigation): белый квадрат 36 в рамке, шеврон 16 серый; недоступная — 40 % */
+function PageArrow({ dir, disabled, onClick }: { dir: "prev" | "next"; disabled: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={dir === "prev" ? "Предыдущая страница" : "Следующая страница"}
+      className="flex size-9 items-center justify-center rounded-sm border border-line-light bg-white text-tertiary transition-colors enabled:hover:border-primary enabled:hover:text-primary disabled:opacity-40"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d={dir === "prev" ? "M10 4L6 8L10 12" : "M6 12L10 8L6 4"} />
+      </svg>
+    </button>
   );
 }

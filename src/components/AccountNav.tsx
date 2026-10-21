@@ -3,10 +3,10 @@
 // Account Section из Figma: аватар, имя и меню личного кабинета. На телефоне меню — горизонтальная лента.
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState, type ReactNode } from "react";
 import { contactStore, displayName, logOut, profileStore } from "@/lib/account";
-import { BagIcon, LogoutIcon, ProfileIcon, ReviewIcon, SparkleIcon, SupportIcon } from "./icons";
+import { BagIcon, CloseIcon, LogoutIcon, ProfileIcon, ReviewIcon, SparkleIcon, SupportIcon } from "./icons";
 
 /** аватар по полу из «Моих данных»: «Мужчина» — мужской, иначе — девушка с косичками */
 const AVATAR = { female: "/img/account/avatar-girl-3d3548.webp", male: "/img/account/avatar-boy-ee0cce.webp" };
@@ -26,6 +26,20 @@ export function AccountNav() {
   const profile = profileStore.useValue();
   const name = displayName(profile, contactStore.useValue());
   const avatar = profile.gender === "Мужчина" ? AVATAR.male : AVATAR.female;
+  // «Выйти» сначала спрашивает, точно ли
+  const [ask, setAsk] = useState(false);
+  const router = useRouter();
+  const leave = () => {
+    logOut();
+    setAsk(false);
+    router.push("/");
+  };
+  useEffect(() => {
+    if (!ask) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setAsk(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [ask]);
 
   return (
     <aside className="flex flex-col gap-6 lg:gap-8">
@@ -41,7 +55,14 @@ export function AccountNav() {
               <li key={it.title}>
                 <Link
                   href={it.href}
-                  onClick={it.title === "Выйти" ? logOut : undefined}
+                  onClick={
+                    it.title === "Выйти"
+                      ? (e) => {
+                          e.preventDefault();
+                          setAsk(true);
+                        }
+                      : undefined
+                  }
                   aria-current={active ? "page" : undefined}
                   className={`flex h-[47px] items-center gap-2 rounded-xs px-4 text-base-s whitespace-nowrap transition-colors hover:bg-surface ${
                     active ? "bg-surface" : ""
@@ -55,6 +76,59 @@ export function AccountNav() {
           })}
         </ul>
       </nav>
+
+      {/* окно «Выйти из аккаунта?» — как «Отменить заказ?» */}
+      {ask && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+          <button
+            type="button"
+            aria-label="Закрыть"
+            tabIndex={-1}
+            onClick={() => setAsk(false)}
+            className="absolute inset-0 animate-[fade-in_200ms_ease-out] bg-primary/40"
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="logout-title"
+            className="relative flex w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-6 rounded-xs bg-white p-8"
+          >
+            <button
+              type="button"
+              onClick={() => setAsk(false)}
+              aria-label="Закрыть"
+              className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
+            >
+              <CloseIcon />
+            </button>
+            <div className="flex flex-col gap-2 pr-12">
+              <h2 id="logout-title" className="text-h3">
+                Выйти из аккаунта?
+              </h2>
+              <p className="text-base-s">
+                Заказы, адреса и избранное никуда не денутся — войти снова можно по номеру телефона или почте.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                autoFocus
+                onClick={() => setAsk(false)}
+                className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85"
+              >
+                остаться
+              </button>
+              <button
+                type="button"
+                onClick={leave}
+                className="h-10 border border-primary px-6 text-caps transition-colors hover:bg-surface"
+              >
+                выйти
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
 }

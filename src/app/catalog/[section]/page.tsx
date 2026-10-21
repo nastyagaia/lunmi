@@ -19,10 +19,12 @@ export async function generateMetadata({ params }: PageProps<"/catalog/[section]
 export default async function SectionPage({ params, searchParams }: PageProps<"/catalog/[section]">) {
   const section = findSection((await params).section);
   if (!section) notFound();
-  const { type } = await searchParams;
+  const { type, brand } = await searchParams;
   const products = sectionProducts(section.title);
   const types = sectionTypes(section.title, products);
   const initialType = typeof type === "string" && types.includes(type) ? type : undefined;
+  const initialBrand =
+    typeof brand === "string" ? products.find((p) => p.brand?.toLowerCase() === brand.toLowerCase())?.brand : undefined;
   // группа («Для лица»): заголовок — её название, в фильтре сразу отмечены все её подразделы
   const group = typeof type === "string" ? typeGroups[type]?.filter((t) => types.includes(t)) : undefined;
 
@@ -33,6 +35,7 @@ export default async function SectionPage({ params, searchParams }: PageProps<"/
       products={products}
       types={types}
       initialType={initialType}
+      initialBrand={initialBrand}
       group={group?.length && typeof type === "string" ? { title: type, types: group } : undefined}
     />
   );

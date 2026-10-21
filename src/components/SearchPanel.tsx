@@ -99,6 +99,7 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
               inputRef={input}
               onSubmit={() => go(query)}
               submitDisabled={nothing}
+              className="border-primary!"
             />
 
             {nothing ? (

@@ -155,7 +155,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
                 );
               })}
             </div>
-            <p className="text-base-xs text-secondary">{shade}</p>
+            <p className="text-base-s text-primary">{shade}</p>
           </div>
         )}
 

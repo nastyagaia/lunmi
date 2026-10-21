@@ -91,7 +91,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                   )}
                   <p className="max-w-[401px] text-base-s md:whitespace-pre-line">{s.text}</p>
                 </div>
-                <Button href="#bestsellers" tone={light ? "glass" : "dark"} className="self-start">
+                <Button href={s.href ?? "#bestsellers"} tone={light ? "glass" : "dark"} className="self-start">
                   за покупками
                 </Button>
               </div>

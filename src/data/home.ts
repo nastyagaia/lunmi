@@ -12,14 +12,17 @@ export type HeroSlide = {
   /** картинка для телефона 393 × 700 (Figma: iPhone 16 - 2…6, 11316:15910 и правее) */
   mobileImage?: string;
   tone: "light" | "dark";
+  /** куда ведёт «за покупками»; без href — к бестселлерам ниже на странице */
+  href?: string;
 };
 
 export const heroSlides: HeroSlide[] = [
-  { title: "Anua PDRN", text: "Дополнительная скидка −10%\nтолько онлайн до 31 июля", tone: "light" },
+  { title: "Anua PDRN", text: "Дополнительная скидка −10%\nтолько онлайн до 31 июля", tone: "light", href: "/brands/anua" },
   {
     title: "Тренды Кореи",
     text: "Корейские бьюти-хиты, которые уже покорили Сеул.\nОткройте новинки ухода для сияющей кожи.",
     image: "/img/hero-korea.webp",
+    href: `/catalog/hity-korei?type=${encodeURIComponent("Тренды в Корее")}`,
     mobileImage: "/img/hero-korea-mobile-f36a55.webp",
     tone: "light",
   },
@@ -27,6 +30,7 @@ export const heroSlides: HeroSlide[] = [
     title: "−10% SPF",
     text: "Лёгкие корейские санскрины без белых следов\nи липкости. Скидка до 31 июля",
     image: "/img/hero-spf.webp",
+    href: `/catalog?type=${encodeURIComponent("SPF для лица")}`,
     mobileImage: "/img/hero-spf-mobile-fb1923.webp",
     tone: "light",
   },
@@ -34,6 +38,7 @@ export const heroSlides: HeroSlide[] = [
     title: "−10% fwee",
     text: "Сочные бальзамы, румяна и тинты fwee\nв оттенках весеннего неба",
     image: "/img/hero-fwee.webp",
+    href: "/brands/fwee",
     mobileImage: "/img/hero-fwee-mobile-cf5f1b.webp",
     tone: "dark",
   },
@@ -41,6 +46,7 @@ export const heroSlides: HeroSlide[] = [
     title: "Dr. Althea",
     text: "Мягкий уход для чувствительной кожи:\nуспокаивает и восстанавливает барьер",
     image: "/img/hero-althea-62353f.webp",
+    href: "/brands/dr-althea",
     mobileImage: "/img/hero-althea-mobile-9545cc.webp",
     tone: "dark",
   },
@@ -48,6 +54,7 @@ export const heroSlides: HeroSlide[] = [
     title: "Medicube девайсы",
     text: "Домашний уход как в салоне:\nлифтинг, микротоки и сияние кожи",
     image: "/img/hero-medicube.webp",
+    href: "/catalog/beauty-gadgets?brand=Medicube",
     mobileImage: "/img/hero-medicube-mobile-5d0602.webp",
     tone: "light",
   },
@@ -73,7 +80,7 @@ const rub = (n: number) => `${n.toLocaleString("ru-RU")} ₽`;
 export const faq = [
   {
     q: "О нас",
-    a: "Мы — Lunmi, интернет-магазин корейской косметики для тех, кто давно смотрит на полки Olive Young с тихой завистью. Уход для лица, макияж, тело, волосы, SPF и бьюти-гаджеты — от проверенных хитов до новинок, о которых в Сеуле уже говорят, а у нас ещё нет. К каждой баночке пишем по-человечески: что внутри, как наносить и кому зайдёт.",
+    a: "Lunmi — интернет-магазин корейской косметики для тех, кто давно смотрит на полки Olive Young с тихой завистью. Уход для лица, макияж, тело, волосы, SPF и бьюти-гаджеты — от проверенных хитов до новинок, о которых в Сеуле уже говорят, а у нас ещё нет. К каждой баночке пишем по-человечески: что внутри, как наносить и кому зайдёт.",
   },
   {
     q: "Доставка и оплата",

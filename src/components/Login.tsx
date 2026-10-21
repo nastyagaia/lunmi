@@ -2,7 +2,8 @@
 
 // Вход в личный кабинет (Figma: «вход по телефону» 11100:15886, «login sms code / typing / error / resend»,
 // вход по почте 11317:16405…16592, «sign up» 11100:15818). Панель справа:
-// телефон → код из СМС (4 цифры) или «продолжить с email» → почта → пароль / «Придумайте пароль».
+// почта → пароль / «Придумайте пароль» (главный способ, Настя 17.10.2026) или внизу «продолжить по телефону»
+// → телефон → код из СМС (4 цифры), и «продолжить с Google».
 // Новичок после входа видит окно «Давай знакомиться» (имя + почта или телефон — то, чего ещё нет), затем «Привет!».
 // ВНИМАНИЕ: вход фейковый — СМС и писем не отправляем, подходит любой код; пароль почты хранится в браузере,
 // при неверном — «Забыли пароль?» (предлагает войти по телефону).
@@ -230,7 +231,7 @@ function secondsWord(n: number) {
 /** Панель входа + окна после регистрации. Стоит один раз на весь сайт (в layout) */
 export function LoginLayer() {
   const open = useLoginOpen();
-  const [step, setStep] = useState<"phone" | "code" | "email" | "password" | "register">("phone");
+  const [step, setStep] = useState<"phone" | "code" | "email" | "password" | "register">("email");
   const [after, setAfter] = useState<{ step: "about" | "hello"; by: "phone" | "email" } | null>(null);
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
@@ -245,7 +246,7 @@ export function LoginLayer() {
 
   const close = () => {
     setLoginOpen(false);
-    setStep("phone");
+    setStep("email");
     setCode("");
     setPassword("");
     setShow(false);

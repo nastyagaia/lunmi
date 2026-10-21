@@ -23,7 +23,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/search">)
       <main className="overflow-x-clip">
         {/* поля поиска здесь нет — ищут из шапки; вместо него заголовок с запросом, как у «Избранного» */}
         <div className="container-page pt-[106px]">
-          {query && <h1 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">«{query}»</h1>}
+          {query && <h1 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">{query}</h1>}
         </div>
         <div className="container-page pt-6">
           {found.length ? (
