@@ -1,8 +1,7 @@
 "use client";
 
 // Каталог: счётчик, ряд фильтров (Figma: Frame 21159, 3027:7559) и сетка товаров.
-// Тип, бренд, цена и сортировка фильтруют по-настоящему. Эффект и компоненты пока только отмечаются —
-// у товаров ещё нет этих данных, они появятся вместе с базой товаров.
+// Все фильтры работают: эффект и компоненты размечены по названию и текстам товара (sections.ts).
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { filterOptions } from "@/data/catalog";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
@@ -97,6 +96,8 @@ export function CatalogGrid({
   let shown = products.filter((p) => {
     if (type.length && !type.includes(p.type ?? "")) return false;
     if (brand.length && !brand.includes(p.brand ?? "")) return false;
+    if (effect.length && !effect.some((e) => p.effects?.includes(e))) return false;
+    if (ingredient.length && !ingredient.some((i) => p.ingredients?.includes(i))) return false;
     const n = toNumber(p.price);
     if (price.from && n < Number(price.from)) return false;
     if (price.to && n > Number(price.to)) return false;
@@ -107,7 +108,7 @@ export function CatalogGrid({
   if (sort === "по рейтингу") shown = [...shown].sort((a, b) => Number(b.rating ?? 0) - Number(a.rating ?? 0));
 
   // страница пагинации; при смене фильтров или сортировки — снова первая
-  const sig = JSON.stringify([type, brand, price, sort]);
+  const sig = JSON.stringify([type, brand, effect, ingredient, price, sort]);
   const [pg, setPg] = useState({ sig, n: 1 });
   const pages = Math.max(1, Math.ceil(shown.length / PAGE));
   const page = pg.sig === sig ? Math.min(pg.n, pages) : 1;
