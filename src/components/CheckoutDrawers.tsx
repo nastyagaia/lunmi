@@ -408,8 +408,8 @@ export function SavedAddressesDrawer({
 
 export function CardBadge({ system }: { system: string }) {
   // СБП — логотип из Figma (avatar mini, 11417:16593)
-  if (system === "СБП")
-    return <Image src="/img/sbp-logo.webp" alt="" width={30} height={30} className="size-[30px] shrink-0 rounded-full" />;
+  const logo = BANK_LOGOS[system];
+  if (logo) return <Image src={logo} alt="" width={30} height={30} className="size-[30px] shrink-0 rounded-full" />;
   return (
     <span className="flex size-[30px] shrink-0 items-center justify-center rounded-full bg-accent-soft text-base-s leading-none font-bold text-primary uppercase">
       {system}
@@ -417,8 +417,15 @@ export function CardBadge({ system }: { system: string }) {
   );
 }
 
-/** Буква в кружке карты: первая буква банка («С» — Сбербанк, «Т» — Т-Банк), банк не определился — «К» (карта) */
-export const cardLetter = (c: SavedCard) => (c.bank ?? "К")[0];
+/** Логотипы в кружке (Figma: avatar mini, 10599:17160). У остальных банков — первая буква в розовом кружке */
+const BANK_LOGOS: Record<string, string> = {
+  СБП: "/img/sbp-logo.webp",
+  Сбербанк: "/img/bank-sber.webp",
+  "Т-Банк": "/img/bank-tbank.webp",
+};
+
+/** Что показать в кружке карты: логотип банка, если он есть, иначе первая буква банка; банк не определился — «К» */
+export const cardLetter = (c: SavedCard) => (c.bank && BANK_LOGOS[c.bank] ? c.bank : (c.bank ?? "К")[0]);
 
 export function PaymentDrawer({
   cards,
