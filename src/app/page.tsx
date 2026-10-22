@@ -158,10 +158,14 @@ function AiBanner() {
 
 /* ---------- Скидки недели ---------- */
 /** Скидки недели — настоящие товары каталога со скидкой, сначала самые большие скидки (16 штук) */
-const weeklyDeals = allProducts
+const sortedDeals = allProducts
   .filter((p) => p.discount)
-  .sort((a, b) => parseInt(b.discount ?? "0") - parseInt(a.discount ?? "0"))
-  .slice(0, 16);
+  .sort((a, b) => parseInt(b.discount ?? "0") - parseInt(a.discount ?? "0"));
+/** 3-я и 4-я карточки — макияж с фото модели при наведении (Настя: блеск fwee и тинт rom&nd) */
+const PINNED = ["fwee-3d-voluming-gloss", "romand-juicy-lasting-tint"];
+const pinned = PINNED.map((id) => sortedDeals.find((p) => p.id === id)).filter((p) => p !== undefined);
+const rest = sortedDeals.filter((p) => !PINNED.includes(p.id));
+const weeklyDeals = [...rest.slice(0, 2), ...pinned, ...rest.slice(2)].slice(0, 16);
 
 function WeeklyDeals() {
   return (
