@@ -2,18 +2,17 @@
 
 // Подписка на рассылку (блок «Мы рядом» на главной): кнопка-стрелка серая, пока почта не введена,
 // и тёмная (text/primary), когда почта похожа на настоящую. После отправки — «Спасибо!».
-// Писем пока не отправляем — подписку запоминаем в браузере, как и остальные данные покупателя.
+// «Готово» показываем только до перезагрузки страницы: вдруг в почте опечатка — после обновления можно ввести заново.
+// Писем пока не отправляем.
 import Link from "next/link";
 import { useState } from "react";
-import { createStore } from "@/lib/persist";
 import { ArrowRight } from "./icons";
 
-const subscribedStore = createStore<string | null>("lunmi-newsletter", null);
 const EMAIL_RE = /^\S+@\S+\.\S+$/;
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
-  const subscribed = subscribedStore.useValue();
+  const [subscribed, setSubscribed] = useState<string | null>(null);
   const ready = EMAIL_RE.test(email.trim());
 
   return (
@@ -21,7 +20,7 @@ export function Newsletter() {
       className="flex flex-col gap-3"
       onSubmit={(e) => {
         e.preventDefault();
-        if (ready) subscribedStore.set(email.trim());
+        if (ready) setSubscribed(email.trim());
       }}
     >
       <label htmlFor="near-newsletter" className="text-base-s text-secondary">
