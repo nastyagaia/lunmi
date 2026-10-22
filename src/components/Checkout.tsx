@@ -17,6 +17,7 @@ import {
   addressSubtitle,
   addressTitle,
   CardBadge,
+  cardTitle,
   ContactDrawer,
   PaymentDrawer,
   pointOf,
@@ -170,7 +171,7 @@ export function Checkout() {
             : addressTitle(address),
         date: `${days[day]}, ${TIMES[time]}`,
       },
-      payment: card ? `Картой ${card.system} ••${card.last4}` : "СБП",
+      payment: card ? `${cardTitle(card)} ••${card.last4}` : "СБП",
       goods: cart.total,
       discount: promoDiscount + personal,
       deliveryPrice: delivery,
@@ -350,8 +351,8 @@ export function Checkout() {
                 {payment ? (
                   <InfoCard
                     leading={<CardBadge system={card ? card.system : "СБП"} />}
-                    title={card ? `Банковская карта ${card.system}` : "СБП"}
-                    subtitle={card ? card.last4 : "Оплата через приложение вашего банка"}
+                    title={card ? cardTitle(card) : "СБП"}
+                    subtitle={card ? `•• ${card.last4}` : "Оплата через приложение вашего банка"}
                     onEdit={() => setPanel({ kind: "payment" })}
                     editLabel="Изменить способ оплаты"
                   />

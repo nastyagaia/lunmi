@@ -31,7 +31,7 @@ export type PickupAddress = { id: string; kind: "pickup"; pointId: string };
 export type Address = CourierAddress | PickupAddress;
 
 /** Сохранённая карта — только платёжная система и последние 4 цифры. Полный номер нигде не храним */
-export type SavedCard = { id: string; system: string; last4: string };
+export type SavedCard = { id: string; system: string; last4: string; bank?: string };
 export type Payment = { kind: "card"; cardId: string } | { kind: "sbp" };
 
 export const pointOf = (a: PickupAddress) => pickupPoints.find((p) => p.id === a.pointId);
@@ -407,6 +407,9 @@ export function SavedAddressesDrawer({
 /* ---------- способ оплаты (Figma payment method, 5545:53487) ---------- */
 
 export function CardBadge({ system }: { system: string }) {
+  // СБП — логотип из Figma (avatar mini, 11417:16593)
+  if (system === "СБП")
+    return <Image src="/img/sbp-logo.webp" alt="" width={30} height={30} className="size-[30px] shrink-0 rounded-full" />;
   return (
     <span className="flex h-[30px] min-w-[30px] shrink-0 items-center justify-center rounded-full bg-accent-soft px-2 text-[9px] leading-none font-bold text-primary uppercase">
       {system}
@@ -452,8 +455,8 @@ export function PaymentDrawer({
               checked={value === c.id}
               onChange={() => setValue(c.id)}
               leading={<CardBadge system={c.system} />}
-              title={`Банковская карта ${c.system}`}
-              subtitle={c.last4}
+              title={cardTitle(c)}
+              subtitle={`•• ${c.last4}`}
             />
           </li>
         ))}
@@ -483,6 +486,26 @@ export function PaymentDrawer({
 
 const systemOf = (digits: string) =>
   digits.startsWith("2") ? "Мир" : digits.startsWith("4") ? "Visa" : digits.startsWith("5") ? "Mastercard" : "Карта";
+
+/** Банк по первым цифрам номера (BIN) — самые частые российские банки; не нашли — просто «Банковская карта» */
+const BANKS: [string, string[]][] = [
+  ["Сбербанк", ["2202", "4276", "4279", "4274", "4817", "5469", "5484", "5228", "6390"]],
+  ["Т-Банк", ["220070", "437772", "437773", "521324", "553691", "518901"]],
+  ["Альфа-Банк", ["220015", "410584", "415428", "477964", "548673", "548601"]],
+  ["ВТБ", ["220024", "418868", "427229", "489347", "527883"]],
+  ["Газпромбанк", ["220001", "404136", "487415", "522477"]],
+  ["Райффайзенбанк", ["220030", "462730", "510069", "528808"]],
+];
+export const bankOf = (digits: string) => {
+  let best: [string, number] | undefined;
+  for (const [bank, bins] of BANKS)
+    for (const b of bins) if (digits.startsWith(b) && (!best || b.length > best[1])) best = [bank, b.length];
+  return best?.[0];
+};
+
+/** «Сбербанк, Мир» / «Банковская карта Visa» / «Банковская карта» */
+export const cardTitle = (c: SavedCard) =>
+  c.bank ? `${c.bank}${c.system !== "Карта" ? `, ${c.system}` : ""}` : `Банковская карта${c.system !== "Карта" ? ` ${c.system}` : ""}`;
 
 /** ДЕМО-ФОРМА: номер карты не отправляется и не сохраняется — остаются только система и последние 4 цифры.
  *  Настоящий ввод карты будет в форме платёжного сервиса (ЮKassa, CloudPayments и т. п.) */
@@ -518,7 +541,7 @@ export function AddCardDrawer({
           </DrawerButton>
           <DrawerButton
             disabled={!valid}
-            onClick={() => onSave({ id: uid(), system: systemOf(digits), last4: digits.slice(-4) })}
+            onClick={() => onSave({ id: uid(), system: systemOf(digits), bank: bankOf(digits), last4: digits.slice(-4) })}
           >
             сохранить
           </DrawerButton>
