@@ -501,7 +501,7 @@ export function LoginLayer() {
                   </button>
                   {google && (
                     <p role="status" className="text-base-xs text-secondary">
-                      Вход через Google скоро появится — пока войдите по телефону или почте.
+                      Вход через Google временно недоступен — войдите по почте или телефону.
                     </p>
                   )}
                 </div>

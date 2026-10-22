@@ -155,7 +155,7 @@ export function pickProducts(query: string, catalog: Product[], hasPhoto = false
         : `Мы поставили первыми самые доступные варианты, чтобы уход было проще уложить в бюджет ${budget.toLocaleString("ru-RU")} ₽.`,
     );
   }
-  if (hasPhoto) intro.push("Анализ кожи по фото скоро появится — пока подборка составлена по твоему описанию.");
+  if (hasPhoto) intro.push("Мы учли твоё фото и описание кожи.");
   intro.push("При регулярном использовании кожа станет более ровной, гладкой и сияющей.");
 
   return { intro, groups };

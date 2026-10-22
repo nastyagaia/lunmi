@@ -5,6 +5,7 @@ import type { Product } from "@/components/ProductCard";
 import { delivery as deliveryTerms } from "./delivery";
 import { allProducts, sectionHref, type CatalogProduct } from "./sections";
 import productTexts from "./product-texts.json";
+import { brandDescriptions } from "./brand-descriptions";
 
 /** images — номера фото этого оттенка в images: при выборе оттенка галерея показывает только их */
 export type Volume = { name: string; price: string; oldPrice?: string; images?: number[] };
@@ -150,7 +151,7 @@ export const products: ProductDetails[] = [
         title: "Характеристики",
         text: "Лёгкий тинт с сочным глянцевым финишем: прозрачный цвет и влажный блеск, будто губы только что смазали бальзамом.\n\nНаносится одним слоем для естественного оттенка или в несколько слоёв для более яркого цвета.",
       },
-      { title: "Состав", text: "Полный состав скоро появится здесь. Сверяйте его по упаковке." },
+      { title: "Состав", text: "Полный состав указан на упаковке." },
       {
         title: "Применение",
         text: "Нанесите на центр губ и растушуйте к краям — получится мягкий градиент. Для насыщенного цвета добавьте второй слой.",
@@ -389,12 +390,12 @@ function draftTabs(fc: CatalogProduct, actives: string) {
         ? "Состав зависит от оттенка — полный список ингредиентов указан на упаковке."
         : gadget
           ? "Это прибор, а не косметическое средство, поэтому состава у него нет."
-          : `Полный состав скоро появится здесь. Ключевые компоненты: ${actives.toLowerCase()}.`,
+          : `Ключевые компоненты: ${actives.toLowerCase()}. Полный состав указан на упаковке.`,
     },
     { title: "Применение", text: usageFor(fc) },
     {
       title: "О бренде",
-      text: `${fc.brand} — корейский бренд. Скоро расскажем о нём подробнее.`,
+      text: (fc.brand && brandDescriptions[fc.brand]) || `${fc.brand} — корейский бренд косметики.`,
     },
   ];
 }
