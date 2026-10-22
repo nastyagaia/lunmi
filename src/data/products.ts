@@ -6,6 +6,7 @@ import { delivery as deliveryTerms } from "./delivery";
 import { allProducts, sectionHref, type CatalogProduct } from "./sections";
 import productTexts from "./product-texts.json";
 import { brandDescriptions } from "./brand-descriptions";
+import { averageRating, reviewsFor } from "./reviews";
 
 /** images — номера фото этого оттенка в images: при выборе оттенка галерея показывает только их */
 export type Volume = { name: string; price: string; oldPrice?: string; images?: number[] };
@@ -77,27 +78,6 @@ const similar: Product[] = [
 // сроки — из условий доставки (src/data/delivery.ts), для Москвы и Петербурга
 const delivery = [`${deliveryTerms.courier.days} курьером`, `${deliveryTerms.pickup.days} в пункт выдачи СДЭК`];
 
-const reviews = [
-  {
-    name: "Анна",
-    date: "1 день назад",
-    avatar: "/img/rev-anna.webp",
-    rating: 5,
-    text: "Вместе с сывороткой из этой линейки даёт заметный, хороший эффект. Тон ровнее, заломы на коже менее заметны, плюс при частом использовании — меньше высыпаний.",
-  },
-  {
-    name: "Полина",
-    date: "1 неделю назад",
-    rating: 4,
-    text: "Один из самых любимых продуктов в уходе. Вводила постепенно, чтобы кожа привыкла: сначала через день, потом каждый вечер. Через месяц пятна после высыпаний заметно посветлели, а кожа стала более ровной и сияющей. Не забываю про SPF днём.",
-  },
-  {
-    name: "Вероника",
-    date: "2 недели назад",
-    rating: 5,
-    text: "Беру уже второй раз. Текстура приятная, быстро впитывается и не скатывается под макияжем. Кожа заметно спокойнее и мягче.",
-  },
-];
 
 export const products: ProductDetails[] = [
   {
@@ -130,7 +110,7 @@ export const products: ProductDetails[] = [
         text: "Anua — корейский бренд, который делает мягкий уход для чувствительной кожи на основе растительных экстрактов. Самый известный продукт бренда — тонер с хауттюйнией, один из бестселлеров Olive Young.",
       },
     ],
-    reviews,
+    reviews: [],
     similar,
   },
   {
@@ -161,7 +141,7 @@ export const products: ProductDetails[] = [
         text: "Dasique — корейский бренд декоративной косметики, известный нежными палетками и тинтами в «сладких» оттенках.",
       },
     ],
-    reviews,
+    reviews: [],
     similar,
   },
 ];
@@ -437,9 +417,11 @@ export function getProduct(slug: string): ProductDetails | undefined {
           volumes: fc.volumes,
           similar: similarTo(fc),
           card: cardOf(fc),
+          reviews: reviewsFor(fc.id, fc.category, fc.type, fc.name),
         }
       : detailed;
   if (!fc) return undefined;
+  const productReviews = reviewsFor(fc.id, fc.category, fc.type, fc.name);
   return {
     slug: fc.id,
     name: fc.name,
@@ -449,7 +431,7 @@ export function getProduct(slug: string): ProductDetails | undefined {
     oldPrice: fc.oldPrice,
     discount: fc.discount,
     hit: fc.hit,
-    rating: fc.rating,
+    rating: fc.rating ?? averageRating(productReviews),
     images: fc.images,
     thumbs: fc.thumbs,
     shades: fc.shades,
@@ -462,8 +444,8 @@ export function getProduct(slug: string): ProductDetails | undefined {
       fc.id,
       draftTabs(fc, activesFor(fc.name, fc.id) ?? activesByName(fc.name) ?? "увлажняющие компоненты"),
     ),
-    // ВНИМАНИЕ: отзывы — из макета, одинаковые у всех товаров. Перед запуском магазина заменить настоящими
-    reviews,
+    // отзывы — у ~40 % товаров, разные по типу товара (src/data/reviews.ts); перед запуском заменить настоящими
+    reviews: productReviews,
     similar: similarTo(fc),
     card: cardOf(fc),
   };
