@@ -1851,12 +1851,151 @@
       "oldPrice": "2 100 ₽",
       "discount": "10%",
       "hit": true,
-      "image": "/img/catalog/anua-glow-sunstick-1-600-abe34d.webp",
+      "image": "/img/catalog/anua-glow-sunstick-1-600-cfa7e0.webp",
+      "hoverImage": "/img/catalog/anua-glow-sunstick-2-600-abe34d.webp",
       "images": [
-        "/img/catalog/anua-glow-sunstick-1-1200-188638.webp"
+        "/img/catalog/anua-glow-sunstick-1-1200-f395f1.webp",
+        "/img/catalog/anua-glow-sunstick-2-1200-188638.webp"
       ],
       "thumbs": [
-        "/img/catalog/anua-glow-sunstick-1-600-abe34d.webp"
+        "/img/catalog/anua-glow-sunstick-1-600-cfa7e0.webp",
+        "/img/catalog/anua-glow-sunstick-2-600-abe34d.webp"
+      ]
+    },
+    {
+      "id": "boj-relief-sun",
+      "href": "/product/boj-relief-sun",
+      "category": "Уход для лица",
+      "type": "SPF для лица",
+      "also": [
+        [
+          "Для загара",
+          "Увлажняющие кремы с SPF"
+        ],
+        [
+          "Хиты Кореи",
+          "Бестселлеры Olive Young"
+        ]
+      ],
+      "brand": "Beauty of Joseon",
+      "name": "Beauty of Joseon Relief Sun: Rice + Probiotics SPF50+ PA++++",
+      "title": "Beauty of Joseon Relief Sun",
+      "description": "Лёгкий санскрин с рисом и пробиотиками, 50 мл",
+      "price": "1 790 ₽",
+      "oldPrice": "1 990 ₽",
+      "discount": "10%",
+      "hit": true,
+      "rating": "4.9",
+      "image": "/img/catalog/boj-relief-sun-1-600-70eecf.webp",
+      "images": [
+        "/img/catalog/boj-relief-sun-1-1200-f8e9d4.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/boj-relief-sun-1-600-70eecf.webp"
+      ]
+    },
+    {
+      "id": "round-lab-birch-sunscreen",
+      "href": "/product/round-lab-birch-sunscreen",
+      "category": "Уход для лица",
+      "type": "SPF для лица",
+      "also": [
+        [
+          "Для загара",
+          "Увлажняющие кремы с SPF"
+        ]
+      ],
+      "brand": "Round Lab",
+      "name": "Round Lab Birch Juice Moisturizing Sunscreen SPF50+ PA++++",
+      "title": "Round Lab Birch Juice Sunscreen",
+      "description": "Увлажняющий санскрин с берёзовым соком, 50 мл",
+      "price": "1 890 ₽",
+      "oldPrice": "2 100 ₽",
+      "discount": "10%",
+      "image": "/img/catalog/round-lab-birch-sunscreen-1-600-d2796b.webp",
+      "images": [
+        "/img/catalog/round-lab-birch-sunscreen-1-1200-a94210.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/round-lab-birch-sunscreen-1-600-d2796b.webp"
+      ]
+    },
+    {
+      "id": "isntree-watery-sun-gel",
+      "href": "/product/isntree-watery-sun-gel",
+      "category": "Уход для лица",
+      "type": "SPF для лица",
+      "also": [
+        [
+          "Для загара",
+          "Увлажняющие кремы с SPF"
+        ]
+      ],
+      "brand": "Isntree",
+      "name": "Isntree Hyaluronic Acid Watery Sun Gel SPF50+ PA++++",
+      "title": "Isntree Watery Sun Gel",
+      "description": "Лёгкий солнцезащитный гель с гиалуроновой кислотой, 50 мл",
+      "price": "1 690 ₽",
+      "oldPrice": "1 880 ₽",
+      "discount": "10%",
+      "image": "/img/catalog/isntree-watery-sun-gel-1-600-dfce39.webp",
+      "images": [
+        "/img/catalog/isntree-watery-sun-gel-1-1200-aea2f9.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/isntree-watery-sun-gel-1-600-dfce39.webp"
+      ]
+    },
+    {
+      "id": "missha-vita-c-sunscreen",
+      "href": "/product/missha-vita-c-sunscreen",
+      "category": "Уход для лица",
+      "type": "SPF для лица",
+      "also": [
+        [
+          "Для загара",
+          "SPF для тела"
+        ]
+      ],
+      "brand": "Missha",
+      "name": "Missha All Around Vita C Sunscreen SPF50",
+      "title": "Missha All Around Vita C Sunscreen",
+      "description": "Санскрин с витамином C для лица и тела, 70 мл",
+      "price": "1 590 ₽",
+      "oldPrice": "1 770 ₽",
+      "discount": "10%",
+      "image": "/img/catalog/missha-vita-c-sunscreen-1-600-c8820f.webp",
+      "images": [
+        "/img/catalog/missha-vita-c-sunscreen-1-1200-7bb66e.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/missha-vita-c-sunscreen-1-600-c8820f.webp"
+      ]
+    },
+    {
+      "id": "abib-airy-sunstick",
+      "href": "/product/abib-airy-sunstick",
+      "category": "Уход для лица",
+      "type": "SPF для лица",
+      "also": [
+        [
+          "Для загара",
+          "SPF-стики"
+        ]
+      ],
+      "brand": "Abib",
+      "name": "Abib Airy Sunstick Smoothing Bar SPF50+",
+      "title": "Abib Airy Sunstick",
+      "description": "Водостойкий солнцезащитный стик, 23 г",
+      "price": "1 890 ₽",
+      "oldPrice": "2 100 ₽",
+      "discount": "10%",
+      "image": "/img/catalog/abib-airy-sunstick-1-600-b3b28a.webp",
+      "images": [
+        "/img/catalog/abib-airy-sunstick-1-1200-9d817a.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/abib-airy-sunstick-1-600-b3b28a.webp"
       ]
     },
     {
