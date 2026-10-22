@@ -1,6 +1,5 @@
 // Страница каталога (Figma: catalog, 2936:6591). Разделы и товары — в sections.ts.
 import type { Product } from "@/components/ProductCard";
-import { isEn } from "@/lib/i18n";
 import { sectionCovers, sectionProducts, sectionTypes } from "./sections";
 
 export const catalogPage = {
@@ -8,33 +7,8 @@ export const catalogPage = {
   heroImage: sectionCovers.uhod,
 };
 
-/** Варианты в выпадающих списках фильтров (Figma: dropdown над макетом каталога) */
-export const filterOptions = {
-  effect: [
-    "Антивозрастной эффект", "Восстановление барьера", "Выравнивание тона", "Гладкость кожи", "Защита кожи",
-    "Контроль себума", "Лифтинг", "Матирование", "Сияние", "Увлажнение",
-  ],
-  ingredient: [
-    "AHA кислоты", "Азелаиновая кислота", "Бакучиол", "Бензоил пероксид", "Витамин C", "Витамин E",
-    "Гиалуроновая кислота", "Гликолевая кислота", "Ниацинамид", "Пептиды", "Ретинол", "Центелла",
-  ],
-  // в английской версии — евро (CatalogGrid умножает на курс при сравнении)
-  price: isEn
-    ? [
-        { label: "under €10", from: "", to: "10" },
-        { label: "€10–20", from: "10", to: "20" },
-        { label: "€20–40", from: "20", to: "40" },
-        { label: "€40 and up", from: "40", to: "" },
-      ]
-    : [
-        { label: "до 500 ₽", from: "", to: "500" },
-        { label: "500 ₽–1000 ₽", from: "500", to: "1000" },
-        { label: "1000 ₽–2000 ₽", from: "1000", to: "2000" },
-        { label: "2000 ₽–4000 ₽", from: "2000", to: "4000" },
-        { label: "4000 ₽ и выше", from: "4000", to: "" },
-      ],
-  sort: ["по популярности", "сначала дешевле", "сначала дороже", "по рейтингу"],
-};
+// варианты фильтров — в отдельном файле, чтобы фильтры каталога (клиентский компонент) не тянули в браузер все товары
+export { filterOptions } from "./filter-options";
 
 /** Товары раздела «Уход для лица» (в том числе из других папок: SPF, тонеры из Glow-skin и т. п.) */
 export const catalogProducts: Product[] = sectionProducts(catalogPage.title);

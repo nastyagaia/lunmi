@@ -3,6 +3,7 @@
 // Tabs из UI KIT (3669:8681): переключают разделы без перехода на другую страницу.
 // Активный — чёрный с линией снизу, остальные серые (text/tetriary). Шрифт H4, между табами 32 px.
 import { useState } from "react";
+import { t as tr } from "@/lib/i18n";
 
 export function ProductTabs({ tabs }: { tabs: { title: string; text: string }[] }) {
   const [active, setActive] = useState(0);
@@ -23,7 +24,7 @@ export function ProductTabs({ tabs }: { tabs: { title: string; text: string }[] 
               i === active ? "border-primary" : "border-transparent text-tertiary hover:text-primary"
             }`}
           >
-            {t.title}
+            {tr(t.title)}
           </button>
         ))}
       </div>

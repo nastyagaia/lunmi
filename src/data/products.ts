@@ -5,9 +5,10 @@ import type { Product } from "@/components/ProductCard";
 import { delivery as deliveryTerms } from "./delivery";
 import { allProducts, sectionHref, type CatalogProduct } from "./sections";
 import productTexts from "./product-texts.json";
+import productsEn from "@/i18n/products-en.json";
 import { brandDescriptions } from "./brand-descriptions";
 import { averageRating, reviewsFor } from "./reviews";
-import { t } from "@/lib/i18n";
+import { isEn, t } from "@/lib/i18n";
 
 /** images — номера фото этого оттенка в images: при выборе оттенка галерея показывает только их */
 export type Volume = { name: string; price: string; oldPrice?: string; images?: number[] };
@@ -279,7 +280,7 @@ function activesFor(name: string, slug?: string) {
     .map((h) => h.a);
   const found = withoutRepeats([...new Set([...fromName, ...fromText])]).slice(0, 3);
   // ничего узнаваемого в настоящем тексте — строку не показываем, чем выдумывать
-  return found.length ? capitalize(found.join(", ")) : undefined;
+  return found.length ? capitalize(found.map((a) => t(a)).join(", ")) : undefined;
 }
 
 const capitalize = (t: string) => t[0].toUpperCase() + t.slice(1);
@@ -299,7 +300,7 @@ function withoutRepeats(list: string[]) {
 function activesByName(name: string) {
   const found = [...new Set(ACTIVES.filter(([re]) => re.test(name)).map(([, a]) => a))].slice(0, 3);
   if (!found.length) return undefined;
-  return capitalize(found.join(", "));
+  return capitalize(found.map((a) => t(a)).join(", "));
 }
 
 /** Как наносить — по типу товара (рыба до настоящих данных) */
@@ -366,26 +367,34 @@ function draftTabs(fc: CatalogProduct, actives: string) {
       text:
         makeup || gadget
           ? `${fc.description}.`
-          : `${fc.description}. Подходит для ежедневного ухода и сочетается с другими средствами корейской рутины.\n\nКлючевые компоненты:\n${list}`,
+          : `${fc.description}. ${t("Подходит для ежедневного ухода и сочетается с другими средствами корейской рутины.")}\n\n${t("Ключевые компоненты")}:\n${list}`,
     },
     {
       title: "Состав",
       text: makeup
-        ? "Состав зависит от оттенка — полный список ингредиентов указан на упаковке."
+        ? t("Состав зависит от оттенка — полный список ингредиентов указан на упаковке.")
         : gadget
-          ? "Это прибор, а не косметическое средство, поэтому состава у него нет."
-          : `Ключевые компоненты: ${actives.toLowerCase()}. Полный состав указан на упаковке.`,
+          ? t("Это прибор, а не косметическое средство, поэтому состава у него нет.")
+          : t("Ключевые компоненты: {list}. Полный состав указан на упаковке.", { list: actives.toLowerCase() }),
     },
-    { title: "Применение", text: usageFor(fc) },
+    { title: "Применение", text: t(usageFor(fc)) },
     {
       title: "О бренде",
-      text: (fc.brand && brandDescriptions[fc.brand]) || `${fc.brand} — корейский бренд косметики.`,
+      text: (fc.brand && brandDescriptions[fc.brand]) || t("{name} — корейский бренд косметики.", { name: fc.brand ?? "" }),
     },
   ];
 }
 
 /** Настоящие тексты вкладок (scripts/import-product-texts.mjs). Вкладку без текста оставляем временной */
-function withTexts(slug: string, tabs: { title: string; text: string }[] = []) {
+function withTexts(slug: string, tabs: { title: string; text: string }[] = [], brand?: string) {
+  if (isEn) {
+    // английская версия: вкладки из src/i18n/products-en.json, «О бренде» — английское описание бренда
+    const en = (productsEn as Record<string, { tabs: Record<string, string> }>)[slug]?.tabs ?? {};
+    return tabs.map((tab) => ({
+      ...tab,
+      text: tab.title === "О бренде" ? (brand && brandDescriptions[brand]) || tab.text : (en[tab.title] ?? tab.text),
+    }));
+  }
   const texts = (productTexts as Record<string, Record<string, string | null>>)[slug];
   return texts ? tabs.map((t) => ({ ...t, text: texts[t.title] ?? t.text })) : tabs;
 }
@@ -413,7 +422,10 @@ export function getProduct(slug: string): ProductDetails | undefined {
     return fc
       ? {
           ...detailed,
-          tabs: withTexts(slug, detailed.tabs),
+          // в английской версии подзаголовок и активы — переведённые
+          subtitle: isEn ? fc.description : detailed.subtitle,
+          ingredients: detailed.ingredients && t(detailed.ingredients),
+          tabs: withTexts(slug, detailed.tabs, fc.brand),
           // фото и оттенки — всегда из каталога, чтобы совпадали с карточкой
           images: fc.images,
           thumbs: fc.thumbs,
@@ -443,10 +455,11 @@ export function getProduct(slug: string): ProductDetails | undefined {
     delivery,
     // «активные компоненты» — это про уход; у макияжа и гаджетов строку не показываем
     ingredients: fc.category === "Макияж" || fc.category === "Бьюти-гаджеты" ? undefined : activesFor(fc.name, fc.id),
-    deviceType: fc.category === "Бьюти-гаджеты" ? fc.type : undefined,
+    deviceType: fc.category === "Бьюти-гаджеты" && fc.type ? t(fc.type) : undefined,
     tabs: withTexts(
       fc.id,
-      draftTabs(fc, activesFor(fc.name, fc.id) ?? activesByName(fc.name) ?? "увлажняющие компоненты"),
+      draftTabs(fc, activesFor(fc.name, fc.id) ?? activesByName(fc.name) ?? t("увлажняющие компоненты")),
+      fc.brand,
     ),
     // отзывы — у ~40 % товаров, разные по типу товара (src/data/reviews.ts); перед запуском заменить настоящими
     reviews: productReviews,

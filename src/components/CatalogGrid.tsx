@@ -3,7 +3,7 @@
 // Каталог: счётчик, ряд фильтров (Figma: Frame 21159, 3027:7559) и сетка товаров.
 // Все фильтры работают: эффект и компоненты размечены по названию и текстам товара (sections.ts).
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { filterOptions } from "@/data/catalog";
+import { filterOptions } from "@/data/filter-options";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
 import { ProductCard, type Product } from "./ProductCard";
 import { DropdownButton, FilterChip } from "./ui";

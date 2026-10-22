@@ -1,10 +1,12 @@
 // Адрес ↔ точка на карте через бесплатный геокодер OpenStreetMap (Nominatim): без ключа и аккаунта.
 // Правила Nominatim: не чаще запроса в секунду и без подсказок на каждую букву — поэтому ищем с паузой после ввода.
 
+import { isEn } from "@/lib/i18n";
+
 /** «Пушкинская улица, 14» в городе → координаты (или null, если не нашли) */
 export async function geocode(city: string, address: string): Promise<[number, number] | null> {
   const q = `${city}, ${address}`;
-  const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=ru&countrycodes=ru&q=${encodeURIComponent(q)}`;
+  const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=${isEn ? "en" : "ru"}&countrycodes=ru&q=${encodeURIComponent(q)}`;
   try {
     const res = await fetch(url);
     const [hit] = (await res.json()) as { lat: string; lon: string }[];
@@ -16,7 +18,7 @@ export async function geocode(city: string, address: string): Promise<[number, n
 
 /** точка на карте → «Пушкинская улица, 14» (улица и дом без города) */
 export async function reverseGeocode(lat: number, lng: number): Promise<string | null> {
-  const url = `https://nominatim.openstreetmap.org/reverse?format=json&accept-language=ru&zoom=18&lat=${lat}&lon=${lng}`;
+  const url = `https://nominatim.openstreetmap.org/reverse?format=json&accept-language=${isEn ? "en" : "ru"}&zoom=18&lat=${lat}&lon=${lng}`;
   try {
     const res = await fetch(url);
     const data = (await res.json()) as { address?: Record<string, string> };

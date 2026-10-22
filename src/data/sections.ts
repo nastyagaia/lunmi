@@ -8,6 +8,8 @@ import covers from "./covers.json";
 import faceCare from "./face-care.json";
 import { catalogMenu } from "./menu";
 import productTexts from "./product-texts.json";
+import productsEn from "@/i18n/products-en.json";
+import { isEn } from "@/lib/i18n";
 
 export type CatalogProduct = Product & {
   images: string[];
@@ -67,10 +69,22 @@ function withFilterTags(p: CatalogProduct): CatalogProduct {
   };
 }
 
+/** Английская версия: описание и название — из src/i18n/products-en.json, «мл» → «ml».
+ *  Фильтры (effects, ingredients) уже посчитаны по русским текстам — их подписи переводятся при показе. */
+function inEnglish(p: CatalogProduct): CatalogProduct {
+  if (!isEn) return p;
+  const e = (productsEn as Record<string, { description: string; title?: string }>)[p.id];
+  return {
+    ...p,
+    ...(e && { description: e.description, ...(e.title && { title: e.title }) }),
+    ...(p.volumes && { volumes: p.volumes.map((v) => ({ ...v, name: v.name.replace("мл", "ml") })) }),
+  };
+}
+
 export const allProducts: CatalogProduct[] = [
   ...faceCare.map((p) => ({ ...p, category: FACE, ...(tags[p.id] ? { also: tags[p.id] } : {}) })),
   ...(extra.products as CatalogProduct[]),
-].map(withFilterTags);
+].map(withFilterTags).map(inEnglish);
 
 export type Section = { slug: string; title: string; href: string; hero: string };
 

@@ -1,6 +1,9 @@
 // Описания брендов для страницы бренда — живым языком, без справочного тона (Настя, 18.10.2026).
 // Ключ — название бренда как в товарах. Бренда нет в списке — берётся первая фраза вкладки «О бренде» (brands.ts).
-export const brandDescriptions: Record<string, string> = {
+import { isEn } from "@/lib/i18n";
+import { brandDescriptionsEn } from "@/i18n/brand-descriptions-en";
+
+const brandDescriptionsRu: Record<string, string> = {
   Anua:
     "Тот самый успокаивающий тонер Heartleaf 77, который из нишевой баночки превратился в главный бестселлер Olive Young. Anua берёт одно растение и делает его по-настоящему работающим: снимает красноту и приводит кожу в порядок без лишнего шума. А потом добавляет персик, рис и PDRN — и снова попадает в тренд.",
   Fwee:
@@ -196,3 +199,6 @@ export const brandDescriptions: Record<string, string> = {
   Caelumen:
     "Компактные LED-маски для домашнего ухода — сияние кожи без похода к косметологу.",
 };
+
+/** В английской версии — английские описания (src/i18n/brand-descriptions-en.ts) */
+export const brandDescriptions = isEn ? brandDescriptionsEn : brandDescriptionsRu;

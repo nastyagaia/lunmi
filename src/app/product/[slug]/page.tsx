@@ -54,7 +54,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
                 {t("Каталог")}
               </Link>
               <span aria-hidden>/</span>
-              <span aria-current="page">{product.category.title}</span>
+              <span aria-current="page">{t(product.category.title)}</span>
             </nav>
           </div>
 

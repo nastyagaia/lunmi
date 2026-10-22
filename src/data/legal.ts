@@ -1,6 +1,9 @@
 // Юридические страницы: политика обработки персональных данных и оферта.
 // ЧЕРНОВИК: перед запуском магазина показать юристу и заполнить реквизиты продавца (SELLER).
 
+import { isEn } from "@/lib/i18n";
+import { offerEn, privacyEn } from "@/i18n/legal-en";
+
 /** Реквизиты продавца — заполнить, когда будет ИП или ООО */
 export const SELLER = {
   name: "ООО «Лунми»",
@@ -12,7 +15,7 @@ export const SELLER = {
 export type LegalSection = { title: string; text: string[] };
 export type LegalDoc = { slug: string; title: string; updated: string; intro: string; sections: LegalSection[] };
 
-export const privacy: LegalDoc = {
+const privacyRu: LegalDoc = {
   slug: "privacy",
   title: "Политика обработки персональных данных",
   updated: "4 октября 2026",
@@ -77,7 +80,7 @@ export const privacy: LegalDoc = {
   ],
 };
 
-export const offer: LegalDoc = {
+const offerRu: LegalDoc = {
   slug: "offer",
   title: "Публичная оферта",
   updated: "4 октября 2026",
@@ -138,5 +141,9 @@ export const offer: LegalDoc = {
     },
   ],
 };
+
+// английская версия — src/i18n/legal-en.ts
+export const privacy = isEn ? privacyEn : privacyRu;
+export const offer = isEn ? offerEn : offerRu;
 
 export const legalDocs = [offer, privacy];

@@ -3,6 +3,9 @@
 // Подбор детерминированный (по id товара), чтобы при каждой сборке у товара были одни и те же отзывы.
 // ВНИМАНИЕ: перед запуском настоящего магазина заменить на реальные отзывы покупателей.
 
+import { isEn } from "@/lib/i18n";
+import { DATES_EN, NAMES_EN, POOL_EN } from "@/i18n/reviews-en";
+
 export type Review = { name: string; date: string; text: string; rating: number };
 
 type Kind = "care" | "spf" | "cleanse" | "mask" | "lips" | "face" | "eyes" | "body" | "hair" | "gadget";
@@ -16,17 +19,17 @@ function hash(s: string) {
 /** Детерминированный выбор из списка по «зерну» */
 const pick = <T,>(list: T[], seed: number) => list[seed % list.length];
 
-const NAMES = [
+const NAMES_RU = [
   "Анна", "Полина", "Вероника", "Мария", "Алина", "Дарья", "Екатерина", "Ксения", "Софья", "Виктория",
   "Ольга", "Юлия", "Елизавета", "Арина", "Кристина", "Наталья", "Ирина", "Валерия", "Таисия", "Милана",
   "Александра", "Ева", "Маргарита", "Анастасия", "Светлана", "Диана", "Яна", "Алёна", "Карина", "Вера",
 ];
-const DATES = [
+const DATES_RU = [
   "2 дня назад", "4 дня назад", "1 неделю назад", "2 недели назад", "3 недели назад",
   "1 месяц назад", "2 месяца назад", "3 месяца назад", "5 месяцев назад",
 ];
 
-const POOL: Record<Kind, { good: string[]; mid: string[] }> = {
+const POOL_RU: Record<Kind, { good: string[]; mid: string[] }> = {
   care: {
     good: [
       "Пользуюсь около месяца утром и вечером. Кожа стала заметно ровнее и спокойнее, ушли шелушения на щеках. Текстура лёгкая, впитывается за минуту и не скатывается под кремом.",
@@ -137,6 +140,11 @@ const POOL: Record<Kind, { good: string[]; mid: string[] }> = {
     ],
   },
 };
+
+// английская версия — переводы тех же пулов (src/i18n/reviews-en.ts), порядок совпадает
+const NAMES = isEn ? NAMES_EN : NAMES_RU;
+const DATES = isEn ? DATES_EN : DATES_RU;
+const POOL = isEn ? POOL_EN : POOL_RU;
 
 function kindOf(category?: string, type?: string, name = ""): Kind {
   if (category === "Бьюти-гаджеты") return "gadget";

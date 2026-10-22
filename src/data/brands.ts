@@ -6,6 +6,7 @@ import { allProducts } from "./sections";
 import productTexts from "./product-texts.json";
 import { brandDescriptions } from "./brand-descriptions";
 import { brandSlug } from "@/lib/brand-slug";
+import { t } from "@/lib/i18n";
 
 export type Brand = { slug: string; name: string; description: string; products: Product[] };
 
@@ -19,7 +20,7 @@ function describe(name: string, products: Product[]) {
     const first = texts[p.id]?.["О бренде"]?.match(/^[^.]*бренд[^.]*\./)?.[0];
     if (first) return first;
   }
-  return `${name} — корейский бренд косметики.`;
+  return t("{name} — корейский бренд косметики.", { name });
 }
 
 /** Линейки, которые на странице бренда стоят первыми — то, о чём баннер на главной (Anua PDRN, девайсы Medicube) */
