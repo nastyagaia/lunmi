@@ -94,6 +94,12 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
                         <dd>{product.ingredients}</dd>
                       </>
                     )}
+                    {product.deviceType && (
+                      <>
+                        <dt className="text-secondary">Тип:</dt>
+                        <dd>{product.deviceType}</dd>
+                      </>
+                    )}
                   </dl>
                 </div>
               </div>

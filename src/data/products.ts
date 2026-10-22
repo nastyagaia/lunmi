@@ -31,6 +31,8 @@ export type ProductDetails = {
   thumbs?: string[];
   delivery: string[];
   ingredients?: string;
+  /** у бьюти-гаджетов вместо активных компонентов — тип прибора («Микротоки», «LED-маски») */
+  deviceType?: string;
   tabs?: { title: string; text: string }[];
   reviews: { name: string; date: string; text: string; avatar?: string; rating: number }[];
   similar: Product[];
@@ -454,6 +456,7 @@ export function getProduct(slug: string): ProductDetails | undefined {
     delivery,
     // «активные компоненты» — это про уход; у макияжа и гаджетов строку не показываем
     ingredients: fc.category === "Макияж" || fc.category === "Бьюти-гаджеты" ? undefined : activesFor(fc.name, fc.id),
+    deviceType: fc.category === "Бьюти-гаджеты" ? fc.type : undefined,
     tabs: withTexts(
       fc.id,
       draftTabs(fc, activesFor(fc.name, fc.id) ?? activesByName(fc.name) ?? "увлажняющие компоненты"),
