@@ -62,14 +62,14 @@ function Actions({ onApply, onReset }: { onApply: () => void; onReset: () => voi
       <button
         type="button"
         onClick={onApply}
-        className="h-10 rounded-xs bg-primary text-caps text-white transition-colors hover:bg-primary/85"
+        className="h-10 rounded-xs bg-primary text-caps text-white transition-colors hover:bg-secondary"
       >
         {t("Применить")}
       </button>
       <button
         type="button"
         onClick={onReset}
-        className="h-10 rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white"
+        className="h-10 rounded-xs border border-primary text-caps transition-colors hover:border-line hover:text-secondary"
       >
         {t("Сбросить")}
       </button>

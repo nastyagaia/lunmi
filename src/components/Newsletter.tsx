@@ -47,7 +47,7 @@ export function Newsletter() {
             type="submit"
             disabled={!ready}
             aria-label={t("Подписаться")}
-            className="flex size-9 shrink-0 items-center justify-center rounded-full bg-line text-white transition-colors enabled:bg-primary enabled:hover:bg-primary/85"
+            className="flex size-9 shrink-0 items-center justify-center rounded-full bg-line text-white transition-colors enabled:bg-primary enabled:hover:bg-secondary"
           >
             <ArrowRight className="size-4" />
           </button>

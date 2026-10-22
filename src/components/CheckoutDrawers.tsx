@@ -397,7 +397,7 @@ export function SavedAddressesDrawer({
       <button
         type="button"
         onClick={onAdd}
-        className="mt-2 h-[52px] rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white"
+        className="mt-2 h-[52px] rounded-xs border border-primary text-caps transition-colors hover:border-line hover:text-secondary"
       >
         {t("добавить новый адрес")}
       </button>
@@ -485,7 +485,7 @@ export function PaymentDrawer({
       <button
         type="button"
         onClick={onAddCard}
-        className="mt-2 h-[52px] rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white"
+        className="mt-2 h-[52px] rounded-xs border border-primary text-caps transition-colors hover:border-line hover:text-secondary"
       >
         {t("добавить новую карту")}
       </button>

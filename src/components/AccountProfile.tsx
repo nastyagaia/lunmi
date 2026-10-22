@@ -197,7 +197,7 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
             type="button"
             disabled={!dirty || !emailOk}
             onClick={save}
-            className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85 disabled:bg-tertiary"
+            className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-secondary disabled:bg-tertiary disabled:text-line-light"
           >
             {t("сохранить изменения")}
           </button>
@@ -294,7 +294,7 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
               <button
                 type="button"
                 onClick={() => setConfirmDelete(false)}
-                className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85"
+                className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-secondary"
               >
                 {t("оставить")}
               </button>
@@ -304,7 +304,7 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
                   forgetEverything();
                   router.push("/");
                 }}
-                className="h-10 border border-primary px-6 text-caps transition-colors hover:bg-surface"
+                className="h-10 border border-primary px-6 text-caps transition-colors hover:border-line hover:text-secondary"
               >
                 {t("удалить")}
               </button>

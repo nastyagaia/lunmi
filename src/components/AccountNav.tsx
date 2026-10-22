@@ -115,14 +115,14 @@ export function AccountNav() {
                 type="button"
                 autoFocus
                 onClick={() => setAsk(false)}
-                className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85"
+                className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-secondary"
               >
                 {t("остаться")}
               </button>
               <button
                 type="button"
                 onClick={leave}
-                className="h-10 border border-primary px-6 text-caps transition-colors hover:bg-surface"
+                className="h-10 border border-primary px-6 text-caps transition-colors hover:border-line hover:text-secondary"
               >
                 {t("выйти")}
               </button>

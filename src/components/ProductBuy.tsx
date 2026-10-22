@@ -194,7 +194,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
             type="button"
             onClick={() => shade && setNotify((n) => (n.includes(shade) ? n : [...n, shade]))}
             aria-live="polite"
-            className="h-10 w-full max-w-[304px] rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white"
+            className="h-10 w-full max-w-[304px] rounded-xs border border-primary text-caps transition-colors hover:border-line hover:text-secondary"
           >
             {shade && notify.includes(shade) ? t("сообщим, когда появится") : t("узнать о поступлении")}
           </button>
@@ -202,7 +202,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           <button
             type="button"
             onClick={addOne}
-            className="h-10 w-full max-w-[304px] rounded-xs bg-primary text-caps text-white transition-colors hover:bg-primary/85"
+            className="h-10 w-full max-w-[304px] rounded-xs bg-primary text-caps text-white transition-colors hover:bg-secondary"
           >
             {t("в корзину")}
           </button>

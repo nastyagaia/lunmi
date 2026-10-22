@@ -183,7 +183,7 @@ export function AccountOrder({ number }: { number: string }) {
           </dl>
           <Link
             href="/account/help"
-            className="flex h-10 items-center justify-center bg-primary text-caps text-white transition-colors hover:bg-primary/85"
+            className="flex h-10 items-center justify-center bg-primary text-caps text-white transition-colors hover:bg-secondary"
           >
             {t("нужна помощь")}
           </Link>
@@ -191,7 +191,7 @@ export function AccountOrder({ number }: { number: string }) {
             <button
               type="button"
               onClick={() => setConfirm(true)}
-              className="h-10 border border-primary text-caps transition-colors hover:bg-surface"
+              className="h-10 border border-primary text-caps transition-colors hover:border-line hover:text-secondary"
             >
               {t("отменить заказ")}
             </button>
@@ -246,14 +246,14 @@ export function AccountOrder({ number }: { number: string }) {
               <button
                 type="button"
                 onClick={() => setConfirm(false)}
-                className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85"
+                className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-secondary"
               >
                 {t("не отменять")}
               </button>
               <button
                 type="button"
                 onClick={cancel}
-                className="h-10 border border-primary px-6 text-caps transition-colors hover:bg-surface"
+                className="h-10 border border-primary px-6 text-caps transition-colors hover:border-line hover:text-secondary"
               >
                 {t("отменить заказ")}
               </button>
