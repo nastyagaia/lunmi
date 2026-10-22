@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CatalogSection } from "@/components/CatalogSection";
 import { sectionProducts, sections, sectionTypes, typeGroups } from "@/data/sections";
+import { t } from "@/lib/i18n";
 
 const findSection = (slug: string) => sections.find((s) => s.slug && s.slug === slug);
 
@@ -13,7 +14,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/catalog/[section]">): Promise<Metadata> {
   const section = findSection((await params).section);
   if (!section) return {};
-  return { title: `${section.title} — Lunmi`, description: `${section.title}: корейская косметика в Lunmi.` };
+  return { title: `${t(section.title)} — Lunmi`, description: t("{title}: корейская косметика в Lunmi.", { title: t(section.title) }) };
 }
 
 export default async function SectionPage({ params, searchParams }: PageProps<"/catalog/[section]">) {

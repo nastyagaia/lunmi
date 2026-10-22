@@ -1,6 +1,7 @@
 // Контент главной страницы. Тексты и картинки взяты из макета home в Figma.
 import { delivery } from "./delivery";
 import { loyalty } from "./loyalty";
+import { isEn, money } from "@/lib/i18n";
 
 /** Слайды первого экрана (Figma: hero anua pdrn, hero korea trends и др.).
  *  tone: "light" — белый текст на тёмном фото, "dark" — тёмный текст на светлом фото.
@@ -77,7 +78,7 @@ export const catalog = [
 // скидка и бонусы — из src/data/loyalty.ts: поменяются там — поменяются и здесь.
 const rub = (n: number) => `${n.toLocaleString("ru-RU")} ₽`;
 
-export const faq = [
+const faqRu = [
   {
     q: "О нас",
     a: "Lunmi — интернет-магазин корейской косметики для тех, кто давно смотрит на полки Olive Young с тихой завистью. Уход для лица, макияж, тело, волосы, SPF и бьюти-гаджеты — от проверенных хитов до новинок, о которых в Сеуле уже говорят, а у нас ещё нет. К каждой баночке пишем по-человечески: что внутри, как наносить и кому зайдёт.",
@@ -107,3 +108,37 @@ export const faq = [
     a: `Зарегистрируйтесь — и получите персональную скидку ${loyalty.discount}% на каждый заказ, пока вы в личном кабинете. За отзыв на купленный товар дарим ${loyalty.bonusPerReview} баллов, 1 балл = 1 ₽: пишите честно, нам важно. Баллы копятся в кабинете, а тратить их при оплате можно будет совсем скоро — мы уже доделываем.`,
   },
 ];
+
+// Английская версия FAQ — для сайта на английском (цены в евро через money)
+const faqEn = [
+  {
+    q: "About us",
+    a: "Lunmi is an online store of Korean cosmetics for everyone who’s been eyeing the shelves of Olive Young with quiet envy. Skincare, makeup, body, hair, SPF and beauty devices — from proven hits to new launches Seoul is already talking about. For every jar we explain in plain words what’s inside, how to apply it and who it’s for.",
+  },
+  {
+    q: "Delivery and payment",
+    a: `Moscow and Saint Petersburg, courier to your door — ${money(delivery.courier.price)}, 1–3 days. Same cities, to a CDEK pickup point — ${money(delivery.pickup.price)}, 1–3 days. All other cities — courier or CDEK, from ${money(delivery.regions.priceFrom)}, 5 days or more. CDEK calculates the exact price and time as soon as you enter your address — no surprises at checkout. Your parcel waits at the pickup point for ${delivery.storageDays} days, and we’ll text you when it arrives. You choose how to pay at checkout.`,
+  },
+  {
+    q: "Authenticity",
+    a: "Only originals, no “almost the same”. We buy from official brand distributors and will gladly show certificates on request — just message support. If something in your parcel looks off, take a photo of the packaging and send it to us: we’ll sort it out without endless back-and-forth.",
+  },
+  {
+    q: "How to cancel or change an order",
+    a: "Changed your mind? It happens. While the order hasn’t been packed yet, open it in your account (“Orders”) and click “Cancel order” — we’ll refund you. Want to change the address, date or items — message support before the parcel ships. And if something arrived damaged or not what you ordered, let us know too: we’ll replace it or refund you, no questions asked.",
+  },
+  {
+    q: "How to use a promo code",
+    a: "At checkout, in the “Your order” block, click “enter promo code”, type it in and press the arrow — the total updates right away. A promo code and your personal discount don’t stack: the better one applies, we’re not greedy.",
+  },
+  {
+    q: "Get advice before buying",
+    a: "Spoiled for choice? We get it, us too. Message us on Telegram, WhatsApp or at lunmicosm@gmail.com: tell us about your skin and what you’d like to improve, and we’ll put together a routine without extra jars. Or try “Beauty match”: a couple of questions — and you have a ready selection from our catalog.",
+  },
+  {
+    q: "Loyalty program and rewards",
+    a: `Sign up and get a personal ${loyalty.discount}% discount on every order while you’re signed in. For a review of a product you bought, we give you ${loyalty.bonusPerReview} points: be honest, it matters to us. Points collect in your account, and you’ll soon be able to spend them at checkout — we’re finishing that up.`,
+  },
+];
+
+export const faq = isEn ? faqEn : faqRu;

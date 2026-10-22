@@ -2,6 +2,7 @@
 // «Покупателям» (с 5-й колонки сетки) и «Контакты» (с 9-й). Подписка на рассылку переехала в блок «Мы рядом» на главной.
 import Link from "next/link";
 import { Logo } from "./icons";
+import { t } from "@/lib/i18n";
 
 const buyers = ["О нас", "Как заказать", "Доставка", "Возврат товара", "Документы сайта"];
 const contacts = ["Написать в поддержку", "Telegram", "Whatsapp", "Instagram"];
@@ -24,7 +25,7 @@ function Column({ title, links }: { title: string; links: string[] }) {
               href={hrefs[l] ?? "#"}
               className="block text-base-s text-secondary transition-colors hover:text-primary"
             >
-              {l}
+              {t(l)}
             </Link>
           </li>
         ))}
@@ -38,16 +39,16 @@ export function Footer() {
     <footer className="mt-16 bg-white pt-8 pb-11 md:mt-[74px]">
       <div className="container-page grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-12">
         <div className="col-span-2 flex flex-col gap-2 lg:col-span-4">
-          <Link href="/" aria-label="Lunmi — на главную" className="self-start text-secondary">
+          <Link href="/" aria-label={t("Lunmi — на главную")} className="self-start text-secondary">
             <Logo className="h-8 w-auto" />
           </Link>
           <p className="text-base-s text-secondary">All rights reserved. 2026©</p>
         </div>
         <div className="lg:col-span-4">
-          <Column title="покупателям" links={buyers} />
+          <Column title={t("покупателям")} links={buyers} />
         </div>
         <div className="lg:col-span-4">
-          <Column title="контакты" links={contacts} />
+          <Column title={t("контакты")} links={contacts} />
         </div>
       </div>
     </footer>

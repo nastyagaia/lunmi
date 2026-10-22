@@ -5,15 +5,11 @@ import type { Product } from "@/components/ProductCard";
 import { allProducts } from "./sections";
 import productTexts from "./product-texts.json";
 import { brandDescriptions } from "./brand-descriptions";
+import { brandSlug } from "@/lib/brand-slug";
 
 export type Brand = { slug: string; name: string; description: string; products: Product[] };
 
-export const brandSlug = (name: string) =>
-  name
-    .toLowerCase()
-    .replace(/\+/g, "-plus")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+export { brandSlug };
 
 const texts = productTexts as Record<string, Record<string, string | null>>;
 

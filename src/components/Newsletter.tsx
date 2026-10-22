@@ -7,6 +7,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight } from "./icons";
+import { t } from "@/lib/i18n";
 
 const EMAIL_RE = /^\S+@\S+\.\S+$/;
 
@@ -24,11 +25,11 @@ export function Newsletter() {
       }}
     >
       <label htmlFor="near-newsletter" className="text-base-s text-secondary">
-        Подписаться на рассылку
+        {t("Подписаться на рассылку")}
       </label>
       {subscribed ? (
         <p className="flex h-[52px] items-center text-base-s">
-          Готово! Будем писать на {subscribed} — только по делу, про новинки и скидки. Спамом не балуемся.
+          {t("Готово! Будем писать на {email} — только по делу, про новинки и скидки. Спамом не балуемся.", { email: subscribed })}
         </p>
       ) : (
         <div className="flex h-[52px] items-center rounded-xs border border-line bg-white pl-3 pr-2 focus-within:border-primary">
@@ -38,14 +39,14 @@ export function Newsletter() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Ваша почта"
+            placeholder={t("Ваша почта")}
             autoComplete="email"
             className="min-w-0 flex-1 bg-transparent text-base-s outline-none placeholder:text-tertiary"
           />
           <button
             type="submit"
             disabled={!ready}
-            aria-label="Подписаться"
+            aria-label={t("Подписаться")}
             className="flex size-9 shrink-0 items-center justify-center rounded-full bg-line text-white transition-colors enabled:bg-primary enabled:hover:bg-primary/85"
           >
             <ArrowRight className="size-4" />
@@ -53,9 +54,9 @@ export function Newsletter() {
         </div>
       )}
       <p className="text-base-xs text-secondary">
-        Продолжая, я даю согласие на обработку персональных данных и соглашаюсь с&nbsp;
+        {t("Продолжая, я даю согласие на обработку персональных данных и соглашаюсь с")}&nbsp;
         <Link href="/privacy" className="underline underline-offset-2 hover:text-primary">
-          политикой конфиденциальности
+          {t("политикой конфиденциальности")}
         </Link>
         .
       </p>

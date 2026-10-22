@@ -13,6 +13,7 @@ import { catalog, heroSlides } from "@/data/home";
 import { FaqList } from "@/components/FaqList";
 import { Newsletter } from "@/components/Newsletter";
 import { allProducts } from "@/data/sections";
+import { t } from "@/lib/i18n";
 
 /** Bestsellers — настоящие товары каталога: тинт Dasique (обложка Cherry Soda, при наведении — модель),
  *  патчи Petitfee Aura Quartz, бустер Celimax и дальше яркий макияж, чтобы ленту было что листать */
@@ -66,7 +67,7 @@ function Bestsellers() {
     <section id="bestsellers" className="container-page scroll-mt-20">
       <SectionHeader title="Bestsellers" />
       {/* focus: карточка в центре ленты плавно вытягивается по высоте при листании */}
-      <Carousel label="Бестселлеры" arrowTop={194} className="items-start" focus>
+      <Carousel label={t("Бестселлеры")} arrowTop={194} className="items-start" focus>
         {bestsellerList.map((p) => (
           <div
             key={p.id}
@@ -84,7 +85,7 @@ function Bestsellers() {
 function Catalog() {
   return (
     <section className="container-page reveal">
-      <SectionHeader title="Каталог" href="/catalog" />
+      <SectionHeader title={t("Каталог")} href="/catalog" />
       <div className="grid grid-flow-dense grid-cols-2 gap-2 md:grid-cols-4">
         {catalog.map((c) => (
           <Link
@@ -103,7 +104,7 @@ function Catalog() {
                 "left" in c && c.left ? "object-left" : ""
               }`}
             />
-            <span className="relative text-base-m">{c.title}</span>
+            <span className="relative text-base-m">{t(c.title)}</span>
           </Link>
         ))}
         <Link
@@ -111,7 +112,7 @@ function Catalog() {
           className="group flex h-[180px] flex-col items-center justify-center gap-4 rounded-xs bg-accent-soft sm:h-[220px] md:h-[200px] lg:h-[280px]"
         >
           <Image src="/img/c9.webp" alt="" width={43} height={51} />
-          <span className="text-caps text-center underline underline-offset-2">Смотреть весь каталог</span>
+          <span className="text-caps text-center underline underline-offset-2">{t("Смотреть весь каталог")}</span>
         </Link>
       </div>
     </section>
@@ -128,7 +129,7 @@ function AiBanner() {
         <div className="relative -mb-px aspect-[1664/1342] w-full max-w-[632px] self-center lg:w-[680px] lg:max-w-[680px] lg:shrink-0 lg:self-end lg:-ml-[6px]">
           <Image
             src="/img/banner-photo-ebcbfe.webp"
-            alt="Девушка с сияющей кожей"
+            alt={t("Девушка с сияющей кожей")}
             fill
             sizes="(min-width: 1024px) 680px, 100vw"
             className="object-contain object-bottom"
@@ -136,19 +137,16 @@ function AiBanner() {
         </div>
         <div className="flex max-w-[510px] flex-col gap-6 py-12 text-white lg:justify-center lg:py-0">
           <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">
-            подбери косметику
-            <br />с помощью ai
+            {t("подбери косметику")}
+            <br />
+            {t("с помощью ai")}
           </h2>
           <div className="flex flex-col gap-5 text-base-s">
-            <p>
-              Давай разберёмся вместе, что тебе подойдёт. Загрузи селфи в хорошем качестве и освещении и расскажи, что
-              тебя беспокоит. AI проанализирует состояние твоей кожи и предложит подборку корейских средств, которые
-              могут подойти именно тебе.
-            </p>
-            <p>Попробуй — это просто и удобно!</p>
+            <p>{t("Давай разберёмся вместе, что тебе подойдёт. Загрузи селфи в хорошем качестве и освещении и расскажи, что тебя беспокоит. AI проанализирует состояние твоей кожи и предложит подборку корейских средств, которые могут подойти именно тебе.")}</p>
+            <p>{t("Попробуй — это просто и удобно!")}</p>
           </div>
           <Button href="/ai" tone="glass" className="self-start">
-            Попробовать
+            {t("Попробовать")}
           </Button>
         </div>
       </div>
@@ -170,8 +168,8 @@ const weeklyDeals = [...rest.slice(0, 2), ...pinned, ...rest.slice(2)].slice(0, 
 function WeeklyDeals() {
   return (
     <section className="container-page">
-      <SectionHeader title="Скидки недели" href="/sale" />
-      <Carousel label="Скидки недели" arrowTop={119} className="items-start">
+      <SectionHeader title={t("Скидки недели")} href="/sale" />
+      <Carousel label={t("Скидки недели")} arrowTop={119} className="items-start">
         {weeklyDeals.map((p) => (
           <div
             key={p.id}
@@ -197,7 +195,7 @@ function Brands() {
     .sort((a, b) => Number(/^\d/.test(a.name)) - Number(/^\d/.test(b.name)));
   return (
     <section className="container-page reveal md:py-6">
-      <SectionHeader title="Бренды" href="/brands" />
+      <SectionHeader title={t("Бренды")} href="/brands" />
       <ul className="grid grid-flow-row grid-cols-2 gap-x-2 gap-y-6 md:grid-cols-4 md:grid-flow-col md:grid-rows-10">
         {top.map((b) => (
           <li key={b.slug}>
@@ -216,8 +214,8 @@ function Faq() {
   return (
     <section className="container-page reveal grid gap-6 md:py-5 lg:grid-cols-[minmax(0,1fr)_824px]">
       <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">
-        Частые
-        <br className="hidden lg:block" /> вопросы
+        {t("Частые")}
+        <br className="hidden lg:block" /> {t("вопросы")}
       </h2>
       <FaqList />
     </section>
@@ -243,12 +241,11 @@ function Contacts() {
   return (
     <section className="container-page reveal grid gap-2 md:grid-cols-2 lg:h-[540px] lg:grid-cols-3">
       <div className="flex flex-col justify-between gap-10 rounded-xs bg-surface p-6 md:row-span-2 lg:row-span-1 lg:px-[30px] lg:pt-8 lg:pb-[30px]">
-        <p className="text-base-s text-secondary">Поддержка</p>
+        <p className="text-base-s text-secondary">{t("Поддержка")}</p>
         <div className="flex flex-col gap-4">
-          <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">Мы рядом</h2>
+          <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">{t("Мы рядом")}</h2>
           <p className="text-base-s">
-            Хотим становиться лучше благодаря вам — оставляйте отзывы и пожелания или задавайте вопросы: о доставке,
-            уходе и вообще о чём угодно.
+            {t("Хотим становиться лучше благодаря вам — оставляйте отзывы и пожелания или задавайте вопросы: о доставке, уходе и вообще о чём угодно.")}
           </p>
         </div>
         <Newsletter />
@@ -260,7 +257,7 @@ function Contacts() {
           href="mailto:lunmicosm@gmail.com"
           className="group flex h-[180px] shrink-0 flex-col justify-between rounded-xs bg-primary p-4 transition-colors hover:bg-primary/90"
         >
-          <span className="text-base-s text-tertiary">Наш email</span>
+          <span className="text-base-s text-tertiary">{t("Наш email")}</span>
           <span className="text-h3 break-all text-line-light transition-colors group-hover:text-white max-md:text-[16px]">
             lunmicosm@gmail.com
           </span>
@@ -269,7 +266,7 @@ function Contacts() {
 
       <div className="flex flex-col gap-2 md:col-start-2 lg:col-start-auto">
         <div className="flex h-[180px] shrink-0 flex-col justify-between rounded-xs bg-accent-soft p-4">
-          <span className="text-base-s text-secondary">Поддержка в мессенджерах</span>
+          <span className="text-base-s text-secondary">{t("Поддержка в мессенджерах")}</span>
           <div className="flex flex-wrap gap-x-[60px] gap-y-3">
             <Link href="#" className="flex h-10 items-center gap-2.5 text-h4 transition-colors hover:text-accent">
               <WhatsappIcon className="size-8" />

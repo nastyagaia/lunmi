@@ -5,6 +5,7 @@
 // Слева — затемнение, а в окне адреса вместо него карта (left).
 import { useEffect, type ReactNode } from "react";
 import { ArrowLeft, CloseIcon } from "./icons";
+import { t } from "@/lib/i18n";
 
 export function Drawer({
   open,
@@ -44,7 +45,7 @@ export function Drawer({
       {/* затемнение — клик закрывает панель */}
       <button
         type="button"
-        aria-label="Закрыть"
+        aria-label={t("Закрыть")}
         tabIndex={-1}
         onClick={onClose}
         className="absolute inset-0 animate-[fade-in_200ms_ease-out] bg-primary/40"
@@ -54,7 +55,7 @@ export function Drawer({
       <aside
         role="dialog"
         aria-modal="true"
-        aria-label={title}
+        aria-label={t(title)}
         className="relative flex h-full w-full max-w-[717px] animate-[drawer-in_300ms_ease-out] flex-col bg-white"
       >
         {/* верх 80 px: стрелка назад слева, крестик справа */}
@@ -63,7 +64,7 @@ export function Drawer({
             <button
               type="button"
               onClick={onBack}
-              aria-label="Назад"
+              aria-label={t("Назад")}
               className="-ml-1 flex size-10 items-center justify-center transition-colors hover:text-accent"
             >
               <ArrowLeft />
@@ -74,7 +75,7 @@ export function Drawer({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Закрыть"
+            aria-label={t("Закрыть")}
             className="-mr-2 flex size-10 items-center justify-center transition-colors hover:text-accent"
           >
             <CloseIcon />
@@ -82,7 +83,7 @@ export function Drawer({
         </div>
 
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 md:px-8">
-          <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">{title}</h2>
+          <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">{t(title)}</h2>
           <div className="flex flex-1 flex-col pt-6 pb-6">{children}</div>
         </div>
 

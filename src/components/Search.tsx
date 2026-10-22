@@ -5,12 +5,13 @@
 // Один компонент на всё: поиск в шапке (с отправкой и стрелкой), на странице «Бренды» и в выпадающих фильтрах (без стрелки).
 import { useRef, type RefObject } from "react";
 import { ArrowRight, CloseIcon, SearchIcon } from "./icons";
+import { t } from "@/lib/i18n";
 
 export function Search({
   value,
   onChange,
   label,
-  placeholder = "Найти",
+  placeholder = t("Найти"),
   onSubmit,
   submitDisabled = false,
   inputRef,
@@ -62,7 +63,7 @@ export function Search({
             onChange("");
             input.current?.focus();
           }}
-          aria-label="Очистить"
+          aria-label={t("Очистить")}
           className="flex size-10 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
         >
           <CloseIcon className="size-6" />
@@ -71,7 +72,7 @@ export function Search({
       {onSubmit && (
         <button
           type="submit"
-          aria-label="Искать"
+          aria-label={t("Искать")}
           disabled={submitDisabled}
           className={`flex size-8 shrink-0 items-center justify-center rounded-full text-white transition-colors ${
             submitDisabled ? "bg-tertiary" : "bg-primary hover:bg-accent"

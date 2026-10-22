@@ -8,6 +8,7 @@ import { HeartIcon, StarIcon } from "./icons";
 import { Tag } from "./ui";
 import { isPrepared } from "@/lib/images";
 import { useFavorites } from "./Favorites";
+import { t, priceLabel } from "@/lib/i18n";
 
 export type Product = {
   id: string;
@@ -112,7 +113,7 @@ export function ProductCard({
           type="button"
           onClick={() => favorites.toggle(product)}
           aria-pressed={liked}
-          aria-label={liked ? "Убрать из избранного" : "В избранное"}
+          aria-label={liked ? t("Убрать из избранного") : t("В избранное")}
           className="group/heart absolute right-0 top-0 flex size-10 items-center justify-center text-tertiary"
         >
           {/* heart из UI KIT: Default — контур, hover — заливка pink/300, pressed (в избранном) — pink/500 */}
@@ -138,7 +139,7 @@ export function ProductCard({
           }
           className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-center rounded-b-xs bg-primary/40 text-caps text-white opacity-0 backdrop-blur-[10px] transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
         >
-          в корзину
+          {t("в корзину")}
         </button>
       </div>
 
@@ -161,11 +162,11 @@ export function ProductCard({
         </p>
         <div className="flex items-center justify-between gap-2 text-base-s text-secondary">
           <p>
-            {product.price}
-            {product.oldPrice && <s className="ml-2">{product.oldPrice}</s>}
+            {priceLabel(product.price)}
+            {product.oldPrice && <s className="ml-2">{priceLabel(product.oldPrice)}</s>}
           </p>
           {product.rating && (
-            <p className="flex shrink-0 items-center gap-0.5 text-caps" aria-label={`Рейтинг ${product.rating}`}>
+            <p className="flex shrink-0 items-center gap-0.5 text-caps" aria-label={t("Рейтинг {r}", { r: product.rating ?? "" })}>
               {product.rating}
               <StarIcon className="text-accent-300" />
             </p>

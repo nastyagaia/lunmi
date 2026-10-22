@@ -7,6 +7,7 @@ import { allProducts, sectionHref, type CatalogProduct } from "./sections";
 import productTexts from "./product-texts.json";
 import { brandDescriptions } from "./brand-descriptions";
 import { averageRating, reviewsFor } from "./reviews";
+import { t } from "@/lib/i18n";
 
 /** images — номера фото этого оттенка в images: при выборе оттенка галерея показывает только их */
 export type Volume = { name: string; price: string; oldPrice?: string; images?: number[] };
@@ -76,7 +77,10 @@ const similar: Product[] = [
 ];
 
 // сроки — из условий доставки (src/data/delivery.ts), для Москвы и Петербурга
-const delivery = [`${deliveryTerms.courier.days} курьером`, `${deliveryTerms.pickup.days} в пункт выдачи СДЭК`];
+const delivery = [
+  t("{days} курьером", { days: t(deliveryTerms.courier.days) }),
+  t("{days} в пункт выдачи СДЭК", { days: t(deliveryTerms.pickup.days) }),
+];
 
 
 export const products: ProductDetails[] = [

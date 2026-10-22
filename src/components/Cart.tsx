@@ -19,6 +19,7 @@ import {
 import { CloseIcon, MinusIcon, QuantityPlusIcon } from "./icons";
 import { Button } from "./ui";
 import { isPrepared } from "@/lib/images";
+import { t, money, priceToNumber } from "@/lib/i18n";
 
 export type CartItem = {
   /** id товара + вариант (оттенок или объём), чтобы разные оттенки лежали отдельными строками */
@@ -49,8 +50,9 @@ type Cart = {
 const CartContext = createContext<Cart | null>(null);
 const STORAGE_KEY = "lunmi-cart";
 
-export const rub = (n: number) => `${n.toLocaleString("ru-RU")} ₽`;
-export const priceToNumber = (price: string) => Number(price.replace(/\D/g, ""));
+// суммы и разбор цен — в i18n: в английской версии они в евро
+export const rub = money;
+export { priceToNumber };
 
 // Хранилище корзины вне React: читаем из localStorage один раз, пишем при каждом изменении.
 // useSyncExternalStore подписывает компоненты на него; на сервере корзина всегда пустая.
@@ -155,7 +157,7 @@ function Snackbar({ item }: { item: { name: string; id: number } | null }) {
           >
             {item.name}
             <br />
-            добавлено в корзину
+            {t("добавлено в корзину")}
           </p>
         </div>
       )}
@@ -215,7 +217,7 @@ function CartDrawer() {
       {/* затемнение: клик закрывает корзину */}
       <button
         type="button"
-        aria-label="Закрыть корзину"
+        aria-label={t("Закрыть корзину")}
         tabIndex={-1}
         onClick={() => setOpen(false)}
         className={`absolute inset-0 bg-primary/40 transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
@@ -224,7 +226,7 @@ function CartDrawer() {
       <aside
         role="dialog"
         aria-modal="true"
-        aria-label="Корзина"
+        aria-label={t("Корзина")}
         className={`relative flex h-full w-full max-w-[600px] flex-col bg-white transition-transform duration-300 ease-out ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
@@ -233,7 +235,7 @@ function CartDrawer() {
           <button
             type="button"
             onClick={() => setOpen(false)}
-            aria-label="Закрыть корзину"
+            aria-label={t("Закрыть корзину")}
             className="flex size-10 items-center justify-center transition-colors hover:text-accent"
           >
             <CloseIcon />
@@ -241,19 +243,19 @@ function CartDrawer() {
         </div>
 
         <div className="flex flex-col gap-2 px-5 pb-6 md:px-8">
-          <h2 className="text-h2">Корзина{count > 0 && <span className="ml-2 text-tertiary">{count}</span>}</h2>
+          <h2 className="text-h2">{t("Корзина")}{count > 0 && <span className="ml-2 text-tertiary">{count}</span>}</h2>
           {rows.length > 0 && (
-            <p className="text-base-s">Всё на месте? Проверьте баночки, заполните детали — и вперёд к оформлению. 🌸</p>
+            <p className="text-base-s">{t("Всё на месте? Проверьте баночки, заполните детали — и вперёд к оформлению.")} 🌸</p>
           )}
         </div>
 
         {rows.length === 0 ? (
           <div className="flex flex-1 flex-col items-start gap-6 px-5 md:px-8">
             <p className="text-base-s text-secondary">
-              Корзина пока налегке. Загляните в каталог — там много того, что захочется унести с собой.
+              {t("Корзина пока налегке. Загляните в каталог — там много того, что захочется унести с собой.")}
             </p>
             <Button href="/catalog" size="M" onClick={() => setOpen(false)}>
-              в каталог
+              {t("в каталог")}
             </Button>
           </div>
         ) : (
@@ -265,7 +267,7 @@ function CartDrawer() {
                   <button
                     type="button"
                     onClick={() => (gone ? undo(item.key) : drop(item))}
-                    aria-label={gone ? `Вернуть «${item.name}»` : `Удалить «${item.name}»`}
+                    aria-label={gone ? t("Вернуть «{name}»", { name: item.name }) : t("Удалить «{name}»", { name: item.name })}
                     className="-m-2 flex size-10 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
                   >
                     {/* close size=M из UI KIT — 24 × 24 */}
@@ -289,14 +291,14 @@ function CartDrawer() {
                     // товар удалили: красная подпись и «Отменить» вместо описания и количества
                     <>
                       <p className="min-w-0 flex-1 text-base-s text-error">
-                        Товар убран из корзины. Передумали — верните одним нажатием.
+                        {t("Товар убран из корзины. Передумали — верните одним нажатием.")}
                       </p>
                       <button
                         type="button"
                         onClick={() => undo(item.key)}
                         className="shrink-0 text-caps underline underline-offset-2 transition-colors hover:text-accent"
                       >
-                        отменить
+                        {t("отменить")}
                       </button>
                     </>
                   ) : (
@@ -318,7 +320,7 @@ function CartDrawer() {
                         <button
                           type="button"
                           onClick={() => setQty(item.key, item.qty - 1)}
-                          aria-label="Убрать одну штуку"
+                          aria-label={t("Убрать одну штуку")}
                           className="-m-1.5 flex size-7 items-center justify-center transition-colors hover:text-accent"
                         >
                           <MinusIcon className="size-4" />
@@ -329,7 +331,7 @@ function CartDrawer() {
                         <button
                           type="button"
                           onClick={() => setQty(item.key, item.qty + 1)}
-                          aria-label="Добавить ещё одну"
+                          aria-label={t("Добавить ещё одну")}
                           className="-m-1.5 flex size-7 items-center justify-center transition-colors hover:text-accent"
                         >
                           <QuantityPlusIcon className="size-4" />
@@ -345,7 +347,7 @@ function CartDrawer() {
             <div className="flex items-center gap-1.5 bg-white px-5 pt-6 pb-10 md:px-8 md:pb-[60px]">
               {/* total из UI KIT: «Сумма» — H4, под ней сумма — H3 */}
               <p className="flex min-w-[145px] shrink-0 flex-col pr-2">
-                <span className="text-h4">Сумма</span>
+                <span className="text-h4">{t("Сумма")}</span>
                 <span className="text-h3 whitespace-nowrap">{rub(total)}</span>
               </p>
               <Link
@@ -353,7 +355,7 @@ function CartDrawer() {
                 onClick={() => setOpen(false)}
                 className="flex h-[52px] flex-1 items-center justify-center rounded-xs bg-primary px-8 text-caps text-white transition-colors hover:bg-primary/85"
               >
-                к оформлению
+                {t("к оформлению")}
               </Link>
             </div>
           </>

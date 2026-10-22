@@ -4,9 +4,10 @@ import { Checkout } from "@/components/Checkout";
 import { CheckoutCrumbs } from "@/components/CheckoutCrumbs";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { t } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Оформление — Lunmi",
+  title: `${t("Оформление")} — Lunmi`,
   robots: { index: false },
 };
 
@@ -19,7 +20,7 @@ export default function CheckoutPage() {
           <CheckoutCrumbs />
         </div>
         <div className="container-page">
-          <h1 className="mt-8 text-h2 max-md:text-[20px] max-md:leading-[26px]">Оформление</h1>
+          <h1 className="mt-8 text-h2 max-md:text-[20px] max-md:leading-[26px]">{t("Оформление")}</h1>
           <Checkout />
         </div>
       </main>

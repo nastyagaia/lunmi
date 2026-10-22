@@ -11,6 +11,7 @@ import { Carousel } from "./Carousel";
 import { ArrowLeft } from "./icons";
 import { ProductCard, type Product } from "./ProductCard";
 import { Button } from "./ui";
+import { t } from "@/lib/i18n";
 
 export function AiPicker({ products }: { products: Product[] }) {
   const [result, setResult] = useState<PickerResult | null>(null);
@@ -33,10 +34,9 @@ export function AiPicker({ products }: { products: Product[] }) {
         <section className="bg-surface">
           <div className="container-page flex items-end justify-between gap-10 md:h-[320px]">
             <div className="flex max-w-[480px] flex-col gap-2 pt-20 pb-10 md:pt-0 md:pb-[50px]">
-              <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">Подбор средств</h1>
+              <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t("Подбор средств")}</h1>
               <p className="text-base-s">
-                Не знаешь, что выбрать? Расскажи, что тебя беспокоит, укажи бюджет или загрузи фотографию. AI предложит
-                средства, которые лучше всего соответствуют твоему запросу.
+                {t("Не знаешь, что выбрать? Расскажи, что тебя беспокоит, укажи бюджет или загрузи фотографию. AI предложит средства, которые лучше всего соответствуют твоему запросу.")}
               </p>
             </div>
             <div className="relative hidden h-full w-[385px] shrink-0 overflow-hidden md:block xl:mr-[137px]">
@@ -56,7 +56,7 @@ export function AiPicker({ products }: { products: Product[] }) {
           <AiChatInput onSubmit={submit} busy={busy} />
           {busy && (
             <p aria-live="polite" className="mt-4 animate-pulse text-base-s text-secondary">
-              Подбираем средства…
+              {t("Подбираем средства…")}
             </p>
           )}
         </div>
@@ -69,22 +69,22 @@ export function AiPicker({ products }: { products: Product[] }) {
       {/* шапка результата на фоне surface: крошки, «Рекомендации», объяснение, «Новый запрос» */}
       <section className="bg-surface pt-[90px] pb-10 md:pt-[110px] md:pb-[60px]">
         <div className="container-page flex flex-col gap-6">
-          <nav aria-label="Хлебные крошки" className="-ml-0.5 flex items-center gap-1 text-base-s text-secondary">
+          <nav aria-label={t("Хлебные крошки")} className="-ml-0.5 flex items-center gap-1 text-base-s text-secondary">
             <button
               type="button"
               onClick={() => setResult(null)}
-              aria-label="Назад к запросу"
+              aria-label={t("Назад к запросу")}
               className="mr-3 flex h-7 w-8 items-center pr-3 text-primary transition-colors hover:text-accent"
             >
               <ArrowLeft />
             </button>
-            <span>AI-подбор ухода</span>
+            <span>{t("AI-подбор ухода")}</span>
             <span aria-hidden>/</span>
-            <span aria-current="page">Результат</span>
+            <span aria-current="page">{t("Результат")}</span>
           </nav>
 
           <div className="flex items-center gap-3">
-            <h1 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">Рекомендации</h1>
+            <h1 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">{t("Рекомендации")}</h1>
             <Image src="/img/c9.webp" alt="" width={27} height={32} />
           </div>
 
@@ -95,7 +95,7 @@ export function AiPicker({ products }: { products: Product[] }) {
           </div>
 
           <Button size="M" className="self-start" onClick={() => setResult(null)}>
-            новый запрос
+            {t("новый запрос")}
           </Button>
         </div>
       </section>

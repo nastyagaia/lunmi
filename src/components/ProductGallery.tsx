@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { isPrepared } from "@/lib/images";
 import { useShade } from "./ProductShade";
+import { t } from "@/lib/i18n";
 
 // фото из папки материалов (/img/face/, /img/catalog/) уже подготовлены нужного размера с точным цветом фона —
 // их отдаём как есть, без пережатия Next.js (оно сдвигает оттенок фона)
@@ -58,7 +59,7 @@ export function ProductGallery({
               <button
                 type="button"
                 onClick={() => setActive(i)}
-                aria-label={`Фото ${i + 1}`}
+                aria-label={t("Фото {n}", { n: i + 1 })}
                 aria-current={i === active}
                 className={`relative block size-[60px] overflow-hidden rounded-xs border bg-surface transition-opacity ${
                   i === active ? "border-primary" : "border-transparent opacity-60 hover:opacity-100"

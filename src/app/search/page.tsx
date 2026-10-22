@@ -6,8 +6,9 @@ import { Header } from "@/components/Header";
 import { catalogMenu } from "@/data/menu";
 import { allProducts } from "@/data/sections";
 import { searchProducts } from "@/lib/search";
+import { t } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "Поиск — Lunmi" };
+export const metadata: Metadata = { title: `${t("Поиск")} — Lunmi` };
 
 const menuTypes = [...new Set(catalogMenu.flatMap((c) => c.items.map((i) => i.title)))];
 
@@ -32,8 +33,8 @@ export default async function SearchPage({ searchParams }: PageProps<"/search">)
             // как в панели поиска (Figma 11021:19490)
             <p aria-live="polite" className="pb-10 text-base-s">
               {query
-                ? "Ничего не нашлось. Попробуйте написать иначе — например, название бренда или «сыворотка»."
-                : "Что ищем? Например, Anua или сыворотку с витамином C."}
+                ? t("Ничего не нашлось. Попробуйте написать иначе — например, название бренда или «сыворотка».")
+                : t("Что ищем? Например, Anua или сыворотку с витамином C.")}
             </p>
           )}
         </div>

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:en": "NEXT_PUBLIC_LOCALE=en NEXT_PUBLIC_RU_URL=http://localhost:3000 next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

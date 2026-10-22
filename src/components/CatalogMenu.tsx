@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import type { CatalogCategory } from "@/data/menu";
 import { ChevronDown } from "./icons";
+import { t } from "@/lib/i18n";
 
 export function CatalogMenu({ categories, onNavigate }: { categories: CatalogCategory[]; onNavigate: () => void }) {
   const [active, setActive] = useState(0);
@@ -26,7 +27,7 @@ export function CatalogMenu({ categories, onNavigate }: { categories: CatalogCat
                 i === active ? "text-accent" : "hover:text-accent"
               }`}
             >
-              {c.title}
+              {t(c.title)}
               <ChevronDown className="size-4 shrink-0 -rotate-90" />
             </Link>
           </li>
@@ -41,7 +42,7 @@ export function CatalogMenu({ categories, onNavigate }: { categories: CatalogCat
               onClick={onNavigate}
               className="block py-3 text-base-s transition-colors hover:text-accent"
             >
-              {item.title}
+              {t(item.title)}
             </Link>
           </li>
         ))}

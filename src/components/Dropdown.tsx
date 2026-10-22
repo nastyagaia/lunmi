@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { CheckIcon } from "./icons";
 import { Search } from "./Search";
 import { Checkbox, Radio, TextField } from "./ui";
+import { t } from "@/lib/i18n";
 
 /** Обёртка: кнопка + панель под ней. Закрывается кликом мимо и по Esc. */
 export function Popover({
@@ -63,14 +64,14 @@ function Actions({ onApply, onReset }: { onApply: () => void; onReset: () => voi
         onClick={onApply}
         className="h-10 rounded-xs bg-primary text-caps text-white transition-colors hover:bg-primary/85"
       >
-        Применить
+        {t("Применить")}
       </button>
       <button
         type="button"
         onClick={onReset}
         className="h-10 rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white"
       >
-        Сбросить
+        {t("Сбросить")}
       </button>
     </div>
   );
@@ -90,7 +91,7 @@ export function MultiSelect({
 }) {
   const [draft, setDraft] = useState(value);
   const [query, setQuery] = useState("");
-  const shown = options.filter((o) => o.toLowerCase().includes(query.trim().toLowerCase()));
+  const shown = options.filter((o) => t(o).toLowerCase().includes(query.trim().toLowerCase()));
   const toggle = (o: string) => setDraft((d) => (d.includes(o) ? d.filter((x) => x !== o) : [...d, o]));
 
   return (
@@ -102,11 +103,11 @@ export function MultiSelect({
           // строка 44 px, как в макете dropdown; нажимается вся строка
           <li key={o} className="transition-colors hover:bg-surface">
             <Checkbox checked={draft.includes(o)} onChange={() => toggle(o)} className="h-11 px-4">
-              {o}
+              {t(o)}
             </Checkbox>
           </li>
         ))}
-        {shown.length === 0 && <li className="px-4 py-3 text-base-s text-secondary">Ничего не нашлось</li>}
+        {shown.length === 0 && <li className="px-4 py-3 text-base-s text-secondary">{t("Ничего не нашлось")}</li>}
       </ul>
       <Actions onApply={() => onApply(draft)} onReset={() => onApply([])} />
     </>
@@ -142,8 +143,8 @@ export function PriceSelect({
   return (
     <>
       <div className="flex gap-2 p-4">
-        {field("from", "От")}
-        {field("to", "До")}
+        {field("from", t("От"))}
+        {field("to", t("До"))}
       </div>
       <ul>
         {ranges.map((r) => (
@@ -184,7 +185,7 @@ export function SingleSelect({
               o === value ? "bg-surface" : ""
             }`}
           >
-            {o}
+            {t(o)}
             {o === value && <CheckIcon />}
           </button>
         </li>

@@ -7,23 +7,16 @@ import { filterOptions } from "@/data/catalog";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
 import { ProductCard, type Product } from "./ProductCard";
 import { DropdownButton, FilterChip } from "./ui";
+import { t, plural, isEn, RUB_PER_EUR, priceToNumber } from "@/lib/i18n";
 
 type Key = "type" | "brand" | "price" | "effect" | "ingredient" | "sort";
 
 /** «18 продуктов», «1 продукт», «3 продукта» */
 export function productsCount(n: number) {
-  const mod10 = n % 10;
-  const mod100 = n % 100;
-  const word =
-    mod10 === 1 && mod100 !== 11
-      ? "продукт"
-      : mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)
-        ? "продукта"
-        : "продуктов";
-  return `${n} ${word}`;
+  return plural(n, ["продукт", "продукта", "продуктов"], ["product", "products"]);
 }
 
-const toNumber = (price: string) => Number(price.replace(/\D/g, ""));
+const toNumber = priceToNumber;
 
 /** на странице — 10 рядов по 4 карточки (десктоп); больше — появляется пагинация */
 const PAGE = 40;
@@ -99,8 +92,10 @@ export function CatalogGrid({
     if (effect.length && !effect.some((e) => p.effects?.includes(e))) return false;
     if (ingredient.length && !ingredient.some((i) => p.ingredients?.includes(i))) return false;
     const n = toNumber(p.price);
-    if (price.from && n < Number(price.from)) return false;
-    if (price.to && n > Number(price.to)) return false;
+    // в английской версии цены в фильтре — в евро, в данных — в рублях
+    const k = isEn ? RUB_PER_EUR : 1;
+    if (price.from && n < Number(price.from) * k) return false;
+    if (price.to && n > Number(price.to) * k) return false;
     return true;
   });
   if (sort === "сначала дешевле") shown = [...shown].sort((a, b) => toNumber(a.price) - toNumber(b.price));
@@ -162,7 +157,7 @@ export function CatalogGrid({
   return (
     <>
       <p className="text-caps text-secondary">
-        {countPrefix ? `${countPrefix} ` : ""}
+        {countPrefix ? `${t(countPrefix)} ` : ""}
         {productsCount(shown.length)}
       </p>
 
@@ -175,14 +170,14 @@ export function CatalogGrid({
         className="relative z-40 mt-5 flex flex-wrap items-center justify-between gap-3 py-3 transition-[top] duration-300 before:pointer-events-none before:absolute before:inset-y-0 before:-inset-x-[100vw] before:-z-10 before:opacity-0 before:transition-opacity before:duration-300 md:sticky md:top-[var(--header-h,54px)] md:before:glass data-stuck:before:opacity-100"
       >
         <div className="flex flex-wrap items-center gap-3">
-          {multi("type", "Тип продукта", "Выберите тип продукта", types, type, setType)}
-          {!hideBrand && multi("brand", "Бренд", "Выберите бренд", brands, brand, setBrand)}
+          {multi("type", t("Тип продукта"), t("Выберите тип продукта"), types, type, setType)}
+          {!hideBrand && multi("brand", t("Бренд"), t("Выберите бренд"), brands, brand, setBrand)}
           <Popover
             open={open === "price"}
             onClose={close}
             trigger={
               <FilterChip
-                label="Цена"
+                label={t("Цена")}
                 count={priceCount}
                 expanded={open === "price"}
                 onClick={() => toggle("price")}
@@ -199,8 +194,8 @@ export function CatalogGrid({
               }}
             />
           </Popover>
-          {multi("effect", "Эффект для лица", "Выберите эффект", filterOptions.effect, effect, setEffect)}
-          {multi("ingredient", "Компоненты", "Выберите компонент", filterOptions.ingredient, ingredient, setIngredient)}
+          {multi("effect", t("Эффект для лица"), t("Выберите эффект"), filterOptions.effect, effect, setEffect)}
+          {multi("ingredient", t("Компоненты"), t("Выберите компонент"), filterOptions.ingredient, ingredient, setIngredient)}
         </div>
         <Popover
           open={open === "sort"}
@@ -208,7 +203,7 @@ export function CatalogGrid({
           align="right"
           trigger={
             <DropdownButton expanded={open === "sort"} onClick={() => toggle("sort")}>
-              {sort[0].toUpperCase() + sort.slice(1)}
+              {t(sort)[0].toUpperCase() + t(sort).slice(1)}
             </DropdownButton>
           }
         >
@@ -231,7 +226,7 @@ export function CatalogGrid({
         ))}
         {shown.length === 0 && (
           <p className="col-span-full py-10 text-base-s text-secondary">
-            С такими фильтрами пусто — слишком строгий отбор. Снимите один-два, и средства найдутся.
+            {t("С такими фильтрами пусто — слишком строгий отбор. Снимите один-два, и средства найдутся.")}
           </p>
         )}
         {page === pages && after}
@@ -240,7 +235,7 @@ export function CatalogGrid({
       {/* pagination из Figma (11341:16467): стрелки 36 × 36 и номера 30 × 36 в рамке через 12 px,
           текущая страница тёмная, недоступная стрелка полупрозрачная, пропуск — три точки */}
       {pages > 1 && (
-        <nav aria-label="Страницы" className="mt-16 flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:mt-20">
+        <nav aria-label={t("Страницы")} className="mt-16 flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:mt-20">
           <PageArrow dir="prev" disabled={page === 1} onClick={() => goTo(page - 1)} />
           {pageList(page, pages).map((n, i) =>
             n === "…" ? (
@@ -257,7 +252,7 @@ export function CatalogGrid({
                 type="button"
                 onClick={() => goTo(n)}
                 aria-current={n === page ? "page" : undefined}
-                aria-label={`Страница ${n}`}
+                aria-label={t("Страница {n}", { n })}
                 className={`flex h-9 min-w-[30px] items-center justify-center rounded-sm px-2 text-base-s transition-colors ${
                   n === page ? "bg-primary text-white" : "border border-line-light hover:border-primary"
                 }`}
@@ -280,7 +275,7 @@ function PageArrow({ dir, disabled, onClick }: { dir: "prev" | "next"; disabled:
       type="button"
       onClick={onClick}
       disabled={disabled}
-      aria-label={dir === "prev" ? "Предыдущая страница" : "Следующая страница"}
+      aria-label={dir === "prev" ? t("Предыдущая страница") : t("Следующая страница")}
       className="flex size-9 items-center justify-center rounded-sm border border-line-light bg-white text-tertiary transition-colors enabled:hover:border-primary enabled:hover:text-primary disabled:opacity-40"
     >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

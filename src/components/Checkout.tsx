@@ -30,6 +30,7 @@ import {
 import { ArrowRight, ChevronLeft, ChevronRight, CloseIcon } from "./icons";
 import { Button, CdekLogo, ChoiceChip, InfoCard, Radio, TextField } from "./ui";
 import { delivery as deliveryTerms } from "@/data/delivery";
+import { t, plural, isEn } from "@/lib/i18n";
 
 const PROMO: Record<string, number> = { FIRST5: 5 }; // промокод → скидка в процентах
 const TIMES = ["9:00–12:00", "12:00–18:00", "18:00–21:00"];
@@ -44,17 +45,11 @@ type Panel =
   | { kind: "card" };
 
 /** «1 товар», «3 товара», «15 товаров» */
-function itemsWord(n: number) {
-  const m10 = n % 10;
-  const m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return `${n} товар`;
-  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return `${n} товара`;
-  return `${n} товаров`;
-}
+const itemsWord = (n: number) => plural(n, ["товар", "товара", "товаров"], ["item", "items"]);
 
 /** ближайшие 10 дней доставки начиная с завтра: «13 апреля, пн» */
 function nextDays() {
-  const fmt = new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long", weekday: "short" });
+  const fmt = new Intl.DateTimeFormat(isEn ? "en-GB" : "ru-RU", { day: "numeric", month: "long", weekday: "short" });
   return Array.from({ length: 10 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + i + 1);
@@ -70,7 +65,7 @@ function Step({ title, children }: { title: string; children: ReactNode }) {
   return (
     // новый блок мягко выплывает, когда заполнен предыдущий
     <section className="flex animate-[dropdown-in_300ms_ease-out] flex-col gap-4">
-      <h2 className="text-h4">{title}</h2>
+      <h2 className="text-h4">{t(title)}</h2>
       {children}
     </section>
   );
@@ -129,7 +124,7 @@ export function Checkout() {
       setPromoError(undefined);
       setPromoOpen(false);
     } else {
-      setPromoError("Такого промокода нет");
+      setPromoError(t("Такого промокода нет"));
     }
   };
 
@@ -196,10 +191,10 @@ export function Checkout() {
     return (
       <div className="flex flex-col items-start gap-6 pt-8 pb-20">
         <p className="text-base-s text-secondary">
-          Корзина пустая, а оформлять пустоту мы пока не научились. Загляните в каталог!
+          {t("Корзина пустая, а оформлять пустоту мы пока не научились. Загляните в каталог!")}
         </p>
         <Button href="/catalog" size="M">
-          в каталог
+          {t("в каталог")}
         </Button>
       </div>
     );
@@ -210,9 +205,9 @@ export function Checkout() {
       {order ? (
         // после оформления корзина пуста — вместо формы спокойное «спасибо»
         <div className="flex flex-col items-start gap-6 pt-6 pb-20">
-          <p className="text-base-s">Ура, заказ {order} оформлен! Скоро свяжемся, чтобы всё подтвердить.</p>
+          <p className="text-base-s">{t("Ура, заказ {order} оформлен! Скоро свяжемся, чтобы всё подтвердить.", { order })}</p>
           <Button href="/catalog" size="M">
-            в каталог
+            {t("в каталог")}
           </Button>
         </div>
       ) : (
@@ -223,19 +218,18 @@ export function Checkout() {
               {contact ? (
                 <InfoCard
                   title={contact.name}
-                  subtitle={`${contact.phone}, по ${contact.notify}`}
+                  subtitle={t("{phone}, по {notify}", { phone: contact.phone, notify: t(contact.notify) })}
                   onEdit={() => setPanel({ kind: "contact" })}
-                  editLabel="Изменить контакты"
+                  editLabel={t("Изменить контакты")}
                 />
               ) : (
                 <>
                   <p className="text-base-s">
-                    Чтобы оформить заказ, войдите в личный кабинет или зарегистрируйтесь — это быстрее, чем выбрать
-                    оттенок тинта.
+                    {t("Чтобы оформить заказ, войдите в личный кабинет или зарегистрируйтесь — это быстрее, чем выбрать оттенок тинта.")}
                   </p>
                   {/* входа по почте пока нет — «Войти» открывает панель контактов; потом поведёт во вход */}
                   <Button size="M" className={darkButton} onClick={() => setPanel({ kind: "contact" })}>
-                    войти
+                    {t("войти")}
                   </Button>
                 </>
               )}
@@ -244,14 +238,14 @@ export function Checkout() {
             {contact && (
               <Step title="Адрес доставки">
                 {!address && (
-                  <p className="text-base-s">Куда везём? Курьером до двери или в пункт выдачи — как удобнее.</p>
+                  <p className="text-base-s">{t("Куда везём? Курьером до двери или в пункт выдачи — как удобнее.")}</p>
                 )}
                 <div className="flex flex-wrap gap-6">
                   <Radio name="method" checked={kind === "courier"} onChange={() => switchMethod("courier")}>
-                    Курьером
+                    {t("Курьером")}
                   </Radio>
                   <Radio name="method" checked={kind === "pickup"} onChange={() => switchMethod("pickup")}>
-                    Пункт выдачи
+                    {t("Пункт выдачи")}
                   </Radio>
                 </div>
                 {address ? (
@@ -266,16 +260,16 @@ export function Checkout() {
                           onClick={() => setPanel({ kind: "address", tab: "pickup", edit: address })}
                           className="text-caps underline underline-offset-2 transition-colors hover:text-accent"
                         >
-                          подробнее о пункте
+                          {t("подробнее о пункте")}
                         </button>
                       ) : undefined
                     }
                     onEdit={() => chooseAddress()}
-                    editLabel="Изменить адрес"
+                    editLabel={t("Изменить адрес")}
                   />
                 ) : (
                   <Button size="M" className={darkButton} onClick={() => chooseAddress()}>
-                    выбрать адрес
+                    {t("выбрать адрес")}
                   </Button>
                 )}
               </Step>
@@ -287,17 +281,17 @@ export function Checkout() {
               <section className="flex animate-[dropdown-in_300ms_ease-out] flex-col gap-3">
                 <div className="flex flex-col gap-2">
                   <h2 className="text-h4">
-                    {address.kind === "courier" ? "Дата и время доставки" : "Дата и время получения"}
+                    {address.kind === "courier" ? t("Дата и время доставки") : t("Дата и время получения")}
                   </h2>
                   <p className="text-base-s">
                     {address.kind === "courier"
-                      ? "Выберите день и время, когда вы дома. За день до доставки пришлём СМС-напоминание."
-                      : "Выберите, когда удобно забрать заказ. Пришлём СМС, как только он приедет в пункт."}
+                      ? t("Выберите день и время, когда вы дома. За день до доставки пришлём СМС-напоминание.")
+                      : t("Выберите, когда удобно забрать заказ. Пришлём СМС, как только он приедет в пункт.")}
                   </p>
                 </div>
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col gap-1">
-                    <p className="text-base-xs text-tertiary">Дата</p>
+                    <p className="text-base-xs text-tertiary">{t("Дата")}</p>
                     {/* ряд дат прокручивается; стрелки по краям листают на 240 px */}
                     <div className="relative">
                       <div
@@ -315,7 +309,7 @@ export function Checkout() {
                         <button
                           type="button"
                           onClick={() => daysRow.current?.scrollBy({ left: -240, behavior: "smooth" })}
-                          aria-label="Предыдущие даты"
+                          aria-label={t("Предыдущие даты")}
                           className="absolute top-1.5 flex size-6 items-center justify-center rounded-sm border border-line bg-white shadow-[1px_1px_2.5px_rgb(0_0_0/0.25)] transition-colors hover:border-primary left-0 animate-[fade-in_200ms_ease-out]"
                         >
                           <ChevronLeft className="size-4" />
@@ -325,7 +319,7 @@ export function Checkout() {
                         <button
                           type="button"
                           onClick={() => daysRow.current?.scrollBy({ left: 240, behavior: "smooth" })}
-                          aria-label="Следующие даты"
+                          aria-label={t("Следующие даты")}
                           className="absolute top-1.5 flex size-6 items-center justify-center rounded-sm border border-line bg-white shadow-[1px_1px_2.5px_rgb(0_0_0/0.25)] transition-colors hover:border-primary right-0"
                         >
                           <ChevronRight className="size-4" />
@@ -334,7 +328,7 @@ export function Checkout() {
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <p className="text-base-xs text-tertiary">Время</p>
+                    <p className="text-base-xs text-tertiary">{t("Время")}</p>
                     <div className="flex flex-wrap gap-2">
                       {TIMES.map((t, i) => (
                         <ChoiceChip key={t} selected={time === i} onClick={() => setTime(i)}>
@@ -352,16 +346,16 @@ export function Checkout() {
                 {payment ? (
                   <InfoCard
                     leading={<CardBadge system={card ? cardLetter(card) : "СБП"} />}
-                    title={card ? cardTitle(card) : "СБП"}
-                    subtitle={card ? `•• ${card.last4}` : "Оплата через приложение вашего банка"}
+                    title={card ? cardTitle(card) : t("СБП")}
+                    subtitle={card ? `•• ${card.last4}` : t("Оплата через приложение вашего банка")}
                     onEdit={() => setPanel({ kind: "payment" })}
-                    editLabel="Изменить способ оплаты"
+                    editLabel={t("Изменить способ оплаты")}
                   />
                 ) : (
                   <>
-                    <p className="text-base-s">Картой или по СБП — выбирайте, как привычнее.</p>
+                    <p className="text-base-s">{t("Картой или по СБП — выбирайте, как привычнее.")}</p>
                     <Button size="M" className={darkButton} onClick={() => setPanel({ kind: "payment" })}>
-                      выбрать
+                      {t("выбрать")}
                     </Button>
                   </>
                 )}
@@ -371,15 +365,15 @@ export function Checkout() {
             {payment && (
               <Step title="Дополнительно">
                 <TextField
-                  label="Комментарий к заказу"
+                  label={t("Комментарий к заказу")}
                   value={comment}
                   onChange={setComment}
                   onClear={() => setComment("")}
                 />
                 <p className="text-base-s">
-                  Нажимая «Оплатить», вы соглашаетесь с{" "}
+                  {t("Нажимая «Оплатить», вы соглашаетесь с")}{" "}
                   <Link href="#" className="text-accent hover:underline">
-                    Офертой
+                    {t("Офертой")}
                   </Link>
                   .
                 </p>
@@ -390,14 +384,14 @@ export function Checkout() {
           {/* ---------- ваш заказ (липнет при прокрутке) ---------- */}
           <aside className="flex w-full flex-col gap-4 lg:sticky lg:top-[78px] lg:w-[408px]">
             <div className="flex items-center justify-between">
-              <h2 className="text-h4">Ваш заказ</h2>
+              <h2 className="text-h4">{t("Ваш заказ")}</h2>
               {!promoOpen && !promoApplied && (
                 <button
                   type="button"
                   onClick={() => setPromoOpen(true)}
                   className="text-caps underline underline-offset-2 transition-colors hover:text-accent"
                 >
-                  ввести промокод
+                  {t("ввести промокод")}
                 </button>
               )}
             </div>
@@ -411,25 +405,25 @@ export function Checkout() {
               </li>
               {address && (
                 <li className="flex justify-between gap-4">
-                  <span>Доставка</span>
-                  <span>{delivery ? `+ ${rub(delivery)}` : "бесплатно"}</span>
+                  <span>{t("Доставка")}</span>
+                  <span>{delivery ? `+ ${rub(delivery)}` : t("бесплатно")}</span>
                 </li>
               )}
               {personal > 0 && (
                 <li className="flex justify-between gap-4">
-                  <span>Персональная скидка – {loyalty.discount}%</span>
+                  <span>{t("Персональная скидка – {n}%", { n: loyalty.discount })}</span>
                   <span>– {rub(personal)}</span>
                 </li>
               )}
               {promoApplied && (
                 <li className="flex justify-between gap-4">
-                  <span>Скидка по промокоду – {PROMO[promoApplied]}%</span>
+                  <span>{t("Скидка по промокоду – {n}%", { n: PROMO[promoApplied] })}</span>
                   <span className="flex items-center gap-1">
                     – {rub(promoDiscount)}
                     <button
                       type="button"
                       onClick={() => setPromoApplied(undefined)}
-                      aria-label="Убрать промокод"
+                      aria-label={t("Убрать промокод")}
                       className="-mr-1 flex size-6 items-center justify-center transition-colors hover:text-accent"
                     >
                       <CloseIcon className="size-4" />
@@ -441,7 +435,7 @@ export function Checkout() {
 
             {promoOpen && !promoApplied && (
               <TextField
-                label="Промокод"
+                label={t("Промокод")}
                 value={promo}
                 onChange={(v) => {
                   setPromo(v);
@@ -453,7 +447,7 @@ export function Checkout() {
                     <button
                       type="button"
                       onClick={applyPromo}
-                      aria-label="Применить промокод"
+                      aria-label={t("Применить промокод")}
                       className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-accent"
                     >
                       <ArrowRight className="size-4" />
@@ -464,7 +458,7 @@ export function Checkout() {
             )}
 
             <div className="flex items-center justify-between gap-4">
-              <span className="text-base-s">Итоговая сумма</span>
+              <span className="text-base-s">{t("Итоговая сумма")}</span>
               <span className="text-h2 max-md:text-[20px]">{rub(total)}</span>
             </div>
 
@@ -474,16 +468,15 @@ export function Checkout() {
               disabled={!ready}
               className="h-[52px] rounded-xs bg-primary text-caps text-white transition-colors hover:bg-primary/85 disabled:bg-tertiary disabled:text-line-light"
             >
-              оплатить
+              {t("оплатить")}
             </button>
             {!ready && (
               <p className="text-base-xs text-secondary">
                 {!contact
-                  ? "Войдите или добавьте контакты"
+                  ? t("Войдите или добавьте контакты, чтобы оформить заказ.")
                   : !address
-                    ? "Выберите адрес доставки"
-                    : "Выберите способ оплаты"}
-                , чтобы оформить заказ.
+                    ? t("Выберите адрес доставки, чтобы оформить заказ.")
+                    : t("Выберите способ оплаты, чтобы оформить заказ.")}
               </p>
             )}
           </aside>
@@ -565,7 +558,7 @@ export function Checkout() {
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
           <button
             type="button"
-            aria-label="Закрыть"
+            aria-label={t("Закрыть")}
             tabIndex={-1}
             onClick={() => setOrder(undefined)}
             className="absolute inset-0 animate-[fade-in_200ms_ease-out] bg-primary/40"
@@ -579,17 +572,18 @@ export function Checkout() {
             <button
               type="button"
               onClick={() => setOrder(undefined)}
-              aria-label="Закрыть"
+              aria-label={t("Закрыть")}
               className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
             >
               <CloseIcon />
             </button>
             <h2 id="order-done-title" className="pr-12 text-h3">
-              Заказ оформлен
+              {t("Заказ оформлен")}
             </h2>
             <p className="text-base-s">
-              Номер заказа {order}. Скоро позвоним или напишем, чтобы всё подтвердить, и будем держать в курсе
-              {contact ? ` через ${contact.notify}` : ""}.
+              {contact
+                ? t("Номер заказа {order}. Скоро позвоним или напишем, чтобы всё подтвердить, и будем держать в курсе через {notify}.", { order: order ?? "", notify: t(contact.notify) })
+                : t("Номер заказа {order}. Скоро позвоним или напишем, чтобы всё подтвердить, и будем держать в курсе.", { order: order ?? "" })}
             </p>
             {/* девочка с пакетами (Figma: order paid 10699:14269) — видео играет один раз; блёстки — статичные картинки */}
             <div aria-hidden="true" className="relative mx-auto w-full max-w-[400px]">
@@ -605,7 +599,7 @@ export function Checkout() {
               <Image src="/img/account/order-sparkle-left-06ed5b.webp" alt="" width={39} height={46} className="absolute top-[60%] -left-[7%] h-auto w-[10%]" />
             </div>
             <Button href="/catalog" size="M" className="self-end bg-primary text-white hover:bg-primary/85">
-              вернуться в каталог
+              {t("вернуться в каталог")}
             </Button>
           </div>
         </div>

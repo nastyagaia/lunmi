@@ -4,13 +4,14 @@ import Link from "next/link";
 import { AccountShell } from "@/components/AccountShell";
 import { FaqList } from "@/components/FaqList";
 import { MailIcon, TelegramIcon, WhatsappIcon } from "@/components/icons";
+import { t } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "Поддержка — Lunmi", robots: { index: false } };
+export const metadata: Metadata = { title: `${t("Поддержка")} — Lunmi`, robots: { index: false } };
 
 const ways = [
   { label: "Whatsapp", href: "#", icon: <WhatsappIcon className="size-6" /> },
   { label: "Telegram", href: "#", icon: <TelegramIcon className="size-6" /> },
-  { label: "Почта", href: "#", icon: <MailIcon /> },
+  { label: t("Почта"), href: "#", icon: <MailIcon /> },
 ];
 
 export default function HelpPage() {
@@ -19,8 +20,8 @@ export default function HelpPage() {
       <div className="flex flex-col gap-[50px]">
         <section className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <h1 className="text-h2">Поддержка</h1>
-            <p className="text-base-s">Пишите, как вам удобнее, — ответим в течение дня, а то и быстрее:</p>
+            <h1 className="text-h2">{t("Поддержка")}</h1>
+            <p className="text-base-s">{t("Пишите, как вам удобнее, — ответим в течение дня, а то и быстрее:")}</p>
           </div>
           <ul className="grid gap-2 sm:grid-cols-3">
             {ways.map((w) => (
@@ -37,7 +38,7 @@ export default function HelpPage() {
           </ul>
         </section>
         <section className="flex flex-col gap-6">
-          <h2 className="text-h2">Популярные вопросы</h2>
+          <h2 className="text-h2">{t("Популярные вопросы")}</h2>
           <FaqList />
         </section>
       </div>

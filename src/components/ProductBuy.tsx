@@ -5,7 +5,7 @@
 // После «В корзину» кнопка превращается в счётчик «− 1 +» (Figma: Frame 21289). На нуле — снова кнопка.
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { brandSlug } from "@/data/brands";
+import { brandSlug } from "@/lib/brand-slug";
 import { rememberViewed } from "@/lib/account";
 import type { ProductDetails } from "@/data/products";
 import { priceToNumber, useCart } from "./Cart";
@@ -13,15 +13,10 @@ import { HeartIcon, MinusIcon, QuantityPlusIcon, StarIcon } from "./icons";
 import { Tag } from "./ui";
 import { useFavorites } from "./Favorites";
 import { useShade } from "./ProductShade";
+import { t, plural, priceLabel } from "@/lib/i18n";
 
 /** «1 отзыв», «3 отзыва», «5 отзывов» */
-function reviewsWord(n: number) {
-  const m10 = n % 10;
-  const m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return `${n} отзыв`;
-  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return `${n} отзыва`;
-  return `${n} отзывов`;
-}
+const reviewsWord = (n: number) => plural(n, ["отзыв", "отзыва", "отзывов"], ["review", "reviews"]);
 
 /** Начало названия, совпадающее с брендом («CLIO»; у «VT Cosmetics» — «VT», у «Tony Moly» — «TONYMOLY») — оно станет ссылкой на бренд */
 function brandPrefix(name: string, brand?: string) {
@@ -94,7 +89,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           )}
           {product.rating && (
             <div className="flex items-center gap-2 text-base-s text-secondary">
-              <span className="flex items-center gap-1" aria-label={`Рейтинг ${product.rating}`}>
+              <span className="flex items-center gap-1" aria-label={t("Рейтинг {r}", { r: product.rating })}>
                 {product.rating}
                 <StarIcon className="size-4 text-accent" />
               </span>
@@ -126,7 +121,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
         {/* Color Container: кружки 30 px через 6 px, выбранный — с тёмным кольцом; нет в наличии — перечёркнут */}
         {product.shades && (
           <div className="flex flex-col gap-1.5 pb-1">
-            <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Оттенок">
+            <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label={t("Оттенок")}>
               {product.shades.map((s) => {
                 const selected = s.name === shade;
                 const available = s.available !== false;
@@ -136,7 +131,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
                     type="button"
                     role="radio"
                     aria-checked={selected}
-                    aria-label={available ? s.name : `${s.name} — нет в наличии`}
+                    aria-label={available ? s.name : t("{name} — нет в наличии", { name: s.name })}
                     onClick={() => setShade(s.name)}
                     className={`relative size-[30px] rounded-full border transition-colors ${
                       selected ? "border-primary" : "border-transparent hover:border-line"
@@ -161,7 +156,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
 
         {/* Size Container: выбранный объём подчёркнут, остальные серые */}
         {product.volumes && (
-          <div className="flex gap-4 text-base-s" role="radiogroup" aria-label="Объём">
+          <div className="flex gap-4 text-base-s" role="radiogroup" aria-label={t("Объём")}>
             {product.volumes.map((v) => (
               <button
                 key={v.name}
@@ -182,11 +177,11 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
         )}
 
         {soldOut ? (
-          <p className="text-base-m">Не в наличии</p>
+          <p className="text-base-m">{t("Не в наличии")}</p>
         ) : (
           <p className="text-base-m">
-            {price}
-            {oldPrice && <s className="ml-2 text-secondary">{oldPrice}</s>}
+            {priceLabel(price)}
+            {oldPrice && <s className="ml-2 text-secondary">{priceLabel(oldPrice)}</s>}
           </p>
         )}
       </div>
@@ -201,7 +196,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
             aria-live="polite"
             className="h-10 w-full max-w-[304px] rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white"
           >
-            {shade && notify.includes(shade) ? "сообщим, когда появится" : "узнать о поступлении"}
+            {shade && notify.includes(shade) ? t("сообщим, когда появится") : t("узнать о поступлении")}
           </button>
         ) : qty === 0 ? (
           <button
@@ -209,7 +204,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
             onClick={addOne}
             className="h-10 w-full max-w-[304px] rounded-xs bg-primary text-caps text-white transition-colors hover:bg-primary/85"
           >
-            в корзину
+            {t("в корзину")}
           </button>
         ) : (
           // счётчик из UI KIT (Figma 5886:30118): кнопки 36 px через 24 px, цифра Base/M
@@ -217,7 +212,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
             <button
               type="button"
               onClick={() => cart.setQty(key, qty - 1)}
-              aria-label="Убрать одну штуку"
+              aria-label={t("Убрать одну штуку")}
               className="flex size-9 items-center justify-center transition-opacity hover:opacity-70"
             >
               <MinusIcon className="size-6" />
@@ -228,7 +223,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
             <button
               type="button"
               onClick={addOne}
-              aria-label="Добавить ещё одну"
+              aria-label={t("Добавить ещё одну")}
               className="flex size-9 items-center justify-center transition-opacity hover:opacity-70"
             >
               <QuantityPlusIcon className="size-6" />
@@ -239,7 +234,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           type="button"
           onClick={() => favorites.toggle(card)}
           aria-pressed={liked}
-          aria-label={liked ? "Убрать из избранного" : "В избранное"}
+          aria-label={liked ? t("Убрать из избранного") : t("В избранное")}
           className="group/heart flex size-10 shrink-0 items-center justify-center"
         >
           {/* иконка 32 px: линия 1.5 × 24/32, чтобы на экране была ровно 1.5 px, как у остальных иконок */}
