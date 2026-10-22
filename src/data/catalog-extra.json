@@ -1199,6 +1199,96 @@
       ]
     },
     {
+      "id": "elizavecca-galactomyces-ample",
+      "href": "/product/elizavecca-galactomyces-ample",
+      "category": "Уход для лица",
+      "type": "Сыворотки и ампулы",
+      "also": [
+        [
+          "Glow-skin",
+          "Сияние кожи"
+        ]
+      ],
+      "brand": "Elizavecca",
+      "name": "Elizavecca Witch Piggy Hell-Pore Galactomyces Pure Ample",
+      "title": "Elizavecca Galactomyces Pure Ample",
+      "description": "Ампула с галактомисисом для сияния и ровного тона, 50 мл",
+      "price": "1 290 ₽",
+      "image": "/img/catalog/elizavecca-galactomyces-ample-1-600-20ea53.webp",
+      "images": [
+        "/img/catalog/elizavecca-galactomyces-ample-1-1200-0ff40a.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/elizavecca-galactomyces-ample-1-600-20ea53.webp"
+      ]
+    },
+    {
+      "id": "elizavecca-wine-peeling-pad",
+      "href": "/product/elizavecca-wine-peeling-pad",
+      "category": "Уход для лица",
+      "type": "Пэды и патчи",
+      "also": [
+        [
+          "Glow-skin",
+          "Уход за порами"
+        ]
+      ],
+      "brand": "Elizavecca",
+      "name": "Elizavecca Milky Piggy Hell-Pore Perfect Wine Sparkling Peeling Pad",
+      "title": "Elizavecca Wine Peeling Pad",
+      "description": "Пилинг-пэды с винными экстрактами для пор",
+      "price": "1 490 ₽",
+      "image": "/img/catalog/elizavecca-wine-peeling-pad-1-600-cd7531.webp",
+      "images": [
+        "/img/catalog/elizavecca-wine-peeling-pad-1-1200-3fcf69.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/elizavecca-wine-peeling-pad-1-600-cd7531.webp"
+      ]
+    },
+    {
+      "id": "erborian-centella-cleansing-gel",
+      "href": "/product/erborian-centella-cleansing-gel",
+      "category": "Уход для лица",
+      "type": "Очищение",
+      "brand": "Erborian",
+      "name": "Erborian Centella Cleansing Gel",
+      "title": "Erborian Centella Cleansing Gel",
+      "description": "Мягкий гель для умывания с центеллой, 180 мл",
+      "price": "2 490 ₽",
+      "image": "/img/catalog/erborian-centella-cleansing-gel-1-600-837ef8.webp",
+      "images": [
+        "/img/catalog/erborian-centella-cleansing-gel-1-1200-0f05d1.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/erborian-centella-cleansing-gel-1-600-837ef8.webp"
+      ]
+    },
+    {
+      "id": "erborian-centella-barrier-cream",
+      "href": "/product/erborian-centella-barrier-cream",
+      "category": "Уход для лица",
+      "type": "Кремы",
+      "also": [
+        [
+          "Glow-skin",
+          "Восстановление барьера"
+        ]
+      ],
+      "brand": "Erborian",
+      "name": "Erborian Centella Barrier Cream",
+      "title": "Erborian Centella Barrier Cream",
+      "description": "Восстанавливающий крем с центеллой и керамидами, 50 мл",
+      "price": "3 290 ₽",
+      "image": "/img/catalog/erborian-centella-barrier-cream-1-600-40113b.webp",
+      "images": [
+        "/img/catalog/erborian-centella-barrier-cream-1-1200-207322.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/erborian-centella-barrier-cream-1-600-40113b.webp"
+      ]
+    },
+    {
       "id": "elizavecca-piggy-collagen",
       "href": "/product/elizavecca-piggy-collagen",
       "category": "Уход для лица",
@@ -5840,6 +5930,24 @@
       ],
       "thumbs": [
         "/img/catalog/medicube-age-r-booster-pro-mini-1-600-8a3860.webp"
+      ]
+    },
+    {
+      "id": "medicube-age-r-booster-h",
+      "href": "/product/medicube-age-r-booster-h",
+      "category": "Бьюти-гаджеты",
+      "type": "Аппараты для лица",
+      "brand": "Medicube",
+      "name": "Medicube Age-R Booster H",
+      "title": "Medicube Age-R Booster H",
+      "description": "Прибор для увлажнения и сияния кожи",
+      "price": "17 990 ₽",
+      "image": "/img/catalog/medicube-age-r-booster-h-1-600-952eea.webp",
+      "images": [
+        "/img/catalog/medicube-age-r-booster-h-1-1200-3987cf.webp"
+      ],
+      "thumbs": [
+        "/img/catalog/medicube-age-r-booster-h-1-600-952eea.webp"
       ]
     },
     {

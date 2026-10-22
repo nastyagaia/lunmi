@@ -13,6 +13,7 @@ const B = "Для тела/";
 const H = "Для волос/Product/";
 const S = "Для загара/";
 const S2 = "Для загара/новые 22.10/";
+const EE = "уход для лица/Elizavecca и Erborian 22.10/";
 const T = "Бьюти-гаджеты/";
 const MD = "Бьюти-гаджеты/Medicube новые 19.10/";
 const G2 = "Бьюти-гаджеты/новые 21.10/";
@@ -84,6 +85,11 @@ export const extraProducts = [
   { id: "dr-althea-pore-cleansing-oil", category: FACE, type: "Очищение", brand: "Dr.Althea", name: "Dr.Althea Gentle Pore Cleansing Oil", title: "Dr.Althea Pore Cleansing Oil", description: "Лёгкое гидрофильное масло для очищения пор, 150 мл", price: 1890, files: [DA + "Gentle_Pore_Cleansing_Oil.png"] },
   { id: "dr-althea-grinding-cleansing-balm", category: FACE, type: "Очищение", brand: "Dr.Althea", name: "Dr.Althea Pure Grinding Cleansing Balm", title: "Dr.Althea Pure Grinding Balm", description: "Очищающий бальзам с центеллой, 50 мл", price: 1790, files: [DA + "Pure_Grinding_Cleansing_Balm_1.png", DA + "Pure_Grinding_Cleansing_Balm_2.png"] },
   { id: "dr-althea-vitamin-c-serum", category: FACE, type: "Сыворотки и ампулы", also: [[GLOW, "Сияние кожи"]], brand: "Dr.Althea", name: "Dr.Althea Vitamin C Boosting Serum", title: "Dr.Althea Vitamin C Serum", description: "Сыворотка с облепихой для сияния, 30 мл", price: 2290, files: [DA + "Vitamin_C_Boosting_Serum_1.png", DA + "Vitamin_C_Boosting_Serum_2.png"] },
+  // Elizavecca и Erborian — фото от Насти 22.10.2026
+  { id: "elizavecca-galactomyces-ample", category: FACE, type: "Сыворотки и ампулы", also: [[GLOW, "Сияние кожи"]], brand: "Elizavecca", name: "Elizavecca Witch Piggy Hell-Pore Galactomyces Pure Ample", title: "Elizavecca Galactomyces Pure Ample", description: "Ампула с галактомисисом для сияния и ровного тона, 50 мл", price: 1290, files: [EE + "Elizavecca_Galactomyces_Ample.png"] },
+  { id: "elizavecca-wine-peeling-pad", category: FACE, type: "Пэды и патчи", also: [[GLOW, "Уход за порами"]], brand: "Elizavecca", name: "Elizavecca Milky Piggy Hell-Pore Perfect Wine Sparkling Peeling Pad", title: "Elizavecca Wine Peeling Pad", description: "Пилинг-пэды с винными экстрактами для пор", price: 1490, files: [EE + "Elizavecca_Wine_Peeling_Pad.png"] },
+  { id: "erborian-centella-cleansing-gel", category: FACE, type: "Очищение", brand: "Erborian", name: "Erborian Centella Cleansing Gel", title: "Erborian Centella Cleansing Gel", description: "Мягкий гель для умывания с центеллой, 180 мл", price: 2490, files: [EE + "Erborian_Centella_Cleansing_Gel.png"] },
+  { id: "erborian-centella-barrier-cream", category: FACE, type: "Кремы", also: [[GLOW, "Восстановление барьера"]], brand: "Erborian", name: "Erborian Centella Barrier Cream", title: "Erborian Centella Barrier Cream", description: "Восстанавливающий крем с центеллой и керамидами, 50 мл", price: 3290, files: [EE + "Erborian_Centella_Barrier_Cream.png"] },
   { id: "elizavecca-piggy-collagen", category: FACE, type: "Маски", also: [[AGE, "Коллаген"]], brand: "Elizavecca", name: "Elizavecca Green Piggy Collagen Jella Pack", title: "Elizavecca Piggy Collagen Pack", description: "Коллагеновая маска-желе", price: 990, files: [A + "Elizavecca Green Piggy Collagen Jella Pack.png"] },
 
   // ---------- для тела ----------
@@ -408,6 +414,7 @@ export const extraProducts = [
   { id: "medicube-age-r-booster-pro", category: "Бьюти-гаджеты", type: "Микротоки", also: [[HITS, "Тренды Тиктока"]], brand: "Medicube", name: "Medicube Age-R Booster Pro Black", title: "Medicube Age-R Booster Pro, чёрный", description: "Аппарат 6 в 1: микротоки, EMS, электропорация", price: 24990, discount: "10%", hit: true, rating: "4.8", files: [T + "Medicube_AGE-R_Booster_Pro.png"] },
   { id: "medicube-age-r-booster-pro-pink", category: "Бьюти-гаджеты", type: "Микротоки", also: [[HITS, "Тренды Тиктока"]], brand: "Medicube", name: "Medicube Age-R Booster Pro Pink", title: "Medicube Age-R Booster Pro, розовый", description: "Аппарат 6 в 1: микротоки, EMS, электропорация", price: 24990, discount: "10%", hit: true, rating: "4.8", files: [MD + "device_3.png", T + "Medicube_AGE-R_Booster_Pro_Pink.png"] },
   { id: "medicube-age-r-booster-pro-mini", category: "Бьюти-гаджеты", type: "Аппараты для лица", brand: "Medicube", name: "Medicube Age-R Booster Pro Mini", title: "Medicube Age-R Booster Pro Mini", description: "Компактный прибор для сияния и упругости кожи", price: 12990, files: [MD + "device_4.png"] },
+  { id: "medicube-age-r-booster-h", category: "Бьюти-гаджеты", type: "Аппараты для лица", brand: "Medicube", name: "Medicube Age-R Booster H", title: "Medicube Age-R Booster H", description: "Прибор для увлажнения и сияния кожи", price: 17990, files: [MD + "device_1.png"] },
   { id: "medicube-age-r-ultra-tune", category: "Бьюти-гаджеты", type: "RF-лифтинг", also: [[HITS, "Тренды в Корее"]], brand: "Medicube", name: "Medicube Age-R Ultra Tune 40.68", title: "Medicube Age-R Ultra Tune 40.68", description: "Прибор 2 в 1 для лифтинга и упругости кожи", price: 29990, files: [MD + "device_2.png"] },
   { id: "medicube-age-r-booster-v-roller", category: "Бьюти-гаджеты", type: "EMS", brand: "Medicube", name: "Medicube Age-R Booster V Roller Mini Plus", title: "Medicube Age-R Booster V Roller Mini Plus", description: "Набор: EMS-ролик для чёткого овала и мини-бустер", price: 15990, files: [MD + "v_roller.png", MD + "device_6.png"] },
   // корейские гаджеты (фото с сайтов брендов, 21.10.2026 — перед запуском заменить на фото поставщика)
