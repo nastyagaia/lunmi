@@ -17,6 +17,7 @@ import {
   addressSubtitle,
   addressTitle,
   CardBadge,
+  cardLetter,
   cardTitle,
   ContactDrawer,
   PaymentDrawer,
@@ -350,7 +351,7 @@ export function Checkout() {
               <Step title="Способ оплаты">
                 {payment ? (
                   <InfoCard
-                    leading={<CardBadge system={card ? card.system : "СБП"} />}
+                    leading={<CardBadge system={card ? cardLetter(card) : "СБП"} />}
                     title={card ? cardTitle(card) : "СБП"}
                     subtitle={card ? `•• ${card.last4}` : "Оплата через приложение вашего банка"}
                     onEdit={() => setPanel({ kind: "payment" })}

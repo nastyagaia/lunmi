@@ -411,11 +411,14 @@ export function CardBadge({ system }: { system: string }) {
   if (system === "СБП")
     return <Image src="/img/sbp-logo.webp" alt="" width={30} height={30} className="size-[30px] shrink-0 rounded-full" />;
   return (
-    <span className="flex h-[30px] min-w-[30px] shrink-0 items-center justify-center rounded-full bg-accent-soft px-2 text-[9px] leading-none font-bold text-primary uppercase">
+    <span className="flex size-[30px] shrink-0 items-center justify-center rounded-full bg-accent-soft text-base-s leading-none font-bold text-primary uppercase">
       {system}
     </span>
   );
 }
+
+/** Буква в кружке карты: первая буква банка («С» — Сбербанк, «Т» — Т-Банк), банк не определился — «К» (карта) */
+export const cardLetter = (c: SavedCard) => (c.bank ?? "К")[0];
 
 export function PaymentDrawer({
   cards,
@@ -454,7 +457,7 @@ export function PaymentDrawer({
               name="payment"
               checked={value === c.id}
               onChange={() => setValue(c.id)}
-              leading={<CardBadge system={c.system} />}
+              leading={<CardBadge system={cardLetter(c)} />}
               title={cardTitle(c)}
               subtitle={`•• ${c.last4}`}
             />
