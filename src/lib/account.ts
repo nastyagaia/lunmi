@@ -6,6 +6,7 @@
 import type { Address, Contact } from "@/components/CheckoutDrawers";
 import type { Product } from "@/components/ProductCard";
 import { createStore } from "./persist";
+import { isEn } from "@/lib/i18n";
 
 export const contactStore = createStore<Contact | null>("lunmi-contact", null);
 export const addressStore = createStore<{ list: Address[]; selected?: string }>("lunmi-addresses", { list: [] });
@@ -85,8 +86,9 @@ export const productIdOf = (key: string) => key.split(":")[0];
 /** «20 апреля, 15:15» */
 export function formatDateTime(iso: string) {
   const d = new Date(iso);
-  const date = d.toLocaleDateString("ru-RU", { day: "numeric", month: "long" });
-  const time = d.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
+  const locale = isEn ? "en-GB" : "ru-RU";
+  const date = d.toLocaleDateString(locale, { day: "numeric", month: "long" });
+  const time = d.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
   return `${date} ${time}`;
 }
 

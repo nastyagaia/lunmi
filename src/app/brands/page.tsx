@@ -5,10 +5,11 @@ import { BrandList } from "@/components/BrandList";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { brandLetter, brands } from "@/data/brands";
+import { t } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Бренды — Lunmi",
-  description: "Корейские бренды косметики в Lunmi: от COSRX и Anua до Round Lab и Torriden.",
+  title: `${t("Бренды")} — Lunmi`,
+  description: t("Корейские бренды косметики в Lunmi: от COSRX и Anua до Round Lab и Torriden."),
 };
 
 export default function BrandsPage() {
@@ -21,7 +22,7 @@ export default function BrandsPage() {
         {/* photo bg — как в каталоге: фон surface 320 px, заголовок H1 слева снизу, фото 550 × 320 справа */}
         <section className="bg-surface">
           <div className="container-page flex h-[200px] items-end justify-between md:h-[320px]">
-            <h1 className="pb-8 text-h1 max-md:text-[28px] max-md:leading-[36px] md:pb-[50px]">Бренды</h1>
+            <h1 className="pb-8 text-h1 max-md:text-[28px] max-md:leading-[36px] md:pb-[50px]">{t("Бренды")}</h1>
             <div className="relative hidden h-full w-[min(550px,60%)] shrink-0 md:block xl:mr-[66px]">
               <Image src="/img/brands-hero.webp" alt="" fill priority sizes="550px" className="object-cover" />
             </div>

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { ChevronDown, CloseIcon, EditIcon } from "./icons";
+import { t } from "@/lib/i18n";
 
 type ButtonProps = {
   href?: string;
@@ -44,13 +45,13 @@ export function Button({ href, tone = "dark", size = "L", children, className = 
 export function SectionHeader({ title, href = "#" }: { title: ReactNode; href?: string | null }) {
   return (
     <div className="mb-6 flex items-center justify-between gap-4">
-      <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">{title}</h2>
+      <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">{typeof title === "string" ? t(title) : title}</h2>
       {href !== null && (
         <Link
           href={href}
           className="shrink-0 text-caps underline underline-offset-2 transition-colors hover:text-accent"
         >
-          показать все
+          {t("показать все")}
         </Link>
       )}
     </div>
@@ -115,7 +116,7 @@ export function FilterChip({
         <button
           type="button"
           onClick={onClear}
-          aria-label={`Сбросить фильтр «${label}»`}
+          aria-label={t("Сбросить фильтр «{label}»", { label })}
           className="flex cursor-pointer items-center gap-0.5 rounded-r-sm pr-2 pl-3 text-accent-300 transition-colors hover:text-white"
         >
           {count}
@@ -306,7 +307,7 @@ export function TextField({
           <button
             type="button"
             onClick={onClear}
-            aria-label={`Очистить поле «${label}»`}
+            aria-label={t("Очистить поле «{label}»", { label })}
             className="-mr-3 flex size-9 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
           >
             {/* close size=M из UI KIT: 24 × 24, в 6 px от края поля */}
@@ -341,7 +342,7 @@ export function SelectField({
     >
       <span className="flex min-w-0 flex-1 flex-col">
         <span className="text-base-xs text-tertiary">{label}</span>
-        <span className="truncate text-base-s">{value}</span>
+        <span className="truncate text-base-s">{t(value)}</span>
       </span>
       <ChevronDown className="size-6 shrink-0" />
       <select
@@ -351,7 +352,9 @@ export function SelectField({
         className="absolute inset-0 cursor-pointer opacity-0"
       >
         {options.map((o) => (
-          <option key={o}>{o}</option>
+          <option key={o} value={o}>
+            {t(o)}
+          </option>
         ))}
       </select>
     </label>
@@ -362,10 +365,10 @@ export function SelectField({
 export function CdekLogo() {
   return (
     <span
-      aria-label="СДЭК"
+      aria-label={t("СДЭК")}
       className="flex size-[30px] shrink-0 items-center justify-center rounded-full bg-[#1ab248] text-[8px] leading-none font-extrabold tracking-tight text-white italic"
     >
-      СДЭК
+      {t("СДЭК")}
     </span>
   );
 }
@@ -405,7 +408,7 @@ export function InfoCard({
   title,
   subtitle,
   onEdit,
-  editLabel = "Изменить",
+  editLabel = t("Изменить"),
   leading,
   extra,
 }: {
@@ -451,7 +454,7 @@ export function RadioCard({
   subtitle,
   leading,
   onEdit,
-  editLabel = "Изменить",
+  editLabel = t("Изменить"),
 }: {
   name: string;
   checked: boolean;

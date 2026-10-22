@@ -2,8 +2,9 @@
 import type { Metadata } from "next";
 import { AccountOrders } from "@/components/Account";
 import { AccountShell } from "@/components/AccountShell";
+import { t } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "Заказы — Lunmi", robots: { index: false } };
+export const metadata: Metadata = { title: `${t("Заказы")} — Lunmi`, robots: { index: false } };
 
 export default function OrdersPage() {
   return (

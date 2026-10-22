@@ -24,6 +24,7 @@ import { loyalty } from "@/data/loyalty";
 import { formatPhone } from "./CheckoutDrawers";
 import { ArrowLeft, CloseIcon } from "./icons";
 import { Button, Checkbox, Radio, TextField } from "./ui";
+import { t, plural } from "@/lib/i18n";
 
 /* ---------- открыть окно входа можно из любого места: openLogin() ---------- */
 let loginOpen = false;
@@ -69,7 +70,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
       <button
         type="button"
-        aria-label="Закрыть"
+        aria-label={t("Закрыть")}
         tabIndex={-1}
         onClick={onClose}
         className="absolute inset-0 animate-[fade-in_200ms_ease-out] bg-primary/40"
@@ -77,18 +78,18 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
       <div
         role="dialog"
         aria-modal="true"
-        aria-label={title}
+        aria-label={t(title)}
         className="relative flex max-h-full w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-6 overflow-y-auto rounded-xs bg-white p-8 shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)]"
       >
         <button
           type="button"
           onClick={onClose}
-          aria-label="Закрыть"
+          aria-label={t("Закрыть")}
           className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
         >
           <CloseIcon />
         </button>
-        <h2 className="pr-12 text-h2 max-md:text-[20px] max-md:leading-[26px]">{title}</h2>
+        <h2 className="pr-12 text-h2 max-md:text-[20px] max-md:leading-[26px]">{t(title)}</h2>
         {children}
       </div>
     </div>
@@ -120,12 +121,12 @@ function AboutYou({ by, onDone, onClose }: { by: "phone" | "email"; onDone: () =
   return (
     <Modal title="Давай знакомиться" onClose={onClose}>
       <div className="flex flex-col gap-5">
-        <TextField label="Твоё имя" value={name} onChange={setName} autoComplete="name" />
+        <TextField label={t("Твоё имя")} value={name} onChange={setName} autoComplete="name" />
         {by === "phone" ? (
           <TextField label="Email" value={extra} onChange={setExtra} type="email" autoComplete="email" />
         ) : (
           <TextField
-            label="Телефон"
+            label={t("Телефон")}
             value={extra}
             onChange={(v) => setExtra(formatPhone(v))}
             type="tel"
@@ -136,12 +137,12 @@ function AboutYou({ by, onDone, onClose }: { by: "phone" | "email"; onDone: () =
         <div className="flex gap-6">
           {(["Женщина", "Мужчина"] as const).map((g) => (
             <Radio key={g} name="about-gender" checked={gender === g} onChange={() => setGender(g)}>
-              {g}
+              {t(g)}
             </Radio>
           ))}
         </div>
         <Checkbox checked={news} onChange={() => setNews((v) => !v)}>
-          <span className="text-base-s">Хочу получать новости и специальные предложения.</span>
+          <span className="text-base-s">{t("Хочу получать новости и специальные предложения.")}</span>
         </Checkbox>
       </div>
       <Button
@@ -150,7 +151,7 @@ function AboutYou({ by, onDone, onClose }: { by: "phone" | "email"; onDone: () =
         onClick={save}
         className={`self-end ${darkButton} disabled:border-tertiary disabled:bg-tertiary`}
       >
-        создать аккаунт
+        {t("создать аккаунт")}
       </Button>
     </Modal>
   );
@@ -160,7 +161,7 @@ function Hello({ onClose }: { onClose: () => void }) {
   return (
     <Modal title="Привет!" onClose={onClose}>
       <p className="-mt-4 text-base-s">
-        Рады тебя видеть! Тебя ждёт приветственная скидка {loyalty.discount}%. Приятных покупок!
+        {t("Рады тебя видеть! Тебя ждёт приветственная скидка {n}%. Приятных покупок!", { n: loyalty.discount })}
       </p>
       {/* анимация коробочки-подарка (Figma: welcoome 10810:18558) — играет один раз и замирает на последнем кадре */}
       <video
@@ -172,7 +173,7 @@ function Hello({ onClose }: { onClose: () => void }) {
         className="mx-auto aspect-square w-full max-w-[450px]"
       />
       <Button href="/catalog" size="M" onClick={onClose} className={`self-end ${darkButton}`}>
-        за покупками
+        {t("за покупками")}
       </Button>
     </Modal>
   );
@@ -211,7 +212,7 @@ function CodeInput({ value, onChange, error }: { value: string; onChange: (v: st
         onChange={(e) => onChange(e.target.value.replace(/\D/g, "").slice(0, 4))}
         inputMode="numeric"
         autoComplete="one-time-code"
-        aria-label="Код из СМС"
+        aria-label={t("Код из СМС")}
         aria-invalid={error}
         className="absolute inset-0 bg-transparent text-transparent caret-transparent outline-none"
       />
@@ -220,13 +221,7 @@ function CodeInput({ value, onChange, error }: { value: string; onChange: (v: st
 }
 
 /** «через 20 секунд», «через 3 секунды», «через 1 секунду» */
-function secondsWord(n: number) {
-  const m10 = n % 10;
-  const m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return `${n} секунду`;
-  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return `${n} секунды`;
-  return `${n} секунд`;
-}
+const secondsWord = (n: number) => plural(n, ["секунду", "секунды", "секунд"], ["second", "seconds"]);
 
 /** Панель входа + окна после регистрации. Стоит один раз на весь сайт (в layout) */
 export function LoginLayer() {
@@ -326,7 +321,7 @@ export function LoginLayer() {
         <div className="fixed inset-0 z-[60] flex justify-end">
           <button
             type="button"
-            aria-label="Закрыть"
+            aria-label={t("Закрыть")}
             tabIndex={-1}
             onClick={close}
             className="absolute inset-0 animate-[fade-in_200ms_ease-out] bg-primary/40"
@@ -341,7 +336,7 @@ export function LoginLayer() {
               <button
                 type="button"
                 onClick={() => setStep("phone")}
-                aria-label="Назад"
+                aria-label={t("Назад")}
                 className="absolute top-5 left-5 flex size-10 items-center justify-center transition-colors hover:text-accent md:top-6 md:left-6"
               >
                 <ArrowLeft />
@@ -350,7 +345,7 @@ export function LoginLayer() {
             <button
               type="button"
               onClick={close}
-              aria-label="Закрыть"
+              aria-label={t("Закрыть")}
               className="absolute top-5 right-5 flex size-10 items-center justify-center transition-colors hover:text-accent md:top-6 md:right-6"
             >
               <CloseIcon />
@@ -364,18 +359,18 @@ export function LoginLayer() {
               className="mx-auto flex w-full max-w-[466px] flex-1 flex-col overflow-y-auto px-5 pt-24 pb-8 md:px-4 md:pt-[130px]"
             >
               <h2 id="login-title" className="text-h2 max-md:text-[20px] max-md:leading-[26px]">
-                {step === "register" ? "Зарегистрироваться" : "Войти в личный кабинет"}
+                {step === "register" ? t("Зарегистрироваться") : t("Войти в личный кабинет")}
               </h2>
 
               {step === "phone" && note && (
                 <p role="status" className="mt-4 text-base-s">
-                  Войдите по номеру телефона — пришлём код в СМС, и пароль не понадобится.
+                  {t("Войдите по номеру телефона — пришлём код в СМС, и пароль не понадобится.")}
                 </p>
               )}
               {step === "phone" && (
                 <div className={`${note ? "mt-6" : "mt-8"} flex flex-col gap-3`}>
                   <TextField
-                    label="Телефон"
+                    label={t("Телефон")}
                     type="tel"
                     inputMode="tel"
                     autoComplete="tel"
@@ -388,19 +383,19 @@ export function LoginLayer() {
                     disabled={!phoneOk}
                     className={`mt-1 h-[52px] text-caps transition-colors disabled:bg-tertiary ${darkButton}`}
                   >
-                    получить код
+                    {t("получить код")}
                   </button>
                 </div>
               )}
 
               {step === "code" && (
                 <div className="mt-4 flex flex-col gap-6">
-                  <p className="text-base-s">Мы отправили СМС с кодом на номер {phone}.</p>
+                  <p className="text-base-s">{t("Мы отправили СМС с кодом на номер {phone}.", { phone })}</p>
                   <div className="flex flex-col gap-2">
                     <CodeInput value={code} onChange={enterCode} />
                     {wait > 0 ? (
                       <p className="text-base-xs text-secondary">
-                        Получить новый код можно через {secondsWord(wait)}
+                        {t("Получить новый код можно через {time}", { time: secondsWord(wait) })}
                       </p>
                     ) : (
                       <button
@@ -408,7 +403,7 @@ export function LoginLayer() {
                         onClick={sendCode}
                         className="self-start text-caps underline underline-offset-2 transition-colors hover:text-accent"
                       >
-                        получить код повторно
+                        {t("получить код повторно")}
                       </button>
                     )}
                   </div>
@@ -434,7 +429,7 @@ export function LoginLayer() {
                   />
                   {step !== "email" && (
                     <TextField
-                      label={step === "register" ? "Придумайте пароль" : "Пароль"}
+                      label={step === "register" ? t("Придумайте пароль") : t("Пароль")}
                       type={show ? "text" : "password"}
                       autoComplete={step === "register" ? "new-password" : "current-password"}
                       value={password}
@@ -442,13 +437,13 @@ export function LoginLayer() {
                         setPassword(v);
                         setWrong(false);
                       }}
-                      hint={step === "register" ? "Не менее 8 символов" : undefined}
-                      error={wrong ? "Неверный пароль" : undefined}
+                      hint={step === "register" ? t("Не менее 8 символов") : undefined}
+                      error={wrong ? t("Неверный пароль") : undefined}
                       trailing={
                         <button
                           type="button"
                           onClick={() => setShow((v) => !v)}
-                          aria-label={show ? "Скрыть пароль" : "Показать пароль"}
+                          aria-label={show ? t("Скрыть пароль") : t("Показать пароль")}
                           className={`-mr-1 flex size-9 shrink-0 items-center justify-center transition-colors hover:text-primary ${
                             show ? "text-accent" : "text-tertiary"
                           }`}
@@ -469,7 +464,7 @@ export function LoginLayer() {
                       }}
                       className="-mt-1 self-start text-base-xs underline underline-offset-2 transition-colors hover:text-accent"
                     >
-                      Забыли пароль?
+                      {t("Забыли пароль?")}
                     </button>
                   )}
                   <button
@@ -477,7 +472,7 @@ export function LoginLayer() {
                     disabled={step === "email" ? !emailOk : !passwordOk}
                     className={`mt-1 h-[52px] text-caps transition-colors disabled:bg-tertiary ${darkButton}`}
                   >
-                    продолжить
+                    {t("продолжить")}
                   </button>
                 </div>
               )}
@@ -493,27 +488,27 @@ export function LoginLayer() {
                     }}
                     className={outline}
                   >
-                    {byEmail ? "продолжить по телефону" : "продолжить с email"}
+                    {byEmail ? t("продолжить по телефону") : t("продолжить с email")}
                   </button>
                   <button type="button" onClick={() => setGoogle(true)} className={outline}>
                     <GoogleIcon />
-                    продолжить с Google
+                    {t("продолжить с Google")}
                   </button>
                   {google && (
                     <p role="status" className="text-base-xs text-secondary">
-                      Вход через Google скоро появится — пока войдите по телефону или почте.
+                      {t("Вход через Google временно недоступен — войдите по почте или телефону.")}
                     </p>
                   )}
                 </div>
               )}
               <p className={`${step === "code" ? "mt-auto pt-10" : "mt-8"} text-base-xs`}>
-                Продолжая, вы даёте согласие на{" "}
+                {t("Продолжая, вы даёте согласие на")}{" "}
                 <Link href="/privacy" onClick={close} className="text-accent hover:underline">
-                  Обработку персональных данных
+                  {t("Обработку персональных данных")}
                 </Link>{" "}
-                и соглашаетесь с{" "}
+                {t("и соглашаетесь с")}{" "}
                 <Link href="/privacy" onClick={close} className="text-accent hover:underline">
-                  Политикой конфиденциальности
+                  {t("Политикой конфиденциальности")}
                 </Link>
                 .
               </p>
@@ -545,12 +540,12 @@ export function LoginGate({ children }: { children: ReactNode }) {
   if (email) return <>{children}</>;
   return (
     <div className="flex flex-col items-start gap-6 py-10">
-      <h1 className="text-h2">Личный кабинет</h1>
+      <h1 className="text-h2">{t("Личный кабинет")}</h1>
       <p className="max-w-[504px] text-base-s">
-        Тут живут ваши заказы, отзывы, адреса и бонусы. Войдите — и всё будет под рукой.
+        {t("Тут живут ваши заказы, отзывы, адреса и бонусы. Войдите — и всё будет под рукой.")}
       </p>
       <button type="button" onClick={openLogin} className={`h-10 px-8 text-caps transition-colors ${darkButton}`}>
-        войти
+        {t("войти")}
       </button>
     </div>
   );

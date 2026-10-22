@@ -6,6 +6,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MailIcon, TelegramIcon, WhatsappIcon } from "./icons";
+import { t } from "@/lib/i18n";
 
 const contacts = [
   { label: "Whatsapp", href: "#", icon: <WhatsappIcon className="size-6" /> },
@@ -40,8 +41,8 @@ export function HelpCard({ className = "", layout = "tall" }: { className?: stri
       <aside className={`flex justify-between gap-4 rounded-xs bg-blush p-4 ${className}`}>
         <div className="flex max-w-[392px] flex-col justify-between gap-6">
           <div className="flex flex-col gap-2">
-            <h2 className="text-h3">Не можете выбрать?</h2>
-            <p className="text-base-s">Пишите, подскажем:</p>
+            <h2 className="text-h3">{t("Не можете выбрать?")}</h2>
+            <p className="text-base-s">{t("Пишите, подскажем:")}</p>
           </div>
           <div className="pb-2">
             <Contacts wide />
@@ -63,8 +64,8 @@ export function HelpCard({ className = "", layout = "tall" }: { className?: stri
       className={`relative flex min-h-[270px] flex-col justify-between gap-6 overflow-hidden rounded-xs bg-accent-soft p-5 lg:aspect-[300/270] lg:min-h-0 ${className}`}
     >
       <div className="flex flex-col gap-2">
-        <h2 className="max-w-[264px] text-h3">Не можете выбрать?</h2>
-        <p className="max-w-[264px] text-base-s">Пишите, подскажем:</p>
+        <h2 className="max-w-[264px] text-h3">{t("Не можете выбрать?")}</h2>
+        <p className="max-w-[264px] text-base-s">{t("Пишите, подскажем:")}</p>
       </div>
       <Contacts wide={false} />
       <Image

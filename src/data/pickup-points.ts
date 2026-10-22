@@ -1,5 +1,7 @@
 // Пункты выдачи СДЭК — ДЕМО-СПИСОК: адреса и часы примерные, только чтобы показать сценарий на карте.
 // Перед запуском заменить настоящими пунктами из API СДЭК (нужен договор и ключи СДЭК).
+import { isEn } from "@/lib/i18n";
+
 export type PickupPoint = { id: string; city: string; address: string; hours: string; lat: number; lng: number };
 
 export const CITIES = ["Санкт-Петербург", "Москва"] as const;
@@ -10,7 +12,7 @@ export const CITY_CENTER: Record<string, [number, number]> = {
   Москва: [55.7558, 37.6173],
 };
 
-export const pickupPoints: PickupPoint[] = [
+const points: PickupPoint[] = [
   { id: "spb-marata-8", city: "Санкт-Петербург", address: "Марата 8", hours: "10:00–21:00", lat: 59.9306, lng: 30.3538 },
   { id: "spb-ligovsky-50", city: "Санкт-Петербург", address: "Лиговский проспект, 50", hours: "10:00–21:00", lat: 59.9225, lng: 30.3555 },
   { id: "spb-nevsky-28", city: "Санкт-Петербург", address: "Невский проспект, 28", hours: "10:00–22:00", lat: 59.9357, lng: 30.326 },
@@ -21,6 +23,21 @@ export const pickupPoints: PickupPoint[] = [
   { id: "msk-arbat-24", city: "Москва", address: "улица Арбат, 24", hours: "10:00–21:00", lat: 55.7503, lng: 37.5927 },
   { id: "msk-myasnitskaya-30", city: "Москва", address: "Мясницкая улица, 30", hours: "09:00–21:00", lat: 55.7653, lng: 37.6386 },
 ];
+
+/** адреса латиницей для английской версии */
+const ADDRESS_EN: Record<string, string> = {
+  "spb-marata-8": "8 Marata St",
+  "spb-ligovsky-50": "50 Ligovsky Ave",
+  "spb-nevsky-28": "28 Nevsky Ave",
+  "spb-vosstaniya-15": "15 Vosstaniya St",
+  "spb-bolshoy-51": "51 Bolshoy Ave P.S.",
+  "spb-moskovsky-143": "143 Moskovsky Ave",
+  "msk-tverskaya-12": "12 Tverskaya St",
+  "msk-arbat-24": "24 Arbat St",
+  "msk-myasnitskaya-30": "30 Myasnitskaya St",
+};
+
+export const pickupPoints: PickupPoint[] = isEn ? points.map((p) => ({ ...p, address: ADDRESS_EN[p.id] ?? p.address })) : points;
 
 /** расстояние «по прямой» в километрах — чтобы показать ближайшие пункты */
 export function distanceKm(a: [number, number], b: [number, number]) {

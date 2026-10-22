@@ -7,6 +7,7 @@
 // (1 — ровно по центру), карточка сама решает, как на это ответить (ProductCard grow).
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "./icons";
+import { t } from "@/lib/i18n";
 
 export function Carousel({
   children,
@@ -70,7 +71,7 @@ export function Carousel({
   };
 
   return (
-    <div className="relative" role="region" aria-roledescription="карусель" aria-label={label}>
+    <div className="relative" role="region" aria-roledescription={t("карусель")} aria-label={label}>
       <div
         ref={track}
         className={`no-scrollbar -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-2 overflow-x-auto px-4 md:-mx-6 md:scroll-px-6 md:px-6 xl:mx-0 xl:px-0 xl:scroll-px-0 ${className}`}
@@ -85,7 +86,7 @@ export function Carousel({
           type="button"
           onClick={() => scroll(-1)}
           disabled={edge.start}
-          aria-label="Назад"
+          aria-label={t("Назад")}
           className="pointer-events-auto cursor-pointer rounded-sm text-primary transition-colors hover:bg-surface disabled:cursor-default disabled:text-line disabled:hover:bg-transparent"
         >
           <ChevronLeft />
@@ -94,7 +95,7 @@ export function Carousel({
           type="button"
           onClick={() => scroll(1)}
           disabled={edge.end}
-          aria-label="Вперёд"
+          aria-label={t("Вперёд")}
           className="pointer-events-auto cursor-pointer rounded-sm text-primary transition-colors hover:bg-surface disabled:cursor-default disabled:text-line disabled:hover:bg-transparent"
         >
           <ChevronRight />

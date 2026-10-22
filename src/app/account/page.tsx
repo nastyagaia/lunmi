@@ -4,8 +4,9 @@ import { AccountHome } from "@/components/Account";
 import { AccountShell } from "@/components/AccountShell";
 import type { Product } from "@/components/ProductCard";
 import { allProducts } from "@/data/sections";
+import { t } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "Личный кабинет — Lunmi", robots: { index: false } };
+export const metadata: Metadata = { title: `${t("Личный кабинет")} — Lunmi`, robots: { index: false } };
 
 /** «Подобрали для вас» — пока хиты из каталога; позже — по покупкам и AI-подбору */
 const picks: Product[] = allProducts

@@ -4,8 +4,9 @@ import { AccountOrder } from "@/components/AccountOrder";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { LoginGate } from "@/components/Login";
+import { t } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "Заказ — Lunmi", robots: { index: false } };
+export const metadata: Metadata = { title: `${t("Заказ")} — Lunmi`, robots: { index: false } };
 
 export default async function OrderPage({ params }: PageProps<"/account/orders/[number]">) {
   const { number } = await params;

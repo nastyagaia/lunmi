@@ -3,10 +3,11 @@ import type { Metadata } from "next";
 import { CatalogSection } from "@/components/CatalogSection";
 import { catalogMenu } from "@/data/menu";
 import { allProducts, sectionCovers } from "@/data/sections";
+import { t } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Скидки — Lunmi",
-  description: "Корейская косметика со скидкой в Lunmi.",
+  title: `${t("Скидки")} — Lunmi`,
+  description: t("Корейская косметика со скидкой в Lunmi."),
 };
 
 const menuTypes = [...new Set(catalogMenu.flatMap((c) => c.items.map((i) => i.title)))];

@@ -7,8 +7,10 @@ import { catalogMenu } from "@/data/menu";
 import { useCart } from "./Cart";
 import { CatalogMenu } from "./CatalogMenu";
 import { CityMenu, ProfileMenu } from "./HeaderMenus";
+import { LangSwitch } from "./LangSwitch";
 import { SearchPanel } from "./SearchPanel";
 import { ArrowLeft, BurgerIcon, CartIcon, ChevronDown, CloseIcon, HeartIcon, Logo, SearchIcon } from "./icons";
+import { t } from "@/lib/i18n";
 
 const nav = ["Каталог", "Скидки", "Бренды", "Подбор косметики", "Доставка"];
 const navHref: Record<string, string> = {
@@ -72,9 +74,10 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
     >
       {/* Menu/desktop из Figma: 1440 × 54, поля 96 px */}
       <div className="px-4 md:px-6 xl:px-[96px]">
-        <div className="flex h-[54px] items-center justify-between">
+        {/* на десктопе — три колонки 1fr / auto / 1fr: меню всегда ровно по центру и не сдвигается от длины города */}
+        <div className="flex h-[54px] items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr]">
           <div className="flex items-center gap-4 lg:gap-8">
-            <Link href="/" aria-label="Lunmi, на главную" className="-ml-0.5 text-accent">
+            <Link href="/" aria-label={t("Lunmi, на главную")} className="-ml-0.5 text-accent">
               <Logo className="h-5 w-auto md:h-6" />
             </Link>
             {/* на телефоне и планшете «Каталог» — словом рядом с логотипом: сразу открывает разделы, без бургера */}
@@ -92,12 +95,12 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                 open && mobileCatalog ? "text-accent" : ""
               }`}
             >
-              Каталог
+              {t("Каталог")}
             </button>
             <CityMenu className="hidden lg:block" />
           </div>
 
-          <nav aria-label="Основное меню" className="hidden lg:block">
+          <nav aria-label={t("Основное меню")} className="hidden lg:block">
             <ul className="flex items-center gap-6">
               {nav.map((item) =>
                 item === "Каталог" ? (
@@ -116,7 +119,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                       aria-controls="catalog-menu"
                       className="flex h-11 items-center text-base-s transition-colors hover:text-accent"
                     >
-                      {item}
+                      {t(item)}
                     </button>
                   </li>
                 ) : (
@@ -126,7 +129,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                       onMouseEnter={() => setCatalogOpen(false)}
                       className="flex h-11 items-center text-base-s transition-colors hover:text-accent"
                     >
-                      {item}
+                      {t(item)}
                     </Link>
                   </li>
                 ),
@@ -134,7 +137,8 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-1 md:gap-2">
+          <div className="flex items-center gap-1 md:gap-2 lg:justify-self-end">
+            <LangSwitch className="max-lg:hidden" />
             <button
               type="button"
               onClick={() => {
@@ -144,14 +148,14 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                 setSearchOpen((v) => !v);
               }}
               aria-expanded={searchOpen}
-              aria-label={searchOpen ? "Закрыть поиск" : "Поиск"}
+              aria-label={searchOpen ? t("Закрыть поиск") : t("Поиск")}
               className="flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
             >
               {searchOpen ? <CloseIcon /> : <SearchIcon />}
             </button>
             <Link
               href="/favorites"
-              aria-label="Избранное"
+              aria-label={t("Избранное")}
               className="relative flex size-9 max-md:hidden items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
             >
               {/* без счётчика — по просьбе Насти; на телефоне сердечка нет — «Избранное» в бургер-меню */}
@@ -165,7 +169,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                 setSearchOpen(false);
                 cart.setOpen(true);
               }}
-              aria-label={cart.count ? `Корзина, товаров: ${cart.count}` : "Корзина"}
+              aria-label={cart.count ? t("Корзина, товаров: {n}", { n: cart.count }) : t("Корзина")}
               className="relative flex size-9 items-center justify-center rounded-full text-primary transition-colors hover:text-accent"
             >
               <CartIcon />
@@ -186,7 +190,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
               }}
               aria-expanded={open}
               aria-controls="mobile-menu"
-              aria-label={open ? "Закрыть меню" : "Открыть меню"}
+              aria-label={open ? t("Закрыть меню") : t("Открыть меню")}
               className="flex size-9 items-center justify-center rounded-full transition-colors hover:text-accent lg:hidden"
             >
               {open ? <CloseIcon /> : <BurgerIcon />}
@@ -219,7 +223,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
           open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         }`}
       >
-        <nav id="mobile-menu" aria-label="Мобильное меню" className="max-h-[calc(100dvh-54px)] overflow-y-auto">
+        <nav id="mobile-menu" aria-label={t("Мобильное меню")} className="max-h-[calc(100dvh-54px)] overflow-y-auto">
           <div className="container-page py-4">
             <CityMenu className="-ml-2 mb-2" />
             {mobileCatalog ? (
@@ -231,7 +235,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                   className="-ml-1 flex h-12 items-center gap-2 text-base-s transition-colors hover:text-accent"
                 >
                   <ArrowLeft className="size-5" />
-                  Каталог
+                  {t("Каталог")}
                 </button>
                 <ul className="flex flex-col">
                   {catalogMenu.map((c) => (
@@ -241,7 +245,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                         onClick={() => setOpen(false)}
                         className="flex h-12 items-center justify-between gap-2 text-base-s transition-colors hover:text-accent"
                       >
-                        {c.title}
+                        {t(c.title)}
                       </Link>
                     </li>
                   ))}
@@ -258,7 +262,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                         onClick={() => setMobileCatalog(true)}
                         className="flex h-12 w-full items-center justify-between gap-2 text-left text-base-s transition-colors hover:text-accent"
                       >
-                        {item}
+                        {t(item)}
                         <ChevronDown className="size-4 shrink-0 -rotate-90" />
                       </button>
                     ) : (
@@ -267,7 +271,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                         onClick={() => setOpen(false)}
                         className="flex h-12 items-center text-base-s transition-colors hover:text-accent"
                       >
-                        {item}
+                        {t(item)}
                       </Link>
                     )}
                   </li>
@@ -279,8 +283,11 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
                     onClick={() => setOpen(false)}
                     className="flex h-12 items-center text-base-s transition-colors hover:text-accent"
                   >
-                    Избранное
+                    {t("Избранное")}
                   </Link>
+                </li>
+                <li>
+                  <LangSwitch className="-ml-1.5 h-12" />
                 </li>
               </ul>
             )}

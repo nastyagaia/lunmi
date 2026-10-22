@@ -9,6 +9,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { searchProducts, type Searchable } from "@/lib/search";
 import { CloseIcon } from "./icons";
 import { Search } from "./Search";
+import { t } from "@/lib/i18n";
 
 const STORAGE_KEY = "lunmi-search-history";
 const MAX_HISTORY = 6;
@@ -93,7 +94,7 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
           <div className="mx-auto max-w-[824px]">
             <Search
               id="site-search"
-              label="Поиск по сайту"
+              label={t("Поиск по сайту")}
               value={query}
               onChange={setQuery}
               inputRef={input}
@@ -104,12 +105,12 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
 
             {nothing ? (
               <p aria-live="polite" className="mt-8 text-base-s">
-                Ничего не нашлось. Попробуйте написать иначе — например, название бренда или «сыворотка».
+                {t("Ничего не нашлось. Попробуйте написать иначе — например, название бренда или «сыворотка».")}
               </p>
             ) : (
               history.length > 0 && (
                 <div className="mt-8">
-                  <p className="text-caps text-secondary">История</p>
+                  <p className="text-caps text-secondary">{t("История")}</p>
                   <ul className="mt-3 flex flex-col">
                     {history.map((q) => (
                       <li key={q} className="group flex h-11 items-center gap-2">
@@ -124,7 +125,7 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
                         <button
                           type="button"
                           onClick={() => write(history.filter((x) => x !== q))}
-                          aria-label={`Удалить «${q}» из истории`}
+                          aria-label={t("Удалить «{q}» из истории", { q })}
                           className="flex size-10 items-center justify-center text-tertiary opacity-0 transition-opacity group-hover:opacity-100 hover:text-primary focus-visible:opacity-100 [@media(hover:none)]:opacity-100"
                         >
                           <CloseIcon className="size-4" />

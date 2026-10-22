@@ -6,13 +6,14 @@ import Image from "next/image";
 import { productsCount } from "./CatalogGrid";
 import { useFavorites } from "./Favorites";
 import { ProductCard } from "./ProductCard";
+import { t } from "@/lib/i18n";
 
 export function FavoritesList() {
   const { items } = useFavorites();
 
   return (
     <>
-      <h1 className="text-h2">Избранное</h1>
+      <h1 className="text-h2">{t("Избранное")}</h1>
       {items.length ? (
         <>
           <p className="mt-6 text-caps text-secondary">{productsCount(items.length)}</p>
@@ -26,7 +27,7 @@ export function FavoritesList() {
         // empty state (Figma 11021:19617): блок 300 px, по центру сердечко 130 × 130, под ним через 16 px текст
         <div className="flex h-[300px] flex-col items-center justify-center gap-4 text-center md:mt-6">
           <Image src="/img/empty-favorites-heart-w.webp" alt="" width={130} height={130} />
-          <p className="text-base-s">Пока пусто. Жмите на сердечко у товаров — сохраним всё, что приглянулось.</p>
+          <p className="text-base-s">{t("Пока пусто. Жмите на сердечко у товаров — сохраним всё, что приглянулось.")}</p>
         </div>
       )}
     </>

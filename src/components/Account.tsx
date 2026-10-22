@@ -13,6 +13,7 @@ import { rub } from "./Cart";
 import { StarIcon } from "./icons";
 import { ProductCard, type Product } from "./ProductCard";
 import { SectionHeader } from "./ui";
+import { t, plural } from "@/lib/i18n";
 
 const EMPTY_ORDERS = "/img/account/sparkle-db18b4.webp";
 const EMPTY_REVIEWS = "/img/account/heart-824a2f.webp";
@@ -55,15 +56,19 @@ export function OrderCard({ order }: { order: Order }) {
     >
       <div className="flex flex-col gap-2">
         <OrderNumber order={order} />
-        <p className="text-h3">{order.status}</p>
+        <p className="text-h3">{t(order.status)}</p>
         <div className="text-base-s text-secondary">
           {order.status !== "Отменён" && (
             <p>
-              {order.status === "Доставлен" ? "Доставлен" : "Ожидаемая дата доставки"}: {order.delivery.date}
+              {order.status === "Доставлен" ? t("Доставлен") : t("Ожидаемая дата доставки")}: {order.delivery.date}
             </p>
           )}
-          <p>Адрес: {order.delivery.address}</p>
-          <p>Сумма: {rub(order.total)}</p>
+          <p>
+            {t("Адрес")}: {order.delivery.address}
+          </p>
+          <p>
+            {t("Сумма")}: {rub(order.total)}
+          </p>
         </div>
       </div>
       <ul className="flex gap-1.5">
@@ -81,7 +86,7 @@ export function OrderCard({ order }: { order: Order }) {
         ))}
         {rest > 0 && (
           <li className="flex size-[60px] shrink-0 items-center justify-center bg-surface text-center text-base-xs text-tertiary">
-            ещё {rest}&nbsp;шт.
+            {t("ещё {n} шт.", { n: rest })}
           </li>
         )}
       </ul>
@@ -103,7 +108,7 @@ function Stars({ value, onChange, size = "size-6" }: { value: number; onChange?:
           <button
             key={n}
             type="button"
-            aria-label={`Оценка ${n}`}
+            aria-label={t("Оценка {n}", { n })}
             onMouseEnter={() => setHover(n)}
             onClick={() => onChange(n)}
             className={`transition-colors ${n <= shown ? "text-accent" : "text-primary"}`}
@@ -162,7 +167,7 @@ function RateCard({ item }: { item: OrderItem }) {
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={3}
-            placeholder="Как вам средство? Пишите честно — нам и другим покупателям важно"
+            placeholder={t("Как вам средство? Пишите честно — нам и другим покупателям важно")}
             className="rounded-xs border border-line p-3 text-base-s outline-none placeholder:text-tertiary focus:border-primary"
           />
           <button
@@ -170,7 +175,7 @@ function RateCard({ item }: { item: OrderItem }) {
             onClick={send}
             className="h-10 self-start bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85"
           >
-            отправить
+            {t("отправить")}
           </button>
         </div>
       )}
@@ -202,20 +207,20 @@ export function AccountHome({ picks }: { picks: Product[] }) {
       <div className="grid gap-2 md:grid-cols-2">
         <div className="relative flex min-h-[188px] flex-col justify-between overflow-hidden bg-accent-soft p-4">
           <div className="flex flex-col gap-2">
-            <p className="text-h4">Ваша персональная скидка</p>
+            <p className="text-h4">{t("Ваша персональная скидка")}</p>
             <p className="text-h1">{loyalty.discount}%</p>
-            <p className="text-base-s">на весь заказ</p>
+            <p className="text-base-s">{t("на весь заказ")}</p>
           </div>
-          <p className="text-base-xs">Больше покупаешь — больше экономишь.</p>
+          <p className="text-base-xs">{t("Больше покупаешь — больше экономишь.")}</p>
           <Image src={EMPTY_REVIEWS} alt="" width={130} height={130} className="absolute top-4 right-4" />
         </div>
         <div className="relative flex min-h-[188px] flex-col justify-between overflow-hidden bg-surface p-4">
           <div className="flex flex-col gap-2">
-            <p className="text-h4">Оплачивай бонусами</p>
-            <p className="text-h2">{bonus} баллов</p>
-            <p className="text-base-s">на вашем счёте</p>
+            <p className="text-h4">{t("Оплачивай бонусами")}</p>
+            <p className="text-h2">{plural(bonus, ["балл", "балла", "баллов"], ["point", "points"])}</p>
+            <p className="text-base-s">{t("на вашем счёте")}</p>
           </div>
-          <p className="text-base-xs">1 бонус = 1 ₽</p>
+          <p className="text-base-xs">{t("1 бонус = 1 ₽")}</p>
           <Image
             src="/img/account/bonus-fd7691.webp"
             alt=""
@@ -285,7 +290,7 @@ export function AccountOrders() {
           onClick={() => setTab("orders")}
           className={tabClass(tab === "orders")}
         >
-          Заказы <span className="text-tertiary">{orders.length}</span>
+          {t("Заказы")} <span className="text-tertiary">{orders.length}</span>
         </button>
         <button
           type="button"
@@ -294,7 +299,7 @@ export function AccountOrders() {
           onClick={() => setTab("bought")}
           className={tabClass(tab === "bought")}
         >
-          Покупки <span className="text-tertiary">{bought.length}</span>
+          {t("Покупки")} <span className="text-tertiary">{bought.length}</span>
         </button>
       </div>
 
@@ -306,7 +311,7 @@ export function AccountOrders() {
             ))}
           </div>
         ) : (
-          <AccountEmpty image={EMPTY_ORDERS}>Заказов пока нет — непорядок! Каталог уже заждался.</AccountEmpty>
+          <AccountEmpty image={EMPTY_ORDERS}>{t("Заказов пока нет — непорядок! Каталог уже заждался.")}</AccountEmpty>
         )
       ) : bought.length ? (
         <div className="grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3">
@@ -315,7 +320,7 @@ export function AccountOrders() {
           ))}
         </div>
       ) : (
-        <AccountEmpty image={EMPTY_ORDERS}>Покупок пока нет — самое время начать коллекцию.</AccountEmpty>
+        <AccountEmpty image={EMPTY_ORDERS}>{t("Покупок пока нет — самое время начать коллекцию.")}</AccountEmpty>
       )}
     </div>
   );
@@ -327,17 +332,17 @@ export function AccountReviews() {
   const orders = ordersStore.useValue();
   const reviews = reviewsStore.useValue();
   const toRate = useToRate();
-  const intro = `За каждый отзыв на купленный товар вы получите ${loyalty.bonusPerReview} баллов (1 балл = 1 ₽). Честное мнение — лучшая валюта.`;
+  const intro = t("За каждый отзыв на купленный товар вы получите {n} баллов (1 балл = 1 ₽). Честное мнение — лучшая валюта.", { n: loyalty.bonusPerReview });
 
   if (!toRate.length && !reviews.length) {
     return (
       <div className="flex flex-col gap-4">
-        <h1 className="text-h2">Отзывы</h1>
+        <h1 className="text-h2">{t("Отзывы")}</h1>
         <p className="max-w-[720px] text-base-s">{intro}</p>
         <AccountEmpty image={EMPTY_REVIEWS}>
           {orders.length
-            ? "Оценить средства можно, когда заказ приедет и вы их попробуете. Ждём ваш вердикт!"
-            : "Заказов пока нет — непорядок! Каталог уже заждался."}
+            ? t("Оценить средства можно, когда заказ приедет и вы их попробуете. Ждём ваш вердикт!")
+            : t("Заказов пока нет — непорядок! Каталог уже заждался.")}
         </AccountEmpty>
       </div>
     );
@@ -382,7 +387,7 @@ export function AccountReviews() {
                     onClick={() => reviewsStore.set((list) => list.filter((x) => x.key !== r.key))}
                     className="text-caps text-tertiary underline underline-offset-2 transition-colors hover:text-primary"
                   >
-                    удалить
+                    {t("удалить")}
                   </button>
                 </div>
                 {r.text && <p className="text-base-s">{r.text}</p>}

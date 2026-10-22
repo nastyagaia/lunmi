@@ -2,8 +2,9 @@
 import type { Metadata } from "next";
 import { AccountProfile } from "@/components/AccountProfile";
 import { AccountShell } from "@/components/AccountShell";
+import { t } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "Мои данные — Lunmi", robots: { index: false } };
+export const metadata: Metadata = { title: `${t("Мои данные")} — Lunmi`, robots: { index: false } };
 
 export default function ProfilePage() {
   return (

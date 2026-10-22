@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { HeroSlide } from "@/data/home";
 import { HeroVideo } from "./HeroVideo";
 import { Button } from "./ui";
+import { t } from "@/lib/i18n";
 
 export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   const [active, setActive] = useState(0);
@@ -39,8 +40,8 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   return (
     <section
       className="relative h-[700px] overflow-hidden bg-primary md:h-[660px]"
-      aria-roledescription="карусель"
-      aria-label="Акции"
+      aria-roledescription={t("карусель")}
+      aria-label={t("Акции")}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
@@ -85,14 +86,14 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               >
                 <div className="flex flex-col gap-2">
                   {i === 0 ? (
-                    <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{s.title}</h1>
+                    <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t(s.title)}</h1>
                   ) : (
-                    <h2 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{s.title}</h2>
+                    <h2 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t(s.title)}</h2>
                   )}
-                  <p className="max-w-[401px] text-base-s md:whitespace-pre-line">{s.text}</p>
+                  <p className="max-w-[401px] text-base-s md:whitespace-pre-line">{t(s.text)}</p>
                 </div>
                 <Button href={s.href ?? "#bestsellers"} tone={light ? "glass" : "dark"} className="self-start">
-                  за покупками
+                  {t("за покупками")}
                 </Button>
               </div>
             </div>
@@ -108,7 +109,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             key={s.title}
             type="button"
             onClick={() => setActive(i)}
-            aria-label={`Слайд ${i + 1}: ${s.title}`}
+            aria-label={t("Слайд {n}: {title}", { n: i + 1, title: t(s.title) })}
             aria-current={i === active}
             className="group min-w-0 flex-1 py-3"
           >

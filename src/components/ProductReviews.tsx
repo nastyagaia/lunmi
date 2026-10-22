@@ -9,6 +9,7 @@ import type { ProductDetails } from "@/data/products";
 import { Popover, SingleSelect } from "./Dropdown";
 import { StarIcon } from "./icons";
 import { DropdownButton } from "./ui";
+import { t } from "@/lib/i18n";
 
 const sorts = ["по дате", "с высокими оценками", "с низкими оценками"];
 const PREVIEW = 2;
@@ -16,7 +17,7 @@ const PREVIEW = 2;
 /** star rating, size M: звезда 16 px в ячейке 20 px; закрашенные — accent, пустые — border/tetriary */
 function Stars({ rating }: { rating: number }) {
   return (
-    <div role="img" aria-label={`Оценка ${rating} из 5`} className="flex">
+    <div role="img" aria-label={t("Оценка {r} из 5", { r: rating })} className="flex">
       {[1, 2, 3, 4, 5].map((i) => (
         <span key={i} className="flex size-5 items-center justify-center">
           <StarIcon className={`size-4 ${i <= rating ? "text-accent" : "text-line-light"}`} />
@@ -42,7 +43,7 @@ export function ProductReviews({ reviews }: { reviews: ProductDetails["reviews"]
     <section id="reviews" className="flex scroll-mt-24 flex-col gap-6">
       <div className="flex items-center justify-between gap-4">
         <h2 className="flex gap-1 text-h3">
-          Отзывы <span className="text-tertiary">{reviews.length}</span>
+          {t("Отзывы")} <span className="text-tertiary">{reviews.length}</span>
         </h2>
         <Popover
           open={open}
@@ -50,7 +51,7 @@ export function ProductReviews({ reviews }: { reviews: ProductDetails["reviews"]
           align="right"
           trigger={
             <DropdownButton expanded={open} onClick={() => setOpen((v) => !v)}>
-              {sort}
+              {t(sort)}
             </DropdownButton>
           }
         >
@@ -85,7 +86,7 @@ export function ProductReviews({ reviews }: { reviews: ProductDetails["reviews"]
           onClick={() => setAll(true)}
           className="self-start text-caps underline underline-offset-2 transition-colors hover:text-accent"
         >
-          смотреть все отзывы
+          {t("смотреть все отзывы")}
         </button>
       )}
     </section>

@@ -6,6 +6,7 @@
 import "leaflet/dist/leaflet.css";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
 import { useEffect, useRef } from "react";
+import { t } from "@/lib/i18n";
 
 export type MapMarker = { id: string; lat: number; lng: number; label?: string };
 
@@ -114,5 +115,5 @@ export function MapView({
     else m.setView([lat, lng], zoom, { animate: false });
   }, [lat, lng, zoom]);
 
-  return <div ref={box} className="size-full bg-surface" aria-label="Карта" role="region" />;
+  return <div ref={box} className="size-full bg-surface" aria-label={t("Карта")} role="region" />;
 }

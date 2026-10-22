@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { contactStore, displayName, logOut, profileStore } from "@/lib/account";
 import { BagIcon, CloseIcon, LogoutIcon, ProfileIcon, ReviewIcon, SparkleIcon, SupportIcon } from "./icons";
+import { t } from "@/lib/i18n";
 
 /** аватар по полу из «Моих данных»: «Мужчина» — мужской, иначе — девушка с косичками */
 const AVATAR = { female: "/img/account/avatar-girl-3d3548.webp", male: "/img/account/avatar-boy-ee0cce.webp" };
@@ -47,7 +48,7 @@ export function AccountNav() {
         <Image key={avatar} src={avatar} alt="" width={173} height={173} priority className="size-16 rounded-full lg:size-[173px]" />
         {name && <p className="text-h4">{name}</p>}
       </div>
-      <nav aria-label="Личный кабинет" className="-mx-4 overflow-x-auto px-4 lg:mx-0 lg:overflow-visible lg:px-0">
+      <nav aria-label={t("Личный кабинет")} className="-mx-4 overflow-x-auto px-4 lg:mx-0 lg:overflow-visible lg:px-0">
         <ul className="flex gap-0.5 lg:w-[268px] lg:flex-col">
           {menu.map((it) => {
             const active = it.href === "/account" ? path === "/account" : path.startsWith(it.href) && it.href !== "/";
@@ -69,7 +70,7 @@ export function AccountNav() {
                   }`}
                 >
                   <span className="flex size-6 shrink-0 items-center justify-center">{it.icon}</span>
-                  {it.title}
+                  {t(it.title)}
                 </Link>
               </li>
             );
@@ -82,7 +83,7 @@ export function AccountNav() {
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
           <button
             type="button"
-            aria-label="Закрыть"
+            aria-label={t("Закрыть")}
             tabIndex={-1}
             onClick={() => setAsk(false)}
             className="absolute inset-0 animate-[fade-in_200ms_ease-out] bg-primary/40"
@@ -96,17 +97,17 @@ export function AccountNav() {
             <button
               type="button"
               onClick={() => setAsk(false)}
-              aria-label="Закрыть"
+              aria-label={t("Закрыть")}
               className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
             >
               <CloseIcon />
             </button>
             <div className="flex flex-col gap-2 pr-12">
               <h2 id="logout-title" className="text-h3">
-                Выйти из аккаунта?
+                {t("Выйти из аккаунта?")}
               </h2>
               <p className="text-base-s">
-                Заказы, адреса и избранное никуда не денутся — войти снова можно по номеру телефона или почте.
+                {t("Заказы, адреса и избранное никуда не денутся — войти снова можно по номеру телефона или почте.")}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -116,14 +117,14 @@ export function AccountNav() {
                 onClick={() => setAsk(false)}
                 className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85"
               >
-                остаться
+                {t("остаться")}
               </button>
               <button
                 type="button"
                 onClick={leave}
                 className="h-10 border border-primary px-6 text-caps transition-colors hover:bg-surface"
               >
-                выйти
+                {t("выйти")}
               </button>
             </div>
           </div>

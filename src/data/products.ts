@@ -5,6 +5,10 @@ import type { Product } from "@/components/ProductCard";
 import { delivery as deliveryTerms } from "./delivery";
 import { allProducts, sectionHref, type CatalogProduct } from "./sections";
 import productTexts from "./product-texts.json";
+import productsEn from "@/i18n/products-en.json";
+import { brandDescriptions } from "./brand-descriptions";
+import { averageRating, reviewsFor } from "./reviews";
+import { isEn, t } from "@/lib/i18n";
 
 /** images — номера фото этого оттенка в images: при выборе оттенка галерея показывает только их */
 export type Volume = { name: string; price: string; oldPrice?: string; images?: number[] };
@@ -31,6 +35,8 @@ export type ProductDetails = {
   thumbs?: string[];
   delivery: string[];
   ingredients?: string;
+  /** у бьюти-гаджетов вместо активных компонентов — тип прибора («Микротоки», «LED-маски») */
+  deviceType?: string;
   tabs?: { title: string; text: string }[];
   reviews: { name: string; date: string; text: string; avatar?: string; rating: number }[];
   similar: Product[];
@@ -72,29 +78,11 @@ const similar: Product[] = [
 ];
 
 // сроки — из условий доставки (src/data/delivery.ts), для Москвы и Петербурга
-const delivery = [`${deliveryTerms.courier.days} курьером`, `${deliveryTerms.pickup.days} в пункт выдачи СДЭК`];
-
-const reviews = [
-  {
-    name: "Анна",
-    date: "1 день назад",
-    avatar: "/img/rev-anna.webp",
-    rating: 5,
-    text: "Вместе с сывороткой из этой линейки даёт заметный, хороший эффект. Тон ровнее, заломы на коже менее заметны, плюс при частом использовании — меньше высыпаний.",
-  },
-  {
-    name: "Полина",
-    date: "1 неделю назад",
-    rating: 4,
-    text: "Один из самых любимых продуктов в уходе. Вводила постепенно, чтобы кожа привыкла: сначала через день, потом каждый вечер. Через месяц пятна после высыпаний заметно посветлели, а кожа стала более ровной и сияющей. Не забываю про SPF днём.",
-  },
-  {
-    name: "Вероника",
-    date: "2 недели назад",
-    rating: 5,
-    text: "Беру уже второй раз. Текстура приятная, быстро впитывается и не скатывается под макияжем. Кожа заметно спокойнее и мягче.",
-  },
+const delivery = [
+  t("{days} курьером", { days: t(deliveryTerms.courier.days) }),
+  t("{days} в пункт выдачи СДЭК", { days: t(deliveryTerms.pickup.days) }),
 ];
+
 
 export const products: ProductDetails[] = [
   {
@@ -127,7 +115,7 @@ export const products: ProductDetails[] = [
         text: "Anua — корейский бренд, который делает мягкий уход для чувствительной кожи на основе растительных экстрактов. Самый известный продукт бренда — тонер с хауттюйнией, один из бестселлеров Olive Young.",
       },
     ],
-    reviews,
+    reviews: [],
     similar,
   },
   {
@@ -148,7 +136,7 @@ export const products: ProductDetails[] = [
         title: "Характеристики",
         text: "Лёгкий тинт с сочным глянцевым финишем: прозрачный цвет и влажный блеск, будто губы только что смазали бальзамом.\n\nНаносится одним слоем для естественного оттенка или в несколько слоёв для более яркого цвета.",
       },
-      { title: "Состав", text: "Полный состав скоро появится здесь. Сверяйте его по упаковке." },
+      { title: "Состав", text: "Полный состав указан на упаковке." },
       {
         title: "Применение",
         text: "Нанесите на центр губ и растушуйте к краям — получится мягкий градиент. Для насыщенного цвета добавьте второй слой.",
@@ -158,7 +146,7 @@ export const products: ProductDetails[] = [
         text: "Dasique — корейский бренд декоративной косметики, известный нежными палетками и тинтами в «сладких» оттенках.",
       },
     ],
-    reviews,
+    reviews: [],
     similar,
   },
 ];
@@ -292,7 +280,7 @@ function activesFor(name: string, slug?: string) {
     .map((h) => h.a);
   const found = withoutRepeats([...new Set([...fromName, ...fromText])]).slice(0, 3);
   // ничего узнаваемого в настоящем тексте — строку не показываем, чем выдумывать
-  return found.length ? capitalize(found.join(", ")) : undefined;
+  return found.length ? capitalize(found.map((a) => t(a)).join(", ")) : undefined;
 }
 
 const capitalize = (t: string) => t[0].toUpperCase() + t.slice(1);
@@ -312,7 +300,7 @@ function withoutRepeats(list: string[]) {
 function activesByName(name: string) {
   const found = [...new Set(ACTIVES.filter(([re]) => re.test(name)).map(([, a]) => a))].slice(0, 3);
   if (!found.length) return undefined;
-  return capitalize(found.join(", "));
+  return capitalize(found.map((a) => t(a)).join(", "));
 }
 
 /** Как наносить — по типу товара (рыба до настоящих данных) */
@@ -379,26 +367,34 @@ function draftTabs(fc: CatalogProduct, actives: string) {
       text:
         makeup || gadget
           ? `${fc.description}.`
-          : `${fc.description}. Подходит для ежедневного ухода и сочетается с другими средствами корейской рутины.\n\nКлючевые компоненты:\n${list}`,
+          : `${fc.description}. ${t("Подходит для ежедневного ухода и сочетается с другими средствами корейской рутины.")}\n\n${t("Ключевые компоненты")}:\n${list}`,
     },
     {
       title: "Состав",
       text: makeup
-        ? "Состав зависит от оттенка — полный список ингредиентов указан на упаковке."
+        ? t("Состав зависит от оттенка — полный список ингредиентов указан на упаковке.")
         : gadget
-          ? "Это прибор, а не косметическое средство, поэтому состава у него нет."
-          : `Полный состав скоро появится здесь. Ключевые компоненты: ${actives.toLowerCase()}.`,
+          ? t("Это прибор, а не косметическое средство, поэтому состава у него нет.")
+          : t("Ключевые компоненты: {list}. Полный состав указан на упаковке.", { list: actives.toLowerCase() }),
     },
-    { title: "Применение", text: usageFor(fc) },
+    { title: "Применение", text: t(usageFor(fc)) },
     {
       title: "О бренде",
-      text: `${fc.brand} — корейский бренд. Скоро расскажем о нём подробнее.`,
+      text: (fc.brand && brandDescriptions[fc.brand]) || t("{name} — корейский бренд косметики.", { name: fc.brand ?? "" }),
     },
   ];
 }
 
 /** Настоящие тексты вкладок (scripts/import-product-texts.mjs). Вкладку без текста оставляем временной */
-function withTexts(slug: string, tabs: { title: string; text: string }[] = []) {
+function withTexts(slug: string, tabs: { title: string; text: string }[] = [], brand?: string) {
+  if (isEn) {
+    // английская версия: вкладки из src/i18n/products-en.json, «О бренде» — английское описание бренда
+    const en = (productsEn as Record<string, { tabs: Record<string, string> }>)[slug]?.tabs ?? {};
+    return tabs.map((tab) => ({
+      ...tab,
+      text: tab.title === "О бренде" ? (brand && brandDescriptions[brand]) || tab.text : (en[tab.title] ?? tab.text),
+    }));
+  }
   const texts = (productTexts as Record<string, Record<string, string | null>>)[slug];
   return texts ? tabs.map((t) => ({ ...t, text: texts[t.title] ?? t.text })) : tabs;
 }
@@ -426,7 +422,10 @@ export function getProduct(slug: string): ProductDetails | undefined {
     return fc
       ? {
           ...detailed,
-          tabs: withTexts(slug, detailed.tabs),
+          // в английской версии подзаголовок и активы — переведённые
+          subtitle: isEn ? fc.description : detailed.subtitle,
+          ingredients: detailed.ingredients && t(detailed.ingredients),
+          tabs: withTexts(slug, detailed.tabs, fc.brand),
           // фото и оттенки — всегда из каталога, чтобы совпадали с карточкой
           images: fc.images,
           thumbs: fc.thumbs,
@@ -434,9 +433,11 @@ export function getProduct(slug: string): ProductDetails | undefined {
           volumes: fc.volumes,
           similar: similarTo(fc),
           card: cardOf(fc),
+          reviews: reviewsFor(fc.id, fc.category, fc.type, fc.name),
         }
       : detailed;
   if (!fc) return undefined;
+  const productReviews = reviewsFor(fc.id, fc.category, fc.type, fc.name);
   return {
     slug: fc.id,
     name: fc.name,
@@ -446,7 +447,7 @@ export function getProduct(slug: string): ProductDetails | undefined {
     oldPrice: fc.oldPrice,
     discount: fc.discount,
     hit: fc.hit,
-    rating: fc.rating,
+    rating: fc.rating ?? averageRating(productReviews),
     images: fc.images,
     thumbs: fc.thumbs,
     shades: fc.shades,
@@ -454,12 +455,14 @@ export function getProduct(slug: string): ProductDetails | undefined {
     delivery,
     // «активные компоненты» — это про уход; у макияжа и гаджетов строку не показываем
     ingredients: fc.category === "Макияж" || fc.category === "Бьюти-гаджеты" ? undefined : activesFor(fc.name, fc.id),
+    deviceType: fc.category === "Бьюти-гаджеты" && fc.type ? t(fc.type) : undefined,
     tabs: withTexts(
       fc.id,
-      draftTabs(fc, activesFor(fc.name, fc.id) ?? activesByName(fc.name) ?? "увлажняющие компоненты"),
+      draftTabs(fc, activesFor(fc.name, fc.id) ?? activesByName(fc.name) ?? t("увлажняющие компоненты")),
+      fc.brand,
     ),
-    // ВНИМАНИЕ: отзывы — из макета, одинаковые у всех товаров. Перед запуском магазина заменить настоящими
-    reviews,
+    // отзывы — у ~40 % товаров, разные по типу товара (src/data/reviews.ts); перед запуском заменить настоящими
+    reviews: productReviews,
     similar: similarTo(fc),
     card: cardOf(fc),
   };

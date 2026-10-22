@@ -9,6 +9,7 @@ import { HelpCard } from "@/components/HelpCard";
 import { ArrowLeft } from "@/components/icons";
 import { brands, getBrand } from "@/data/brands";
 import { catalogMenu } from "@/data/menu";
+import { t } from "@/lib/i18n";
 
 /** все подразделы меню по порядку — для фильтра «Тип продукта» */
 const menuTypes = [...new Set(catalogMenu.flatMap((c) => c.items.map((i) => i.title)))];
@@ -35,16 +36,16 @@ export default async function BrandPage({ params }: PageProps<"/brands/[slug]">)
       <main className="overflow-x-clip">
         <div className="container-page pt-[70px] md:pt-[84px]">
           {/* breadcrumbs: стрелка назад (32 × 28), через 16 px путь серым */}
-          <nav aria-label="Хлебные крошки" className="-ml-0.5 flex items-center gap-1 text-base-s text-secondary">
+          <nav aria-label={t("Хлебные крошки")} className="-ml-0.5 flex items-center gap-1 text-base-s text-secondary">
             <Link
               href="/brands"
-              aria-label="Назад к брендам"
+              aria-label={t("Назад к брендам")}
               className="mr-3 flex h-7 w-8 items-center pr-3 text-primary transition-colors hover:text-accent"
             >
               <ArrowLeft />
             </Link>
             <Link href="/brands" className="transition-colors hover:text-primary">
-              Бренды
+              {t("Бренды")}
             </Link>
             <span aria-hidden>/</span>
             <span aria-current="page">{brand.name}</span>

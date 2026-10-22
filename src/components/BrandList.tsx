@@ -5,6 +5,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Search } from "./Search";
+import { t } from "@/lib/i18n";
 
 type Item = { slug: string; name: string; letter: string };
 
@@ -21,8 +22,8 @@ export function BrandList({ brands }: { brands: Item[] }) {
     <>
       {/* search из UI KIT — тот же компонент, что в шапке, только уже и без стрелки: фильтрует список на месте */}
       <Search
-        label="Поиск по брендам"
-        placeholder="Найти бренд"
+        label={t("Поиск по брендам")}
+        placeholder={t("Найти бренд")}
         value={query}
         onChange={setQuery}
         className="mt-4 max-w-[720px]"
@@ -33,7 +34,7 @@ export function BrandList({ brands }: { brands: Item[] }) {
         {letters.map(([letter, items = []]) => (
           <section
             key={letter}
-            aria-label={`Бренды на букву ${letter}`}
+            aria-label={t("Бренды на букву {letter}", { letter })}
             className="mb-16 flex break-inside-avoid flex-col gap-4"
           >
             <h2 className="text-cell text-tertiary">{letter}</h2>
@@ -50,7 +51,7 @@ export function BrandList({ brands }: { brands: Item[] }) {
         ))}
         {letters.length === 0 && (
           <p className="text-base-s text-secondary">
-            Такого бренда у нас пока нет. Проверьте написание — или загляните в каталог: вдруг найдётся что-то не хуже.
+            {t("Такого бренда у нас пока нет. Проверьте написание — или загляните в каталог: вдруг найдётся что-то не хуже.")}
           </p>
         )}
       </div>

@@ -2,18 +2,18 @@
 
 // Подписка на рассылку (блок «Мы рядом» на главной): кнопка-стрелка серая, пока почта не введена,
 // и тёмная (text/primary), когда почта похожа на настоящую. После отправки — «Спасибо!».
-// Писем пока не отправляем — подписку запоминаем в браузере, как и остальные данные покупателя.
+// «Готово» показываем только до перезагрузки страницы: вдруг в почте опечатка — после обновления можно ввести заново.
+// Писем пока не отправляем.
 import Link from "next/link";
 import { useState } from "react";
-import { createStore } from "@/lib/persist";
 import { ArrowRight } from "./icons";
+import { t } from "@/lib/i18n";
 
-const subscribedStore = createStore<string | null>("lunmi-newsletter", null);
 const EMAIL_RE = /^\S+@\S+\.\S+$/;
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
-  const subscribed = subscribedStore.useValue();
+  const [subscribed, setSubscribed] = useState<string | null>(null);
   const ready = EMAIL_RE.test(email.trim());
 
   return (
@@ -21,15 +21,15 @@ export function Newsletter() {
       className="flex flex-col gap-3"
       onSubmit={(e) => {
         e.preventDefault();
-        if (ready) subscribedStore.set(email.trim());
+        if (ready) setSubscribed(email.trim());
       }}
     >
       <label htmlFor="near-newsletter" className="text-base-s text-secondary">
-        Подписаться на рассылку
+        {t("Подписаться на рассылку")}
       </label>
       {subscribed ? (
         <p className="flex h-[52px] items-center text-base-s">
-          Готово! Будем писать на {subscribed} — только по делу, про новинки и скидки. Спамом не балуемся.
+          {t("Готово! Будем писать на {email} — только по делу, про новинки и скидки. Спамом не балуемся.", { email: subscribed })}
         </p>
       ) : (
         <div className="flex h-[52px] items-center rounded-xs border border-line bg-white pl-3 pr-2 focus-within:border-primary">
@@ -39,14 +39,14 @@ export function Newsletter() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Ваша почта"
+            placeholder={t("Ваша почта")}
             autoComplete="email"
             className="min-w-0 flex-1 bg-transparent text-base-s outline-none placeholder:text-tertiary"
           />
           <button
             type="submit"
             disabled={!ready}
-            aria-label="Подписаться"
+            aria-label={t("Подписаться")}
             className="flex size-9 shrink-0 items-center justify-center rounded-full bg-line text-white transition-colors enabled:bg-primary enabled:hover:bg-primary/85"
           >
             <ArrowRight className="size-4" />
@@ -54,9 +54,9 @@ export function Newsletter() {
         </div>
       )}
       <p className="text-base-xs text-secondary">
-        Продолжая, я даю согласие на обработку персональных данных и соглашаюсь с&nbsp;
+        {t("Продолжая, я даю согласие на обработку персональных данных и соглашаюсь с")}&nbsp;
         <Link href="/privacy" className="underline underline-offset-2 hover:text-primary">
-          политикой конфиденциальности
+          {t("политикой конфиденциальности")}
         </Link>
         .
       </p>

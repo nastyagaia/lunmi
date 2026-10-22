@@ -10,6 +10,7 @@ import { geocode, reverseGeocode } from "@/lib/geocode";
 import { Drawer, DrawerButton } from "./Drawer";
 import { MapView, type MapMarker } from "./MapView";
 import { CdekLogo, Radio, RadioCard, SelectField, SmallTabs, TextField } from "./ui";
+import { t } from "@/lib/i18n";
 
 /* ---------- данные ---------- */
 
@@ -31,23 +32,23 @@ export type PickupAddress = { id: string; kind: "pickup"; pointId: string };
 export type Address = CourierAddress | PickupAddress;
 
 /** Сохранённая карта — только платёжная система и последние 4 цифры. Полный номер нигде не храним */
-export type SavedCard = { id: string; system: string; last4: string };
+export type SavedCard = { id: string; system: string; last4: string; bank?: string };
 export type Payment = { kind: "card"; cardId: string } | { kind: "sbp" };
 
 export const pointOf = (a: PickupAddress) => pickupPoints.find((p) => p.id === a.pointId);
 
 export function addressTitle(a: Address) {
-  if (a.kind === "courier") return `${a.city}, ${a.street}`;
+  if (a.kind === "courier") return `${t(a.city)}, ${a.street}`;
   const p = pointOf(a);
-  return p ? `${p.city}, ${p.address}` : "Пункт выдачи";
+  return p ? `${t(p.city)}, ${p.address}` : t("Пункт выдачи");
 }
 
 export function addressSubtitle(a: Address) {
   if (a.kind === "pickup") {
     const hours = pointOf(a)?.hours;
-    return hours ? `Время работы: ${hours}` : undefined;
+    return hours ? t("Время работы: {hours}", { hours }) : undefined;
   }
-  return [a.flat && `кв. ${a.flat}`, a.entrance, a.comment].filter(Boolean).join(", ") || undefined;
+  return [a.flat && t("кв. {n}", { n: a.flat }), a.entrance, a.comment].filter(Boolean).join(", ") || undefined;
 }
 
 const uid = () => Math.random().toString(36).slice(2, 10);
@@ -93,18 +94,18 @@ export function ContactDrawer({
       footer={
         <>
           <DrawerButton outline onClick={onClose}>
-            отменить
+            {t("отменить")}
           </DrawerButton>
           <DrawerButton disabled={!valid} onClick={() => onSave({ name: name.trim(), phone, notify })}>
-            сохранить
+            {t("сохранить")}
           </DrawerButton>
         </>
       }
     >
       <div className="grid gap-1.5 sm:grid-cols-2">
-        <TextField label="Имя" value={name} onChange={setName} autoComplete="name" onClear={() => setName("")} />
+        <TextField label={t("Имя")} value={name} onChange={setName} autoComplete="name" onClear={() => setName("")} />
         <TextField
-          label="Телефон"
+          label={t("Телефон")}
           type="tel"
           inputMode="tel"
           value={phone}
@@ -113,11 +114,11 @@ export function ContactDrawer({
           onClear={() => setPhone("")}
         />
       </div>
-      <p className="mt-4 text-base-xs text-secondary">Информировать через:</p>
+      <p className="mt-4 text-base-xs text-secondary">{t("Информировать через:")}</p>
       <div className="mt-2 flex flex-wrap gap-6">
         {NOTIFY.map((n) => (
           <Radio key={n} name="notify" checked={notify === n} onChange={() => setNotify(n)}>
-            {n}
+            {t(n)}
           </Radio>
         ))}
       </div>
@@ -180,7 +181,7 @@ export function AddressDrawer({
     tab === "pickup"
       ? cityPoints.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, label: p.address }))
       : coords
-        ? [{ id: "home", lat: coords[0], lng: coords[1], label: street || "Адрес доставки" }]
+        ? [{ id: "home", lat: coords[0], lng: coords[1], label: street || t("Адрес доставки") }]
         : [];
 
   // клик по карте: курьер — ставим булавку и подставляем адрес
@@ -230,23 +231,23 @@ export function AddressDrawer({
         tab === "courier" ? (
           <>
             <DrawerButton outline onClick={onBack ?? onClose}>
-              отменить
+              {t("отменить")}
             </DrawerButton>
             <DrawerButton disabled={!canSave} onClick={save}>
-              сохранить
+              {t("сохранить")}
             </DrawerButton>
           </>
         ) : (
           <DrawerButton disabled={!canSave} onClick={save}>
-            подтвердить
+            {t("подтвердить")}
           </DrawerButton>
         )
       }
     >
       <SmallTabs
         tabs={[
-          { id: "courier", title: "Курьером" },
-          { id: "pickup", title: "В пункт выдачи" },
+          { id: "courier", title: t("Курьером") },
+          { id: "pickup", title: t("В пункт выдачи") },
         ]}
         value={tab}
         onChange={setTab}
@@ -254,7 +255,7 @@ export function AddressDrawer({
 
       <div className="mt-[20px] grid gap-1.5 sm:grid-cols-2">
         <SelectField
-          label="Город"
+          label={t("Город")}
           value={city}
           options={CITIES}
           onChange={(c) => {
@@ -264,7 +265,7 @@ export function AddressDrawer({
           }}
         />
         <TextField
-          label="Адрес"
+          label={t("Адрес")}
           value={street}
           onChange={(v) => {
             setStreet(v);
@@ -275,24 +276,24 @@ export function AddressDrawer({
             setStreet("");
             setCoords(undefined);
           }}
-          hint={tab === "pickup" ? "Покажем пункты выдачи рядом" : undefined}
+          hint={tab === "pickup" ? t("Покажем пункты выдачи рядом") : undefined}
         />
       </div>
 
       {tab === "courier" ? (
         <>
           <div className="mt-5 grid gap-1.5 sm:grid-cols-2">
-            <TextField label="Квартира" value={flat} onChange={setFlat} onClear={() => setFlat("")} />
-            <TextField label="Подъезд и этаж" value={entrance} onChange={setEntrance} onClear={() => setEntrance("")} />
+            <TextField label={t("Квартира")} value={flat} onChange={setFlat} onClear={() => setFlat("")} />
+            <TextField label={t("Подъезд и этаж")} value={entrance} onChange={setEntrance} onClear={() => setEntrance("")} />
           </div>
           <TextField
-            label="Комментарий курьеру"
+            label={t("Комментарий курьеру")}
             value={comment}
             onChange={setComment}
             onClear={() => setComment("")}
             className="mt-5"
           />
-          <p className="mt-3 text-base-xs text-tertiary">Или просто ткните в нужный дом на карте — так тоже можно.</p>
+          <p className="mt-3 text-base-xs text-tertiary">{t("Или просто ткните в нужный дом на карте — так тоже можно.")}</p>
         </>
       ) : (
         <PickupList points={cityPoints} value={pointId} onChange={setPointId} />
@@ -304,7 +305,7 @@ export function AddressDrawer({
           onClick={onDelete}
           className="mt-6 self-start text-caps text-secondary underline underline-offset-2 transition-colors hover:text-error"
         >
-          удалить адрес
+          {t("удалить адрес")}
         </button>
       )}
     </Drawer>
@@ -322,11 +323,11 @@ function PickupList({
 }) {
   return (
     <div className="mt-6 flex flex-col gap-3">
-      <p className="text-caps text-secondary">Ближайшие пункты выдачи</p>
+      <p className="text-caps text-secondary">{t("Ближайшие пункты выдачи")}</p>
       {!value && (
         // notification из UI KIT: розовая плашка surface/accent 2
         <p className="rounded-xs bg-accent-soft px-3 py-3 text-base-s">
-          Выберите пункт выдачи на карте или в списке — и поедем дальше.
+          {t("Выберите пункт выдачи на карте или в списке — и поедем дальше.")}
         </p>
       )}
       <ul className="flex flex-col gap-3">
@@ -337,15 +338,12 @@ function PickupList({
               checked={value === p.id}
               onChange={() => onChange(p.id)}
               leading={<CdekLogo />}
-              title={`${p.city}, ${p.address}`}
-              subtitle={`Время работы: ${p.hours}`}
+              title={`${t(p.city)}, ${p.address}`}
+              subtitle={t("Время работы: {hours}", { hours: p.hours })}
             />
           </li>
         ))}
       </ul>
-      <p className="text-base-xs text-tertiary">
-        Пункты выдачи СДЭК. Пока это демонстрационный список — скоро подключим настоящий.
-      </p>
     </div>
   );
 }
@@ -379,7 +377,7 @@ export function SavedAddressesDrawer({
         </DrawerButton>
       }
     >
-      <p className="text-caps text-secondary">Ваши адреса</p>
+      <p className="text-caps text-secondary">{t("Ваши адреса")}</p>
       <ul className="mt-4 flex flex-col gap-2">
         {addresses.map((a) => (
           <li key={a.id}>
@@ -391,7 +389,7 @@ export function SavedAddressesDrawer({
               title={addressTitle(a)}
               subtitle={addressSubtitle(a)}
               onEdit={() => onEdit(a)}
-              editLabel="Изменить адрес"
+              editLabel={t("Изменить адрес")}
             />
           </li>
         ))}
@@ -401,7 +399,7 @@ export function SavedAddressesDrawer({
         onClick={onAdd}
         className="mt-2 h-[52px] rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white"
       >
-        добавить новый адрес
+        {t("добавить новый адрес")}
       </button>
     </Drawer>
   );
@@ -410,12 +408,25 @@ export function SavedAddressesDrawer({
 /* ---------- способ оплаты (Figma payment method, 5545:53487) ---------- */
 
 export function CardBadge({ system }: { system: string }) {
+  // СБП — логотип из Figma (avatar mini, 11417:16593)
+  const logo = BANK_LOGOS[system];
+  if (logo) return <Image src={logo} alt="" width={30} height={30} className="size-[30px] shrink-0 rounded-full" />;
   return (
-    <span className="flex h-[30px] min-w-[30px] shrink-0 items-center justify-center rounded-full bg-accent-soft px-2 text-[9px] leading-none font-bold text-primary uppercase">
+    <span className="flex size-[30px] shrink-0 items-center justify-center rounded-full bg-accent-soft text-base-s leading-none font-bold text-primary uppercase">
       {system}
     </span>
   );
 }
+
+/** Логотипы в кружке (Figma: avatar mini, 10599:17160). У остальных банков — первая буква в розовом кружке */
+const BANK_LOGOS: Record<string, string> = {
+  СБП: "/img/sbp-logo.webp",
+  Сбербанк: "/img/bank-sber.webp",
+  "Т-Банк": "/img/bank-tbank.webp",
+};
+
+/** Что показать в кружке карты: логотип банка, если он есть, иначе первая буква банка; банк не определился — «К» */
+export const cardLetter = (c: SavedCard) => (c.bank && BANK_LOGOS[c.bank] ? c.bank : t(c.bank ?? "К")[0]);
 
 export function PaymentDrawer({
   cards,
@@ -454,9 +465,9 @@ export function PaymentDrawer({
               name="payment"
               checked={value === c.id}
               onChange={() => setValue(c.id)}
-              leading={<CardBadge system={c.system} />}
-              title={`Банковская карта ${c.system}`}
-              subtitle={c.last4}
+              leading={<CardBadge system={cardLetter(c)} />}
+              title={cardTitle(c)}
+              subtitle={`•• ${c.last4}`}
             />
           </li>
         ))}
@@ -466,8 +477,8 @@ export function PaymentDrawer({
             checked={value === "sbp"}
             onChange={() => setValue("sbp")}
             leading={<CardBadge system="СБП" />}
-            title="СБП"
-            subtitle="Оплата через приложение вашего банка"
+            title={t("СБП")}
+            subtitle={t("Оплата через приложение вашего банка")}
           />
         </li>
       </ul>
@@ -476,7 +487,7 @@ export function PaymentDrawer({
         onClick={onAddCard}
         className="mt-2 h-[52px] rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white"
       >
-        добавить новую карту
+        {t("добавить новую карту")}
       </button>
     </Drawer>
   );
@@ -486,6 +497,28 @@ export function PaymentDrawer({
 
 const systemOf = (digits: string) =>
   digits.startsWith("2") ? "Мир" : digits.startsWith("4") ? "Visa" : digits.startsWith("5") ? "Mastercard" : "Карта";
+
+/** Банк по первым цифрам номера (BIN) — самые частые российские банки; не нашли — просто «Банковская карта» */
+const BANKS: [string, string[]][] = [
+  ["Сбербанк", ["2202", "4276", "4279", "4274", "4817", "5469", "5484", "5228", "6390"]],
+  ["Т-Банк", ["220070", "437772", "437773", "521324", "553691", "518901"]],
+  ["Альфа-Банк", ["220015", "410584", "415428", "477964", "548673", "548601"]],
+  ["ВТБ", ["220024", "418868", "427229", "489347", "527883"]],
+  ["Газпромбанк", ["220001", "404136", "487415", "522477"]],
+  ["Райффайзенбанк", ["220030", "462730", "510069", "528808"]],
+];
+export const bankOf = (digits: string) => {
+  let best: [string, number] | undefined;
+  for (const [bank, bins] of BANKS)
+    for (const b of bins) if (digits.startsWith(b) && (!best || b.length > best[1])) best = [bank, b.length];
+  return best?.[0];
+};
+
+/** «Сбербанк, Мир» / «Банковская карта Visa» / «Банковская карта» */
+export const cardTitle = (c: SavedCard) =>
+  c.bank
+    ? `${t(c.bank)}${c.system !== "Карта" ? `, ${t(c.system)}` : ""}`
+    : `${t("Банковская карта")}${c.system !== "Карта" ? ` ${t(c.system)}` : ""}`;
 
 /** ДЕМО-ФОРМА: номер карты не отправляется и не сохраняется — остаются только система и последние 4 цифры.
  *  Настоящий ввод карты будет в форме платёжного сервиса (ЮKassa, CloudPayments и т. п.) */
@@ -517,13 +550,13 @@ export function AddCardDrawer({
       footer={
         <>
           <DrawerButton outline onClick={onBack}>
-            отменить
+            {t("отменить")}
           </DrawerButton>
           <DrawerButton
             disabled={!valid}
-            onClick={() => onSave({ id: uid(), system: systemOf(digits), last4: digits.slice(-4) })}
+            onClick={() => onSave({ id: uid(), system: systemOf(digits), bank: bankOf(digits), last4: digits.slice(-4) })}
           >
-            сохранить
+            {t("сохранить")}
           </DrawerButton>
         </>
       }
@@ -533,7 +566,7 @@ export function AddCardDrawer({
         <Image src="/img/bank-card-bg.webp" alt="" fill sizes="504px" className="object-cover" />
         {/* поля в 32 px от краёв карты: номер на всю ширину, ниже «Срок» — ММ/ГГ и CVC пополам через 8 px */}
         <div className="relative flex flex-col px-5 pt-[78px] pb-[46px] sm:px-8">
-          <span className="sr-only">Visa, Мир, Mastercard</span>
+          <span className="sr-only">{t("Visa, Мир, Mastercard")}</span>
           <input
             value={number}
             onChange={(e) =>
@@ -546,11 +579,11 @@ export function AddCardDrawer({
             }
             inputMode="numeric"
             autoComplete="off"
-            placeholder="Номер карты"
-            aria-label="Номер карты"
+            placeholder={t("Номер карты")}
+            aria-label={t("Номер карты")}
             className={cell}
           />
-          <p className="mt-5 mb-1 text-base-s text-secondary">Срок</p>
+          <p className="mt-5 mb-1 text-base-s text-secondary">{t("Срок")}</p>
           <div className="grid grid-cols-2 gap-2">
             <input
               value={exp}
@@ -560,8 +593,8 @@ export function AddCardDrawer({
               }}
               inputMode="numeric"
               autoComplete="off"
-              placeholder="ММ/ГГ"
-              aria-label="Срок действия, месяц и год"
+              placeholder={t("ММ/ГГ")}
+              aria-label={t("Срок действия, месяц и год")}
               className={cell}
             />
             <input
@@ -570,16 +603,15 @@ export function AddCardDrawer({
               inputMode="numeric"
               autoComplete="off"
               type="password"
-              placeholder="CVC код"
-              aria-label="CVC код"
+              placeholder={t("CVC код")}
+              aria-label={t("CVC код")}
               className={cell}
             />
           </div>
         </div>
       </div>
       <p className="mt-4 max-w-[504px] text-base-xs text-tertiary">
-        Онлайн-оплата пока в тестовом режиме: данные карты никуда не уходят и нигде не хранятся, деньги не списываются.
-        Можно смело тренироваться.
+        {t("Платёж защищён: данные карты передаются по защищённому соединению и не хранятся на сайте.")}
       </p>
     </Drawer>
   );

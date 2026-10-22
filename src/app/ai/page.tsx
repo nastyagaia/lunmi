@@ -4,10 +4,11 @@ import { AiPicker } from "@/components/AiPicker";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { catalogProducts } from "@/data/catalog";
+import { t } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Подбор средств — Lunmi",
-  description: "Расскажи, что беспокоит, укажи бюджет — и мы подберём корейский уход из каталога Lunmi.",
+  title: `${t("Подбор средств")} — Lunmi`,
+  description: t("Расскажи, что беспокоит, укажи бюджет — и мы подберём корейский уход из каталога Lunmi."),
 };
 
 export default function AiPage() {

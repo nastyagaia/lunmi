@@ -4,8 +4,9 @@ import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { legalDocs } from "@/data/legal";
+import { t } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "Документы сайта — Lunmi" };
+export const metadata: Metadata = { title: `${t("Документы сайта")} — Lunmi` };
 
 export default function DocumentsPage() {
   return (
@@ -13,7 +14,7 @@ export default function DocumentsPage() {
       <Header />
       <main className="container-page pt-[106px] pb-6">
         <div className="flex max-w-[720px] flex-col gap-10">
-          <h1 className="text-h2 max-md:text-[28px] max-md:leading-[36px]">Документы сайта</h1>
+          <h1 className="text-h2 max-md:text-[28px] max-md:leading-[36px]">{t("Документы сайта")}</h1>
           <ul className="flex flex-col gap-4 text-base-m">
             {legalDocs.map((d) => (
               <li key={d.slug}>

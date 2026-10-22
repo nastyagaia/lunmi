@@ -9,13 +9,14 @@ import { formatDateTime, ORDER_STEPS, ordersStore, type Order } from "@/lib/acco
 import { isPrepared } from "@/lib/images";
 import { rub } from "./Cart";
 import { ArrowLeft, CloseIcon } from "./icons";
+import { t, plural } from "@/lib/i18n";
 
 const noop = () => () => {};
 
 function Row({ label, children }: { label: string; children: string }) {
   return (
     <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:gap-6">
-      <dt className="shrink-0 text-base-s">{label}</dt>
+      <dt className="shrink-0 text-base-s">{t(label)}</dt>
       <dd className="text-base-s sm:text-right">{children}</dd>
     </div>
   );
@@ -47,7 +48,7 @@ function Progress({ order }: { order: Order }) {
               {i < ORDER_STEPS.length - 1 && <span className={`h-px flex-1 ${i < at ? "bg-accent" : "bg-line"}`} />}
             </div>
             <div className="text-base-s">
-              <p className={i === at ? "" : "text-tertiary"}>{step}</p>
+              <p className={i === at ? "" : "text-tertiary"}>{t(step)}</p>
               {when && <p className="text-tertiary">{formatDateTime(when)}</p>}
             </div>
           </li>
@@ -71,13 +72,12 @@ export function AccountOrder({ number }: { number: string }) {
   if (!order) {
     return (
       <div className="flex flex-col items-start gap-6 py-10">
-        <h1 className="text-h2">Заказ не найден</h1>
+        <h1 className="text-h2">{t("Заказ не найден")}</h1>
         <p className="text-base-s text-secondary">
-          Заказы хранятся в браузере, где вы их оформляли. Если это было на другом устройстве, загляните в кабинет
-          оттуда.
+          {t("Заказы хранятся в браузере, где вы их оформляли. Если это было на другом устройстве, загляните в кабинет оттуда.")}
         </p>
         <Link href="/account/orders" className="text-caps underline underline-offset-2 hover:text-accent">
-          к заказам
+          {t("к заказам")}
         </Link>
       </div>
     );
@@ -99,20 +99,21 @@ export function AccountOrder({ number }: { number: string }) {
         href="/account/orders"
         className="flex items-center gap-4 self-start text-base-s text-secondary hover:text-primary"
       >
-        <ArrowLeft />К заказам
+        <ArrowLeft />
+        {t("К заказам")}
       </Link>
 
       <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
         <div className="flex w-full max-w-[720px] flex-col gap-[60px]">
           <div className="flex flex-col gap-6">
             <h1 className="text-h2">
-              Заказ № {order.number} {order.status === "Отменён" ? "отменён" : order.status.toLowerCase()}
+              {t("Заказ № {n} {status}", { n: order.number, status: t(order.status).toLowerCase() })}
             </h1>
             {order.status !== "Отменён" && <Progress order={order} />}
           </div>
 
           <section className="flex flex-col gap-4">
-            <h2 className="text-h4">Информация</h2>
+            <h2 className="text-h4">{t("Информация")}</h2>
             <dl className="flex flex-col gap-4">
               <Row label="Получатель">{order.recipient}</Row>
               <Row label={order.delivery.kind === "courier" ? "Доставка курьером" : "Пункт выдачи СДЭК"}>
@@ -124,12 +125,7 @@ export function AccountOrder({ number }: { number: string }) {
 
           <section className="flex flex-col gap-4">
             <h2 className="text-h4">
-              {count}{" "}
-              {count % 10 === 1 && count % 100 !== 11
-                ? "товар"
-                : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 12 || count % 100 > 14)
-                  ? "товара"
-                  : "товаров"}
+              {plural(count, ["товар", "товара", "товаров"], ["item", "items"])}
             </h2>
             <ul className="flex flex-col gap-5">
               {order.items.map((i) => (
@@ -162,24 +158,26 @@ export function AccountOrder({ number }: { number: string }) {
 
         {/* Ваш заказ — 4 колонки справа */}
         <aside className="flex w-full flex-col gap-4 lg:w-[408px] lg:pt-[54px]">
-          <h2 className="text-h4">Ваш заказ</h2>
+          <h2 className="text-h4">{t("Ваш заказ")}</h2>
           <dl className="flex flex-col gap-4 text-base-s">
             <div className="flex justify-between">
-              <dt>Товары</dt>
+              <dt>{t("Товары")}</dt>
               <dd>{rub(order.goods)}</dd>
             </div>
             {order.discount > 0 && (
               <div className="flex justify-between">
-                <dt>Скидка</dt>
+                <dt>{t("Скидка")}</dt>
                 <dd>− {rub(order.discount)}</dd>
               </div>
             )}
             <div className="flex justify-between">
-              <dt>Доставка</dt>
+              <dt>{t("Доставка")}</dt>
               <dd>+ {rub(order.deliveryPrice)}</dd>
             </div>
             <div className="flex items-baseline justify-between">
-              <dt>Итого, {order.payment}</dt>
+              <dt>
+                {t("Итого")}, {t(order.payment)}
+              </dt>
               <dd className="text-h2">{rub(order.total)}</dd>
             </div>
           </dl>
@@ -187,7 +185,7 @@ export function AccountOrder({ number }: { number: string }) {
             href="/account/help"
             className="flex h-10 items-center justify-center bg-primary text-caps text-white transition-colors hover:bg-primary/85"
           >
-            нужна помощь
+            {t("нужна помощь")}
           </Link>
           {cancellable ? (
             <button
@@ -195,15 +193,15 @@ export function AccountOrder({ number }: { number: string }) {
               onClick={() => setConfirm(true)}
               className="h-10 border border-primary text-caps transition-colors hover:bg-surface"
             >
-              отменить заказ
+              {t("отменить заказ")}
             </button>
           ) : (
             order.status !== "Отменён" &&
             order.status !== "Доставлен" && (
               <p className="text-center text-base-s">
-                Заказ уже в пути, и отменить его отсюда не выйдет. Но мы что-нибудь придумаем —{" "}
+                {t("Заказ уже в пути, и отменить его отсюда не выйдет. Но мы что-нибудь придумаем —")}{" "}
                 <Link href="/account/help" className="text-accent hover:underline">
-                  напишите в поддержку
+                  {t("напишите в поддержку")}
                 </Link>
                 .
               </p>
@@ -217,7 +215,7 @@ export function AccountOrder({ number }: { number: string }) {
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
           <button
             type="button"
-            aria-label="Закрыть"
+            aria-label={t("Закрыть")}
             tabIndex={-1}
             onClick={() => setConfirm(false)}
             className="absolute inset-0 animate-[fade-in_200ms_ease-out] bg-primary/40"
@@ -231,18 +229,17 @@ export function AccountOrder({ number }: { number: string }) {
             <button
               type="button"
               onClick={() => setConfirm(false)}
-              aria-label="Закрыть"
+              aria-label={t("Закрыть")}
               className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
             >
               <CloseIcon />
             </button>
             <div className="flex flex-col gap-2 pr-12">
               <h2 id="cancel-title" className="text-h3">
-                Отменить заказ?
+                {t("Отменить заказ?")}
               </h2>
               <p className="text-base-s">
-                Заказ № {order.number} отменится, а деньги вернутся. Товары никуда не денутся — их можно снова положить
-                в корзину.
+                {t("Заказ № {n} отменится, а деньги вернутся. Товары никуда не денутся — их можно снова положить в корзину.", { n: order.number })}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -251,14 +248,14 @@ export function AccountOrder({ number }: { number: string }) {
                 onClick={() => setConfirm(false)}
                 className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85"
               >
-                не отменять
+                {t("не отменять")}
               </button>
               <button
                 type="button"
                 onClick={cancel}
                 className="h-10 border border-primary px-6 text-caps transition-colors hover:bg-surface"
               >
-                отменить заказ
+                {t("отменить заказ")}
               </button>
             </div>
           </div>

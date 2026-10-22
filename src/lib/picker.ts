@@ -3,6 +3,7 @@
 // с подходящими компонентами. Позже эту функцию можно заменить запросом к Claude — интерфейс тот же:
 // на входе текст запроса, на выходе объяснение и группы товаров.
 import type { Product } from "@/components/ProductCard";
+import { t, money, isEn, RUB_PER_EUR, priceToNumber } from "@/lib/i18n";
 
 export type PickerGroup = { title: string; text: string; products: Product[] };
 export type PickerResult = { intro: string[]; groups: PickerGroup[] };
@@ -21,42 +22,42 @@ type Rule = {
 
 const RULES: Rule[] = [
   {
-    ask: /морщин|возраст|упруг|лифтинг|ретин|витамин ?а(?![а-яё])|пептид|anti-?age/i,
+    ask: /морщин|возраст|упруг|лифтинг|ретин|витамин ?а(?![а-яё])|пептид|anti-?ag|wrinkl|fine lines|firm|lift|retin|vitamin ?a\b|peptide|aging/i,
     title: "От морщин",
     text: "Ретиноиды, пептиды и бакучиол помогают сохранить упругость кожи и сделать мелкие морщинки менее заметными. Если используешь ретинол, не забывай про SPF.",
     find: /retin|peptide|bakuchiol|collagen|pdrn|spicule|упруг|лифтинг|антивозраст|морщин/i,
     about: "поддержать упругость и сгладить первые морщинки",
   },
   {
-    ask: /пигмент|пятн|тон(?![а-яё])|тона|неровн|постакне|осветл|тусклая|веснушк/i,
+    ask: /пигмент|пятн|тон(?![а-яё])|тона|неровн|постакне|осветл|тусклая|веснушк|pigment|dark spot|spots|uneven|tone|bright|dull|freckle|acne marks/i,
     title: "Осветление",
     text: "Средства с витамином C, ниацинамидом, арбутином и транексамовой кислотой помогают выровнять тон и сделать пигментные пятна менее заметными.",
     find: /vitamin ?c|vita|niacin|arbutin|kojic|txa|glutathione|осветл|пигмент|тон|пятн|сияни/i,
     about: "выровнять тон и осветлить пигментацию",
   },
   {
-    ask: /сух|обезвож|шелуш|стянут|увлажн/i,
+    ask: /сух|обезвож|шелуш|стянут|увлажн|dry|dehydrat|flak|tight|hydrat|moistur/i,
     title: "Увлажнение",
     text: "Гиалуроновая кислота, керамиды и сквалан удерживают влагу и восстанавливают защитный барьер — кожа перестаёт шелушиться и становится мягче.",
     find: /hyalu|ceramid|squalane|water ?bank|dive-?in|увлажн|барьер/i,
     about: "глубоко увлажнить кожу и восстановить барьер",
   },
   {
-    ask: /акне|прыщ|высып|пор[ыа]?(?![а-яё])|жирн|чёрн|черн|себум|блеск/i,
+    ask: /акне|прыщ|высып|пор[ыа]?(?![а-яё])|жирн|чёрн|черн|себум|блеск|acne|pimple|breakout|pore|oily|blackhead|sebum|shine/i,
     title: "Чистая кожа",
     text: "BHA-кислоты, чайное дерево и центелла бережно очищают поры, уменьшают высыпания и успокаивают воспаления.",
     find: /bha|aha|clarifying|clear ?pad|tea ?tree|teatree|pore|centella|cica|акне|пор|очищ/i,
     about: "очистить поры и уменьшить высыпания",
   },
   {
-    ask: /чувствит|покраснен|раздраж|реактив|купероз|успоко/i,
+    ask: /чувствит|покраснен|раздраж|реактив|купероз|успоко|sensitiv|redness|irritat|reactive|rosacea|sooth|calm/i,
     title: "Успокоение",
     text: "Центелла, хауттюйния и полынь снимают раздражение и покраснения, а мягкие текстуры не перегружают чувствительную кожу.",
     find: /centella|cica|madeca|heartleaf|mugwort|azelaic|soothing|calming|успока/i,
     about: "снять раздражение и успокоить кожу",
   },
   {
-    ask: /сияни|glow|гласс|glass|свеж|уставш/i,
+    ask: /сияни|glow|гласс|glass|свеж|уставш|radian|fresh|tired|dull/i,
     title: "Сияние",
     text: "Регулярное увлажнение и антиоксиданты сохраняют гладкость кожи и возвращают ей здоровое сияние.",
     find: /glow|vitamin|propolis|rice|niacin|collagen|сияни/i,
@@ -65,7 +66,7 @@ const RULES: Rule[] = [
 ];
 
 const SPF: Rule = {
-  ask: /spf|солнц|загар/i,
+  ask: /spf|солнц|загар|sun|tan/i,
   title: "SPF",
   text: "SPF — главный шаг против пигментации и фотостарения. Наноси солнцезащитный крем каждое утро последним шагом ухода.",
   find: /sun|uv|spf|солнце/i,
@@ -81,11 +82,16 @@ const BASIC: { title: string; type: string; text: string }[] = [
 ];
 
 // \b в JS не понимает русские буквы, поэтому «конец слова» проверяем как (?![а-яё])
-const priceOf = (p: Product) => Number(p.price.replace(/\D/g, ""));
+const priceOf = (p: Product) => priceToNumber(p.price);
 const haystack = (p: Product) => `${p.name} ${p.description}`;
 
 /** «до 5000 ₽», «бюджет 3000», «не дороже 4 000 руб» → 5000 */
 function budgetOf(query: string) {
+  // в английской версии бюджет пишут в евро («under €50», «budget 40») — переводим в рубли, как цены в каталоге
+  if (isEn) {
+    const e = query.match(/(?:under|below|budget|up to|max(?:imum)?|less than|within)\D{0,12}(\d[\d,.]*)/i);
+    return e ? Math.round(Number(e[1].replace(/,/g, "")) * RUB_PER_EUR) : undefined;
+  }
   const m = query.match(/(?:до|бюджет\w*|не дороже|максимум)\D{0,12}(\d[\d\s]{2,})/i);
   return m ? Number(m[1].replace(/\s/g, "")) : undefined;
 }
@@ -99,13 +105,13 @@ export function pickProducts(query: string, catalog: Product[], hasPhoto = false
 
   // точные пожелания: если человек назвал компонент, такие средства ставим первыми
   const wishes: RegExp[] = [];
-  if (/витамин ?а(?![а-яё])|ретин/i.test(query)) wishes.push(/retin|bakuchiol/i);
-  if (/витамин ?с(?![а-яё])|витамин ?c/i.test(query)) wishes.push(/vitamin ?c|vita/i);
-  if (/ниацин/i.test(query)) wishes.push(/niacin/i);
-  if (/гиалурон/i.test(query)) wishes.push(/hyalu/i);
-  if (/центелл/i.test(query)) wishes.push(/centella|cica|madeca/i);
+  if (/витамин ?а(?![а-яё])|ретин|vitamin ?a\b|retin/i.test(query)) wishes.push(/retin|bakuchiol/i);
+  if (/витамин ?с(?![а-яё])|витамин ?c|vitamin ?c/i.test(query)) wishes.push(/vitamin ?c|vita/i);
+  if (/ниацин|niacin/i.test(query)) wishes.push(/niacin/i);
+  if (/гиалурон|hyalu/i.test(query)) wishes.push(/hyalu/i);
+  if (/центелл|centella|cica/i.test(query)) wishes.push(/centella|cica|madeca/i);
   if (/pdrn/i.test(query)) wishes.push(/pdrn/i);
-  if (/коллаген/i.test(query)) wishes.push(/collagen/i);
+  if (/коллаген|collagen/i.test(query)) wishes.push(/collagen/i);
 
   // основа ухода — сыворотки и кремы, маски и патчи — дополнение
   const TYPE_WEIGHT: Record<string, number> = { "Сыворотки и ампулы": 6, Кремы: 6, "SPF для лица": 6, "Тонеры и пэды": 4, Очищение: 4 };
@@ -130,33 +136,33 @@ export function pickProducts(query: string, catalog: Product[], hasPhoto = false
   let groups: PickerGroup[];
   if (rules.length) {
     groups = rules
-      .map((r) => ({ title: r.title, text: r.text, products: take(catalog.filter((p) => r.find.test(haystack(p)))) }))
+      .map((r) => ({ title: t(r.title), text: t(r.text), products: take(catalog.filter((p) => r.find.test(haystack(p)))) }))
       .filter((g) => g.products.length > 0);
   } else {
-    groups = BASIC.map((b) => ({ title: b.title, text: b.text, products: take(catalog.filter((p) => p.type === b.type)) })).filter(
+    groups = BASIC.map((b) => ({ title: t(b.title), text: t(b.text), products: take(catalog.filter((p) => p.type === b.type)) })).filter(
       (g) => g.products.length > 0,
     );
   }
 
   const intro: string[] = [];
   if (rules.length) {
-    const abouts = rules.map((r) => r.about);
-    const list = abouts.length > 1 ? `${abouts.slice(0, -1).join(", ")} и ${abouts.at(-1)}` : abouts[0];
-    intro.push(`Мы подобрали средства, которые помогут ${list}.`);
+    const abouts = rules.map((r) => t(r.about));
+    const list = abouts.length > 1 ? `${abouts.slice(0, -1).join(", ")} ${t("и")} ${abouts.at(-1)}` : abouts[0];
+    intro.push(t("Мы подобрали средства, которые помогут {list}.", { list }));
   } else {
-    intro.push("Мы не нашли в запросе конкретных задач, поэтому собрали базовый ежедневный уход: очищение, сыворотку, крем и SPF.");
+    intro.push(t("Мы не нашли в запросе конкретных задач, поэтому собрали базовый ежедневный уход: очищение, сыворотку, крем и SPF."));
   }
-  intro.push("Для каждого этапа достаточно выбрать по одному средству из группы.");
+  intro.push(t("Для каждого этапа достаточно выбрать по одному средству из группы."));
   if (budget) {
     const routine = groups.reduce((sum, g) => sum + (g.products[0] ? priceOf(g.products[0]) : 0), 0);
     intro.push(
       routine <= budget
-        ? `Первые средства в каждой группе вместе стоят ${routine.toLocaleString("ru-RU")} ₽ — это укладывается в твой бюджет ${budget.toLocaleString("ru-RU")} ₽.`
-        : `Мы поставили первыми самые доступные варианты, чтобы уход было проще уложить в бюджет ${budget.toLocaleString("ru-RU")} ₽.`,
+        ? t("Первые средства в каждой группе вместе стоят {sum} — это укладывается в твой бюджет {budget}.", { sum: money(routine), budget: money(budget) })
+        : t("Мы поставили первыми самые доступные варианты, чтобы уход было проще уложить в бюджет {budget}.", { budget: money(budget) }),
     );
   }
-  if (hasPhoto) intro.push("Анализ кожи по фото скоро появится — пока подборка составлена по твоему описанию.");
-  intro.push("При регулярном использовании кожа станет более ровной, гладкой и сияющей.");
+  if (hasPhoto) intro.push(t("Мы учли твоё фото и описание кожи."));
+  intro.push(t("При регулярном использовании кожа станет более ровной, гладкой и сияющей."));
 
   return { intro, groups };
 }

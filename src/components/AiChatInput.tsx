@@ -5,6 +5,7 @@
 // Кнопка отправки серая, пока поле пустое, и тёмная, когда есть текст. Cmd/Ctrl + Enter тоже отправляет.
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, CameraIcon, CloseIcon, PlusIcon } from "./icons";
+import { t } from "@/lib/i18n";
 
 const MAX_PHOTOS = 3;
 
@@ -42,7 +43,7 @@ export function AiChatInput({
       className="flex min-h-[150px] w-full max-w-[720px] flex-col justify-between rounded-xs border border-line bg-white px-3 py-3 focus-within:border-primary"
     >
       <label htmlFor="ai-query" className="sr-only">
-        Опиши, что тебя беспокоит
+        {t("Опиши, что тебя беспокоит")}
       </label>
       <textarea
         id="ai-query"
@@ -53,7 +54,7 @@ export function AiChatInput({
         }}
         rows={3}
         placeholder={
-          "Например: у меня сухая кожа, но я хочу попробовать крема с витамином А.\nИли: проанализируй мою кожу по фото и составь ежедневный уход бюджетом до 5000 ₽."
+          t("Например: у меня сухая кожа, но я хочу попробовать крема с витамином А.\nИли: проанализируй мою кожу по фото и составь ежедневный уход бюджетом до 5000 ₽.")
         }
         className="min-h-[60px] w-full resize-none bg-transparent text-base-s outline-none placeholder:text-tertiary"
       />
@@ -64,7 +65,7 @@ export function AiChatInput({
             <button
               type="button"
               onClick={() => fileInput.current?.click()}
-              aria-label="Прикрепить фото"
+              aria-label={t("Прикрепить фото")}
               className="flex size-9 items-center justify-center rounded-full bg-surface transition-colors hover:bg-line-light"
             >
               <CameraIcon />
@@ -74,11 +75,11 @@ export function AiChatInput({
               {photos.map((p, i) => (
                 <div key={p.url} className="relative size-[50px] overflow-hidden rounded-sm">
                   {/* eslint-disable-next-line @next/next/no-img-element -- превью локального файла */}
-                  <img src={p.url} alt={`Фото ${i + 1}`} className="size-full object-cover" />
+                  <img src={p.url} alt={t("Фото {n}", { n: i + 1 })} className="size-full object-cover" />
                   <button
                     type="button"
                     onClick={() => setPhotos((list) => list.filter((x) => x.url !== p.url))}
-                    aria-label={`Убрать фото ${i + 1}`}
+                    aria-label={t("Убрать фото {n}", { n: i + 1 })}
                     className="absolute top-1 right-1 flex items-center justify-center rounded-xs bg-white"
                   >
                     <CloseIcon className="size-4" />
@@ -89,7 +90,7 @@ export function AiChatInput({
                 <button
                   type="button"
                   onClick={() => fileInput.current?.click()}
-                  aria-label="Добавить ещё фото"
+                  aria-label={t("Добавить ещё фото")}
                   className="flex size-[50px] items-center justify-center rounded-xs bg-surface transition-colors hover:bg-line-light"
                 >
                   <PlusIcon />
@@ -113,7 +114,7 @@ export function AiChatInput({
         <button
           type="submit"
           disabled={!ready}
-          aria-label="Подобрать средства"
+          aria-label={t("Подобрать средства")}
           className={`flex size-9 shrink-0 items-center justify-center rounded-full text-white transition-colors ${
             ready ? "bg-primary hover:bg-accent" : "bg-tertiary"
           }`}

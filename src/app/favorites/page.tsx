@@ -3,8 +3,9 @@ import type { Metadata } from "next";
 import { FavoritesList } from "@/components/FavoritesList";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { t } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "Избранное — Lunmi" };
+export const metadata: Metadata = { title: `${t("Избранное")} — Lunmi` };
 
 export default function FavoritesPage() {
   return (

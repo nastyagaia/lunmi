@@ -2,6 +2,7 @@
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import type { LegalDoc } from "@/data/legal";
+import { t } from "@/lib/i18n";
 
 export function LegalPage({ doc }: { doc: LegalDoc }) {
   return (
@@ -11,7 +12,7 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
         <article className="flex max-w-[720px] flex-col gap-10">
           <header className="flex flex-col gap-4">
             <h1 className="text-h2 max-md:text-[28px] max-md:leading-[36px]">{doc.title}</h1>
-            <p className="text-base-xs text-secondary">Редакция от {doc.updated}</p>
+            <p className="text-base-xs text-secondary">{t("Редакция от {date}", { date: doc.updated })}</p>
             <p className="text-base-s">{doc.intro}</p>
           </header>
           {doc.sections.map((s, i) => (

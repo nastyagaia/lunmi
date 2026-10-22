@@ -6,20 +6,22 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { delivery } from "@/data/delivery";
+import { t, money } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Доставка — Lunmi",
-  description:
+  title: `${t("Доставка")} — Lunmi`,
+  description: t(
     "Курьером по Москве и Петербургу и в пункты выдачи СДЭК по всей России. Сроки, стоимость, оплата и отмена заказа.",
+  ),
 };
 
-const rub = (n: number) => `${n.toLocaleString("ru-RU")} ₽`;
+const rub = money;
 
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     // заголовок → текст 8 px
     <section className="flex flex-col gap-2">
-      <h2 className="text-h4">{title}</h2>
+      <h2 className="text-h4">{t(title)}</h2>
       <div className="flex flex-col gap-3 text-base-s">{children}</div>
     </section>
   );
@@ -29,8 +31,8 @@ function Block({ title, children }: { title: string; children: ReactNode }) {
 function Way({ name, price, days, hint }: { name: string; price: string; days: string; hint?: string }) {
   return (
     <li>
-      {name} — <span className="whitespace-nowrap">{price}</span>, <span className="whitespace-nowrap">{days}</span>
-      {hint && ` (${hint})`}
+      {t(name)} — <span className="whitespace-nowrap">{price}</span>, <span className="whitespace-nowrap">{t(days)}</span>
+      {hint && ` (${t(hint)})`}
     </li>
   );
 }
@@ -44,10 +46,9 @@ export default function DeliveryPage() {
         <section className="bg-surface">
           <div className="container-page flex items-end justify-between gap-10 md:h-[320px]">
             <div className="flex max-w-[504px] flex-col gap-2 pt-24 pb-8 md:pt-0 md:pb-[50px]">
-              <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">Доставка</h1>
+              <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t("Доставка")}</h1>
               <p className="text-base-s">
-                Привезём курьером до двери или в пункт выдачи СДЭК — в любой город России. Стоимость и срок покажем
-                сразу при оформлении, без сюрпризов.
+                {t("Привезём курьером до двери или в пункт выдачи СДЭК — в любой город России. Стоимость и срок покажем сразу при оформлении, без сюрпризов.")}
               </p>
             </div>
             <div className="relative hidden h-full w-[min(550px,45%)] shrink-0 md:block xl:mr-[66px]">
@@ -72,7 +73,7 @@ export default function DeliveryPage() {
                 />
                 <Way
                   name="В другие города — курьером или в пункт выдачи СДЭК"
-                  price={`от ${rub(delivery.regions.priceFrom)}`}
+                  price={t("от {price}", { price: rub(delivery.regions.priceFrom) })}
                   days={delivery.regions.days}
                   hint="точные стоимость и срок рассчитываются по тарифам СДЭК, когда вы укажете адрес при оформлении"
                 />
@@ -81,19 +82,16 @@ export default function DeliveryPage() {
 
             <Block title="Хранение в пункте выдачи">
               <p>
-                Посылка терпеливо ждёт вас {delivery.storageDays} календарных дней с момента, как приехала в пункт. Мы
-                пришлём СМС, как только её можно будет забрать.
+                {t("Посылка терпеливо ждёт вас {n} календарных дней с момента, как приехала в пункт. Мы пришлём СМС, как только её можно будет забрать.", { n: delivery.storageDays })}
               </p>
             </Block>
 
             <Block title="Отмена и возврат">
               <p>
-                Передумали — бывает. Пока заказ не собран, его можно отменить в личном кабинете или через поддержку, и
-                мы вернём деньги.
+                {t("Передумали — бывает. Пока заказ не собран, его можно отменить в личном кабинете или через поддержку, и мы вернём деньги.")}
               </p>
               <p>
-                Косметику надлежащего качества по закону нельзя вернуть после покупки. Если товар пришёл с браком или не
-                тот, что вы заказывали, — напишите нам: заменим его или вернём деньги.
+                {t("Косметику надлежащего качества по закону нельзя вернуть после покупки. Если товар пришёл с браком или не тот, что вы заказывали, — напишите нам: заменим его или вернём деньги.")}
               </p>
             </Block>
           </div>

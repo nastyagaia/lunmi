@@ -8,6 +8,7 @@ import { addressStore, contactStore, forgetEverything, profileStore, type Profil
 import { AddressDrawer, addressSubtitle, addressTitle, type Address } from "./CheckoutDrawers";
 import { CloseIcon, PlusIcon } from "./icons";
 import { Checkbox, Radio, TextField } from "./ui";
+import { t } from "@/lib/i18n";
 
 /** «12031995» → «12.03.1995» */
 function maskDate(v: string) {
@@ -16,7 +17,7 @@ function maskDate(v: string) {
 }
 
 function Heading({ children }: { children: string }) {
-  return <h2 className="text-h4">{children}</h2>;
+  return <h2 className="text-h4">{t(children)}</h2>;
 }
 
 /** Строка адреса с меню «…»: изменить или удалить */
@@ -26,13 +27,13 @@ function AddressRow({ address, onEdit }: { address: Address; onEdit: () => void 
   return (
     <li className="relative flex min-h-6 items-center justify-between gap-4">
       <p className="text-base-s">
-        {address.kind === "pickup" && "СДЭК: "}
+        {address.kind === "pickup" && `${t("СДЭК")}: `}
         {addressTitle(address)}
         {sub && `, ${sub}`}
       </p>
       <button
         type="button"
-        aria-label="Действия с адресом"
+        aria-label={t("Действия с адресом")}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className="-my-1 -mr-2 flex size-8 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
@@ -54,7 +55,7 @@ function AddressRow({ address, onEdit }: { address: Address; onEdit: () => void 
               }}
               className="h-10 w-full px-4 text-left text-base-s hover:bg-surface"
             >
-              Изменить
+              {t("Изменить")}
             </button>
           </li>
           <li>
@@ -63,7 +64,7 @@ function AddressRow({ address, onEdit }: { address: Address; onEdit: () => void 
               onClick={() => addressStore.set((s) => ({ ...s, list: s.list.filter((a) => a.id !== address.id) }))}
               className="h-10 w-full px-4 text-left text-base-s hover:bg-surface"
             >
-              Удалить
+              {t("Удалить")}
             </button>
           </li>
         </ul>
@@ -137,18 +138,18 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
     // в макете форма стоит с 5-й колонки и занимает 7 колонок (720 px)
     <div className="flex max-w-[720px] flex-col gap-[60px] lg:ml-[104px]">
       <section className="flex flex-col gap-6">
-        <h1 className="text-h2">Мои данные</h1>
+        <h1 className="text-h2">{t("Мои данные")}</h1>
         <Heading>Основное</Heading>
         <div className="grid gap-2 sm:grid-cols-2">
           <TextField
-            label="Имя"
+            label={t("Имя")}
             value={form.firstName}
             onChange={(v) => set("firstName", v)}
             onClear={() => set("firstName", "")}
             autoComplete="given-name"
           />
           <TextField
-            label="Фамилия"
+            label={t("Фамилия")}
             value={form.lastName}
             onChange={(v) => set("lastName", v)}
             onClear={() => set("lastName", "")}
@@ -158,21 +159,21 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
         <div className="flex gap-6">
           {(["Женщина", "Мужчина"] as const).map((g) => (
             <Radio key={g} name="gender" checked={form.gender === g} onChange={() => set("gender", g)}>
-              {g}
+              {t(g)}
             </Radio>
           ))}
         </div>
         <div className="grid gap-x-2 gap-y-5 sm:grid-cols-2">
           <TextField
-            label="Дата рождения"
+            label={t("Дата рождения")}
             value={form.birthday}
             onChange={(v) => set("birthday", maskDate(v))}
             inputMode="numeric"
             autoComplete="bday"
-            hint="дд.мм.гггг"
+            hint={t("дд.мм.гггг")}
           />
           <TextField
-            label="Телефон*"
+            label={t("Телефон*")}
             value={phone}
             onChange={(v) => {
               setPhone(v);
@@ -188,7 +189,7 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
             onChange={(v) => set("email", v.trim())}
             type="email"
             autoComplete="email"
-            error={emailOk ? undefined : "Проверьте адрес почты"}
+            error={emailOk ? undefined : t("Проверьте адрес почты")}
           />
         </div>
         <div className="flex items-center gap-4">
@@ -198,9 +199,9 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
             onClick={save}
             className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85 disabled:bg-tertiary"
           >
-            сохранить изменения
+            {t("сохранить изменения")}
           </button>
-          {done && !dirty && <p className="text-base-s text-success">Сохранено</p>}
+          {done && !dirty && <p className="text-base-s text-success">{t("Сохранено")}</p>}
         </div>
       </section>
 
@@ -220,12 +221,12 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
           className="flex items-center gap-2 self-start text-base-s transition-colors hover:text-accent"
         >
           <PlusIcon className="size-6 text-accent" />
-          Добавить адрес
+          {t("Добавить адрес")}
         </button>
       </section>
 
       <Checkbox checked={saved.news} onChange={() => profileStore.set((p) => ({ ...p, news: !p.news }))}>
-        <span className="text-base-s">Хочу получать новости и специальные предложения.</span>
+        <span className="text-base-s">{t("Хочу получать новости и специальные предложения.")}</span>
       </Checkbox>
 
       <button
@@ -236,7 +237,7 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden>
           <path d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4h6v3" />
         </svg>
-        Удалить аккаунт
+        {t("Удалить аккаунт")}
       </button>
 
       {panel && (
@@ -262,7 +263,7 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
           <button
             type="button"
-            aria-label="Закрыть"
+            aria-label={t("Закрыть")}
             tabIndex={-1}
             onClick={() => setConfirmDelete(false)}
             className="absolute inset-0 animate-[fade-in_200ms_ease-out] bg-primary/40"
@@ -276,18 +277,17 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
             <button
               type="button"
               onClick={() => setConfirmDelete(false)}
-              aria-label="Закрыть"
+              aria-label={t("Закрыть")}
               className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
             >
               <CloseIcon />
             </button>
             <div className="flex flex-col gap-2 pr-12">
               <h2 id="delete-title" className="text-h3">
-                Удалить аккаунт?
+                {t("Удалить аккаунт?")}
               </h2>
               <p className="text-base-s">
-                Мы удалим ваши данные, адреса, историю заказов и отзывы. Вернуть их потом не получится — даже если очень
-                попросить.
+                {t("Мы удалим ваши данные, адреса, историю заказов и отзывы. Вернуть их потом не получится — даже если очень попросить.")}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -296,7 +296,7 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
                 onClick={() => setConfirmDelete(false)}
                 className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85"
               >
-                оставить
+                {t("оставить")}
               </button>
               <button
                 type="button"
@@ -306,7 +306,7 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
                 }}
                 className="h-10 border border-primary px-6 text-caps transition-colors hover:bg-surface"
               >
-                удалить
+                {t("удалить")}
               </button>
             </div>
           </div>

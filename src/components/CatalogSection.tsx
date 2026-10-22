@@ -7,6 +7,7 @@ import { Header } from "./Header";
 import { HelpCard } from "./HelpCard";
 import type { Product } from "./ProductCard";
 import { Button } from "./ui";
+import { t } from "@/lib/i18n";
 
 export function CatalogSection({
   title,
@@ -39,7 +40,13 @@ export function CatalogSection({
         <section className="bg-surface">
           <div className="container-page flex h-[200px] items-end justify-between md:h-[320px]">
             <h1 className="pb-8 text-h1 max-md:text-[28px] max-md:leading-[36px] md:pb-[50px]">
-              {group?.title ?? initialType ?? (initialBrand ? `${initialBrand} ${title.toLowerCase()}` : title)}
+              {group?.title
+                ? t(group.title)
+                : initialType
+                  ? t(initialType)
+                  : initialBrand
+                    ? `${initialBrand} ${t(title).toLowerCase()}`
+                    : t(title)}
             </h1>
             <div
               className={`relative hidden h-full shrink-0 md:block xl:mr-[66px] ${heroWide ? "w-[min(692px,55%)]" : "w-[min(550px,60%)]"}`}
@@ -64,10 +71,10 @@ export function CatalogSection({
           ) : (
             <div className="flex flex-col items-start gap-6 pb-10">
               <p className="text-base-s text-secondary">
-                Здесь пока пусто, но ненадолго: новинки уже летят к нам из Кореи.
+                {t("Здесь пока пусто, но ненадолго: новинки уже летят к нам из Кореи.")}
               </p>
               <Button href="/catalog" size="M">
-                в каталог
+                {t("в каталог")}
               </Button>
             </div>
           )}
