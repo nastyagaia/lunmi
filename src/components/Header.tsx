@@ -74,7 +74,8 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
     >
       {/* Menu/desktop из Figma: 1440 × 54, поля 96 px */}
       <div className="px-4 md:px-6 xl:px-[96px]">
-        <div className="flex h-[54px] items-center justify-between">
+        {/* на десктопе — три колонки 1fr / auto / 1fr: меню всегда ровно по центру и не сдвигается от длины города */}
+        <div className="flex h-[54px] items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr]">
           <div className="flex items-center gap-4 lg:gap-8">
             <Link href="/" aria-label={t("Lunmi, на главную")} className="-ml-0.5 text-accent">
               <Logo className="h-5 w-auto md:h-6" />
@@ -136,7 +137,7 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-1 md:gap-2">
+          <div className="flex items-center gap-1 md:gap-2 lg:justify-self-end">
             <LangSwitch className="max-lg:hidden" />
             <button
               type="button"
