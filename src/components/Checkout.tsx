@@ -71,7 +71,7 @@ function Step({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-const darkButton = "self-start bg-primary text-white hover:bg-primary/85";
+const darkButton = "self-start bg-primary text-white hover:bg-secondary";
 
 export function Checkout() {
   const cart = useCart();
@@ -466,7 +466,7 @@ export function Checkout() {
               type="button"
               onClick={submit}
               disabled={!ready}
-              className="h-[52px] rounded-xs bg-primary text-caps text-white transition-colors hover:bg-primary/85 disabled:bg-tertiary disabled:text-line-light"
+              className="h-[52px] rounded-xs bg-primary text-caps text-white transition-colors hover:bg-secondary disabled:bg-tertiary disabled:text-line-light"
             >
               {t("оплатить")}
             </button>
@@ -598,7 +598,7 @@ export function Checkout() {
               <Image src="/img/account/order-sparkle-right-f09d5c.webp" alt="" width={43} height={51} className="absolute top-[16%] -right-[10%] h-auto w-[11%]" />
               <Image src="/img/account/order-sparkle-left-06ed5b.webp" alt="" width={39} height={46} className="absolute top-[60%] -left-[7%] h-auto w-[10%]" />
             </div>
-            <Button href="/catalog" size="M" className="self-end bg-primary text-white hover:bg-primary/85">
+            <Button href="/catalog" size="M" className="self-end bg-primary text-white hover:bg-secondary">
               {t("вернуться в каталог")}
             </Button>
           </div>

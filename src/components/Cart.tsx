@@ -353,7 +353,7 @@ function CartDrawer() {
               <Link
                 href="/checkout"
                 onClick={() => setOpen(false)}
-                className="flex h-[52px] flex-1 items-center justify-center rounded-xs bg-primary px-8 text-caps text-white transition-colors hover:bg-primary/85"
+                className="flex h-[52px] flex-1 items-center justify-center rounded-xs bg-primary px-8 text-caps text-white transition-colors hover:bg-secondary"
               >
                 {t("к оформлению")}
               </Link>

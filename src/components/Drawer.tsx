@@ -113,8 +113,8 @@ export function DrawerButton({
       disabled={disabled}
       className={`h-[52px] flex-1 rounded-xs text-caps transition-colors ${
         outline
-          ? "border border-primary hover:bg-primary hover:text-white"
-          : "bg-primary text-white hover:bg-primary/85 disabled:bg-tertiary disabled:text-line-light"
+          ? "border border-primary hover:border-line hover:text-secondary disabled:border-line disabled:bg-surface disabled:text-tertiary"
+          : "bg-primary text-white hover:bg-secondary disabled:bg-tertiary disabled:text-line-light"
       }`}
     >
       {children}

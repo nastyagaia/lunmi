@@ -96,7 +96,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
   );
 }
 
-const darkButton = "bg-primary text-white hover:bg-primary/85";
+const darkButton = "bg-primary text-white hover:bg-secondary";
 
 /** Шаг после регистрации (Figma: sign up): имя, почта или телефон (то, чем не входили), пол, рассылка */
 function AboutYou({ by, onDone, onClose }: { by: "phone" | "email"; onDone: () => void; onClose: () => void }) {
@@ -149,7 +149,7 @@ function AboutYou({ by, onDone, onClose }: { by: "phone" | "email"; onDone: () =
         size="M"
         disabled={!valid}
         onClick={save}
-        className={`self-end ${darkButton} disabled:border-tertiary disabled:bg-tertiary`}
+        className={`self-end ${darkButton} disabled:border-tertiary disabled:bg-tertiary disabled:text-line-light`}
       >
         {t("создать аккаунт")}
       </Button>
@@ -313,7 +313,7 @@ export function LoginLayer() {
 
   const byEmail = step === "email" || step === "password" || step === "register";
   const outline =
-    "flex h-10 items-center justify-center gap-2 rounded-xs border border-primary text-caps transition-colors hover:bg-primary hover:text-white";
+    "flex h-10 items-center justify-center gap-2 rounded-xs border border-primary text-caps transition-colors hover:border-line hover:text-secondary";
 
   return (
     <>
@@ -381,7 +381,7 @@ export function LoginLayer() {
                   <button
                     type="submit"
                     disabled={!phoneOk}
-                    className={`mt-1 h-[52px] text-caps transition-colors disabled:bg-tertiary ${darkButton}`}
+                    className={`mt-1 h-[52px] text-caps transition-colors disabled:bg-tertiary disabled:text-line-light ${darkButton}`}
                   >
                     {t("получить код")}
                   </button>
@@ -470,7 +470,7 @@ export function LoginLayer() {
                   <button
                     type="submit"
                     disabled={step === "email" ? !emailOk : !passwordOk}
-                    className={`mt-1 h-[52px] text-caps transition-colors disabled:bg-tertiary ${darkButton}`}
+                    className={`mt-1 h-[52px] text-caps transition-colors disabled:bg-tertiary disabled:text-line-light ${darkButton}`}
                   >
                     {t("продолжить")}
                   </button>

@@ -24,7 +24,7 @@ export function Button({ href, tone = "dark", size = "L", children, className = 
         "border-white bg-white/10 text-white backdrop-blur-[11px] shadow-[inset_1px_1px_0_rgb(255_255_255/0.55),inset_-1px_-1px_0_rgb(255_255_255/0.15)] hover:bg-white/25"
       : tone === "inverse"
         ? "border-white text-white hover:bg-white hover:text-primary"
-        : "border-primary text-primary hover:bg-primary hover:text-white",
+        : "border-primary text-primary hover:border-line hover:text-secondary disabled:border-line disabled:bg-surface disabled:text-tertiary",
     className,
   ].join(" ");
   if (href) {

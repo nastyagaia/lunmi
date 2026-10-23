@@ -173,7 +173,7 @@ function RateCard({ item }: { item: OrderItem }) {
           <button
             type="button"
             onClick={send}
-            className="h-10 self-start bg-primary px-6 text-caps text-white transition-colors hover:bg-primary/85"
+            className="h-10 self-start bg-primary px-6 text-caps text-white transition-colors hover:bg-secondary"
           >
             {t("отправить")}
           </button>
