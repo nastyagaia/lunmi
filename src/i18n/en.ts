@@ -714,4 +714,9 @@ export const en: Record<string, string> = {
 
   // —— активы (витамин E) ——
   "витамин E": "vitamin E",
+
+  // —— выход ——
+  "Вы точно хотите выйти?": "Are you sure you want to log out?",
+  "нет": "no",
+  "да": "yes",
 };

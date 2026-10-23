@@ -102,14 +102,9 @@ export function AccountNav() {
             >
               <CloseIcon />
             </button>
-            <div className="flex flex-col gap-2 pr-12">
-              <h2 id="logout-title" className="text-h3">
-                {t("Выйти из аккаунта?")}
-              </h2>
-              <p className="text-base-s">
-                {t("Заказы, адреса и избранное никуда не денутся — войти снова можно по номеру телефона или почте.")}
-              </p>
-            </div>
+            <h2 id="logout-title" className="pr-12 text-h3">
+              {t("Вы точно хотите выйти?")}
+            </h2>
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
@@ -117,14 +112,14 @@ export function AccountNav() {
                 onClick={() => setAsk(false)}
                 className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-secondary"
               >
-                {t("остаться")}
+                {t("нет")}
               </button>
               <button
                 type="button"
                 onClick={leave}
                 className="h-10 border border-primary px-6 text-caps transition-colors hover:border-line hover:text-secondary"
               >
-                {t("выйти")}
+                {t("да")}
               </button>
             </div>
           </div>
