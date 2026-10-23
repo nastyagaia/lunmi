@@ -235,7 +235,7 @@ export function CatalogGrid({
       {/* pagination из Figma (11341:16467): стрелки 36 × 36 и номера 30 × 36 в рамке через 12 px,
           текущая страница тёмная, недоступная стрелка полупрозрачная, пропуск — три точки */}
       {pages > 1 && (
-        <nav aria-label={t("Страницы")} className="mt-16 flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:mt-20">
+        <nav aria-label={t("Страницы")} className="mt-16 flex flex-wrap items-center gap-2 sm:gap-3 md:mt-20">
           <PageArrow dir="prev" disabled={page === 1} onClick={() => goTo(page - 1)} />
           {pageList(page, pages).map((n, i) =>
             n === "…" ? (
