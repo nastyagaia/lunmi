@@ -719,4 +719,7 @@ export const en: Record<string, string> = {
   "Вы точно хотите выйти?": "Are you sure you want to log out?",
   "нет": "no",
   "да": "yes",
+
+  // —— подвал ——
+  "Частые вопросы": "FAQ",
 };
