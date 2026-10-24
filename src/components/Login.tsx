@@ -25,6 +25,7 @@ import { formatPhone } from "./CheckoutDrawers";
 import { ArrowLeft, CloseIcon } from "./icons";
 import { Button, Checkbox, Radio, TextField } from "./ui";
 import { t, plural } from "@/lib/i18n";
+import { reachGoal } from "@/lib/metrika";
 
 /* ---------- открыть окно входа можно из любого места: openLogin() ---------- */
 let loginOpen = false;
@@ -276,6 +277,7 @@ export function LoginLayer() {
 
   const finish = (id: string, by: "phone" | "email") => {
     const isNew = !isKnownEmail(id);
+    reachGoal(isNew ? "sign_up" : "login");
     logIn(id);
     close();
     if (isNew) setAfter({ step: "about", by });

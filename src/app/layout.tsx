@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { CartProvider } from "@/components/Cart";
 import { LoginLayer } from "@/components/Login";
+import { YandexMetrika } from "@/components/YandexMetrika";
 import "./globals.css";
 import { t, isEn } from "@/lib/i18n";
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
           <LoginLayer />
         </CartProvider>
+        <YandexMetrika />
       </body>
     </html>
   );
