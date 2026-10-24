@@ -20,6 +20,7 @@ import { CloseIcon, MinusIcon, QuantityPlusIcon } from "./icons";
 import { Button } from "./ui";
 import { isPrepared } from "@/lib/images";
 import { t, money, priceToNumber } from "@/lib/i18n";
+import { reachGoal } from "@/lib/metrika";
 
 export type CartItem = {
   /** id товара + вариант (оттенок или объём), чтобы разные оттенки лежали отдельными строками */
@@ -93,6 +94,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const snackTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const add = useCallback<Cart["add"]>((item, opts) => {
+    reachGoal("add_to_cart", { product: item.name });
     write((list) => {
       const found = list.find((i) => i.key === item.key);
       return found

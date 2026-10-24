@@ -212,7 +212,7 @@ function Brands() {
 /* ---------- Частые вопросы ---------- */
 function Faq() {
   return (
-    <section className="container-page reveal grid gap-6 md:py-5 lg:grid-cols-[minmax(0,1fr)_824px]">
+    <section id="faq" className="container-page reveal grid scroll-mt-20 gap-6 md:py-5 lg:grid-cols-[minmax(0,1fr)_824px]">
       <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">
         {t("Частые")}
         <br className="hidden lg:block" /> {t("вопросы")}

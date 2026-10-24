@@ -4,14 +4,19 @@ import Link from "next/link";
 import { Logo } from "./icons";
 import { t } from "@/lib/i18n";
 
-const buyers = ["О нас", "Как заказать", "Доставка", "Возврат товара", "Документы сайта"];
-const contacts = ["Написать в поддержку", "Telegram", "Whatsapp", "Instagram"];
-/** куда ведут ссылки, у которых уже есть страницы; остальные пока «#» */
+// только рабочие ссылки: пустые «О нас», «Как заказать» и соцсети убраны (25.10.2026)
+const EMAIL = "lunmicosm@gmail.com";
+const buyers = ["Частые вопросы", "Доставка и возврат", "Возврат товара", "Документы сайта"];
+const contacts = ["Написать в поддержку", EMAIL];
+/** куда ведут ссылки */
 const hrefs: Record<string, string> = {
-  Доставка: "/delivery",
-  "Возврат товара": "/offer",
+  "Частые вопросы": "/#faq",
+  "Доставка и возврат": "/delivery",
+  // сразу к блоку «Отмена и возврат» на странице доставки, а не в оферту
+  "Возврат товара": "/delivery#returns",
   "Документы сайта": "/documents",
   "Написать в поддержку": "/account/help",
+  [EMAIL]: `mailto:${EMAIL}`,
 };
 
 function Column({ title, links }: { title: string; links: string[] }) {

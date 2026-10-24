@@ -12,7 +12,8 @@ import { SearchPanel } from "./SearchPanel";
 import { ArrowLeft, BurgerIcon, CartIcon, ChevronDown, CloseIcon, HeartIcon, Logo, SearchIcon } from "./icons";
 import { t } from "@/lib/i18n";
 
-const nav = ["Каталог", "Скидки", "Бренды", "Подбор косметики", "Доставка"];
+// «Доставка» — в футере и в «Частых вопросах», как у крупных магазинов (25.10.2026)
+const nav = ["Каталог", "Скидки", "Бренды", "Подбор косметики"];
 const navHref: Record<string, string> = {
   Каталог: "/catalog",
   Скидки: "/sale",

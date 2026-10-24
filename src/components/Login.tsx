@@ -25,6 +25,7 @@ import { formatPhone } from "./CheckoutDrawers";
 import { ArrowLeft, CloseIcon } from "./icons";
 import { Button, Checkbox, Radio, TextField } from "./ui";
 import { t, plural } from "@/lib/i18n";
+import { reachGoal } from "@/lib/metrika";
 
 /* ---------- открыть окно входа можно из любого места: openLogin() ---------- */
 let loginOpen = false;
@@ -79,7 +80,8 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
         role="dialog"
         aria-modal="true"
         aria-label={t(title)}
-        className="relative flex max-h-full w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-6 overflow-y-auto rounded-xs bg-white p-8 shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)]"
+        // [&>*]:shrink-0 — на невысоком экране окно прокручивается, а не сплющивает кнопку и видео
+        className="relative flex max-h-full w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-6 overflow-y-auto [&>*]:shrink-0 rounded-xs bg-white p-8 shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)]"
       >
         <button
           type="button"
@@ -275,6 +277,7 @@ export function LoginLayer() {
 
   const finish = (id: string, by: "phone" | "email") => {
     const isNew = !isKnownEmail(id);
+    reachGoal(isNew ? "sign_up" : "login");
     logIn(id);
     close();
     if (isNew) setAfter({ step: "about", by });

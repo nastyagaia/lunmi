@@ -31,6 +31,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, CloseIcon } from "./icons";
 import { Button, CdekLogo, ChoiceChip, InfoCard, Radio, TextField } from "./ui";
 import { delivery as deliveryTerms } from "@/data/delivery";
 import { t, plural, isEn } from "@/lib/i18n";
+import { reachGoal } from "@/lib/metrika";
 
 const PROMO: Record<string, number> = { FIRST5: 5 }; // промокод → скидка в процентах
 const TIMES = ["9:00–12:00", "12:00–18:00", "18:00–21:00"];
@@ -74,6 +75,8 @@ function Step({ title, children }: { title: string; children: ReactNode }) {
 const darkButton = "self-start bg-primary text-white hover:bg-secondary";
 
 export function Checkout() {
+  // цель Метрики: человек дошёл до оформления
+  useEffect(() => reachGoal("begin_checkout"), []);
   const cart = useCart();
   const loggedIn = Boolean(authStore.useValue().email);
   const contact = contactStore.useValue();
@@ -174,6 +177,7 @@ export function Checkout() {
       total,
     };
     ordersStore.set((list) => [saved, ...list]);
+    reachGoal("purchase", { order_price: total });
     setOrder(number);
     cart.items.forEach((i) => cart.remove(i.key));
     window.scrollTo({ top: 0 });

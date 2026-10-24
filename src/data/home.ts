@@ -84,20 +84,20 @@ const faqRu = [
     a: "Lunmi — интернет-магазин корейской косметики для тех, кто давно смотрит на полки Olive Young с тихой завистью. Уход для лица, макияж, тело, волосы, SPF и бьюти-гаджеты — от проверенных хитов до новинок, о которых в Сеуле уже говорят, а у нас ещё нет. К каждой баночке пишем по-человечески: что внутри, как наносить и кому зайдёт.",
   },
   {
-    q: "Доставка и оплата",
-    a: `Москва и Петербург, курьером до двери — ${rub(delivery.courier.price)}, ${delivery.courier.days}. Те же города, но в пункт выдачи СДЭК — ${rub(delivery.pickup.price)}, ${delivery.pickup.days}. Все остальные города — тоже возим, курьером или в СДЭК: от ${rub(delivery.regions.priceFrom)}, ${delivery.regions.days}. Точную цену и срок посчитает сам СДЭК, как только вы укажете адрес, — без сюрпризов на кассе. В пункте выдачи посылка терпеливо ждёт ${delivery.storageDays} дней, а когда приедет, мы пришлём СМС. Как платить, выбираете при оформлении.`,
-  },
-  {
     q: "Оригинальность продукции",
     a: "Только оригинал, никаких «почти как». Закупаем у официальных дистрибьюторов брендов, а сертификаты и декларации покажем по первой просьбе — напишите в поддержку. Если что-то в посылке смутило, сфотографируйте упаковку и пришлите нам: разберёмся, не отправляя вас в бесконечную переписку.",
   },
   {
-    q: "Как отменить заказ или отредактировать",
-    a: "Передумали — бывает. Пока заказ не собран, откройте его в личном кабинете («Заказы») и нажмите «Отменить заказ»: деньги вернём. Хотите поменять адрес, дату или состав — напишите в поддержку, пока посылка не уехала. А если приехал брак или вообще не то, что вы заказывали, — тоже пишите: заменим или вернём деньги, без допросов.",
+    q: "Доставка и оплата",
+    a: `Москва и Петербург, курьером до двери — ${rub(delivery.courier.price)}, ${delivery.courier.days}. Те же города, но в пункт выдачи СДЭК — ${rub(delivery.pickup.price)}, ${delivery.pickup.days}. Все остальные города — тоже возим, курьером или в СДЭК: от ${rub(delivery.regions.priceFrom)}, ${delivery.regions.days}. Точную цену и срок посчитает сам СДЭК, как только вы укажете адрес, — без сюрпризов на кассе. В пункте выдачи посылка терпеливо ждёт ${delivery.storageDays} дней, а когда приедет, мы пришлём СМС. Как платить, выбираете при оформлении.`,
   },
   {
-    q: "Как использовать промокод",
-    a: "При оформлении заказа в блоке «Ваш заказ» нажмите «ввести промокод», впишите его и нажмите стрелочку — итоговая сумма сразу уменьшится. Промокод и персональная скидка не складываются: сработает та, что выгоднее, мы не жадничаем.",
+    q: "Как вернуть товар",
+    a: "Косметику надлежащего качества по закону вернуть нельзя — это товар личной гигиены. Но если приехал брак или вообще не то, что вы заказывали, напишите в поддержку и пришлите фото: заменим товар или вернём деньги, без допросов. Подробности — на странице «Доставка и возврат».",
+  },
+  {
+    q: "Как изменить или отменить заказ",
+    a: "Передумали — бывает. Пока заказ не собран, откройте его в личном кабинете («Заказы») и нажмите «Отменить заказ»: деньги вернём. Хотите поменять адрес, дату или состав — напишите в поддержку, пока посылка не уехала.",
   },
   {
     q: "Проконсультироваться перед покупкой",
@@ -116,20 +116,20 @@ const faqEn = [
     a: "Lunmi is an online store of Korean cosmetics for everyone who’s been eyeing the shelves of Olive Young with quiet envy. Skincare, makeup, body, hair, SPF and beauty devices — from proven hits to new launches Seoul is already talking about. For every jar we explain in plain words what’s inside, how to apply it and who it’s for.",
   },
   {
-    q: "Delivery and payment",
-    a: `Moscow and Saint Petersburg, courier to your door — ${money(delivery.courier.price)}, 1–3 days. Same cities, to a CDEK pickup point — ${money(delivery.pickup.price)}, 1–3 days. All other cities — courier or CDEK, from ${money(delivery.regions.priceFrom)}, 5 days or more. CDEK calculates the exact price and time as soon as you enter your address — no surprises at checkout. Your parcel waits at the pickup point for ${delivery.storageDays} days, and we’ll text you when it arrives. You choose how to pay at checkout.`,
-  },
-  {
     q: "Authenticity",
     a: "Only originals, no “almost the same”. We buy from official brand distributors and will gladly show certificates on request — just message support. If something in your parcel looks off, take a photo of the packaging and send it to us: we’ll sort it out without endless back-and-forth.",
   },
   {
-    q: "How to cancel or change an order",
-    a: "Changed your mind? It happens. While the order hasn’t been packed yet, open it in your account (“Orders”) and click “Cancel order” — we’ll refund you. Want to change the address, date or items — message support before the parcel ships. And if something arrived damaged or not what you ordered, let us know too: we’ll replace it or refund you, no questions asked.",
+    q: "Delivery and payment",
+    a: `Moscow and Saint Petersburg, courier to your door — ${money(delivery.courier.price)}, 1–3 days. Same cities, to a CDEK pickup point — ${money(delivery.pickup.price)}, 1–3 days. All other cities — courier or CDEK, from ${money(delivery.regions.priceFrom)}, 5 days or more. CDEK calculates the exact price and time as soon as you enter your address — no surprises at checkout. Your parcel waits at the pickup point for ${delivery.storageDays} days, and we’ll text you when it arrives. You choose how to pay at checkout.`,
   },
   {
-    q: "How to use a promo code",
-    a: "At checkout, in the “Your order” block, click “enter promo code”, type it in and press the arrow — the total updates right away. A promo code and your personal discount don’t stack: the better one applies, we’re not greedy.",
+    q: "How to return an item",
+    a: "By law, cosmetics of proper quality can’t be returned — they’re personal care products. But if something arrived damaged or isn’t what you ordered, message support and send a photo: we’ll replace it or refund you, no questions asked. More details on the “Delivery & returns” page.",
+  },
+  {
+    q: "How to change or cancel an order",
+    a: "Changed your mind? It happens. While the order hasn’t been packed yet, open it in your account (“Orders”) and click “Cancel order” — we’ll refund you. Want to change the address, date or items — message support before the parcel ships.",
   },
   {
     q: "Get advice before buying",
