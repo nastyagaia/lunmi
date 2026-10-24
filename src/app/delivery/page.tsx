@@ -9,7 +9,7 @@ import { delivery } from "@/data/delivery";
 import { t, money } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: `${t("Доставка")} — Lunmi`,
+  title: `${t("Доставка и возврат")} — Lunmi`,
   description: t(
     "Курьером по Москве и Петербургу и в пункты выдачи СДЭК по всей России. Сроки, стоимость, оплата и отмена заказа.",
   ),
@@ -17,10 +17,10 @@ export const metadata: Metadata = {
 
 const rub = money;
 
-function Block({ title, children }: { title: string; children: ReactNode }) {
+function Block({ title, id, children }: { title: string; id?: string; children: ReactNode }) {
   return (
     // заголовок → текст 8 px
-    <section className="flex flex-col gap-2">
+    <section id={id} className="flex scroll-mt-24 flex-col gap-2">
       <h2 className="text-h4">{t(title)}</h2>
       <div className="flex flex-col gap-3 text-base-s">{children}</div>
     </section>
@@ -46,7 +46,7 @@ export default function DeliveryPage() {
         <section className="bg-surface">
           <div className="container-page flex items-end justify-between gap-10 md:h-[320px]">
             <div className="flex max-w-[504px] flex-col gap-2 pt-24 pb-8 md:pt-0 md:pb-[50px]">
-              <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t("Доставка")}</h1>
+              <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t("Доставка и возврат")}</h1>
               <p className="text-base-s">
                 {t("Привезём курьером до двери или в пункт выдачи СДЭК — в любой город России. Стоимость и срок покажем сразу при оформлении, без сюрпризов.")}
               </p>
@@ -86,7 +86,7 @@ export default function DeliveryPage() {
               </p>
             </Block>
 
-            <Block title="Отмена и возврат">
+            <Block title="Отмена и возврат" id="returns">
               <p>
                 {t("Передумали — бывает. Пока заказ не собран, его можно отменить в личном кабинете или через поддержку, и мы вернём деньги.")}
               </p>

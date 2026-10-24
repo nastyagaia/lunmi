@@ -722,4 +722,7 @@ export const en: Record<string, string> = {
 
   // —— подвал ——
   "Частые вопросы": "FAQ",
+
+  // —— доставка и возврат ——
+  "Доставка и возврат": "Delivery & returns",
 };
