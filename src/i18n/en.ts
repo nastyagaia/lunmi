@@ -147,7 +147,7 @@ export const en: Record<string, string> = {
   "Бьюти-гаджеты": "Beauty devices",
   "Для загара": "Sun & tan",
   Очищение: "Cleansers",
-  "Тонеры и пэды": "Toners & pads",
+  Тонеры: "Toners",
   "Сыворотки и ампулы": "Serums & ampoules",
   Мисты: "Mists",
   Кремы: "Creams",

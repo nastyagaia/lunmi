@@ -114,7 +114,7 @@ export function pickProducts(query: string, catalog: Product[], hasPhoto = false
   if (/коллаген|collagen/i.test(query)) wishes.push(/collagen/i);
 
   // основа ухода — сыворотки и кремы, маски и патчи — дополнение
-  const TYPE_WEIGHT: Record<string, number> = { "Сыворотки и ампулы": 6, Кремы: 6, "SPF для лица": 6, "Тонеры и пэды": 4, Очищение: 4 };
+  const TYPE_WEIGHT: Record<string, number> = { "Сыворотки и ампулы": 6, Кремы: 6, "SPF для лица": 6, "Тонеры": 4, Очищение: 4 };
 
   const used = new Set<string>();
   const take = (list: Product[]) => {
