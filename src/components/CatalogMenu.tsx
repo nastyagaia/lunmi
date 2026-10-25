@@ -3,7 +3,7 @@
 // menu dropdown из Figma (catalog menu 1, 5697:28114): выпадает из шапки, когда открыт «Каталог».
 // Слева — категории (Category Item: Base/S, отступы 12 px, шеврон ›), выбранная — розовая.
 // Дальше — подразделы выбранной категории, а у подразделов с видами (src/data/kinds.ts) — третья колонка:
-// «Все товары подраздела · Тушь · Подводка · Тени…», клик ведёт в раздел с выбранной пилюлей. Колонки по 250 px, через 26 px.
+// «Тушь · Подводка · Тени…», клик ведёт в раздел с выбранной пилюлей (весь подраздел — клик по нему самому). Колонки по 250 px, через 26 px.
 import Link from "next/link";
 import { useState } from "react";
 import type { CatalogCategory } from "@/data/menu";
@@ -67,11 +67,6 @@ export function CatalogMenu({ categories, onNavigate }: { categories: CatalogCat
 
       {item && kinds.length > 0 && (
         <ul key={`${current.title}-${item.title}`} className="w-[250px] shrink-0 animate-[menu-in_200ms_ease-out]">
-          <li>
-            <Link href={item.href} onClick={onNavigate} className="block py-3 text-base-s transition-colors hover:text-accent">
-              {t("Все товары подраздела")}
-            </Link>
-          </li>
           {kinds.map((k) => (
             <li key={k}>
               <Link

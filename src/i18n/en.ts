@@ -743,7 +743,6 @@ export const en: Record<string, string> = {
   "Гель": "Gel",
 
   // —— виды ухода ——
-  "Все товары подраздела": "All in this category",
   "Гидрофильное масло": "Cleansing oil",
   "Пенка": "Foam",
   "Маски-плёнки": "Peel-off masks",
