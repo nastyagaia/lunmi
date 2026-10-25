@@ -99,7 +99,7 @@ export function FilterChip({
   const selected = count > 0;
   return (
     <div
-      className={`inline-flex h-8 items-stretch rounded-sm text-base-xs transition-colors ${
+      className={`inline-flex h-9 items-stretch rounded-sm text-base-s transition-colors ${
         selected ? "bg-primary text-white" : "border border-line-light hover:border-primary hover:bg-surface"
       }`}
     >

@@ -52,11 +52,6 @@ export function CatalogSection({
               valid={group ? [...types, group.title] : types}
               initialType={group?.title ?? initialType}
               brand={initialBrand}
-              initialCount={
-                products.filter((p) =>
-                  group ? group.types.includes(p.type ?? "") : initialType ? p.type === initialType : true,
-                ).length
-              }
             />
             <div
               className={`relative hidden h-full shrink-0 md:block xl:mr-[66px] ${heroWide ? "w-[min(692px,55%)]" : "w-[min(550px,60%)]"}`}
@@ -66,7 +61,7 @@ export function CatalogSection({
           </div>
         </section>
 
-        <div className="container-page pt-10 md:pt-[50px]">
+        <div className="container-page pt-4">
           {products.length ? (
             // key: при переходе из меню на другой подраздел фильтры начинаются заново
             <CatalogGrid

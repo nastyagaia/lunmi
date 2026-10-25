@@ -1,14 +1,12 @@
 "use client";
 
 // Текст в серой шапке раздела (Figma: catalog 2936:6591): заголовок H1, через 8 px крошки «Главная / Уход для лица / Очищение»
-// (Base/S серым, между частями 4 px), через 40 px — «Найдено 45 продуктов» (Caps серым), до низа шапки 20 px.
-// Подраздел берётся из адреса (?type=…) — его меняют чипсы над товарами; число товаров передаёт сетка с фильтрами.
+// (Base/S серым, между частями 4 px), до низа шапки 20 px. Счётчик «Найдено 45 продуктов» — над фильтрами.
+// Подраздел берётся из адреса (?type=…) — его меняют чипсы над товарами.
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Fragment, Suspense } from "react";
-import { productsCount } from "./CatalogGrid";
 import { kindNames } from "@/data/kinds";
-import { useCatalogCount } from "@/lib/catalog-count";
 import { isEn, t } from "@/lib/i18n";
 
 type Props = {
@@ -18,8 +16,6 @@ type Props = {
   valid: string[];
   initialType?: string;
   brand?: string;
-  /** сколько товаров при загрузке страницы — пока сетка не пересчитала */
-  initialCount: number;
 };
 
 export function CatalogHeading(props: Props) {
@@ -40,11 +36,9 @@ function Heading({
   href,
   valid,
   brand,
-  initialCount,
   type,
   kind = null,
 }: Props & { type: string | null; kind?: string | null }) {
-  const count = useCatalogCount(initialCount);
   const current = type && valid.includes(type) ? type : null;
   // вид — ещё один уровень вглубь, как у Золотого яблока: «Главная / Уход для лица / Очищение / Гидрофильное масло»
   const currentKind = current && kind && kindNames(current).includes(kind) ? kind : null;
@@ -73,10 +67,6 @@ function Heading({
           </Fragment>
         ))}
       </nav>
-      {/* счётчик отделён от крошек: 40 px (8 + 32), до низа шапки — 20 px (Figma: Frame 21298) */}
-      <p className="mt-8 text-caps text-secondary">
-        {t("Найдено")} {productsCount(count)}
-      </p>
     </div>
   );
 }
