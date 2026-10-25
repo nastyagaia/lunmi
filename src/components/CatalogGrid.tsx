@@ -10,6 +10,7 @@ import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from
 import { ProductCard, type Product } from "./ProductCard";
 import { DropdownButton, FilterChip, Pill } from "./ui";
 import { t, plural, isEn, RUB_PER_EUR, priceToNumber } from "@/lib/i18n";
+import { setCatalogCount } from "@/lib/catalog-count";
 
 type Key = "type" | "brand" | "price" | "effect" | "ingredient" | "sort";
 
@@ -210,20 +211,65 @@ function CatalogGridView({
 
   const priceCount = price.from || price.to ? 1 : 0;
 
+  const hasChips = kinds.length > 1 || typeChips.length > 1;
+  // в разделе со своей шапкой счётчик «Найдено 45 продуктов» стоит в шапке (Figma: catalog 2936:6591) — передаём ей число
+  useEffect(() => {
+    if (crumbs) setCatalogCount(shown.length);
+  }, [crumbs, shown.length]);
+  const chipsTop = crumbs ? "" : "mt-8";
+
   return (
     <>
-      <p className="text-caps text-secondary">
-        {countPrefix ? `${t(countPrefix)} ` : ""}
-        {productsCount(shown.length)}
-      </p>
+      {!crumbs && (
+        <p className="text-caps text-secondary">
+          {countPrefix ? `${t(countPrefix)} ` : ""}
+          {productsCount(shown.length)}
+        </p>
+      )}
 
+      {/* чипсы — Filter Chips из Figma (catalog 2936:6591): над фильтрами, между собой 12 px, до фильтров 16 px.
+          Выбран подраздел с видами — показываем виды («Гидрофильное масло · Бальзам · Пенка…»), иначе — подразделы */}
+      {kinds.length > 1 ? (
+        <div className={`${chipsTop} flex flex-wrap gap-3`} role="group" aria-label={t("Вид продукта")}>
+          {!crumbs && selectedType && (
+            <Pill selected={false} onClick={() => setParams({ type: null, kind: null }, true)}>
+              ← {t(selectedType)}
+            </Pill>
+          )}
+          {kinds.map((k) => (
+            <Pill
+              key={k.name}
+              selected={activeKind === k.name}
+              onClick={() => setParams({ kind: activeKind === k.name ? null : k.name })}
+            >
+              {t(k.name)}
+            </Pill>
+          ))}
+        </div>
+      ) : (
+        typeChips.length > 1 && (
+          <div className={`${chipsTop} flex flex-wrap gap-3`} role="group" aria-label={t("Тип продукта")}>
+            {typeChips.map((ty) => (
+              <Pill
+                key={ty}
+                selected={selectedType === ty}
+                onClick={() => setParams({ type: selectedType === ty ? null : ty, kind: null }, true)}
+              >
+                {t(ty)}
+              </Pill>
+            ))}
+          </div>
+        )
+      )}
+
+      {/* от пилюль до карточек — 32 px, как от счётчика товаров до фильтров; без пилюль — тоже 32 (12 у ряда фильтров + 20) */}
       {/* ряд фильтров «прилипает» под шапку (или к верху экрана, когда шапка спрятана).
           Стеклянная подложка — псевдоэлемент на всю ширину экрана, видна только когда ряд прилип. На телефоне не прилипает:
           фильтры там в несколько строк и заняли бы пол-экрана (ждём мобильный макет) */}
       <div
         ref={bar}
         data-stuck={stuck || undefined}
-        className="relative z-40 mt-5 flex flex-wrap items-center justify-between gap-3 py-3 transition-[top] duration-300 before:pointer-events-none before:absolute before:inset-y-0 before:-inset-x-[100vw] before:-z-10 before:opacity-0 before:transition-opacity before:duration-300 md:sticky md:top-[var(--header-h,54px)] md:before:glass data-stuck:before:opacity-100"
+        className={`relative z-40 ${hasChips ? "mt-1" : crumbs ? "-mt-3" : "mt-5"} flex flex-wrap items-center justify-between gap-3 py-3 transition-[top] duration-300 before:pointer-events-none before:absolute before:inset-y-0 before:-inset-x-[100vw] before:-z-10 before:opacity-0 before:transition-opacity before:duration-300 md:sticky md:top-[var(--header-h,54px)] md:before:glass data-stuck:before:opacity-100`}
       >
         <div className="flex flex-wrap items-center gap-3">
           {!hideBrand && multi("brand", t("Бренд"), t("Выберите бренд"), brands, brand, setBrand)}
@@ -257,7 +303,7 @@ function CatalogGridView({
           onClose={close}
           align="right"
           trigger={
-            <DropdownButton expanded={open === "sort"} onClick={() => toggle("sort")}>
+            <DropdownButton size="S" expanded={open === "sort"} onClick={() => toggle("sort")}>
               {t(sort)[0].toUpperCase() + t(sort).slice(1)}
             </DropdownButton>
           }
@@ -273,43 +319,7 @@ function CatalogGridView({
         </Popover>
       </div>
 
-      {/* чипсы — Filter Chips из Figma (catalog 2936:6591, 11476:18998): под фильтрами через 16 px, между собой 12 px.
-          Выбран подраздел с видами — показываем виды («Гидрофильное масло · Бальзам · Пенка…»), иначе — подразделы */}
-      {kinds.length > 1 ? (
-        <div className="mt-1 flex flex-wrap gap-3" role="group" aria-label={t("Вид продукта")}>
-          {!crumbs && selectedType && (
-            <Pill selected={false} onClick={() => setParams({ type: null, kind: null }, true)}>
-              ← {t(selectedType)}
-            </Pill>
-          )}
-          {kinds.map((k) => (
-            <Pill
-              key={k.name}
-              selected={activeKind === k.name}
-              onClick={() => setParams({ kind: activeKind === k.name ? null : k.name })}
-            >
-              {t(k.name)}
-            </Pill>
-          ))}
-        </div>
-      ) : (
-        typeChips.length > 1 && (
-          <div className="mt-1 flex flex-wrap gap-3" role="group" aria-label={t("Тип продукта")}>
-            {typeChips.map((ty) => (
-              <Pill
-                key={ty}
-                selected={selectedType === ty}
-                onClick={() => setParams({ type: selectedType === ty ? null : ty, kind: null }, true)}
-              >
-                {t(ty)}
-              </Pill>
-            ))}
-          </div>
-        )
-      )}
-
-      {/* от пилюль до карточек — 32 px, как от счётчика товаров до фильтров; без пилюль — тоже 32 (12 у ряда фильтров + 20) */}
-      <div className={`${kinds.length > 1 || typeChips.length > 1 ? "mt-8" : "mt-5"} grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4`}>
+      <div className="mt-5 grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
         {onPage.map((p) => (
           <div key={p.id} className="reveal">
             <ProductCard product={p} />

@@ -1,7 +1,7 @@
 // Страница раздела каталога (макет catalog в Figma, 2936:6591): шапка с фото + фильтры и сетка товаров.
 // Используется для /catalog («Уход для лица») и /catalog/<раздел>.
 import Image from "next/image";
-import { CatalogBreadcrumbs } from "./CatalogBreadcrumbs";
+import { CatalogHeading } from "./CatalogHeading";
 import { CatalogGrid } from "./CatalogGrid";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
@@ -46,18 +46,18 @@ export function CatalogSection({
         {/* photo bg: фон surface 320 px, заголовок H1 слева снизу, фото 550 × 320 справа */}
         <section className="bg-surface">
           <div className="container-page flex h-[200px] items-end justify-between md:h-[320px]">
-            {/* заголовок раздела, под ним через 8 px крошки; снизу 50 px (Figma: photo bg) */}
-            <div className="flex flex-col gap-2 pb-8 md:pb-[50px]">
-              <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">
-                {initialBrand ? `${initialBrand} ${t(title).toLowerCase()}` : t(title)}
-              </h1>
-              <CatalogBreadcrumbs
-                title={title}
-                href={href}
-                valid={group ? [...types, group.title] : types}
-                initialType={group?.title ?? initialType}
-              />
-            </div>
+            <CatalogHeading
+              title={title}
+              href={href}
+              valid={group ? [...types, group.title] : types}
+              initialType={group?.title ?? initialType}
+              brand={initialBrand}
+              initialCount={
+                products.filter((p) =>
+                  group ? group.types.includes(p.type ?? "") : initialType ? p.type === initialType : true,
+                ).length
+              }
+            />
             <div
               className={`relative hidden h-full shrink-0 md:block xl:mr-[66px] ${heroWide ? "w-[min(692px,55%)]" : "w-[min(550px,60%)]"}`}
             >
@@ -66,7 +66,7 @@ export function CatalogSection({
           </div>
         </section>
 
-        <div className="container-page pt-10 md:pt-[70px]">
+        <div className="container-page pt-10 md:pt-[50px]">
           {products.length ? (
             // key: при переходе из меню на другой подраздел фильтры начинаются заново
             <CatalogGrid
