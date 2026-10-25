@@ -40,6 +40,8 @@ export const titles = {
   "anua-peach-77-cream": "Anua Peach 77 Niacin Cream",
   "boj-red-bean-gel": "Beauty of Joseon Red Bean Gel",
   "wishtrend-bakuchiol-cream": "By Wishtrend Bakuchiol Night Cream",
+  "wishtrend-enzyme-powder": "By Wishtrend Green Tea Enzyme Powder",
+  "biodance-collagen-oil": "Biodance Collagen Cleansing Oil",
   "cosrx-ceramide-cream": "COSRX The Ceramide Moisturizer",
   "centellian-madeca-cream": "Centellian24 Madeca Cream",
   "illiyoon-hyaluronic-cream": "Illiyoon Hyaluronic Cream",

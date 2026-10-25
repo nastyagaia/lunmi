@@ -2,6 +2,8 @@
 import { allProducts } from "./sections";
 
 const NEW_IDS = [
+  "wishtrend-enzyme-powder",
+  "biodance-collagen-oil",
   "anua-pdrn-capsule-serum",
   "anua-pdrn-cream",
   "axis-y-collagen-eye-serum",

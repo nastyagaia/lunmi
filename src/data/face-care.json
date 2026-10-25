@@ -194,6 +194,42 @@
     ]
   },
   {
+    "id": "wishtrend-enzyme-powder",
+    "href": "/product/wishtrend-enzyme-powder",
+    "type": "Очищение",
+    "brand": "By Wishtrend",
+    "name": "By Wishtrend Green Tea & Enzyme Powder Wash",
+    "title": "By Wishtrend Green Tea Enzyme Powder",
+    "line": "Green Tea & Enzyme Powder Wash",
+    "description": "Энзимная пудра для умывания с зелёным чаем",
+    "price": "2 490 ₽",
+    "image": "/img/face/wishtrend-enzyme-powder-1-600-dae24b.webp",
+    "images": [
+      "/img/face/wishtrend-enzyme-powder-1-1200-cf5b89.webp"
+    ],
+    "thumbs": [
+      "/img/face/wishtrend-enzyme-powder-1-600-dae24b.webp"
+    ]
+  },
+  {
+    "id": "biodance-collagen-oil",
+    "href": "/product/biodance-collagen-oil",
+    "type": "Очищение",
+    "brand": "Biodance",
+    "name": "Biodance Collagen Cleansing Oil",
+    "title": "Biodance Collagen Cleansing Oil",
+    "line": "Collagen Cleansing Oil",
+    "description": "Гидрофильное масло с коллагеном",
+    "price": "2 150 ₽",
+    "image": "/img/face/biodance-collagen-oil-1-600-44253b.webp",
+    "images": [
+      "/img/face/biodance-collagen-oil-1-1200-56c256.webp"
+    ],
+    "thumbs": [
+      "/img/face/biodance-collagen-oil-1-600-44253b.webp"
+    ]
+  },
+  {
     "id": "abib-heartleaf-pad",
     "href": "/product/abib-heartleaf-pad",
     "type": "Пэды и патчи",
@@ -468,12 +504,12 @@
     "discount": "5%",
     "hit": true,
     "rating": "4.3",
-    "image": "/img/face/anua-peach-70-niacin-serum-2-600-e80578.webp",
+    "image": "/img/face/anua-peach-70-niacin-serum-1-600-e80578.webp",
     "images": [
-      "/img/face/anua-peach-70-niacin-serum-2-1200-188d2a.webp"
+      "/img/face/anua-peach-70-niacin-serum-1-1200-188d2a.webp"
     ],
     "thumbs": [
-      "/img/face/anua-peach-70-niacin-serum-2-600-e80578.webp"
+      "/img/face/anua-peach-70-niacin-serum-1-600-e80578.webp"
     ]
   },
   {
@@ -1284,7 +1320,7 @@
     "line": "Heartleaf Silky Moisture Sun Cream",
     "description": "Увлажняющий солнцезащитный крем SPF50+",
     "price": "1 990 ₽",
-    "oldPrice": "2 210 ₽",
+    "oldPrice": "2 210 ₽",
     "discount": "10%",
     "image": "/img/face/anua-heartleaf-sun-cream-1-600-42d666.webp",
     "images": [
@@ -1304,7 +1340,7 @@
     "line": "Peach Niacin UV Tone Up 01 Melting Peach",
     "description": "Тонирующий солнцезащитный крем SPF50+",
     "price": "2 190 ₽",
-    "oldPrice": "2 430 ₽",
+    "oldPrice": "2 430 ₽",
     "discount": "10%",
     "image": "/img/face/anua-peach-tone-up-1-600-b645dc.webp",
     "images": [
@@ -2065,11 +2101,12 @@
     "title": "Petitfee Aura Quartz Eye Mask",
     "line": "Aura Quartz Hydrogel Eye Mask Pure Opal",
     "description": "Гидрогелевые патчи с жемчугом для сияния",
-    "price": "2 990 ₽",
-    "oldPrice": "3 150 ₽",
+    "price": "2 990 ₽",
+    "oldPrice": "3 150 ₽",
     "discount": "5%",
     "hit": true,
     "image": "/img/face/petitfee-aura-quartz-patch-1-600-932f15.webp",
+    "hoverImage": "/img/face/petitfee-aura-quartz-patch-2-600-d0d5b4.webp",
     "images": [
       "/img/face/petitfee-aura-quartz-patch-1-1200-ccb1b5.webp",
       "/img/face/petitfee-aura-quartz-patch-2-1200-daf18b.webp"
@@ -2077,8 +2114,7 @@
     "thumbs": [
       "/img/face/petitfee-aura-quartz-patch-1-600-932f15.webp",
       "/img/face/petitfee-aura-quartz-patch-2-600-d0d5b4.webp"
-    ],
-    "hoverImage": "/img/face/petitfee-aura-quartz-patch-2-600-d0d5b4.webp"
+    ]
   },
   {
     "id": "round-lab-birch-pad",

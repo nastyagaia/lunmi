@@ -30,6 +30,9 @@ export const products = [
   { id: "purito-deep-sea-oil", type: "Очищение", brand: "Purito", name: "Purito From Green Cleansing Oil", description: "Гидрофильное масло с оливой и витамином E", price: 1590, files: [O + "08_Purito_Deep_Sea_Water_Cleansing_Oil.png"] },
   { id: "drg-green-pore-balm", type: "Очищение", brand: "Dr.G", name: "Dr.G Green Deep Pore Cleansing Balm", description: "Бальзам для глубокого очищения пор", price: 1690, files: [O + "09_DrG_Green_Deep_Pore_Cleansing_Balm_01.png", O + "09_DrG_Green_Deep_Pore_Cleansing_Balm_02.png", D + "25.png"] },
   { id: "beplain-mung-bean-foam", type: "Очищение", brand: "Beplain", name: "Beplain Mung Bean pH Balanced Cleansing Foam", description: "Пенка с экстрактом бобов мунг", price: 1390, files: [O + "10_Beplain_Mung_Bean_pH_Balanced_Cleansing_Foam.png"] },
+  // фото прислала Настя в чате, фон перекрашен в surface — лежат в репозитории
+  { id: "wishtrend-enzyme-powder", type: "Очищение", brand: "By Wishtrend", name: "By Wishtrend Green Tea & Enzyme Powder Wash", description: "Энзимная пудра для умывания с зелёным чаем", price: 2490, files: [REPO + "scripts/sources/wishtrend-enzyme-powder.webp"] },
+  { id: "biodance-collagen-oil", type: "Очищение", brand: "Biodance", name: "Biodance Collagen Cleansing Oil", description: "Гидрофильное масло с коллагеном", price: 2150, files: [REPO + "scripts/sources/biodance-collagen-oil.webp"] },
 
   // ---------- Тонеры ----------
   { id: "abib-heartleaf-pad", type: "Пэды и патчи", brand: "Abib", name: "Abib Heartleaf Essence Pad Clear Touch", description: "Успокаивающие пэды с хауттюйнией", price: 2190, files: [T + "Abib Heartleaf Essence Pad Clear Touch.png"] },
