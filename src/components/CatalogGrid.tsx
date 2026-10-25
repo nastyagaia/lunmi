@@ -253,7 +253,7 @@ function CatalogGridView({
               look={chipLook}
               key={k.name}
               selected={activeKind === k.name}
-              onClick={() => setParams({ kind: activeKind === k.name ? null : k.name })}
+              onClick={() => setParams({ kind: activeKind === k.name ? null : k.name }, true)}
             >
               {t(k.name)}
             </Pill>

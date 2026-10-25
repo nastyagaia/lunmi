@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Fragment, Suspense } from "react";
 import { productsCount } from "./CatalogGrid";
+import { kindNames } from "@/data/kinds";
 import { useCatalogCount } from "@/lib/catalog-count";
 import { isEn, t } from "@/lib/i18n";
 
@@ -30,17 +31,30 @@ export function CatalogHeading(props: Props) {
 }
 
 function WithParams(props: Props) {
-  return <Heading {...props} type={useSearchParams().get("type")} />;
+  const params = useSearchParams();
+  return <Heading {...props} type={params.get("type")} kind={params.get("kind")} />;
 }
 
-function Heading({ title, href, valid, brand, initialCount, type }: Props & { type: string | null }) {
+function Heading({
+  title,
+  href,
+  valid,
+  brand,
+  initialCount,
+  type,
+  kind = null,
+}: Props & { type: string | null; kind?: string | null }) {
   const count = useCatalogCount(initialCount);
   const current = type && valid.includes(type) ? type : null;
-  const heading = current ? t(current) : brand ? `${brand} ${t(title).toLowerCase()}` : t(title);
+  // вид — ещё один уровень вглубь, как у Золотого яблока: «Главная / Уход для лица / Очищение / Гидрофильное масло»
+  const currentKind = current && kind && kindNames(current).includes(kind) ? kind : null;
+  const heading = currentKind ? t(currentKind) : current ? t(current) : brand ? `${brand} ${t(title).toLowerCase()}` : t(title);
+  const typeHref = current ? `${href}?type=${encodeURIComponent(current)}` : undefined;
   const parts = [
     { label: isEn ? "Home" : "Главная", href: "/" },
     { label: t(title), href: current ? href : undefined },
-    ...(current ? [{ label: t(current), href: undefined }] : []),
+    ...(current ? [{ label: t(current), href: currentKind ? typeHref : undefined }] : []),
+    ...(currentKind ? [{ label: t(currentKind), href: undefined }] : []),
   ];
   return (
     <div className="flex flex-col gap-2 pb-5">
