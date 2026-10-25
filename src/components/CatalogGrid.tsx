@@ -9,6 +9,7 @@ import { kindNames } from "@/data/kinds";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
 import { ProductCard, type Product } from "./ProductCard";
 import { DropdownButton, FilterChip, Pill } from "./ui";
+import { ChevronLeft, ChevronRight } from "./icons";
 import { t, plural, isEn, RUB_PER_EUR, priceToNumber } from "@/lib/i18n";
 
 type Key = "type" | "brand" | "price" | "effect" | "ingredient" | "sort";
@@ -232,7 +233,7 @@ function CatalogGridView({
       {/* чипсы — Filter Chips из Figma (catalog 2936:6591): над фильтрами, между собой 12 px, до фильтров 16 px.
           Выбран подраздел с видами — показываем виды («Гидрофильное масло · Бальзам · Пенка…»), иначе — подразделы */}
       {kinds.length > 1 ? (
-        <div className={`${chipsTop} flex flex-wrap ${chipLook === "text" ? "gap-x-6 gap-y-2" : "gap-3"}`} role="group" aria-label={t("Вид продукта")}>
+        <ChipRow className={chipsTop} gap={chipLook === "text" ? "gap-6" : "gap-3"} label={t("Вид продукта")}>
           {!crumbs && selectedType && (
             <Pill look={chipLook} selected={false} onClick={() => setParams({ type: null, kind: null }, true)}>
               ← {t(selectedType)}
@@ -248,10 +249,10 @@ function CatalogGridView({
               {t(k.name)}
             </Pill>
           ))}
-        </div>
+        </ChipRow>
       ) : (
         typeChips.length > 1 && (
-          <div className={`${chipsTop} flex flex-wrap ${chipLook === "text" ? "gap-x-6 gap-y-2" : "gap-3"}`} role="group" aria-label={t("Тип продукта")}>
+          <ChipRow className={chipsTop} gap={chipLook === "text" ? "gap-6" : "gap-3"} label={t("Тип продукта")}>
             {typeChips.map((ty) => (
               <Pill
                 look={chipLook}
@@ -262,7 +263,7 @@ function CatalogGridView({
                 {t(ty)}
               </Pill>
             ))}
-          </div>
+          </ChipRow>
         )
       )}
 
@@ -392,5 +393,51 @@ function PageArrow({ dir, disabled, onClick }: { dir: "prev" | "next"; disabled:
         <path d={dir === "prev" ? "M10 4L6 8L10 12" : "M6 12L10 8L6 4"} />
       </svg>
     </button>
+  );
+}
+
+/** Ряд чипсов в одну строку, как у Ozon: не переносится, прокручивается вбок;
+ *  стрелки по краям — те же, что у выбора даты в оформлении заказа, листают на 240 px */
+function ChipRow({ children, label, gap, className = "" }: { children: ReactNode; label: string; gap: string; className?: string }) {
+  const row = useRef<HTMLDivElement>(null);
+  const [edge, setEdge] = useState({ start: true, end: true });
+  const update = () => {
+    const el = row.current;
+    if (el) setEdge({ start: el.scrollLeft <= 2, end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 });
+  };
+  useEffect(() => {
+    const el = row.current;
+    if (!el) return;
+    // выбранный чипс — в зоне видимости
+    const selected = el.querySelector<HTMLElement>("[aria-pressed=true]");
+    if (selected && selected.offsetLeft + selected.offsetWidth > el.clientWidth) el.scrollLeft = selected.offsetLeft - 40;
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const arrow = "absolute top-1/2 flex size-6 -translate-y-1/2 items-center justify-center rounded-sm border border-line bg-white shadow-[1px_1px_2.5px_rgb(0_0_0/0.25)] transition-colors hover:border-primary";
+  return (
+    <div className={`relative ${className}`}>
+      <div ref={row} onScroll={update} role="group" aria-label={label} className={`no-scrollbar flex overflow-x-auto [&>*]:shrink-0 [&>*]:whitespace-nowrap ${gap}`}>
+        {children}
+      </div>
+      {!edge.start && (
+        <>
+          <span aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent" />
+          <button type="button" onClick={() => row.current?.scrollBy({ left: -240, behavior: "smooth" })} aria-label={t("Назад")} className={`${arrow} left-0`}>
+            <ChevronLeft className="size-4" />
+          </button>
+        </>
+      )}
+      {!edge.end && (
+        <>
+          <span aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent" />
+          <button type="button" onClick={() => row.current?.scrollBy({ left: 240, behavior: "smooth" })} aria-label={t("Вперёд")} className={`${arrow} right-0`}>
+            <ChevronRight className="size-4" />
+          </button>
+        </>
+      )}
+    </div>
   );
 }

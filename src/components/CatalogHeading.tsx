@@ -51,7 +51,7 @@ function Heading({
     ...(currentKind ? [{ label: t(currentKind), href: undefined }] : []),
   ];
   return (
-    <div className="flex flex-col gap-2 pb-5">
+    <div className="flex flex-col gap-2 pb-[50px]">
       <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{heading}</h1>
       <nav aria-label={t("Хлебные крошки")} className="flex flex-wrap items-center gap-1 text-base-s text-secondary">
         {parts.map((p, i) => (

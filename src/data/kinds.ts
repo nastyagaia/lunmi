@@ -12,6 +12,7 @@ export const KINDS: Record<string, KindRules> = {
       ["Гидрофильное масло", /oil/i],
       ["Бальзам", /balm/i],
       ["Пенка", /foam/i],
+      ["Энзимная пудра", /powder/i],
       ["Гель", /./],
     ],
   },

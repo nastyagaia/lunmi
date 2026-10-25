@@ -551,7 +551,7 @@ export function Pill({
       className={`shrink-0 whitespace-nowrap transition-colors ${
         look === "text"
           ? `py-1 text-base-m ${selected ? "text-accent" : "text-secondary hover:text-primary"}`
-          : `rounded-sm px-3 py-2 text-base-s ${selected ? "bg-accent-soft" : "bg-surface hover:bg-line-light"}`
+          : `rounded-sm px-3 py-2 text-base-s ${selected ? "bg-line-light" : "bg-surface hover:bg-line-light"}`
       }`}
     >
       {children}

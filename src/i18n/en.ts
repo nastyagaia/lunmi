@@ -745,6 +745,7 @@ export const en: Record<string, string> = {
   // —— виды ухода ——
   "Гидрофильное масло": "Cleansing oil",
   "Пенка": "Foam",
+  "Энзимная пудра": "Enzyme powder",
   "Маски-плёнки": "Peel-off masks",
   "Гидрогелевые": "Hydrogel",
   "Глиняные": "Clay",
