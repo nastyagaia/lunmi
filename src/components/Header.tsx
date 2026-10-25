@@ -13,10 +13,11 @@ import { ArrowLeft, BurgerIcon, CartIcon, ChevronDown, CloseIcon, HeartIcon, Log
 import { t } from "@/lib/i18n";
 
 // «Доставка» — в футере и в «Частых вопросах», как у крупных магазинов (25.10.2026)
-const nav = ["Каталог", "Скидки", "Бренды", "Подбор косметики"];
+const nav = ["Каталог", "Скидки", "Новинки", "Бренды", "Подбор косметики"];
 const navHref: Record<string, string> = {
   Каталог: "/catalog",
   Скидки: "/sale",
+  Новинки: "/new",
   Бренды: "/brands",
   "Подбор косметики": "/ai",
   Доставка: "/delivery",

@@ -723,4 +723,8 @@ export const en: Record<string, string> = {
   // —— подвал ——
   "Частые вопросы": "FAQ",
 
+
+  // —— новинки ——
+  "Новинки": "New in",
+  "Новинки корейской косметики в Lunmi.": "New Korean beauty arrivals at Lunmi.",
 };
