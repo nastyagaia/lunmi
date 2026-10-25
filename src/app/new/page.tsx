@@ -1,5 +1,5 @@
 // Новинки: товары, добавленные последними (список — src/data/new-arrivals.ts), устроено как раздел каталога.
-// Обложка — из Figma (photo, type=новинки, 7553:47402).
+// Обложка — из Figma (photo, type=новинки, 7551:47354).
 import type { Metadata } from "next";
 import { CatalogSection } from "@/components/CatalogSection";
 import { catalogMenu } from "@/data/menu";
