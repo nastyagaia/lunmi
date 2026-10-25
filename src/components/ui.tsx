@@ -526,30 +526,19 @@ export function ChoiceChip({
   );
 }
 
-/** Пилюля второго уровня фильтров («Тушь · Подводка · Тени»): тише, чем Filter Chips — 28 px, Base/XS, серый фон без рамки;
- *  выбранная — чёрная с белым текстом. В UI KIT такого компонента нет — согласовано с Настей 25.10.2026 */
-export function Pill({
-  selected,
-  onClick,
-  count,
-  children,
-}: {
-  selected: boolean;
-  onClick: () => void;
-  count?: number;
-  children: ReactNode;
-}) {
+/** Пилюля вида товара («Тушь · Подводка · Тени») — Filter Chips из Figma (11476:18998): 8 px со всех сторон, Base/XS,
+ *  радиус 4, фон surface/neutral-2; выбранная — surface/accent-2 (розовая). Без счётчиков */
+export function Pill({ selected, onClick, children }: { selected: boolean; onClick: () => void; children: ReactNode }) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`flex h-7 shrink-0 items-center gap-1 rounded-full px-3 text-base-xs whitespace-nowrap transition-colors ${
-        selected ? "bg-primary text-white" : "bg-surface text-primary hover:bg-line-light"
+      className={`shrink-0 rounded-sm p-2 text-base-xs whitespace-nowrap transition-colors ${
+        selected ? "bg-accent-soft" : "bg-surface hover:bg-line-light"
       }`}
     >
       {children}
-      {count !== undefined && <span className={selected ? "text-white/60" : "text-tertiary"}>{count}</span>}
     </button>
   );
 }
