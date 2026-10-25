@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { filterOptions } from "@/data/filter-options";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
 import { ProductCard, type Product } from "./ProductCard";
-import { DropdownButton, FilterChip } from "./ui";
+import { ChoiceChip, DropdownButton, FilterChip } from "./ui";
 import { t, plural, isEn, RUB_PER_EUR, priceToNumber } from "@/lib/i18n";
 
 type Key = "type" | "brand" | "price" | "effect" | "ingredient" | "sort";
@@ -62,6 +62,8 @@ export function CatalogGrid({
   const [ingredient, setIngredient] = useState<string[]>([]);
   const [price, setPrice] = useState<PriceRange>({ from: "", to: "" });
   const [sort, setSort] = useState(filterOptions.sort[0]);
+  /** вид внутри выбранного типа — чипсы над сеткой («Тени», «Тушь»…) */
+  const [kind, setKind] = useState<string | null>(null);
 
   // фильтры «прилипли» к верху? Пока нет — фон белый, как у страницы; прилипли — появляется стекло
   const bar = useRef<HTMLDivElement>(null);
@@ -86,7 +88,7 @@ export function CatalogGrid({
     a.localeCompare(b),
   );
 
-  let shown = products.filter((p) => {
+  const passes = (p: Product) => {
     if (type.length && !type.includes(p.type ?? "")) return false;
     if (brand.length && !brand.includes(p.brand ?? "")) return false;
     if (effect.length && !effect.some((e) => p.effects?.includes(e))) return false;
@@ -97,13 +99,22 @@ export function CatalogGrid({
     if (price.from && n < Number(price.from) * k) return false;
     if (price.to && n > Number(price.to) * k) return false;
     return true;
-  });
+  };
+  const filtered = products.filter(passes);
+  // виды показываем, когда выбран один тип и внутри него больше одного вида (у макияжа: тушь, подводка, тени…)
+  const KIND_ORDER = ["Тушь", "Подводка", "Тени", "Глиттер", "Тинт", "Блеск", "Помада", "Бальзам", "Карандаш", "Гель"];
+  const kinds =
+    type.length === 1
+      ? KIND_ORDER.map((name) => ({ name, count: filtered.filter((p) => p.kind === name).length })).filter((k) => k.count)
+      : [];
+  const activeKind = kinds.length > 1 && kinds.some((k) => k.name === kind) ? kind : null;
+  let shown = activeKind ? filtered.filter((p) => p.kind === activeKind) : filtered;
   if (sort === "сначала дешевле") shown = [...shown].sort((a, b) => toNumber(a.price) - toNumber(b.price));
   if (sort === "сначала дороже") shown = [...shown].sort((a, b) => toNumber(b.price) - toNumber(a.price));
   if (sort === "по рейтингу") shown = [...shown].sort((a, b) => Number(b.rating ?? 0) - Number(a.rating ?? 0));
 
   // страница пагинации; при смене фильтров или сортировки — снова первая
-  const sig = JSON.stringify([type, brand, effect, ingredient, price, sort]);
+  const sig = JSON.stringify([type, brand, effect, ingredient, price, sort, activeKind]);
   const [pg, setPg] = useState({ sig, n: 1 });
   const pages = Math.max(1, Math.ceil(shown.length / PAGE));
   const page = pg.sig === sig ? Math.min(pg.n, pages) : 1;
@@ -217,6 +228,20 @@ export function CatalogGrid({
           />
         </Popover>
       </div>
+
+      {/* виды внутри типа (Date picker / ChoiceChip из UI KIT): «Все 22 · Тушь 6 · Подводка 8 · Тени 4 · Глиттер 4» */}
+      {kinds.length > 1 && (
+        <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label={t("Вид продукта")}>
+          <ChoiceChip selected={!activeKind} onClick={() => setKind(null)}>
+            {t("Все")} <span className="text-tertiary">{filtered.length}</span>
+          </ChoiceChip>
+          {kinds.map((k) => (
+            <ChoiceChip key={k.name} selected={activeKind === k.name} onClick={() => setKind(activeKind === k.name ? null : k.name)}>
+              {t(k.name)} <span className="text-tertiary">{k.count}</span>
+            </ChoiceChip>
+          ))}
+        </div>
+      )}
 
       <div className="mt-5 grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
         {onPage.map((p) => (

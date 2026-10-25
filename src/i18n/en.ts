@@ -727,4 +727,18 @@ export const en: Record<string, string> = {
   // —— новинки ——
   "Новинки": "New in",
   "Новинки корейской косметики в Lunmi.": "New Korean beauty arrivals at Lunmi.",
+
+  // —— виды макияжа ——
+  "Вид продукта": "Product kind",
+  "Все": "All",
+  "Тушь": "Mascara",
+  "Подводка": "Eyeliner",
+  "Тени": "Eyeshadow",
+  "Глиттер": "Glitter",
+  "Тинт": "Tint",
+  "Блеск": "Gloss",
+  "Помада": "Lipstick",
+  "Бальзам": "Balm",
+  "Карандаш": "Pencil",
+  "Гель": "Gel",
 };
