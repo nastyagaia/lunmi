@@ -75,14 +75,14 @@ function CatalogGridWithParams(props: CatalogGridProps) {
       {...props}
       urlType={params.get("type")}
       urlKind={params.get("kind")}
-      chipLook={params.get("chips") === "pill" ? "pill" : CHIP_LOOK}
+      chipLook={params.get("chips") === "text" ? "text" : CHIP_LOOK}
     />
   );
 }
 
-/** Вид чипсов подразделов и видов: «text» — текстовые табы, «pill» — плашки с фоном (оба варианта Насти, 25.10.2026).
- *  Сравнить на сайте: добавить к адресу ?chips=pill */
-const CHIP_LOOK: "pill" | "text" = "text";
+/** Вид чипсов подразделов и видов: «pill» — плашки с фоном (выбрала Настя, 25.10.2026), «text» — текстовые табы (пробовали, не понравились).
+ *  Посмотреть табы: добавить к адресу ?chips=text */
+const CHIP_LOOK: "pill" | "text" = "pill";
 
 /** Поменять ?type / ?kind без перезагрузки страницы (Next синхронизирует useSearchParams с history) */
 function setParams(next: Record<string, string | null>, push = false) {
