@@ -1,7 +1,7 @@
 "use client";
 
 // Текст в серой шапке раздела (Figma: catalog 2936:6591): заголовок H1, через 8 px крошки «Главная / Уход для лица / Очищение»
-// (Base/S серым, между частями 4 px), через 8 px — «Найдено 45 продуктов» (Caps серым).
+// (Base/S серым, между частями 4 px), через 40 px — «Найдено 45 продуктов» (Caps серым), до низа шапки 20 px.
 // Подраздел берётся из адреса (?type=…) — его меняют чипсы над товарами; число товаров передаёт сетка с фильтрами.
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -43,7 +43,7 @@ function Heading({ title, href, valid, brand, initialCount, type }: Props & { ty
     ...(current ? [{ label: t(current), href: undefined }] : []),
   ];
   return (
-    <div className="flex flex-col gap-2 pb-8 md:pb-[50px]">
+    <div className="flex flex-col gap-2 pb-5">
       <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{heading}</h1>
       <nav aria-label={t("Хлебные крошки")} className="flex flex-wrap items-center gap-1 text-base-s text-secondary">
         {parts.map((p, i) => (
@@ -59,7 +59,8 @@ function Heading({ title, href, valid, brand, initialCount, type }: Props & { ty
           </Fragment>
         ))}
       </nav>
-      <p className="text-caps text-secondary">
+      {/* счётчик отделён от крошек: 40 px (8 + 32), до низа шапки — 20 px (Figma: Frame 21298) */}
+      <p className="mt-8 text-caps text-secondary">
         {t("Найдено")} {productsCount(count)}
       </p>
     </div>
