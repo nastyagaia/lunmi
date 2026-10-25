@@ -252,7 +252,8 @@ export function CatalogGrid({
         </div>
       )}
 
-      <div className="mt-5 grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
+      {/* от пилюль до карточек — 32 px, как от счётчика товаров до фильтров; без пилюль — тоже 32 (12 у ряда фильтров + 20) */}
+      <div className={`${kinds.length > 1 ? "mt-8" : "mt-5"} grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4`}>
         {onPage.map((p) => (
           <div key={p.id} className="reveal">
             <ProductCard product={p} />
