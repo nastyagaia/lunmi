@@ -4,6 +4,7 @@
 // Все фильтры работают: эффект и компоненты размечены по названию и текстам товара (sections.ts).
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { filterOptions } from "@/data/filter-options";
+import { kindNames } from "@/data/kinds";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
 import { ProductCard, type Product } from "./ProductCard";
 import { DropdownButton, FilterChip, Pill } from "./ui";
@@ -36,6 +37,7 @@ export function CatalogGrid({
   initialType,
   initialTypes,
   initialBrand,
+  initialKind,
   after,
   hideBrand = false,
   countPrefix = "",
@@ -49,6 +51,8 @@ export function CatalogGrid({
   initialTypes?: string[];
   /** бренд, отмеченный ссылкой: /catalog/beauty-gadgets?brand=Medicube (баннер «Medicube девайсы») */
   initialBrand?: string;
+  /** вид, выбранный в третьей колонке меню: /catalog/makiyazh?type=Для глаз&kind=Тени */
+  initialKind?: string;
   after?: ReactNode;
   /** на странице бренда фильтр «Бренд» не нужен */
   hideBrand?: boolean;
@@ -63,7 +67,7 @@ export function CatalogGrid({
   const [price, setPrice] = useState<PriceRange>({ from: "", to: "" });
   const [sort, setSort] = useState(filterOptions.sort[0]);
   /** вид внутри выбранного типа — чипсы над сеткой («Тени», «Тушь»…) */
-  const [kind, setKind] = useState<string | null>(null);
+  const [kind, setKind] = useState<string | null>(initialKind ?? null);
 
   // фильтры «прилипли» к верху? Пока нет — фон белый, как у страницы; прилипли — появляется стекло
   const bar = useRef<HTMLDivElement>(null);
@@ -102,10 +106,11 @@ export function CatalogGrid({
   };
   const filtered = products.filter(passes);
   // виды показываем, когда выбран один тип и внутри него больше одного вида (у макияжа: тушь, подводка, тени…)
-  const KIND_ORDER = ["Тушь", "Подводка", "Тени", "Глиттер", "Тинт", "Блеск", "Помада", "Бальзам", "Карандаш", "Гель"];
   const kinds =
     type.length === 1
-      ? KIND_ORDER.map((name) => ({ name, count: filtered.filter((p) => p.kind === name).length })).filter((k) => k.count)
+      ? kindNames(type[0])
+          .map((name) => ({ name, count: filtered.filter((p) => p.kind === name).length }))
+          .filter((k) => k.count)
       : [];
   const activeKind = kinds.length > 1 && kinds.some((k) => k.name === kind) ? kind : null;
   let shown = activeKind ? filtered.filter((p) => p.kind === activeKind) : filtered;

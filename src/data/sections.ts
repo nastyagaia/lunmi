@@ -10,6 +10,7 @@ import { catalogMenu } from "./menu";
 import productTexts from "./product-texts.json";
 import productsEn from "@/i18n/products-en.json";
 import { isEn } from "@/lib/i18n";
+import { kindOf } from "./kinds";
 
 export type CatalogProduct = Product & {
   images: string[];
@@ -52,37 +53,13 @@ const INGREDIENTS: [string, RegExp][] = [
   ["Ретинол", /retin|ретин/i],
   ["Центелла", /centella|cica|madeca|центелл|мадекасс/i],
 ];
-/** Виды макияжа внутри типа — для чипсов «Тушь · Подводка · Тени · Глиттер» над сеткой. Проверяются по порядку. */
-const MAKEUP_KINDS: Record<string, [string, RegExp][]> = {
-  "Для глаз": [
-    ["Тушь", /mascara|\bcara\b/i],
-    ["Подводка", /liner/i],
-    ["Тени", /palette/i],
-    ["Глиттер", /glitter|switch/i],
-  ],
-  "Для губ": [
-    ["Помада", /lipstick/i],
-    ["Карандаш", /pencil/i],
-    ["Блеск", /gloss|plumper|drop glow|jelly pot/i],
-    ["Бальзам", /liptual|balm/i],
-    ["Тинт", /./],
-  ],
-  "Для бровей": [
-    ["Карандаш", /pencil|drawing/i],
-    ["Тушь", /mascara|\bcara\b/i],
-    ["Гель", /pomade|fixer|gel/i],
-  ],
-};
-const makeupKind = (p: CatalogProduct) => MAKEUP_KINDS[p.type ?? ""]?.find(([, re]) => re.test(p.name))?.[0];
-
 const texts = productTexts as Record<string, Record<string, string | null>>;
 function withFilterTags(p: CatalogProduct): CatalogProduct {
-  // макияж и гаджеты по уходовым фильтрам не размечаем — там это только путает; у макияжа — только вид (тушь, тени…)
-  if (p.category === "Макияж") {
-    const kind = makeupKind(p);
-    return kind ? { ...p, kind } : p;
-  }
-  if (p.category === "Бьюти-гаджеты") return p;
+  // вид внутри подраздела (тушь, тени, пенка, стик…) — для пилюль и третьей колонки меню
+  const kind = kindOf(p);
+  if (kind) p = { ...p, kind };
+  // макияж и гаджеты по уходовым фильтрам не размечаем — там это только путает
+  if (p.category === "Макияж" || p.category === "Бьюти-гаджеты") return p;
   const t = texts[p.id] ?? {};
   const hay = [p.name, p.title, p.description, p.type, p.category, ...(p.also ?? []).flat(), t["Характеристики"], t["Состав"]]
     .filter(Boolean)

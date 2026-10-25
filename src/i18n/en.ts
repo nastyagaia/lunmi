@@ -741,4 +741,16 @@ export const en: Record<string, string> = {
   "Бальзам": "Balm",
   "Карандаш": "Pencil",
   "Гель": "Gel",
+
+  // —— виды ухода ——
+  "Все товары подраздела": "All in this category",
+  "Гидрофильное масло": "Cleansing oil",
+  "Пенка": "Foam",
+  "Маски-плёнки": "Peel-off masks",
+  "Гидрогелевые": "Hydrogel",
+  "Глиняные": "Clay",
+  "Тканевые": "Sheet masks",
+  "Патчи": "Patches",
+  "Пэды": "Pads",
+  "Стик": "Stick",
 };

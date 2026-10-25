@@ -16,6 +16,7 @@ export function CatalogSection({
   types,
   initialType,
   initialBrand,
+  initialKind,
   group,
   heroWide = false,
 }: {
@@ -26,6 +27,8 @@ export function CatalogSection({
   initialType?: string;
   /** бренд из ссылки (?brand=Medicube): заголовок «Medicube» + название раздела, фильтр бренда отмечен */
   initialBrand?: string;
+  /** вид из третьей колонки меню (?kind=Тени) */
+  initialKind?: string;
   /** подраздел-группа из меню («Для лица»): её название и подразделы */
   group?: { title: string; types: string[] };
   /** обложка «Скидок» в макете шире — 692 × 320 */
@@ -60,12 +63,13 @@ export function CatalogSection({
           {products.length ? (
             // key: при переходе из меню на другой подраздел фильтры начинаются заново
             <CatalogGrid
-              key={group?.title ?? initialType ?? initialBrand ?? "all"}
+              key={`${group?.title ?? initialType ?? initialBrand ?? "all"}-${initialKind ?? ""}`}
               products={products}
               types={types}
               initialType={initialType}
               initialTypes={group?.types}
               initialBrand={initialBrand}
+              initialKind={initialKind}
               after={<HelpCard className="reveal col-span-2 self-start lg:col-span-1" />}
             />
           ) : (
