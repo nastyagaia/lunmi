@@ -93,7 +93,7 @@ const faqRu = [
   },
   {
     q: "Как вернуть товар",
-    a: "Косметику надлежащего качества по закону вернуть нельзя — это товар личной гигиены. Но если приехал брак или вообще не то, что вы заказывали, напишите в поддержку и пришлите фото: заменим товар или вернём деньги, без допросов. Подробности — на странице «Доставка и возврат».",
+    a: "Косметику надлежащего качества по закону вернуть нельзя — это товар личной гигиены. Но если приехал брак или вообще не то, что вы заказывали, напишите в поддержку и пришлите фото: заменим товар или вернём деньги, без допросов. Подробности — на странице «Доставка».",
   },
   {
     q: "Как изменить или отменить заказ",
@@ -125,7 +125,7 @@ const faqEn = [
   },
   {
     q: "How to return an item",
-    a: "By law, cosmetics of proper quality can’t be returned — they’re personal care products. But if something arrived damaged or isn’t what you ordered, message support and send a photo: we’ll replace it or refund you, no questions asked. More details on the “Delivery & returns” page.",
+    a: "By law, cosmetics of proper quality can’t be returned — they’re personal care products. But if something arrived damaged or isn’t what you ordered, message support and send a photo: we’ll replace it or refund you, no questions asked. More details on the “Delivery” page.",
   },
   {
     q: "How to change or cancel an order",
