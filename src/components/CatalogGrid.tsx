@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { filterOptions } from "@/data/filter-options";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
 import { ProductCard, type Product } from "./ProductCard";
-import { ChoiceChip, DropdownButton, FilterChip } from "./ui";
+import { DropdownButton, FilterChip, Pill } from "./ui";
 import { t, plural, isEn, RUB_PER_EUR, priceToNumber } from "@/lib/i18n";
 
 type Key = "type" | "brand" | "price" | "effect" | "ingredient" | "sort";
@@ -229,16 +229,21 @@ export function CatalogGrid({
         </Popover>
       </div>
 
-      {/* виды внутри типа (Date picker / ChoiceChip из UI KIT): «Все 22 · Тушь 6 · Подводка 8 · Тени 4 · Глиттер 4» */}
+      {/* виды внутри типа — маленькие пилюли, тише фильтров: «Все 22 · Тушь 6 · Подводка 8 · Тени 4 · Глиттер 4» */}
       {kinds.length > 1 && (
-        <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label={t("Вид продукта")}>
-          <ChoiceChip selected={!activeKind} onClick={() => setKind(null)}>
-            {t("Все")} <span className="text-tertiary">{filtered.length}</span>
-          </ChoiceChip>
+        <div className="mt-1 flex flex-wrap gap-1.5" role="group" aria-label={t("Вид продукта")}>
+          <Pill selected={!activeKind} count={filtered.length} onClick={() => setKind(null)}>
+            {t("Все")}
+          </Pill>
           {kinds.map((k) => (
-            <ChoiceChip key={k.name} selected={activeKind === k.name} onClick={() => setKind(activeKind === k.name ? null : k.name)}>
-              {t(k.name)} <span className="text-tertiary">{k.count}</span>
-            </ChoiceChip>
+            <Pill
+              key={k.name}
+              selected={activeKind === k.name}
+              count={k.count}
+              onClick={() => setKind(activeKind === k.name ? null : k.name)}
+            >
+              {t(k.name)}
+            </Pill>
           ))}
         </div>
       )}

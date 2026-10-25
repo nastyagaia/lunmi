@@ -525,3 +525,31 @@ export function ChoiceChip({
     </button>
   );
 }
+
+/** Пилюля второго уровня фильтров («Тушь · Подводка · Тени»): тише, чем Filter Chips — 28 px, Base/XS, серый фон без рамки;
+ *  выбранная — чёрная с белым текстом. В UI KIT такого компонента нет — согласовано с Настей 25.10.2026 */
+export function Pill({
+  selected,
+  onClick,
+  count,
+  children,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  count?: number;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={selected}
+      className={`flex h-7 shrink-0 items-center gap-1 rounded-full px-3 text-base-xs whitespace-nowrap transition-colors ${
+        selected ? "bg-primary text-white" : "bg-surface text-primary hover:bg-line-light"
+      }`}
+    >
+      {children}
+      {count !== undefined && <span className={selected ? "text-white/60" : "text-tertiary"}>{count}</span>}
+    </button>
+  );
+}
