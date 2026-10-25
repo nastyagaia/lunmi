@@ -70,8 +70,19 @@ export function CatalogGrid(props: CatalogGridProps) {
 
 function CatalogGridWithParams(props: CatalogGridProps) {
   const params = useSearchParams();
-  return <CatalogGridView {...props} urlType={params.get("type")} urlKind={params.get("kind")} />;
+  return (
+    <CatalogGridView
+      {...props}
+      urlType={params.get("type")}
+      urlKind={params.get("kind")}
+      chipLook={params.get("chips") === "pill" ? "pill" : CHIP_LOOK}
+    />
+  );
 }
+
+/** Вид чипсов подразделов и видов: «text» — текстовые табы, «pill» — плашки с фоном (оба варианта Насти, 25.10.2026).
+ *  Сравнить на сайте: добавить к адресу ?chips=pill */
+const CHIP_LOOK: "pill" | "text" = "text";
 
 /** Поменять ?type / ?kind без перезагрузки страницы (Next синхронизирует useSearchParams с history) */
 function setParams(next: Record<string, string | null>, push = false) {
@@ -96,7 +107,8 @@ function CatalogGridView({
   crumbs = false,
   urlType,
   urlKind,
-}: CatalogGridProps & { urlType: string | null; urlKind: string | null }) {
+  chipLook = CHIP_LOOK,
+}: CatalogGridProps & { urlType: string | null; urlKind: string | null; chipLook?: "pill" | "text" }) {
   const [open, setOpen] = useState<Key | null>(null);
   // выбранный подраздел — из адреса; группа из меню («Для лица») ограничивает список своими подразделами
   const selectedType = urlType && types.includes(urlType) ? urlType : null;
@@ -230,14 +242,15 @@ function CatalogGridView({
       {/* чипсы — Filter Chips из Figma (catalog 2936:6591): над фильтрами, между собой 12 px, до фильтров 16 px.
           Выбран подраздел с видами — показываем виды («Гидрофильное масло · Бальзам · Пенка…»), иначе — подразделы */}
       {kinds.length > 1 ? (
-        <div className={`${chipsTop} flex flex-wrap gap-3`} role="group" aria-label={t("Вид продукта")}>
+        <div className={`${chipsTop} flex flex-wrap ${chipLook === "text" ? "gap-x-6 gap-y-2" : "gap-3"}`} role="group" aria-label={t("Вид продукта")}>
           {!crumbs && selectedType && (
-            <Pill selected={false} onClick={() => setParams({ type: null, kind: null }, true)}>
+            <Pill look={chipLook} selected={false} onClick={() => setParams({ type: null, kind: null }, true)}>
               ← {t(selectedType)}
             </Pill>
           )}
           {kinds.map((k) => (
             <Pill
+              look={chipLook}
               key={k.name}
               selected={activeKind === k.name}
               onClick={() => setParams({ kind: activeKind === k.name ? null : k.name })}
@@ -248,9 +261,10 @@ function CatalogGridView({
         </div>
       ) : (
         typeChips.length > 1 && (
-          <div className={`${chipsTop} flex flex-wrap gap-3`} role="group" aria-label={t("Тип продукта")}>
+          <div className={`${chipsTop} flex flex-wrap ${chipLook === "text" ? "gap-x-6 gap-y-2" : "gap-3"}`} role="group" aria-label={t("Тип продукта")}>
             {typeChips.map((ty) => (
               <Pill
+                look={chipLook}
                 key={ty}
                 selected={selectedType === ty}
                 onClick={() => setParams({ type: selectedType === ty ? null : ty, kind: null }, true)}

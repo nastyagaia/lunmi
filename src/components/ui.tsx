@@ -531,14 +531,27 @@ export function ChoiceChip({
 
 /** Чипс подраздела или вида («Очищение», «Тушь») — Filter Chips из Figma (11476:18998): 8 px со всех сторон, Base/S,
  *  радиус 4, фон surface/neutral-2; выбранная — surface/accent-2 (розовая). Без счётчиков */
-export function Pill({ selected, onClick, children }: { selected: boolean; onClick: () => void; children: ReactNode }) {
+export function Pill({
+  selected,
+  onClick,
+  look = "pill",
+  children,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  /** pill — плашка с фоном (Filter Chips); text — текстовый таб: крупнее (Base/M), без фона, выбранный — розовый */
+  look?: "pill" | "text";
+  children: ReactNode;
+}) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`shrink-0 rounded-sm px-3 py-2 text-base-s whitespace-nowrap transition-colors ${
-        selected ? "bg-accent-soft" : "bg-surface hover:bg-line-light"
+      className={`shrink-0 whitespace-nowrap transition-colors ${
+        look === "text"
+          ? `py-1 text-base-m ${selected ? "text-accent" : "text-secondary hover:text-primary"}`
+          : `rounded-sm px-3 py-2 text-base-s ${selected ? "bg-accent-soft" : "bg-surface hover:bg-line-light"}`
       }`}
     >
       {children}
