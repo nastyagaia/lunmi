@@ -526,7 +526,7 @@ export function ChoiceChip({
   );
 }
 
-/** Пилюля вида товара («Тушь · Подводка · Тени») — Filter Chips из Figma (11476:18998): 8 px со всех сторон, Base/XS,
+/** Чипс подраздела или вида («Очищение», «Тушь») — Filter Chips из Figma (11476:18998): 8 px со всех сторон, Base/S,
  *  радиус 4, фон surface/neutral-2; выбранная — surface/accent-2 (розовая). Без счётчиков */
 export function Pill({ selected, onClick, children }: { selected: boolean; onClick: () => void; children: ReactNode }) {
   return (
@@ -534,7 +534,7 @@ export function Pill({ selected, onClick, children }: { selected: boolean; onCli
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`shrink-0 rounded-sm p-2 text-base-xs whitespace-nowrap transition-colors ${
+      className={`shrink-0 rounded-sm p-2 text-base-s whitespace-nowrap transition-colors ${
         selected ? "bg-accent-soft" : "bg-surface hover:bg-line-light"
       }`}
     >

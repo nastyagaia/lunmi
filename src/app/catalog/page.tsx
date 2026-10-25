@@ -16,6 +16,7 @@ export default async function CatalogPage({ searchParams }: PageProps<"/catalog"
   return (
     <CatalogSection
       title={catalogPage.title}
+      href="/catalog"
       hero={catalogPage.heroImage}
       products={catalogProducts}
       types={catalogTypes}

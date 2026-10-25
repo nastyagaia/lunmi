@@ -21,6 +21,7 @@ export default async function NewPage({ searchParams }: PageProps<"/new">) {
   return (
     <CatalogSection
       title="Новинки"
+      href="/new"
       hero={sectionCovers.novinki}
       heroWide
       products={newArrivals}

@@ -20,6 +20,7 @@ export default async function SalePage({ searchParams }: PageProps<"/sale">) {
   return (
     <CatalogSection
       title="Скидки"
+      href="/sale"
       hero={sectionCovers.sale}
       heroWide
       products={products}

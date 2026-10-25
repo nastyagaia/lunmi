@@ -2,7 +2,8 @@
 
 // Каталог: счётчик, ряд фильтров (Figma: Frame 21159, 3027:7559) и сетка товаров.
 // Все фильтры работают: эффект и компоненты размечены по названию и текстам товара (sections.ts).
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
+import { useSearchParams } from "next/navigation";
 import { filterOptions } from "@/data/filter-options";
 import { kindNames } from "@/data/kinds";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
@@ -31,17 +32,7 @@ function pageList(page: number, pages: number): (number | "…")[] {
   return [1, "…", page - 1, page, page + 1, "…", pages];
 }
 
-export function CatalogGrid({
-  products,
-  types,
-  initialType,
-  initialTypes,
-  initialBrand,
-  initialKind,
-  after,
-  hideBrand = false,
-  countPrefix = "",
-}: {
+type CatalogGridProps = {
   products: Product[];
   /** варианты для фильтра «Тип продукта» */
   types: string[];
@@ -58,16 +49,63 @@ export function CatalogGrid({
   hideBrand?: boolean;
   /** слово перед счётчиком: в поиске — «Найдено» («Найдено 4 продукта») */
   countPrefix?: string;
-}) {
+  /** название группы из меню («Для лица» в макияже): в адресе ?type=Для лица — показываем её подразделы */
+  groupTitle?: string;
+  /** на странице раздела есть хлебные крошки — по ним и возвращаются из подраздела, кнопка «←» в ряду чипсов не нужна */
+  crumbs?: boolean;
+};
+
+/** Подраздел и вид живут в адресе страницы (?type=…&kind=…): чипсы меняют адрес, крошки в шапке раздела читают его же,
+ *  кнопка «Назад» в браузере возвращает к предыдущему подразделу */
+export function CatalogGrid(props: CatalogGridProps) {
+  return (
+    <Suspense
+      fallback={<CatalogGridView {...props} urlType={props.initialType ?? null} urlKind={props.initialKind ?? null} />}
+    >
+      <CatalogGridWithParams {...props} />
+    </Suspense>
+  );
+}
+
+function CatalogGridWithParams(props: CatalogGridProps) {
+  const params = useSearchParams();
+  return <CatalogGridView {...props} urlType={params.get("type")} urlKind={params.get("kind")} />;
+}
+
+/** Поменять ?type / ?kind без перезагрузки страницы (Next синхронизирует useSearchParams с history) */
+function setParams(next: Record<string, string | null>, push = false) {
+  const sp = new URLSearchParams(window.location.search);
+  for (const [k, v] of Object.entries(next)) {
+    if (v) sp.set(k, v);
+    else sp.delete(k);
+  }
+  const qs = sp.toString();
+  window.history[push ? "pushState" : "replaceState"](null, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
+}
+
+function CatalogGridView({
+  products,
+  types,
+  initialTypes,
+  initialBrand,
+  after,
+  hideBrand = false,
+  countPrefix = "",
+  groupTitle,
+  crumbs = false,
+  urlType,
+  urlKind,
+}: CatalogGridProps & { urlType: string | null; urlKind: string | null }) {
   const [open, setOpen] = useState<Key | null>(null);
-  const [type, setType] = useState<string[]>(initialTypes ?? (initialType ? [initialType] : []));
+  // выбранный подраздел — из адреса; группа из меню («Для лица») ограничивает список своими подразделами
+  const selectedType = urlType && types.includes(urlType) ? urlType : null;
+  const scope = !selectedType && groupTitle && urlType === groupTitle ? initialTypes : undefined;
   const [brand, setBrand] = useState<string[]>(initialBrand ? [initialBrand] : []);
   const [effect, setEffect] = useState<string[]>([]);
   const [ingredient, setIngredient] = useState<string[]>([]);
   const [price, setPrice] = useState<PriceRange>({ from: "", to: "" });
   const [sort, setSort] = useState(filterOptions.sort[0]);
-  /** вид внутри выбранного типа — чипсы над сеткой («Тени», «Тушь»…) */
-  const [kind, setKind] = useState<string | null>(initialKind ?? null);
+
 
   // фильтры «прилипли» к верху? Пока нет — фон белый, как у страницы; прилипли — появляется стекло
   const bar = useRef<HTMLDivElement>(null);
@@ -93,7 +131,8 @@ export function CatalogGrid({
   );
 
   const passes = (p: Product) => {
-    if (type.length && !type.includes(p.type ?? "")) return false;
+    if (selectedType && p.type !== selectedType) return false;
+    if (scope && !scope.includes(p.type ?? "")) return false;
     if (brand.length && !brand.includes(p.brand ?? "")) return false;
     if (effect.length && !effect.some((e) => p.effects?.includes(e))) return false;
     if (ingredient.length && !ingredient.some((i) => p.ingredients?.includes(i))) return false;
@@ -106,20 +145,21 @@ export function CatalogGrid({
   };
   const filtered = products.filter(passes);
   // виды показываем, когда выбран один тип и внутри него больше одного вида (у макияжа: тушь, подводка, тени…)
-  const kinds =
-    type.length === 1
-      ? kindNames(type[0])
+  const kinds = selectedType
+    ? kindNames(selectedType)
           .map((name) => ({ name, count: filtered.filter((p) => p.kind === name).length }))
           .filter((k) => k.count)
-      : [];
-  const activeKind = kinds.length > 1 && kinds.some((k) => k.name === kind) ? kind : null;
+    : [];
+  const activeKind = kinds.length > 1 && kinds.some((k) => k.name === urlKind) ? urlKind : null;
+  // чипсы: у выбранного подраздела с видами — виды, иначе — подразделы (выбранный подсвечен)
+  const typeChips = (scope ?? types).filter((ty) => products.some((p) => p.type === ty));
   let shown = activeKind ? filtered.filter((p) => p.kind === activeKind) : filtered;
   if (sort === "сначала дешевле") shown = [...shown].sort((a, b) => toNumber(a.price) - toNumber(b.price));
   if (sort === "сначала дороже") shown = [...shown].sort((a, b) => toNumber(b.price) - toNumber(a.price));
   if (sort === "по рейтингу") shown = [...shown].sort((a, b) => Number(b.rating ?? 0) - Number(a.rating ?? 0));
 
   // страница пагинации; при смене фильтров или сортировки — снова первая
-  const sig = JSON.stringify([type, brand, effect, ingredient, price, sort, activeKind]);
+  const sig = JSON.stringify([selectedType, scope, brand, effect, ingredient, price, sort, activeKind]);
   const [pg, setPg] = useState({ sig, n: 1 });
   const pages = Math.max(1, Math.ceil(shown.length / PAGE));
   const page = pg.sig === sig ? Math.min(pg.n, pages) : 1;
@@ -186,7 +226,6 @@ export function CatalogGrid({
         className="relative z-40 mt-5 flex flex-wrap items-center justify-between gap-3 py-3 transition-[top] duration-300 before:pointer-events-none before:absolute before:inset-y-0 before:-inset-x-[100vw] before:-z-10 before:opacity-0 before:transition-opacity before:duration-300 md:sticky md:top-[var(--header-h,54px)] md:before:glass data-stuck:before:opacity-100"
       >
         <div className="flex flex-wrap items-center gap-3">
-          {multi("type", t("Тип продукта"), t("Выберите тип продукта"), types, type, setType)}
           {!hideBrand && multi("brand", t("Бренд"), t("Выберите бренд"), brands, brand, setBrand)}
           <Popover
             open={open === "price"}
@@ -234,26 +273,43 @@ export function CatalogGrid({
         </Popover>
       </div>
 
-      {/* виды внутри типа — Filter Chips из Figma (11476:18998), через 12 px: «Все · Тушь · Подводка · Тени · Глиттер» */}
-      {kinds.length > 1 && (
+      {/* чипсы — Filter Chips из Figma (catalog 2936:6591, 11476:18998): под фильтрами через 16 px, между собой 12 px.
+          Выбран подраздел с видами — показываем виды («Гидрофильное масло · Бальзам · Пенка…»), иначе — подразделы */}
+      {kinds.length > 1 ? (
         <div className="mt-1 flex flex-wrap gap-3" role="group" aria-label={t("Вид продукта")}>
-          <Pill selected={!activeKind} onClick={() => setKind(null)}>
-            {t("Все")}
-          </Pill>
+          {!crumbs && selectedType && (
+            <Pill selected={false} onClick={() => setParams({ type: null, kind: null }, true)}>
+              ← {t(selectedType)}
+            </Pill>
+          )}
           {kinds.map((k) => (
             <Pill
               key={k.name}
               selected={activeKind === k.name}
-              onClick={() => setKind(activeKind === k.name ? null : k.name)}
+              onClick={() => setParams({ kind: activeKind === k.name ? null : k.name })}
             >
               {t(k.name)}
             </Pill>
           ))}
         </div>
+      ) : (
+        typeChips.length > 1 && (
+          <div className="mt-1 flex flex-wrap gap-3" role="group" aria-label={t("Тип продукта")}>
+            {typeChips.map((ty) => (
+              <Pill
+                key={ty}
+                selected={selectedType === ty}
+                onClick={() => setParams({ type: selectedType === ty ? null : ty, kind: null }, true)}
+              >
+                {t(ty)}
+              </Pill>
+            ))}
+          </div>
+        )
       )}
 
       {/* от пилюль до карточек — 32 px, как от счётчика товаров до фильтров; без пилюль — тоже 32 (12 у ряда фильтров + 20) */}
-      <div className={`${kinds.length > 1 ? "mt-8" : "mt-5"} grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4`}>
+      <div className={`${kinds.length > 1 || typeChips.length > 1 ? "mt-8" : "mt-5"} grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4`}>
         {onPage.map((p) => (
           <div key={p.id} className="reveal">
             <ProductCard product={p} />

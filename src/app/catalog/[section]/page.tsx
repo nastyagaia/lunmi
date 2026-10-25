@@ -32,6 +32,7 @@ export default async function SectionPage({ params, searchParams }: PageProps<"/
   return (
     <CatalogSection
       title={section.title}
+      href={section.href}
       hero={section.hero}
       products={products}
       types={types}
