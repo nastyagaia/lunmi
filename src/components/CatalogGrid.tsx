@@ -223,7 +223,12 @@ function CatalogGridView({
 
   const priceCount = price.from || price.to ? 1 : 0;
 
-  const hasChips = kinds.length > 1 || typeChips.length > 1;
+  // как у ЗЯ: чипсы — только пока есть куда «провалиться» дальше. Выбран конечный уровень
+  // (вид или подраздел без видов) — ряд чипсов убираем, назад ведут хлебные крошки.
+  // Без крошек (бренд, поиск, все товары) чипсы остаются переключателями, как раньше
+  const showKinds = kinds.length > 1 && (!crumbs || !activeKind);
+  const showTypes = !showKinds && (!crumbs || !selectedType) && typeChips.length > 1;
+  const hasChips = showKinds || showTypes;
   // порядок по Figma (catalog 2936:6591): чипсы → через 52 px «Найдено 45 продуктов» → через 16 px фильтры → через 32 px карточки
   const chipsTop = "";
 
@@ -232,7 +237,7 @@ function CatalogGridView({
 
       {/* чипсы — Filter Chips из Figma (catalog 2936:6591): над фильтрами, между собой 12 px, до фильтров 16 px.
           Выбран подраздел с видами — показываем виды («Гидрофильное масло · Бальзам · Пенка…»), иначе — подразделы */}
-      {kinds.length > 1 ? (
+      {showKinds ? (
         <ChipRow className={chipsTop} gap={chipLook === "text" ? "gap-6" : "gap-3"} label={t("Вид продукта")}>
           {!crumbs && selectedType && (
             <Pill look={chipLook} selected={false} onClick={() => setParams({ type: null, kind: null }, true)}>
@@ -251,7 +256,7 @@ function CatalogGridView({
           ))}
         </ChipRow>
       ) : (
-        typeChips.length > 1 && (
+        showTypes && (
           <ChipRow className={chipsTop} gap={chipLook === "text" ? "gap-6" : "gap-3"} label={t("Тип продукта")}>
             {typeChips.map((ty) => (
               <Pill
