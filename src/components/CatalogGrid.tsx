@@ -2,11 +2,14 @@
 
 // Каталог: счётчик, ряд фильтров (Figma: Frame 21159, 3027:7559) и сетка товаров.
 // Все фильтры работают: эффект и компоненты размечены по названию и текстам товара (sections.ts).
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
+import { useSearchParams } from "next/navigation";
 import { filterOptions } from "@/data/filter-options";
+import { kindNames } from "@/data/kinds";
 import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from "./Dropdown";
 import { ProductCard, type Product } from "./ProductCard";
-import { DropdownButton, FilterChip } from "./ui";
+import { DropdownButton, FilterChip, Pill } from "./ui";
+import { ChevronLeft, ChevronRight } from "./icons";
 import { t, plural, isEn, RUB_PER_EUR, priceToNumber } from "@/lib/i18n";
 
 type Key = "type" | "brand" | "price" | "effect" | "ingredient" | "sort";
@@ -30,16 +33,7 @@ function pageList(page: number, pages: number): (number | "…")[] {
   return [1, "…", page - 1, page, page + 1, "…", pages];
 }
 
-export function CatalogGrid({
-  products,
-  types,
-  initialType,
-  initialTypes,
-  initialBrand,
-  after,
-  hideBrand = false,
-  countPrefix = "",
-}: {
+type CatalogGridProps = {
   products: Product[];
   /** варианты для фильтра «Тип продукта» */
   types: string[];
@@ -49,19 +43,82 @@ export function CatalogGrid({
   initialTypes?: string[];
   /** бренд, отмеченный ссылкой: /catalog/beauty-gadgets?brand=Medicube (баннер «Medicube девайсы») */
   initialBrand?: string;
+  /** вид, выбранный в третьей колонке меню: /catalog/makiyazh?type=Для глаз&kind=Тени */
+  initialKind?: string;
   after?: ReactNode;
   /** на странице бренда фильтр «Бренд» не нужен */
   hideBrand?: boolean;
   /** слово перед счётчиком: в поиске — «Найдено» («Найдено 4 продукта») */
   countPrefix?: string;
-}) {
+  /** название группы из меню («Для лица» в макияже): в адресе ?type=Для лица — показываем её подразделы */
+  groupTitle?: string;
+  /** на странице раздела есть хлебные крошки — по ним и возвращаются из подраздела, кнопка «←» в ряду чипсов не нужна */
+  crumbs?: boolean;
+};
+
+/** Подраздел и вид живут в адресе страницы (?type=…&kind=…): чипсы меняют адрес, крошки в шапке раздела читают его же,
+ *  кнопка «Назад» в браузере возвращает к предыдущему подразделу */
+export function CatalogGrid(props: CatalogGridProps) {
+  return (
+    <Suspense
+      fallback={<CatalogGridView {...props} urlType={props.initialType ?? null} urlKind={props.initialKind ?? null} />}
+    >
+      <CatalogGridWithParams {...props} />
+    </Suspense>
+  );
+}
+
+function CatalogGridWithParams(props: CatalogGridProps) {
+  const params = useSearchParams();
+  return (
+    <CatalogGridView
+      {...props}
+      urlType={params.get("type")}
+      urlKind={params.get("kind")}
+      chipLook={params.get("chips") === "text" ? "text" : CHIP_LOOK}
+    />
+  );
+}
+
+/** Вид чипсов подразделов и видов: «pill» — плашки с фоном (выбрала Настя, 25.10.2026), «text» — текстовые табы (пробовали, не понравились).
+ *  Посмотреть табы: добавить к адресу ?chips=text */
+const CHIP_LOOK: "pill" | "text" = "pill";
+
+/** Поменять ?type / ?kind без перезагрузки страницы (Next синхронизирует useSearchParams с history) */
+function setParams(next: Record<string, string | null>, push = false) {
+  const sp = new URLSearchParams(window.location.search);
+  for (const [k, v] of Object.entries(next)) {
+    if (v) sp.set(k, v);
+    else sp.delete(k);
+  }
+  const qs = sp.toString();
+  window.history[push ? "pushState" : "replaceState"](null, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
+}
+
+function CatalogGridView({
+  products,
+  types,
+  initialTypes,
+  initialBrand,
+  after,
+  hideBrand = false,
+  countPrefix = "",
+  groupTitle,
+  crumbs = false,
+  urlType,
+  urlKind,
+  chipLook = CHIP_LOOK,
+}: CatalogGridProps & { urlType: string | null; urlKind: string | null; chipLook?: "pill" | "text" }) {
   const [open, setOpen] = useState<Key | null>(null);
-  const [type, setType] = useState<string[]>(initialTypes ?? (initialType ? [initialType] : []));
+  // выбранный подраздел — из адреса; группа из меню («Для лица») ограничивает список своими подразделами
+  const selectedType = urlType && types.includes(urlType) ? urlType : null;
+  const scope = !selectedType && groupTitle && urlType === groupTitle ? initialTypes : undefined;
   const [brand, setBrand] = useState<string[]>(initialBrand ? [initialBrand] : []);
   const [effect, setEffect] = useState<string[]>([]);
   const [ingredient, setIngredient] = useState<string[]>([]);
   const [price, setPrice] = useState<PriceRange>({ from: "", to: "" });
   const [sort, setSort] = useState(filterOptions.sort[0]);
+
 
   // фильтры «прилипли» к верху? Пока нет — фон белый, как у страницы; прилипли — появляется стекло
   const bar = useRef<HTMLDivElement>(null);
@@ -86,8 +143,9 @@ export function CatalogGrid({
     a.localeCompare(b),
   );
 
-  let shown = products.filter((p) => {
-    if (type.length && !type.includes(p.type ?? "")) return false;
+  const passes = (p: Product) => {
+    if (selectedType && p.type !== selectedType) return false;
+    if (scope && !scope.includes(p.type ?? "")) return false;
     if (brand.length && !brand.includes(p.brand ?? "")) return false;
     if (effect.length && !effect.some((e) => p.effects?.includes(e))) return false;
     if (ingredient.length && !ingredient.some((i) => p.ingredients?.includes(i))) return false;
@@ -97,13 +155,24 @@ export function CatalogGrid({
     if (price.from && n < Number(price.from) * k) return false;
     if (price.to && n > Number(price.to) * k) return false;
     return true;
-  });
+  };
+  const filtered = products.filter(passes);
+  // виды показываем, когда выбран один тип и внутри него больше одного вида (у макияжа: тушь, подводка, тени…)
+  const kinds = selectedType
+    ? kindNames(selectedType)
+          .map((name) => ({ name, count: filtered.filter((p) => p.kind === name).length }))
+          .filter((k) => k.count)
+    : [];
+  const activeKind = kinds.length > 1 && kinds.some((k) => k.name === urlKind) ? urlKind : null;
+  // чипсы: у выбранного подраздела с видами — виды, иначе — подразделы (выбранный подсвечен)
+  const typeChips = (scope ?? types).filter((ty) => products.some((p) => p.type === ty));
+  let shown = activeKind ? filtered.filter((p) => p.kind === activeKind) : filtered;
   if (sort === "сначала дешевле") shown = [...shown].sort((a, b) => toNumber(a.price) - toNumber(b.price));
   if (sort === "сначала дороже") shown = [...shown].sort((a, b) => toNumber(b.price) - toNumber(a.price));
   if (sort === "по рейтингу") shown = [...shown].sort((a, b) => Number(b.rating ?? 0) - Number(a.rating ?? 0));
 
   // страница пагинации; при смене фильтров или сортировки — снова первая
-  const sig = JSON.stringify([type, brand, effect, ingredient, price, sort]);
+  const sig = JSON.stringify([selectedType, scope, brand, effect, ingredient, price, sort, activeKind]);
   const [pg, setPg] = useState({ sig, n: 1 });
   const pages = Math.max(1, Math.ceil(shown.length / PAGE));
   const page = pg.sig === sig ? Math.min(pg.n, pages) : 1;
@@ -154,10 +223,53 @@ export function CatalogGrid({
 
   const priceCount = price.from || price.to ? 1 : 0;
 
+  const hasChips = kinds.length > 1 || typeChips.length > 1;
+  // порядок по Figma (catalog 2936:6591): чипсы → через 52 px «Найдено 45 продуктов» → через 16 px фильтры → через 32 px карточки
+  const chipsTop = "";
+
   return (
     <>
-      <p className="text-caps text-secondary">
-        {countPrefix ? `${t(countPrefix)} ` : ""}
+
+      {/* чипсы — Filter Chips из Figma (catalog 2936:6591): над фильтрами, между собой 12 px, до фильтров 16 px.
+          Выбран подраздел с видами — показываем виды («Гидрофильное масло · Бальзам · Пенка…»), иначе — подразделы */}
+      {kinds.length > 1 ? (
+        <ChipRow className={chipsTop} gap={chipLook === "text" ? "gap-6" : "gap-3"} label={t("Вид продукта")}>
+          {!crumbs && selectedType && (
+            <Pill look={chipLook} selected={false} onClick={() => setParams({ type: null, kind: null }, true)}>
+              ← {t(selectedType)}
+            </Pill>
+          )}
+          {kinds.map((k) => (
+            <Pill
+              look={chipLook}
+              key={k.name}
+              selected={activeKind === k.name}
+              onClick={() => setParams({ kind: activeKind === k.name ? null : k.name }, true)}
+            >
+              {t(k.name)}
+            </Pill>
+          ))}
+        </ChipRow>
+      ) : (
+        typeChips.length > 1 && (
+          <ChipRow className={chipsTop} gap={chipLook === "text" ? "gap-6" : "gap-3"} label={t("Тип продукта")}>
+            {typeChips.map((ty) => (
+              <Pill
+                look={chipLook}
+                key={ty}
+                selected={selectedType === ty}
+                onClick={() => setParams({ type: selectedType === ty ? null : ty, kind: null }, true)}
+              >
+                {t(ty)}
+              </Pill>
+            ))}
+          </ChipRow>
+        )
+      )}
+
+      {/* от пилюль до карточек — 32 px, как от счётчика товаров до фильтров; без пилюль — тоже 32 (12 у ряда фильтров + 20) */}
+      <p className={`${hasChips ? "mt-[52px]" : ""} text-caps text-secondary`}>
+        {countPrefix || crumbs ? `${t(countPrefix || "Найдено")} ` : ""}
         {productsCount(shown.length)}
       </p>
 
@@ -167,10 +279,9 @@ export function CatalogGrid({
       <div
         ref={bar}
         data-stuck={stuck || undefined}
-        className="relative z-40 mt-5 flex flex-wrap items-center justify-between gap-3 py-3 transition-[top] duration-300 before:pointer-events-none before:absolute before:inset-y-0 before:-inset-x-[100vw] before:-z-10 before:opacity-0 before:transition-opacity before:duration-300 md:sticky md:top-[var(--header-h,54px)] md:before:glass data-stuck:before:opacity-100"
+        className={`relative z-40 mt-1 flex flex-wrap items-center justify-between gap-3 py-3 transition-[top] duration-300 before:pointer-events-none before:absolute before:inset-y-0 before:-inset-x-[100vw] before:-z-10 before:opacity-0 before:transition-opacity before:duration-300 md:sticky md:top-[var(--header-h,54px)] md:before:glass data-stuck:before:opacity-100`}
       >
         <div className="flex flex-wrap items-center gap-3">
-          {multi("type", t("Тип продукта"), t("Выберите тип продукта"), types, type, setType)}
           {!hideBrand && multi("brand", t("Бренд"), t("Выберите бренд"), brands, brand, setBrand)}
           <Popover
             open={open === "price"}
@@ -282,5 +393,51 @@ function PageArrow({ dir, disabled, onClick }: { dir: "prev" | "next"; disabled:
         <path d={dir === "prev" ? "M10 4L6 8L10 12" : "M6 12L10 8L6 4"} />
       </svg>
     </button>
+  );
+}
+
+/** Ряд чипсов в одну строку, как у Ozon: не переносится, прокручивается вбок;
+ *  стрелки по краям — те же, что у выбора даты в оформлении заказа, листают на 240 px */
+function ChipRow({ children, label, gap, className = "" }: { children: ReactNode; label: string; gap: string; className?: string }) {
+  const row = useRef<HTMLDivElement>(null);
+  const [edge, setEdge] = useState({ start: true, end: true });
+  const update = () => {
+    const el = row.current;
+    if (el) setEdge({ start: el.scrollLeft <= 2, end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 });
+  };
+  useEffect(() => {
+    const el = row.current;
+    if (!el) return;
+    // выбранный чипс — в зоне видимости
+    const selected = el.querySelector<HTMLElement>("[aria-pressed=true]");
+    if (selected && selected.offsetLeft + selected.offsetWidth > el.clientWidth) el.scrollLeft = selected.offsetLeft - 40;
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const arrow = "absolute top-1/2 flex size-6 -translate-y-1/2 items-center justify-center rounded-sm border border-line bg-white shadow-[1px_1px_2.5px_rgb(0_0_0/0.25)] transition-colors hover:border-primary";
+  return (
+    <div className={`relative ${className}`}>
+      <div ref={row} onScroll={update} role="group" aria-label={label} className={`no-scrollbar flex overflow-x-auto [&>*]:shrink-0 [&>*]:whitespace-nowrap ${gap}`}>
+        {children}
+      </div>
+      {!edge.start && (
+        <>
+          <span aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent" />
+          <button type="button" onClick={() => row.current?.scrollBy({ left: -240, behavior: "smooth" })} aria-label={t("Назад")} className={`${arrow} left-0`}>
+            <ChevronLeft className="size-4" />
+          </button>
+        </>
+      )}
+      {!edge.end && (
+        <>
+          <span aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent" />
+          <button type="button" onClick={() => row.current?.scrollBy({ left: 240, behavior: "smooth" })} aria-label={t("Вперёд")} className={`${arrow} right-0`}>
+            <ChevronRight className="size-4" />
+          </button>
+        </>
+      )}
+    </div>
   );
 }

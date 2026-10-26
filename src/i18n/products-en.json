@@ -2110,5 +2110,21 @@
    "Состав": "This is a device, not a cosmetic, so it has no ingredient list. It works with a conductive gel — ideally the brand’s AGE-R Booster Gel: the more gel, the stronger the stimulation feels.",
    "Применение": "Turn on the device with a long press and choose an intensity level. Apply gel to your face and a little to the rollers, then glide the device over your skin from bottom to top. Suitable for daily use. Don’t use on cuts or inflamed areas."
   }
+ },
+ "wishtrend-enzyme-powder": {
+  "description": "Green tea enzyme powder wash",
+  "tabs": {
+   "Характеристики": "A cleansing powder that turns into a soft foam with water. Papaya enzymes gently dissolve dead skin cells, leaving skin smoother and pores cleaner. Suits all skin types and doesn’t leave skin feeling tight. 110 g.",
+   "Состав": "Key ingredients: papain (papaya enzyme), green tea leaf powder, a stable form of vitamin C (sodium ascorbyl phosphate), betaine and hyaluronic acid, in a mild amino-acid cleansing base. Free of alcohol, silicones, dyes and fragrance.",
+   "Применение": "Pour a little powder into a wet palm, add a few drops of water and work into a foam. Massage over the face, avoiding the eye area, and rinse well. Use 1–3 times a week."
+  }
+ },
+ "biodance-collagen-oil": {
+  "description": "Collagen cleansing oil",
+  "tabs": {
+   "Характеристики": "A cleansing oil for the first cleansing step. It dissolves long-wear makeup and sunscreen, turns into a light milk with water and rinses off without a greasy film. Helps keep pores clear without drying skin. Suits all skin types, including sensitive. 200 ml.",
+   "Состав": "Low-molecular collagen and a peptide complex (acetyl hexapeptide-8, palmitoyl pentapeptide-4, copper tripeptide-1) for firmer-looking skin, in a base of jojoba, grape seed and moringa oils.",
+   "Применение": "Apply 4–5 pumps to dry skin and massage. Add a little water and keep massaging until the oil turns milky, then rinse with warm water. Follow with a foam or gel cleanser."
+  }
  }
 }

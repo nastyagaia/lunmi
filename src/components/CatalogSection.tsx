@@ -1,6 +1,7 @@
 // Страница раздела каталога (макет catalog в Figma, 2936:6591): шапка с фото + фильтры и сетка товаров.
 // Используется для /catalog («Уход для лица») и /catalog/<раздел>.
 import Image from "next/image";
+import { CatalogHeading } from "./CatalogHeading";
 import { CatalogGrid } from "./CatalogGrid";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
@@ -11,21 +12,27 @@ import { t } from "@/lib/i18n";
 
 export function CatalogSection({
   title,
+  href,
   hero,
   products,
   types,
   initialType,
   initialBrand,
+  initialKind,
   group,
   heroWide = false,
 }: {
   title: string;
+  /** адрес раздела — для хлебных крошек («Главная / Уход для лица / Очищение») */
+  href: string;
   hero: string;
   products: Product[];
   types: string[];
   initialType?: string;
   /** бренд из ссылки (?brand=Medicube): заголовок «Medicube» + название раздела, фильтр бренда отмечен */
   initialBrand?: string;
+  /** вид из третьей колонки меню (?kind=Тени) */
+  initialKind?: string;
   /** подраздел-группа из меню («Для лица»): её название и подразделы */
   group?: { title: string; types: string[] };
   /** обложка «Скидок» в макете шире — 692 × 320 */
@@ -39,15 +46,13 @@ export function CatalogSection({
         {/* photo bg: фон surface 320 px, заголовок H1 слева снизу, фото 550 × 320 справа */}
         <section className="bg-surface">
           <div className="container-page flex h-[200px] items-end justify-between md:h-[320px]">
-            <h1 className="pb-8 text-h1 max-md:text-[28px] max-md:leading-[36px] md:pb-[50px]">
-              {group?.title
-                ? t(group.title)
-                : initialType
-                  ? t(initialType)
-                  : initialBrand
-                    ? `${initialBrand} ${t(title).toLowerCase()}`
-                    : t(title)}
-            </h1>
+            <CatalogHeading
+              title={title}
+              href={href}
+              valid={group ? [...types, group.title] : types}
+              initialType={group?.title ?? initialType}
+              brand={initialBrand}
+            />
             <div
               className={`relative hidden h-full shrink-0 md:block xl:mr-[66px] ${heroWide ? "w-[min(692px,55%)]" : "w-[min(550px,60%)]"}`}
             >
@@ -56,16 +61,19 @@ export function CatalogSection({
           </div>
         </section>
 
-        <div className="container-page pt-10 md:pt-[70px]">
+        <div className="container-page pt-4">
           {products.length ? (
             // key: при переходе из меню на другой подраздел фильтры начинаются заново
             <CatalogGrid
-              key={group?.title ?? initialType ?? initialBrand ?? "all"}
+              key={initialBrand ?? "all"}
               products={products}
               types={types}
               initialType={initialType}
               initialTypes={group?.types}
+              groupTitle={group?.title}
+              crumbs
               initialBrand={initialBrand}
+              initialKind={initialKind}
               after={<HelpCard className="reveal col-span-2 self-start lg:col-span-1" />}
             />
           ) : (

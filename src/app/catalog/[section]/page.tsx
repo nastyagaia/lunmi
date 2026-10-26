@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps<"/catalog/[section]
 export default async function SectionPage({ params, searchParams }: PageProps<"/catalog/[section]">) {
   const section = findSection((await params).section);
   if (!section) notFound();
-  const { type, brand } = await searchParams;
+  const { type, brand , kind } = await searchParams;
   const products = sectionProducts(section.title);
   const types = sectionTypes(section.title, products);
   const initialType = typeof type === "string" && types.includes(type) ? type : undefined;
@@ -32,10 +32,12 @@ export default async function SectionPage({ params, searchParams }: PageProps<"/
   return (
     <CatalogSection
       title={section.title}
+      href={section.href}
       hero={section.hero}
       products={products}
       types={types}
       initialType={initialType}
+      initialKind={typeof kind === "string" ? kind : undefined}
       initialBrand={initialBrand}
       group={group?.length && typeof type === "string" ? { title: type, types: group } : undefined}
     />

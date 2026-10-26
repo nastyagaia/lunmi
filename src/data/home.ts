@@ -68,7 +68,7 @@ export const catalog = [
   { title: "Glow Skin", image: "/img/c-glow-ea90a9.webp", href: "/catalog/glow-skin" },
   { title: "Антивозрастной уход", image: "/img/c3.webp", wide: true, href: "/catalog/antivozrastnoy-uhod" },
   { title: "Хиты в Корее", image: "/img/c4.webp", href: "/catalog/hity-korei" },
-  { title: "Макияж", image: "/img/c-makeup-d6bce6.webp", wide: true, left: true, href: "/catalog/makiyazh" },
+  { title: "Макияж", image: "/img/covers/makiyazh-077f49.webp", wide: true, href: "/catalog/makiyazh" },
   { title: "Для тела", image: "/img/c6.webp", href: "/catalog/dlya-tela" },
   { title: "Для волос", image: "/img/c-hair-0e5ead.webp", wide: true, left: true, href: "/catalog/dlya-volos" },
   { title: "Бьюти-гаджеты", image: "/img/c8.webp", href: "/catalog/beauty-gadgets" },
@@ -93,7 +93,7 @@ const faqRu = [
   },
   {
     q: "Как вернуть товар",
-    a: "Косметику надлежащего качества по закону вернуть нельзя — это товар личной гигиены. Но если приехал брак или вообще не то, что вы заказывали, напишите в поддержку и пришлите фото: заменим товар или вернём деньги, без допросов. Подробности — на странице «Доставка и возврат».",
+    a: "Косметику надлежащего качества по закону вернуть нельзя — это товар личной гигиены. Но если приехал брак или вообще не то, что вы заказывали, напишите в поддержку и пришлите фото: заменим товар или вернём деньги, без допросов. Подробности — на странице «Доставка».",
   },
   {
     q: "Как изменить или отменить заказ",
@@ -125,7 +125,7 @@ const faqEn = [
   },
   {
     q: "How to return an item",
-    a: "By law, cosmetics of proper quality can’t be returned — they’re personal care products. But if something arrived damaged or isn’t what you ordered, message support and send a photo: we’ll replace it or refund you, no questions asked. More details on the “Delivery & returns” page.",
+    a: "By law, cosmetics of proper quality can’t be returned — they’re personal care products. But if something arrived damaged or isn’t what you ordered, message support and send a photo: we’ll replace it or refund you, no questions asked. More details on the “Delivery” page.",
   },
   {
     q: "How to change or cancel an order",

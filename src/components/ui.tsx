@@ -107,7 +107,7 @@ export function FilterChip({
         type="button"
         onClick={onClick}
         aria-expanded={expanded}
-        className={`flex cursor-pointer items-center gap-1 pl-3 ${selected ? "pr-1" : "pr-2"}`}
+        className={`flex cursor-pointer items-center gap-1 pl-2 ${selected ? "pr-1" : "pr-2"}`}
       >
         {label}
         <ChevronDown className="size-4" />
@@ -117,7 +117,7 @@ export function FilterChip({
           type="button"
           onClick={onClear}
           aria-label={t("Сбросить фильтр «{label}»", { label })}
-          className="flex cursor-pointer items-center gap-0.5 rounded-r-sm pr-2 pl-3 text-accent-300 transition-colors hover:text-white"
+          className="flex cursor-pointer items-center gap-0.5 rounded-r-sm pr-2 pl-2 text-accent-300 transition-colors hover:text-white"
         >
           {count}
           <CloseIcon className="size-4" />
@@ -132,17 +132,20 @@ export function DropdownButton({
   children,
   expanded,
   onClick,
+  size = "M",
 }: {
   children: ReactNode;
   expanded?: boolean;
   onClick?: () => void;
+  /** S — 32 px, Base/XS (сортировка в каталоге, Figma 2936:6591); M — Base/S */
+  size?: "S" | "M";
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-expanded={expanded}
-      className="flex items-center gap-1 p-2 text-base-s transition-colors hover:text-accent"
+      className={`flex items-center gap-1 p-2 ${size === "S" ? "text-base-xs" : "text-base-s"} transition-colors hover:text-accent`}
     >
       {children}
       <ChevronDown className="size-4" />
@@ -519,6 +522,36 @@ export function ChoiceChip({
       aria-pressed={selected}
       className={`h-9 shrink-0 rounded-sm bg-white px-2 text-base-s whitespace-nowrap transition-colors ${
         selected ? "border-[1.5px] border-accent" : "border border-line-light hover:border-primary"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+/** Чипс подраздела или вида («Очищение», «Тушь») — Filter Chips из Figma (11476:18998): 8 px со всех сторон, Base/S,
+ *  радиус 4, фон surface/neutral-2; выбранная — surface/accent-2 (розовая). Без счётчиков */
+export function Pill({
+  selected,
+  onClick,
+  look = "pill",
+  children,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  /** pill — плашка с фоном (Filter Chips); text — текстовый таб: крупнее (Base/M), без фона, выбранный — розовый */
+  look?: "pill" | "text";
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={selected}
+      className={`shrink-0 whitespace-nowrap transition-colors ${
+        look === "text"
+          ? `py-1 text-base-m ${selected ? "text-accent" : "text-secondary hover:text-primary"}`
+          : `rounded-sm px-3 py-2 text-base-s ${selected ? "bg-line-light" : "bg-surface hover:bg-line-light"}`
       }`}
     >
       {children}

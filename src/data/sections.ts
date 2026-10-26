@@ -10,6 +10,7 @@ import { catalogMenu } from "./menu";
 import productTexts from "./product-texts.json";
 import productsEn from "@/i18n/products-en.json";
 import { isEn } from "@/lib/i18n";
+import { kindOf } from "./kinds";
 
 export type CatalogProduct = Product & {
   images: string[];
@@ -54,6 +55,9 @@ const INGREDIENTS: [string, RegExp][] = [
 ];
 const texts = productTexts as Record<string, Record<string, string | null>>;
 function withFilterTags(p: CatalogProduct): CatalogProduct {
+  // вид внутри подраздела (тушь, тени, пенка, стик…) — для пилюль и третьей колонки меню
+  const kind = kindOf(p);
+  if (kind) p = { ...p, kind };
   // макияж и гаджеты по уходовым фильтрам не размечаем — там это только путает
   if (p.category === "Макияж" || p.category === "Бьюти-гаджеты") return p;
   const t = texts[p.id] ?? {};

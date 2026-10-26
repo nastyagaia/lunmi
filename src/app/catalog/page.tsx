@@ -10,16 +10,18 @@ export const metadata: Metadata = {
 };
 
 export default async function CatalogPage({ searchParams }: PageProps<"/catalog">) {
-  const { type } = await searchParams;
+  const { type , kind } = await searchParams;
   const initialType = typeof type === "string" && catalogTypes.includes(type) ? type : undefined;
 
   return (
     <CatalogSection
       title={catalogPage.title}
+      href="/catalog"
       hero={catalogPage.heroImage}
       products={catalogProducts}
       types={catalogTypes}
       initialType={initialType}
+      initialKind={typeof kind === "string" ? kind : undefined}
     />
   );
 }

@@ -147,7 +147,7 @@ export const en: Record<string, string> = {
   "Бьюти-гаджеты": "Beauty devices",
   "Для загара": "Sun & tan",
   Очищение: "Cleansers",
-  "Тонеры и пэды": "Toners & pads",
+  Тонеры: "Toners",
   "Сыворотки и ампулы": "Serums & ampoules",
   Мисты: "Mists",
   Кремы: "Creams",
@@ -723,6 +723,34 @@ export const en: Record<string, string> = {
   // —— подвал ——
   "Частые вопросы": "FAQ",
 
-  // —— доставка и возврат ——
-  "Доставка и возврат": "Delivery & returns",
+
+  // —— новинки ——
+  "Новинки": "New in",
+  "Новинки корейской косметики в Lunmi.": "New Korean beauty arrivals at Lunmi.",
+
+  // —— виды макияжа ——
+  "Вид продукта": "Product kind",
+  "Все": "All",
+  "Тушь": "Mascara",
+  "Подводка": "Eyeliner",
+  "Тени": "Eyeshadow",
+  "Глиттер": "Glitter",
+  "Тинт": "Tint",
+  "Блеск": "Gloss",
+  "Помада": "Lipstick",
+  "Бальзам": "Balm",
+  "Карандаш": "Pencil",
+  "Гель": "Gel",
+
+  // —— виды ухода ——
+  "Гидрофильное масло": "Cleansing oil",
+  "Пенка": "Foam",
+  "Энзимная пудра": "Enzyme powder",
+  "Маски-плёнки": "Peel-off masks",
+  "Гидрогелевые": "Hydrogel",
+  "Глиняные": "Clay",
+  "Тканевые": "Sheet masks",
+  "Патчи": "Patches",
+  "Пэды": "Pads",
+  "Стик": "Stick",
 };

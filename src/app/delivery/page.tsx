@@ -9,7 +9,7 @@ import { delivery } from "@/data/delivery";
 import { t, money } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: `${t("Доставка и возврат")} — Lunmi`,
+  title: `${t("Доставка")} — Lunmi`,
   description: t(
     "Курьером по Москве и Петербургу и в пункты выдачи СДЭК по всей России. Сроки, стоимость, оплата и отмена заказа.",
   ),
@@ -46,10 +46,7 @@ export default function DeliveryPage() {
         <section className="bg-surface">
           <div className="container-page flex items-end justify-between gap-10 md:h-[320px]">
             <div className="flex max-w-[504px] flex-col gap-2 pt-24 pb-8 md:pt-0 md:pb-[50px]">
-              <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t("Доставка и возврат")}</h1>
-              <p className="text-base-s">
-                {t("Привезём курьером до двери или в пункт выдачи СДЭК — в любой город России. Стоимость и срок покажем сразу при оформлении, без сюрпризов.")}
-              </p>
+              <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t("Доставка")}</h1>
             </div>
             <div className="relative hidden h-full w-[min(550px,45%)] shrink-0 md:block xl:mr-[66px]">
               <Image src="/img/covers/delivery-bag.webp" alt="" fill priority sizes="550px" className="object-cover" />
