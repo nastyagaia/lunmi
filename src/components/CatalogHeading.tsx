@@ -15,7 +15,6 @@ type Props = {
   /** подразделы и группы, которые можно показать в заголовке */
   valid: string[];
   initialType?: string;
-  brand?: string;
 };
 
 export function CatalogHeading(props: Props) {
@@ -35,14 +34,14 @@ function Heading({
   title,
   href,
   valid,
-  brand,
   type,
   kind = null,
 }: Props & { type: string | null; kind?: string | null }) {
   const current = type && valid.includes(type) ? type : null;
   // вид — ещё один уровень вглубь, как у Золотого яблока: «Главная / Уход для лица / Очищение / Гидрофильное масло»
   const currentKind = current && kind && kindNames(current).includes(kind) ? kind : null;
-  const heading = currentKind ? t(currentKind) : current ? t(current) : brand ? `${brand} ${t(title).toLowerCase()}` : t(title);
+  // выбранный бренд (?brand=) в заголовок не идёт — он отмечен в фильтре «Бренд»
+  const heading = currentKind ? t(currentKind) : current ? t(current) : t(title);
   const typeHref = current ? `${href}?type=${encodeURIComponent(current)}` : undefined;
   const parts = [
     { label: isEn ? "Home" : "Главная", href: "/" },

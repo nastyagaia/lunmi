@@ -23,7 +23,7 @@ export const heroSlides: HeroSlide[] = [
     title: "Тренды Кореи",
     text: "Корейские бьюти-хиты, которые уже покорили Сеул.\nОткройте новинки ухода для сияющей кожи.",
     image: "/img/hero-korea.webp",
-    href: `/catalog/hity-korei?type=${encodeURIComponent("Тренды в Корее")}`,
+    href: "/catalog/hity-korei",
     mobileImage: "/img/hero-korea-mobile-f36a55.webp",
     tone: "light",
   },

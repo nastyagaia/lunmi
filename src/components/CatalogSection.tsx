@@ -51,7 +51,6 @@ export function CatalogSection({
               href={href}
               valid={group ? [...types, group.title] : types}
               initialType={group?.title ?? initialType}
-              brand={initialBrand}
             />
             <div
               className={`relative hidden h-full shrink-0 md:block xl:mr-[66px] ${heroWide ? "w-[min(692px,55%)]" : "w-[min(550px,60%)]"}`}

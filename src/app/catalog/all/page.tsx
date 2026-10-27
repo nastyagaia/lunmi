@@ -1,11 +1,9 @@
 // «Все товары» — весь ассортимент одной сеткой с фильтрами и пагинацией (плитка «Смотреть весь каталог» на главной).
-// Своей вёрстки нет: та же сетка, что в разделах и на поиске
+// Устроено как раздел каталога; обложка — из Figma (photo, type=весь каталог, 11468:17700).
 import type { Metadata } from "next";
-import { CatalogGrid } from "@/components/CatalogGrid";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { CatalogSection } from "@/components/CatalogSection";
 import { catalogMenu } from "@/data/menu";
-import { allProducts } from "@/data/sections";
+import { allProducts, sectionCovers } from "@/data/sections";
 import { t } from "@/lib/i18n";
 
 export const metadata: Metadata = { title: `${t("Все товары")} — Lunmi` };
@@ -13,19 +11,17 @@ export const metadata: Metadata = { title: `${t("Все товары")} — Lunm
 const menuTypes = [...new Set(catalogMenu.flatMap((c) => c.items.map((i) => i.title)))];
 const types = menuTypes.filter((t) => allProducts.some((p) => p.type === t));
 
-export default function AllProductsPage() {
+export default async function AllProductsPage({ searchParams }: PageProps<"/catalog/all">) {
+  const { type } = await searchParams;
+  const initialType = typeof type === "string" && types.includes(type) ? type : undefined;
   return (
-    <>
-      <Header hideOnScroll />
-      <main className="overflow-x-clip">
-        <div className="container-page pt-[106px]">
-          <h1 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">{t("Все товары")}</h1>
-        </div>
-        <div className="container-page pt-6 pb-10">
-          <CatalogGrid products={allProducts} types={types} />
-        </div>
-      </main>
-      <Footer />
-    </>
+    <CatalogSection
+      title="Все товары"
+      href="/catalog/all"
+      hero={sectionCovers["vse-tovary"]}
+      products={allProducts}
+      types={types}
+      initialType={initialType}
+    />
   );
 }
