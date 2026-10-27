@@ -7,7 +7,7 @@ export type CatalogCategory = {
   title: string;
   slug: string;
   href: string;
-  items: { title: string; href: string; note?: string }[];
+  items: { title: string; href: string }[];
 };
 
 const menu: [title: string, slug: string, items: string[]][] = [
@@ -22,20 +22,12 @@ const menu: [title: string, slug: string, items: string[]][] = [
   ["Для загара", "dlya-zagara", ["SPF для тела", "SPF-стики", "SPF-спреи", "После загара", "Автозагар", "Увлажняющие кремы с SPF"]],
 ];
 
-/** Подписи мелким текстом под пунктом меню: ключевые компоненты — для тех, кто ищет по составу */
-const notes: Record<string, string> = {
-  "Первые признаки старения": "бакучиол, PDRN, пептиды",
-  "Морщины и упругость": "пептиды, коллаген",
-  "Обновление кожи": "ретинол, ретиналь",
-  "Пигментация и тусклость": "ниацинамид, арбутин",
-};
-
 export const catalogMenu: CatalogCategory[] = menu.map(([title, slug, items]) => {
   const href = slug ? `/catalog/${slug}` : "/catalog";
   return {
     title,
     slug,
     href,
-    items: items.map((t) => ({ title: t, href: `${href}?type=${encodeURIComponent(t)}`, ...(notes[t] && { note: notes[t] }) })),
+    items: items.map((t) => ({ title: t, href: `${href}?type=${encodeURIComponent(t)}` })),
   };
 });
