@@ -139,8 +139,6 @@ export const en: Record<string, string> = {
   "Glow-skin": "Glow skin",
   "Антивозрастной уход": "Anti-aging",
   Макияж: "Makeup",
-  "Хиты Кореи": "Korean hits",
-  "Хиты в Корее": "Korean hits",
   "Тренды Кореи": "Korean trends",
   "Для тела": "Body",
   "Для волос": "Hair",
