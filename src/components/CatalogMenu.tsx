@@ -37,7 +37,8 @@ export function CatalogMenu({ categories, onNavigate }: { categories: CatalogCat
               }`}
             >
               {t(c.title)}
-              <ChevronDown className="size-4 shrink-0 -rotate-90" />
+              {/* «Хиты Кореи» без подразделов — без стрелки */}
+              {c.items.length > 0 && <ChevronDown className="size-4 shrink-0 -rotate-90" />}
             </Link>
           </li>
         ))}
