@@ -27,7 +27,14 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-export function ProductReviews({ reviews }: { reviews: ProductDetails["reviews"] }) {
+export function ProductReviews({
+  reviews,
+  inSheet,
+}: {
+  reviews: ProductDetails["reviews"];
+  /** в шторке на телефоне: заголовок уже есть у шторки — свой не показываем */
+  inSheet?: boolean;
+}) {
   const [sort, setSort] = useState(sorts[0]);
   const [open, setOpen] = useState(false);
   const [all, setAll] = useState(false);
@@ -41,10 +48,12 @@ export function ProductReviews({ reviews }: { reviews: ProductDetails["reviews"]
 
   return (
     <section id="reviews" className="flex scroll-mt-24 flex-col gap-6">
-      <div className="flex items-center justify-between gap-4">
-        <h2 className="flex gap-1 text-h3">
-          {t("Отзывы")} <span className="text-tertiary">{reviews.length}</span>
-        </h2>
+      <div className={`flex items-center gap-4 ${inSheet ? "justify-end" : "justify-between"}`}>
+        {!inSheet && (
+          <h2 className="flex gap-1 text-h3">
+            {t("Отзывы")} <span className="text-tertiary">{reviews.length}</span>
+          </h2>
+        )}
         <Popover
           open={open}
           onClose={() => setOpen(false)}

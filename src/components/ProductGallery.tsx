@@ -29,6 +29,8 @@ export function ProductGallery({
   const images = only ? only.map((i) => allImages[i]) : allImages;
   const thumbs = only && allThumbs ? only.map((i) => allThumbs[i]) : allThumbs;
   const [active, setActive] = useState(0);
+  // телефон: листаем фото свайпом
+  const [touchX, setTouchX] = useState<number | null>(null);
   // сменили оттенок — начинаем с первого фото этого оттенка (сброс во время отрисовки, как советует React)
   const [lastShade, setLastShade] = useState(shade);
   if (lastShade !== shade) {
@@ -37,8 +39,19 @@ export function ProductGallery({
   }
 
   return (
-    // фото стоит на нижнем крае серого блока — у фото с моделями нет пустой полосы снизу
-    <div className="relative aspect-[600/550] w-full max-w-[600px] lg:self-end">
+    // фото стоит на нижнем крае серого блока — у фото с моделями нет пустой полосы снизу.
+    // Телефон (product mobile): серый блок на всю ширину экрана 420 = фото 400 + точки, без превью
+    <div
+      className="relative w-full max-w-[600px] max-md:-mx-4 max-md:h-[420px] max-md:w-[calc(100%+32px)] max-md:max-w-none max-md:bg-surface md:aspect-[600/550] lg:self-end"
+      onTouchStart={(e) => setTouchX(e.touches[0].clientX)}
+      onTouchEnd={(e) => {
+        if (touchX === null || images.length < 2) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 40) setActive((a) => (a + (dx < 0 ? 1 : images.length - 1)) % images.length);
+        setTouchX(null);
+      }}
+    >
+      <div className="absolute inset-x-0 top-0 h-[400px] md:inset-0 md:h-auto">
       {images.map((src, i) => (
         <Image
           key={src}
@@ -51,9 +64,26 @@ export function ProductGallery({
           className={`object-contain object-bottom transition-opacity duration-300 ${i === active ? "opacity-100" : "opacity-0"}`}
         />
       ))}
+      </div>
+
+      {/* телефон: точки 6 px через 6, активная тёмная */}
+      {images.length > 1 && (
+        <div className="absolute inset-x-0 top-[400px] flex justify-center gap-1.5 md:hidden">
+          {images.map((src, i) => (
+            <button
+              key={src}
+              type="button"
+              onClick={() => setActive(i)}
+              aria-label={t("Фото {n}", { n: i + 1 })}
+              aria-current={i === active}
+              className={`size-1.5 rounded-full transition-colors ${i === active ? "bg-primary" : "bg-line-light"}`}
+            />
+          ))}
+        </div>
+      )}
 
       {images.length > 1 && (
-        <ul className="absolute top-8 left-0 flex flex-col gap-1.5 max-sm:top-auto max-sm:bottom-3 max-sm:left-3 max-sm:flex-row">
+        <ul className="absolute top-8 left-0 flex flex-col gap-1.5 max-md:hidden">
           {images.map((src, i) => (
             <li key={src}>
               <button
