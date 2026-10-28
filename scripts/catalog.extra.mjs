@@ -28,7 +28,7 @@ const MAKEUP = "Макияж";
 const GLOW = "Glow-skin";
 const AGE = "Антивозрастной уход";
 const SUN = "Для загара";
-const HITS = "Хиты Кореи";
+const HITS = "Тренды Кореи";
 
 /** Новые товары. files — пути от ROOT */
 export const extraProducts = [

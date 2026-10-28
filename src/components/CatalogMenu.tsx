@@ -37,7 +37,7 @@ export function CatalogMenu({ categories, onNavigate }: { categories: CatalogCat
               }`}
             >
               {t(c.title)}
-              {/* «Хиты Кореи» без подразделов — без стрелки */}
+              {/* «Тренды Кореи» без подразделов — без стрелки */}
               {c.items.length > 0 && <ChevronDown className="size-4 shrink-0 -rotate-90" />}
             </Link>
           </li>
@@ -58,14 +58,7 @@ export function CatalogMenu({ categories, onNavigate }: { categories: CatalogCat
                   hasKinds && i === activeItem ? "text-accent" : "hover:text-accent"
                 }`}
               >
-                {it.note ? (
-                  <span className="flex flex-col gap-0.5">
-                    {t(it.title)}
-                    <span className="text-base-xs text-secondary">{t(it.note)}</span>
-                  </span>
-                ) : (
-                  t(it.title)
-                )}
+                {t(it.title)}
                 {hasKinds && <ChevronDown className="size-4 shrink-0 -rotate-90" />}
               </Link>
             </li>
