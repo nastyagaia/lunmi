@@ -4,7 +4,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { priceToNumber, useCart } from "./Cart";
-import { HeartIcon, StarIcon } from "./icons";
+import { BagIcon, HeartIcon, StarIcon } from "./icons";
 import { Tag } from "./ui";
 import { isPrepared } from "@/lib/images";
 import { useFavorites } from "./Favorites";
@@ -67,6 +67,15 @@ export function ProductCard({
   const favorites = useFavorites();
   const liked = favorites.has(product.id);
   const cart = useCart();
+  const addToCart = () =>
+    cart.add({
+      key: product.id,
+      name: product.title ?? product.name,
+      description: product.description,
+      price: priceToNumber(product.price),
+      image: product.image,
+      href: product.href,
+    });
   const aspect = product.aspect ?? (size === "L" ? "402/420" : "300/270");
   const sizes = size === "L" ? "(min-width: 1024px) 408px, (min-width: 640px) 50vw, 85vw" : "(min-width: 1024px) 304px, 50vw";
 
@@ -126,20 +135,21 @@ export function ProductCard({
           />
         </button>
 
+        {/* телефон (Product card / Show cart): наведения нет — белый кружок 40 px с сумкой всегда виден, в 10 px от угла */}
+        <button
+          type="button"
+          onClick={addToCart}
+          aria-label={t("в корзину")}
+          className="absolute right-2.5 bottom-2.5 flex size-10 items-center justify-center rounded-full bg-white text-primary shadow-card md:hidden"
+        >
+          <BagIcon className="size-5" />
+        </button>
+
         {/* state=hover из UI KIT: кнопка «в корзину» появляется только при наведении: стекло background/overlay (#292929, 40 %, размытие 10), белый текст */}
         <button
           type="button"
-          onClick={() =>
-            cart.add({
-              key: product.id,
-              name: product.title ?? product.name,
-              description: product.description,
-              price: priceToNumber(product.price),
-              image: product.image,
-              href: product.href,
-            })
-          }
-          className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-center rounded-b-xs bg-primary/40 text-caps text-white opacity-0 backdrop-blur-[10px] transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+          onClick={addToCart}
+          className="absolute inset-x-0 bottom-0 flex h-10 max-md:hidden items-center justify-center rounded-b-xs bg-primary/40 text-caps text-white opacity-0 backdrop-blur-[10px] transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
         >
           {t("в корзину")}
         </button>

@@ -10,6 +10,7 @@ import { MultiSelect, Popover, PriceSelect, SingleSelect, type PriceRange } from
 import { ProductCard, type Product } from "./ProductCard";
 import { DropdownButton, FilterChip, Pill } from "./ui";
 import { ChevronLeft, ChevronRight } from "./icons";
+import { Sheet } from "./Sheet";
 import { t, plural, isEn, RUB_PER_EUR, priceToNumber } from "@/lib/i18n";
 
 type Key = "type" | "brand" | "price" | "effect" | "ingredient" | "sort";
@@ -110,6 +111,8 @@ function CatalogGridView({
   chipLook = CHIP_LOOK,
 }: CatalogGridProps & { urlType: string | null; urlKind: string | null; chipLook?: "pill" | "text" }) {
   const [open, setOpen] = useState<Key | null>(null);
+  // телефон: фильтры и сортировка — шторками снизу (мобильные макеты: filters sheet → filter brand sheet, sort sheet)
+  const [sheet, setSheet] = useState<"filters" | "brand" | "price" | "effect" | "ingredient" | "sort" | null>(null);
   // выбранный подраздел — из адреса; группа из меню («Для лица») ограничивает список своими подразделами
   const selectedType = urlType && types.includes(urlType) ? urlType : null;
   const scope = !selectedType && groupTitle && urlType === groupTitle ? initialTypes : undefined;
@@ -273,7 +276,7 @@ function CatalogGridView({
       )}
 
       {/* от пилюль до карточек — 32 px, как от счётчика товаров до фильтров; без пилюль — тоже 32 (12 у ряда фильтров + 20) */}
-      <p className={`${hasChips ? "mt-[52px]" : ""} text-caps text-secondary`}>
+      <p className={`${hasChips ? "mt-8 md:mt-[52px]" : ""} text-caps text-secondary`}>
         {countPrefix || crumbs ? `${t(countPrefix || "Найдено")} ` : ""}
         {productsCount(shown.length)}
       </p>
@@ -284,9 +287,27 @@ function CatalogGridView({
       <div
         ref={bar}
         data-stuck={stuck || undefined}
-        className={`relative z-40 mt-1 flex flex-wrap items-center justify-between gap-3 py-3 transition-[top] duration-300 before:pointer-events-none before:absolute before:inset-y-0 before:-inset-x-[100vw] before:-z-10 before:opacity-0 before:transition-opacity before:duration-300 md:sticky md:top-[var(--header-h,54px)] md:before:glass data-stuck:before:opacity-100`}
+        className={`relative z-40 flex flex-wrap md:mt-1 items-center justify-between gap-3 py-3 transition-[top] duration-300 before:pointer-events-none before:absolute before:inset-y-0 before:-inset-x-[100vw] before:-z-10 before:opacity-0 before:transition-opacity before:duration-300 md:sticky md:top-[var(--header-h,54px)] md:before:glass data-stuck:before:opacity-100`}
       >
-        <div className="flex flex-wrap items-center gap-3">
+        {/* телефон: одна кнопка «Фильтры» и сортировка — открывают шторки */}
+        <div className="flex w-full items-center justify-between gap-3 md:hidden">
+          <FilterChip
+            label={t("Фильтры")}
+            count={(hideBrand ? 0 : brand.length) + priceCount + effect.length + ingredient.length}
+            expanded={sheet !== null && sheet !== "sort"}
+            onClick={() => setSheet("filters")}
+            onClear={() => {
+              setBrand([]);
+              setPrice({ from: "", to: "" });
+              setEffect([]);
+              setIngredient([]);
+            }}
+          />
+          <DropdownButton expanded={sheet === "sort"} onClick={() => setSheet("sort")}>
+            {t(sort)[0].toUpperCase() + t(sort).slice(1)}
+          </DropdownButton>
+        </div>
+        <div className="flex flex-wrap items-center gap-3 max-md:hidden">
           {!hideBrand && multi("brand", t("Бренд"), t("Выберите бренд"), brands, brand, setBrand)}
           <Popover
             open={open === "price"}
@@ -313,6 +334,7 @@ function CatalogGridView({
           {multi("effect", t("Эффект для лица"), t("Выберите эффект"), filterOptions.effect, effect, setEffect)}
           {multi("ingredient", t("Компоненты"), t("Выберите компонент"), filterOptions.ingredient, ingredient, setIngredient)}
         </div>
+        <div className="max-md:hidden">
         <Popover
           open={open === "sort"}
           onClose={close}
@@ -332,9 +354,95 @@ function CatalogGridView({
             }}
           />
         </Popover>
+        </div>
       </div>
 
-      <div className="mt-5 grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
+      {/* шторки на телефоне: «Фильтры» (список) → выбор внутри с «назад», и «Сортировка» */}
+      {(() => {
+        const groups = [
+          ...(hideBrand ? [] : [{ k: "brand" as const, label: t("Бренд"), count: brand.length }]),
+          { k: "price" as const, label: t("Цена"), count: priceCount },
+          { k: "effect" as const, label: t("Эффект для лица"), count: effect.length },
+          { k: "ingredient" as const, label: t("Компоненты"), count: ingredient.length },
+        ];
+        const toList = () => setSheet("filters");
+        const closeSheet = () => setSheet(null);
+        const title =
+          sheet === "sort" ? "Сортировка" : sheet && sheet !== "filters" ? groups.find((g) => g.k === sheet)?.label ?? "" : "Фильтры";
+        const footer =
+          sheet === "filters" ? (
+            <>
+              <button
+                type="button"
+                onClick={closeSheet}
+                className="h-[52px] rounded-xs bg-primary text-caps text-white transition-colors hover:bg-secondary"
+              >
+                {t("Показать")} {productsCount(shown.length)}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setBrand([]);
+                  setPrice({ from: "", to: "" });
+                  setEffect([]);
+                  setIngredient([]);
+                }}
+                className="h-[52px] rounded-xs border border-primary text-caps transition-colors hover:border-line hover:text-secondary"
+              >
+                {t("Сбросить")}
+              </button>
+            </>
+          ) : undefined;
+        return (
+          <Sheet
+            open={sheet !== null}
+            onClose={closeSheet}
+            onBack={sheet && sheet !== "filters" && sheet !== "sort" ? toList : undefined}
+            title={title}
+            footer={footer}
+            tall={sheet !== "sort"}
+          >
+            {sheet === "filters" && (
+              <ul>
+                {groups.map((g) => (
+                  <li key={g.k}>
+                    <button
+                      type="button"
+                      onClick={() => setSheet(g.k)}
+                      className="flex h-11 w-full items-center justify-between gap-2 text-left text-base-s transition-colors hover:text-accent"
+                    >
+                      <span>
+                        {g.label}
+                        {g.count > 0 && <span className="ml-1.5 text-accent">{g.count}</span>}
+                      </span>
+                      <ChevronRight className="size-4 shrink-0" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className="-mx-4 flex min-h-full flex-col">
+              {sheet === "brand" && (
+                <MultiSelect sheet placeholder={t("Выберите бренд")} options={brands} value={brand} onApply={(v) => { setBrand(v); toList(); }} />
+              )}
+              {sheet === "effect" && (
+                <MultiSelect sheet placeholder={t("Выберите эффект")} options={filterOptions.effect} value={effect} onApply={(v) => { setEffect(v); toList(); }} />
+              )}
+              {sheet === "ingredient" && (
+                <MultiSelect sheet placeholder={t("Выберите компонент")} options={filterOptions.ingredient} value={ingredient} onApply={(v) => { setIngredient(v); toList(); }} />
+              )}
+              {sheet === "price" && (
+                <PriceSelect sheet ranges={filterOptions.price} value={price} onApply={(v) => { setPrice(v); toList(); }} />
+              )}
+              {sheet === "sort" && (
+                <SingleSelect options={filterOptions.sort} value={sort} onSelect={(v) => { setSort(v); closeSheet(); }} />
+              )}
+            </div>
+          </Sheet>
+        );
+      })()}
+
+      <div className="mt-3 grid grid-cols-2 gap-x-2 gap-y-8 md:mt-5 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
         {onPage.map((p) => (
           <div key={p.id} className="reveal">
             <ProductCard product={p} />
