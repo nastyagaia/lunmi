@@ -78,7 +78,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               }`}
             />
 
-            <div className="container-page relative flex h-full flex-col justify-end pb-[94px] md:pb-[98px]">
+            <div className="container-page relative flex h-full flex-col justify-end pb-[98px]">
               <div
                 className={`flex max-w-[709px] flex-col gap-5 transition-[opacity,translate] delay-200 duration-700 ease-out ${
                   current ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
@@ -86,9 +86,9 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               >
                 <div className="flex flex-col gap-2">
                   {i === 0 ? (
-                    <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t(s.title)}</h1>
+                    <h1 className="text-h1">{t(s.title)}</h1>
                   ) : (
-                    <h2 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t(s.title)}</h2>
+                    <h2 className="text-h1">{t(s.title)}</h2>
                   )}
                   <p className="max-w-[401px] text-base-s md:whitespace-pre-line">{t(s.text)}</p>
                 </div>
@@ -103,7 +103,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
 
       {/* полоски-переключатели (Figma Frame 21217): ряд 350 px, промежуток 6 px, полоски 2 px делят ширину поровну.
           Кнопка выше самой полоски, чтобы легко попасть пальцем */}
-      <div className="absolute bottom-[21px] left-1/2 flex w-[min(350px,100%-32px)] -translate-x-1/2 gap-1.5">
+      <div className="absolute bottom-[10px] left-1/2 flex w-[calc(100%-32px)] -translate-x-1/2 gap-1.5 md:bottom-[21px] md:w-[min(350px,100%-32px)]">
         {slides.map((s, i) => (
           <button
             key={s.title}

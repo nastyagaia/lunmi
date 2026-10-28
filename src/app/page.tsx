@@ -46,7 +46,8 @@ export default function Home() {
       <Header />
       <main>
         <HeroSlider slides={heroSlides} />
-        <div className="flex flex-col gap-[100px] pt-20 md:gap-[140px] md:pt-[100px]">
+        {/* мобилка (Figma home mobile): разделы через 48, перед FAQ и «Мы рядом» — 56 */}
+        <div className="flex flex-col gap-12 pt-12 md:gap-[140px] md:pt-[100px]">
           <Bestsellers />
           <Catalog />
           <Brands />
@@ -71,7 +72,7 @@ function Bestsellers() {
         {bestsellerList.map((p) => (
           <div
             key={p.id}
-            className="w-[85%] shrink-0 snap-start @container sm:w-[calc((100%-8px)/2)] lg:w-[calc((100%-16px)/3)]"
+            className="w-[240px] shrink-0 snap-start @container sm:w-[calc((100%-8px)/2)] lg:w-[calc((100%-16px)/3)]"
           >
             <ProductCard product={p} size="L" grow />
           </div>
@@ -173,7 +174,7 @@ function WeeklyDeals() {
         {weeklyDeals.map((p) => (
           <div
             key={p.id}
-            className="w-[70%] shrink-0 snap-start xs:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)]"
+            className="w-[240px] shrink-0 snap-start sm:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)]"
           >
             <ProductCard product={p} />
           </div>
@@ -196,9 +197,10 @@ function Brands() {
   return (
     <section className="container-page reveal md:py-6">
       <SectionHeader title={t("Бренды")} href="/brands" />
-      <ul className="grid grid-flow-row grid-cols-2 gap-x-2 gap-y-6 md:grid-cols-4 md:grid-flow-col md:grid-rows-10">
-        {top.map((b) => (
-          <li key={b.slug}>
+      {/* на телефоне — первые 20 (две колонки по 10, как в макете), с md — все 40 в четыре колонки */}
+      <ul className="grid grid-flow-col grid-cols-2 grid-rows-10 gap-x-2 gap-y-6 md:grid-cols-4">
+        {top.map((b, i) => (
+          <li key={b.slug} className={i >= 20 ? "max-md:hidden" : undefined}>
             <Link href={`/brands/${b.slug}`} className="block text-h4 transition-colors hover:text-accent">
               {b.name}
             </Link>
@@ -212,7 +214,7 @@ function Brands() {
 /* ---------- Частые вопросы ---------- */
 function Faq() {
   return (
-    <section id="faq" className="container-page reveal grid scroll-mt-20 gap-6 md:py-5 lg:grid-cols-[minmax(0,1fr)_824px]">
+    <section id="faq" className="container-page reveal grid scroll-mt-20 gap-4 max-md:mt-2 md:gap-6 md:py-5 lg:grid-cols-[minmax(0,1fr)_824px]">
       <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">
         {t("Частые")}
         <br className="hidden lg:block" /> {t("вопросы")}
@@ -239,7 +241,7 @@ function NearPhoto({ src }: { src: string }) {
 
 function Contacts() {
   return (
-    <section className="container-page reveal grid gap-2 md:grid-cols-2 lg:h-[540px] lg:grid-cols-3">
+    <section className="container-page reveal grid gap-2 max-md:mt-2 md:grid-cols-2 lg:h-[540px] lg:grid-cols-3">
       <div className="flex flex-col justify-between gap-10 rounded-xs bg-surface p-6 md:row-span-2 lg:row-span-1 lg:px-[30px] lg:pt-8 lg:pb-[30px]">
         <p className="text-base-s text-secondary">{t("Поддержка")}</p>
         <div className="flex flex-col gap-4">
