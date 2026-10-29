@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { contactStore, displayName, logOut, profileStore } from "@/lib/account";
-import { BagIcon, CloseIcon, LogoutIcon, ProfileIcon, ReviewIcon, SparkleIcon, SupportIcon } from "./icons";
+import { ArrowLeft, BagIcon, ChevronRight, CloseIcon, LogoutIcon, ProfileIcon, ReviewIcon, SparkleIcon, SupportIcon } from "./icons";
 import { t } from "@/lib/i18n";
 
 /** аватар по полу из «Моих данных»: «Мужчина» — мужской, иначе — девушка с косичками */
@@ -42,13 +42,68 @@ export function AccountNav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [ask]);
 
+  const home = path === "/account";
+  // раздел, из которого пришли (страница заказа → «Заказы»), для крошки «назад» на телефоне
+  const parent = menu.find((it) => it.href !== "/account" && it.href !== "/" && path.startsWith(it.href + "/"));
+  const back = parent ?? menu[0];
+  const rowCls = "flex h-[47px] items-center gap-2 px-4 text-base-s transition-colors hover:bg-surface";
+
   return (
-    <aside className="flex flex-col gap-6 lg:gap-8">
-      <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-6">
+    // телефон: max-md:contents — профиль/крошки встают над разделом, «Поддержка» и «Выйти» — под ним (order-last)
+    <aside className="flex flex-col gap-6 max-md:contents lg:gap-8">
+      {home ? (
+        <Link href="/account/profile" className="mt-2 -mb-1 flex items-center gap-4 md:hidden">
+          <Image key={avatar} src={avatar} alt="" width={72} height={72} priority className="size-[72px] rounded-full" />
+          <span className="flex min-w-0 flex-1 flex-col gap-1">
+            {name && <span className="truncate text-h3">{name}</span>}
+            <span className="text-base-s">{t("Мои данные")}</span>
+          </span>
+          <ChevronRight className="size-4 shrink-0" />
+        </Link>
+      ) : (
+        <nav aria-label={t("Хлебные крошки")} className="-ml-0.5 flex items-center gap-1 text-base-s text-secondary md:hidden">
+          <Link
+            href={back.href}
+            aria-label={t("Назад")}
+            className="mr-3 flex h-7 w-8 items-center pr-3 text-primary transition-colors hover:text-accent"
+          >
+            <ArrowLeft />
+          </Link>
+          <Link href="/account" className="transition-colors hover:text-primary">
+            {t("Личный кабинет")}
+          </Link>
+          {parent && (
+            <>
+              <span aria-hidden>/</span>
+              <Link href={parent.href} className="transition-colors hover:text-primary">
+                {t(parent.title)}
+              </Link>
+            </>
+          )}
+        </nav>
+      )}
+      {home && (
+        <ul className="order-last -mx-4 mt-4 md:hidden">
+          <li>
+            <Link href="/account/help" className={rowCls}>
+              <SupportIcon />
+              {t("Поддержка")}
+            </Link>
+          </li>
+          <li>
+            <button type="button" onClick={() => setAsk(true)} className={`w-full ${rowCls}`}>
+              <LogoutIcon />
+              {t("Выйти")}
+            </button>
+          </li>
+        </ul>
+      )}
+
+      <div className="flex items-center gap-4 max-md:hidden lg:flex-col lg:items-start lg:gap-6">
         <Image key={avatar} src={avatar} alt="" width={173} height={173} priority className="size-16 rounded-full lg:size-[173px]" />
         {name && <p className="text-h4">{name}</p>}
       </div>
-      <nav aria-label={t("Личный кабинет")} className="-mx-4 overflow-x-auto px-4 lg:mx-0 lg:overflow-visible lg:px-0">
+      <nav aria-label={t("Личный кабинет")} className="-mx-4 overflow-x-auto px-4 max-md:hidden lg:mx-0 lg:overflow-visible lg:px-0">
         <ul className="flex gap-0.5 lg:w-[268px] lg:flex-col">
           {menu.map((it) => {
             const active = it.href === "/account" ? path === "/account" : path.startsWith(it.href) && it.href !== "/";
