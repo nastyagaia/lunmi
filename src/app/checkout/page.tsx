@@ -15,16 +15,18 @@ export default function CheckoutPage() {
   return (
     <>
       <Header />
-      <main className="pt-[80px]">
+      <main className="pt-16 md:pt-[80px]">
         <div className="px-4 md:px-6 xl:px-[96px]">
           <CheckoutCrumbs />
         </div>
         <div className="container-page">
-          <h1 className="mt-8 text-h2 max-md:text-[20px] max-md:leading-[26px]">{t("Оформление")}</h1>
+          <h1 className="mt-6 text-h3 md:mt-8 md:text-h2">{t("Оформление")}</h1>
           <Checkout />
         </div>
       </main>
       <Footer />
+      {/* телефон: место под закреплённую кнопку «Оплатить» */}
+      <div className="h-[120px] md:hidden" aria-hidden />
     </>
   );
 }

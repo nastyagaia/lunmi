@@ -1,7 +1,7 @@
 // Базовые компоненты из UI KIT (buttons, tags, header секции)
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
-import { ChevronDown, CloseIcon, EditIcon } from "./icons";
+import { ChevronDown, ChevronRight, CloseIcon, EditIcon } from "./icons";
 import { t } from "@/lib/i18n";
 
 type ButtonProps = {
@@ -440,7 +440,9 @@ export function InfoCard({
           aria-label={editLabel}
           className="flex size-9 shrink-0 items-center justify-center text-tertiary transition-colors hover:text-primary"
         >
-          <EditIcon />
+          {/* телефон (checkout mobile): стрелка › вместо карандаша — карточка открывает шторку */}
+          <EditIcon className="max-md:hidden" />
+          <ChevronRight className="size-5 text-primary md:hidden" />
         </button>
       )}
     </div>

@@ -466,6 +466,8 @@ export function Checkout() {
               <span className="text-h2 max-md:text-[20px]">{rub(total)}</span>
             </div>
 
+            {/* телефон (checkout mobile): «Оплатить» — action bar, закреплённый внизу экрана */}
+            <div className="flex flex-col gap-4 max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:z-40 max-md:gap-2 max-md:border-t max-md:border-line-light max-md:bg-white max-md:px-4 max-md:py-6">
             <button
               type="button"
               onClick={submit}
@@ -483,6 +485,7 @@ export function Checkout() {
                     : t("Выберите способ оплаты, чтобы оформить заказ.")}
               </p>
             )}
+            </div>
           </aside>
         </div>
       )}
