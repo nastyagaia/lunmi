@@ -387,7 +387,7 @@ export function SmallTabs<T extends string>({
   onChange: (id: T) => void;
 }) {
   return (
-    <div role="tablist" className="flex gap-8 self-start border-b border-line">
+    <div role="tablist" className="flex gap-8 self-start border-b border-line max-md:self-stretch">
       {tabs.map((t) => (
         <button
           key={t.id}

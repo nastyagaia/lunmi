@@ -443,6 +443,7 @@ export const en: Record<string, string> = {
   "удалить адрес": "delete address",
   "Ближайшие пункты выдачи": "Nearest pickup points",
   "Выберите пункт выдачи на карте или в списке — и поедем дальше.": "Choose a pickup point on the map or in the list — and let’s move on.",
+  "Выберите пункт выдачи в списке — и поедем дальше.": "Choose a pickup point from the list — and let’s move on.",
   "Ваши адреса": "Your addresses",
   "добавить новый адрес": "add new address",
   "добавить новую карту": "add new card",
