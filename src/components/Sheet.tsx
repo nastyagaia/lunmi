@@ -15,6 +15,7 @@ export function Sheet({
   children,
   footer,
   tall,
+  z = "z-[60]",
 }: {
   open: boolean;
   onClose: () => void;
@@ -26,14 +27,18 @@ export function Sheet({
   footer?: ReactNode;
   /** высокая шторка — почти на весь экран (фильтры), иначе по содержимому (сортировка) */
   tall?: boolean;
+  /** слой: шторка поверх полноэкранного меню (z-[70]) — выше */
+  z?: string;
 }) {
   useEffect(() => {
     if (!open) return;
+    // запоминаем прежнее значение: шторка может открываться поверх меню, которое тоже держит прокрутку
+    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = prev;
       window.removeEventListener("keydown", onKey);
     };
   }, [open, onClose]);
@@ -41,7 +46,7 @@ export function Sheet({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-end">
+    <div className={`fixed inset-0 ${z} flex items-end`}>
       <button
         type="button"
         aria-label={t("Закрыть")}

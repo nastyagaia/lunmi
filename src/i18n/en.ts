@@ -430,6 +430,7 @@ export const en: Record<string, string> = {
   "кв. {n}": "apt. {n}",
   "сохранить": "save",
   "подтвердить": "confirm",
+  "Изменить город": "Change city",
   "Имя": "Name",
   "Телефон": "Phone",
   "Информировать через:": "Notify me via:",

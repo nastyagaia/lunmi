@@ -83,7 +83,7 @@ export function MobileMenus({
   if (mode === "burger") {
     return (
       <Panel title={t("Меню")} onClose={onClose}>
-        <CityMenu className="-ml-2" />
+        <CityMenu className="-ml-2" sheet />
         <hr className="my-3 border-line-light" />
         <ul>
           {links.map((l) => (
