@@ -8,8 +8,9 @@ import { useCart } from "./Cart";
 import { CatalogMenu } from "./CatalogMenu";
 import { CityMenu, ProfileMenu } from "./HeaderMenus";
 import { LangSwitch } from "./LangSwitch";
+import { MobileMenus } from "./MobileMenus";
 import { SearchPanel } from "./SearchPanel";
-import { ArrowLeft, BurgerIcon, CartIcon, ChevronDown, CloseIcon, HeartIcon, Logo, SearchIcon } from "./icons";
+import { BurgerIcon, CartIcon, CloseIcon, HeartIcon, Logo, SearchIcon } from "./icons";
 import { t } from "@/lib/i18n";
 
 // «Доставка» — в футере и в «Частых вопросах», как у крупных магазинов (25.10.2026)
@@ -48,6 +49,8 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [hideOnScroll]);
+
+  const closeMobile = useCallback(() => setOpen(false), []);
 
   // пока открыто меню каталога или мобильное меню — шапку не прячем
   const isHidden = hidden && !catalogOpen && !open && !searchOpen;
@@ -220,84 +223,17 @@ export function Header({ hideOnScroll = false }: { hideOnScroll?: boolean }) {
           </div>
         </div>
       </div>
-      {/* мобильное меню: как на десктопе — шапка вытягивается вниз одним стеклом, без своей подложки и шва */}
-      <div
-        inert={!open}
-        className={`grid transition-[grid-template-rows] duration-300 ease-out lg:hidden ${
-          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-        }`}
-      >
-        <nav id="mobile-menu" aria-label={t("Мобильное меню")} className="max-h-[calc(100dvh-48px)] md:max-h-[calc(100dvh-54px)] overflow-y-auto">
-          <div className="container-page py-4">
-            <CityMenu className="-ml-2 mb-2" />
-            {mobileCatalog ? (
-              // второй уровень: разделы каталога, как в меню каталога на десктопе
-              <div key="catalog" className="animate-[menu-in_200ms_ease-out]">
-                <button
-                  type="button"
-                  onClick={() => setMobileCatalog(false)}
-                  className="-ml-1 flex h-12 items-center gap-2 text-base-s transition-colors hover:text-accent"
-                >
-                  <ArrowLeft className="size-5" />
-                  {t("Каталог")}
-                </button>
-                <ul className="flex flex-col">
-                  {catalogMenu.map((c) => (
-                    <li key={c.title}>
-                      <Link
-                        href={c.href}
-                        onClick={() => setOpen(false)}
-                        className="flex h-12 items-center justify-between gap-2 text-base-s transition-colors hover:text-accent"
-                      >
-                        {t(c.title)}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : (
-              // пункты — тем же шрифтом, что в шапке на десктопе (Base/S), без линий между ними
-              <ul key="main" className="flex flex-col">
-                {nav.map((item) => (
-                  <li key={item}>
-                    {item === "Каталог" ? (
-                      <button
-                        type="button"
-                        onClick={() => setMobileCatalog(true)}
-                        className="flex h-12 w-full items-center justify-between gap-2 text-left text-base-s transition-colors hover:text-accent"
-                      >
-                        {t(item)}
-                        <ChevronDown className="size-4 shrink-0 -rotate-90" />
-                      </button>
-                    ) : (
-                      <Link
-                        href={navHref[item] ?? "#"}
-                        onClick={() => setOpen(false)}
-                        className="flex h-12 items-center text-base-s transition-colors hover:text-accent"
-                      >
-                        {t(item)}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-                {/* на телефоне сердечка в шапке нет — «Избранное» здесь */}
-                <li className="md:hidden">
-                  <Link
-                    href="/favorites"
-                    onClick={() => setOpen(false)}
-                    className="flex h-12 items-center text-base-s transition-colors hover:text-accent"
-                  >
-                    {t("Избранное")}
-                  </Link>
-                </li>
-                <li>
-                  <LangSwitch className="-ml-1.5 h-12" />
-                </li>
-              </ul>
-            )}
-          </div>
-        </nav>
-      </div>
+      {/* телефон и планшет: «Каталог» и бургер — шторки на весь экран (мобильные макеты) */}
+      {/* key — при каждом открытии каталог начинается с первого уровня */}
+      <MobileMenus
+        key={open ? (mobileCatalog ? "catalog" : "burger") : "closed"}
+        mode={open ? (mobileCatalog ? "catalog" : "burger") : null}
+        onClose={closeMobile}
+        links={[
+          ...nav.filter((n) => n !== "Каталог").map((n) => ({ label: t(n), href: navHref[n] ?? "#" })),
+          { label: t("Избранное"), href: "/favorites" },
+        ]}
+      />
     </header>
   );
 }

@@ -745,6 +745,8 @@ export const en: Record<string, string> = {
   "Пенка": "Foam",
   "Энзимная пудра": "Enzyme powder",
   "Фильтры": "Filters",
+  "Показать товары": "Show products",
+  "Меню": "Menu",
   "Показать": "Show",
   "Сортировка": "Sort by",
   "Первые признаки старения": "First signs of aging",
