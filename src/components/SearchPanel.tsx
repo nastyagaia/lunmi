@@ -89,8 +89,9 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
       className={`grid transition-[grid-template-rows] duration-300 ease-out ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
     >
       <div className="overflow-hidden">
-        {/* без своей заливки: видно стекло шапки, как у меню каталога; высота та же — шапка тянется до ~604 px */}
-        <div className="h-[550px] overflow-y-auto px-4 pt-6 pb-10 md:px-6">
+        {/* без своей заливки: видно стекло шапки, как у меню каталога; высота та же — шапка тянется до ~604 px.
+            Телефон (search mobile 11609:21805): белый экран до низа, поле через 16 под шапкой, ниже через 24 история или «ничего не нашлось» */}
+        <div className="h-[550px] overflow-y-auto px-4 pt-6 pb-10 max-md:h-[calc(100dvh-48px)] max-md:bg-white max-md:pt-4 md:px-6">
           <div className="mx-auto max-w-[824px]">
             <Search
               id="site-search"
@@ -104,12 +105,12 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
             />
 
             {nothing ? (
-              <p aria-live="polite" className="mt-8 text-base-s">
+              <p aria-live="polite" className="mt-6 text-base-s md:mt-8">
                 {t("Ничего не нашлось. Попробуйте написать иначе — например, название бренда или «сыворотка».")}
               </p>
             ) : (
               history.length > 0 && (
-                <div className="mt-8">
+                <div className="mt-6 md:mt-8">
                   <p className="text-caps text-secondary">{t("История")}</p>
                   <ul className="mt-3 flex flex-col">
                     {history.map((q) => (

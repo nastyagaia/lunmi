@@ -1,5 +1,7 @@
 // Каркас личного кабинета (Figma: account, orders, profile, reviews, help center):
 // слева Account Section на 3 колонки сетки, справа содержимое раздела с 4-й колонки.
+// Телефон (account mobile 11591:20893, orders mobile 11586:20135): меню нет — на главной сверху профиль → «Мои данные»,
+// внизу «Поддержка» и «Выйти»; в разделах — крошки «← Личный кабинет» на 64, всё через 24.
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { AccountNav } from "./AccountNav";
@@ -11,10 +13,10 @@ export function AccountShell({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
-      <main className="container-page pt-[106px] pb-6">
+      <main className="container-page pt-16 pb-12 md:pt-[106px] md:pb-6">
         {/* вход фейковый — любой пароль подходит; без входа вместо кабинета кнопка «Войти» */}
         <LoginGate>
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[304px_minmax(0,1fr)] lg:gap-2">
+          <div className="grid grid-cols-1 gap-6 md:gap-10 lg:grid-cols-[304px_minmax(0,1fr)] lg:gap-2">
             <AccountNav />
             <div className="min-w-0">{children}</div>
           </div>

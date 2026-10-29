@@ -103,7 +103,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <h1 className="text-h3 leading-8 max-md:text-[18px] max-md:leading-7">
+          <h1 className="text-h3 md:leading-8">
             {brand ? (
               <>
                 <Link href={`/brands/${brandSlug(product.card!.brand!)}`} className="transition-colors hover:text-accent">
@@ -186,15 +186,16 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
         )}
       </div>
 
-      {/* Buttons Container: «В корзину» 300 px или счётчик + избранное */}
-      <div className="flex items-center gap-6">
+      {/* Buttons Container: «В корзину» 300 px или счётчик + избранное.
+          Телефон (product mobile): action bar, закреплённый внизу экрана, кнопка на всю ширину 52 px */}
+      <div className="flex items-center gap-6 max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:z-40 max-md:border-t max-md:border-line-light max-md:bg-white max-md:px-4 max-md:py-6">
         {soldOut ? (
           // buttons Type=secondary: с обводкой; после нажатия — подтверждение, что сообщим
           <button
             type="button"
             onClick={() => shade && setNotify((n) => (n.includes(shade) ? n : [...n, shade]))}
             aria-live="polite"
-            className="h-10 w-full max-w-[304px] rounded-xs border border-primary text-caps transition-colors hover:border-line hover:text-secondary"
+            className="h-10 w-full max-w-[304px] rounded-xs max-md:h-[52px] max-md:max-w-none border border-primary text-caps transition-colors hover:border-line hover:text-secondary"
           >
             {shade && notify.includes(shade) ? t("сообщим, когда появится") : t("узнать о поступлении")}
           </button>
@@ -202,13 +203,13 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           <button
             type="button"
             onClick={addOne}
-            className="h-10 w-full max-w-[304px] rounded-xs bg-primary text-caps text-white transition-colors hover:bg-secondary"
+            className="h-10 w-full max-w-[304px] rounded-xs max-md:h-[52px] max-md:max-w-none bg-primary text-caps text-white transition-colors hover:bg-secondary"
           >
             {t("в корзину")}
           </button>
         ) : (
           // счётчик из UI KIT (Figma 5886:30118): кнопки 36 px через 24 px, цифра Base/M
-          <div className="flex h-10 w-full max-w-[304px] items-center justify-center gap-6 rounded-xs bg-primary text-base-m text-white">
+          <div className="flex h-10 w-full max-w-[304px] items-center max-md:h-[52px] max-md:max-w-none justify-center gap-6 rounded-xs bg-primary text-base-m text-white">
             <button
               type="button"
               onClick={() => cart.setQty(key, qty - 1)}
@@ -235,7 +236,7 @@ export function ProductBuy({ product }: { product: ProductDetails }) {
           onClick={() => favorites.toggle(card)}
           aria-pressed={liked}
           aria-label={liked ? t("Убрать из избранного") : t("В избранное")}
-          className="group/heart flex size-10 shrink-0 items-center justify-center"
+          className="group/heart flex size-10 shrink-0 items-center justify-center max-md:hidden"
         >
           {/* иконка 32 px: линия 1.5 × 24/32, чтобы на экране была ровно 1.5 px, как у остальных иконок */}
           <HeartIcon

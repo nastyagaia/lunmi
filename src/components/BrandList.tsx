@@ -2,6 +2,7 @@
 
 // Список брендов (Figma brands, 4124:17842): поле search, под ним бренды по алфавиту —
 // буква серым (Unbounded 12), под ней бренды стилем cellbutton через 16 px. Колонки через 8 px (сетка обновлена 3 октября 2026), ряды через 32 px.
+// Телефон (brands mobile 11572:18350): одна колонка, группы через 32.
 import Link from "next/link";
 import { useState } from "react";
 import { Search } from "./Search";
@@ -26,21 +27,21 @@ export function BrandList({ brands }: { brands: Item[] }) {
         placeholder={t("Найти бренд")}
         value={query}
         onChange={setQuery}
-        className="mt-4 max-w-[720px]"
+        className="max-w-[720px] md:mt-4"
       />
 
       {/* буквы идут по колонкам сверху вниз, как в газете: следующая буква встаёт сразу под предыдущей — без дырок */}
-      <div className="mt-[34px] columns-2 gap-x-2 md:columns-3 lg:columns-4">
+      <div className="mt-12 columns-1 gap-x-2 sm:columns-2 md:mt-[34px] md:columns-3 lg:columns-4">
         {letters.map(([letter, items = []]) => (
           <section
             key={letter}
             aria-label={t("Бренды на букву {letter}", { letter })}
-            className="mb-16 flex break-inside-avoid flex-col gap-4"
+            className="mb-8 flex break-inside-avoid flex-col gap-4 md:mb-16"
           >
             <h2 className="text-cell text-tertiary">{letter}</h2>
             <ul className="flex flex-col gap-4">
               {items.map((b) => (
-                <li key={b.slug}>
+                <li key={b.slug} className="flex">
                   <Link href={`/brands/${b.slug}`} className="text-cell transition-colors hover:text-accent">
                     {b.name}
                   </Link>

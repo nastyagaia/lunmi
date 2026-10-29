@@ -22,7 +22,8 @@ function Block({ title, id, children }: { title: string; id?: string; children: 
     // заголовок → текст 8 px
     <section id={id} className="flex scroll-mt-24 flex-col gap-2">
       <h2 className="text-h4">{t(title)}</h2>
-      <div className="flex flex-col gap-3 text-base-s">{children}</div>
+      {/* телефон: строки идут сплошным текстом, как в макете */}
+      <div className="flex flex-col text-base-s md:gap-3">{children}</div>
     </section>
   );
 }
@@ -42,22 +43,23 @@ export default function DeliveryPage() {
     <>
       <Header />
       <main>
-        {/* photo bg: фон surface 320 px, заголовок и подзаголовок слева снизу, фото 550 × 320 справа */}
-        <section className="bg-surface">
-          <div className="container-page flex items-end justify-between gap-10 md:h-[320px]">
-            <div className="flex max-w-[504px] flex-col gap-2 pt-24 pb-8 md:pt-0 md:pb-[50px]">
-              <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{t("Доставка")}</h1>
+        {/* photo bg: фон surface 320 px, заголовок и подзаголовок слева снизу, фото 550 × 320 справа.
+            Телефон (delivery mobile 11597:21998, mobile banner): шапка 200, фото 344 × 200 от x = 158, заголовок H3 */}
+        <section className="relative overflow-hidden bg-surface max-md:pt-12">
+          <div className="container-page flex items-end justify-between gap-10 max-md:h-[200px] md:h-[320px]">
+            <div className="relative z-10 flex max-w-[504px] flex-col gap-2 pb-[38px] md:pb-[50px]">
+              <h1 className="text-h3 md:text-h1">{t("Доставка")}</h1>
             </div>
-            <div className="relative hidden h-full w-[min(550px,45%)] shrink-0 md:block xl:mr-[66px]">
+            <div className="absolute top-12 left-[158px] h-[200px] w-[344px] md:relative md:top-auto md:left-auto md:h-full md:w-[min(550px,45%)] md:shrink-0 xl:mr-[66px]">
               <Image src="/img/covers/delivery-bag.webp" alt="" fill priority sizes="550px" className="object-cover" />
             </div>
           </div>
         </section>
 
-        <div className="container-page flex max-w-[1240px] flex-col gap-[50px] pt-10 md:pt-[50px]">
-          <div className="flex max-w-[720px] flex-col gap-[50px]">
+        <div className="container-page flex max-w-[1240px] flex-col gap-8 pt-8 md:gap-[50px] md:pt-[50px]">
+          <div className="flex max-w-[720px] flex-col gap-8 md:gap-[50px]">
             <Block title="Способы доставки">
-              <ul className="flex flex-col gap-3">
+              <ul className="flex flex-col md:gap-3">
                 <Way
                   name="Курьером по Москве и Санкт-Петербургу"
                   price={rub(delivery.courier.price)}

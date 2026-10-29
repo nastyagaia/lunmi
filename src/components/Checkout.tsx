@@ -466,6 +466,8 @@ export function Checkout() {
               <span className="text-h2 max-md:text-[20px]">{rub(total)}</span>
             </div>
 
+            {/* телефон (checkout mobile): «Оплатить» — action bar, закреплённый внизу экрана */}
+            <div className="flex flex-col gap-4 max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:z-40 max-md:gap-2 max-md:border-t max-md:border-line-light max-md:bg-white max-md:px-4 max-md:py-6">
             <button
               type="button"
               onClick={submit}
@@ -483,6 +485,7 @@ export function Checkout() {
                     : t("Выберите способ оплаты, чтобы оформить заказ.")}
               </p>
             )}
+            </div>
           </aside>
         </div>
       )}
@@ -559,7 +562,7 @@ export function Checkout() {
 
       {/* ---------- окно «Заказ оформлен» (Figma: order paid) ---------- */}
       {order && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center md:p-4">
           <button
             type="button"
             aria-label={t("Закрыть")}
@@ -571,13 +574,14 @@ export function Checkout() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="order-done-title"
-            className="relative flex w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-2 rounded-xs bg-white p-8 shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)]"
+            // телефон (order paid mobile 11582:20099): на весь экран, заголовок на 146, кнопка внизу на всю ширину
+            className="relative flex w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-2 overflow-y-auto [&>*]:shrink-0 bg-white shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)] max-md:h-full max-md:px-4 max-md:pt-[146px] max-md:pb-6 md:rounded-xs md:p-8"
           >
             <button
               type="button"
               onClick={() => setOrder(undefined)}
               aria-label={t("Закрыть")}
-              className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
+              className="absolute top-5 right-2 flex size-10 items-center justify-center transition-colors hover:text-accent md:top-8 md:right-8"
             >
               <CloseIcon />
             </button>
@@ -602,7 +606,7 @@ export function Checkout() {
               <Image src="/img/account/order-sparkle-right-f09d5c.webp" alt="" width={43} height={51} className="absolute top-[16%] -right-[10%] h-auto w-[11%]" />
               <Image src="/img/account/order-sparkle-left-06ed5b.webp" alt="" width={39} height={46} className="absolute top-[60%] -left-[7%] h-auto w-[10%]" />
             </div>
-            <Button href="/catalog" size="M" className="self-end bg-primary text-white hover:bg-secondary">
+            <Button href="/catalog" size="M" className="self-end bg-primary text-white hover:bg-secondary max-md:mt-auto max-md:h-[52px] max-md:w-full">
               {t("вернуться в каталог")}
             </Button>
           </div>

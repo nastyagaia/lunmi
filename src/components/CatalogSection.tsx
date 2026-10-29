@@ -44,7 +44,7 @@ export function CatalogSection({
       {/* overflow-x-clip: стеклянная подложка фильтров тянется на всю ширину экрана */}
       <main className="overflow-x-clip">
         {/* photo bg: фон surface 320 px, заголовок H1 слева снизу, фото 550 × 320 справа */}
-        <section className="bg-surface">
+        <section className="relative overflow-hidden bg-surface max-md:pt-12">
           <div className="container-page flex h-[200px] items-end justify-between md:h-[320px]">
             <CatalogHeading
               title={title}
@@ -52,8 +52,9 @@ export function CatalogSection({
               valid={group ? [...types, group.title] : types}
               initialType={group?.title ?? initialType}
             />
+            {/* телефон (mobile banner из Figma): обложка 344 × 200 от x = 158, правый край уходит за экран */}
             <div
-              className={`relative hidden h-full shrink-0 md:block xl:mr-[66px] ${heroWide ? "w-[min(692px,55%)]" : "w-[min(550px,60%)]"}`}
+              className={`absolute top-12 left-[158px] h-[200px] w-[344px] md:relative md:left-auto md:block md:h-full md:shrink-0 xl:mr-[66px] ${heroWide ? "md:w-[min(692px,55%)]" : "md:w-[min(550px,60%)]"}`}
             >
               <Image src={hero} alt="" fill priority sizes={heroWide ? "692px" : "550px"} className="object-cover" />
             </div>
@@ -61,6 +62,15 @@ export function CatalogSection({
         </section>
 
         <div className="container-page pt-4">
+          <div className="pb-6 md:hidden">
+            <CatalogHeading
+              title={title}
+              href={href}
+              valid={group ? [...types, group.title] : types}
+              initialType={group?.title ?? initialType}
+              only="crumbs"
+            />
+          </div>
           {products.length ? (
             // key: при переходе из меню на другой подраздел фильтры начинаются заново
             <CatalogGrid

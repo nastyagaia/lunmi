@@ -56,20 +56,28 @@ export function Popover({
 }
 
 /** Кнопки внизу списка: «Применить» (тёмная) и «Сбросить» (с обводкой) */
-function Actions({ onApply, onReset }: { onApply: () => void; onReset: () => void }) {
+function Actions({ onApply, onReset, sheet }: { onApply: () => void; onReset: () => void; sheet?: boolean }) {
+  // в шторке на телефоне — action bar внизу: кнопки 52 px, линия сверху, прилипает к низу
+  const h = sheet ? "h-[52px]" : "h-10";
   return (
-    <div className="flex flex-col gap-2 px-4 pt-3 pb-2">
+    <div
+      className={
+        sheet
+          ? "sticky -bottom-4 mt-auto flex flex-col gap-3 border-t border-line-light bg-white px-4 pt-6 pb-6"
+          : "flex flex-col gap-2 px-4 pt-3 pb-2"
+      }
+    >
       <button
         type="button"
         onClick={onApply}
-        className="h-10 rounded-xs bg-primary text-caps text-white transition-colors hover:bg-secondary"
+        className={`${h} rounded-xs bg-primary text-caps text-white transition-colors hover:bg-secondary`}
       >
         {t("Применить")}
       </button>
       <button
         type="button"
         onClick={onReset}
-        className="h-10 rounded-xs border border-primary text-caps transition-colors hover:border-line hover:text-secondary"
+        className={`${h} rounded-xs border border-primary text-caps transition-colors hover:border-line hover:text-secondary`}
       >
         {t("Сбросить")}
       </button>
@@ -83,11 +91,14 @@ export function MultiSelect({
   options,
   value,
   onApply,
+  sheet,
 }: {
   placeholder: string;
   options: string[];
   value: string[];
   onApply: (value: string[]) => void;
+  /** внутри шторки на телефоне: список без своей прокрутки, кнопки — action bar внизу */
+  sheet?: boolean;
 }) {
   const [draft, setDraft] = useState(value);
   const [query, setQuery] = useState("");
@@ -98,7 +109,7 @@ export function MultiSelect({
     <>
       {/* search из UI KIT — общий компонент (как в шапке и «Брендах»), без стрелки */}
       <Search label={placeholder} placeholder={placeholder} value={query} onChange={setQuery} className="mx-4" />
-      <ul className="max-h-[352px] overflow-y-auto pt-1">
+      <ul className={sheet ? "pt-1" : "max-h-[352px] overflow-y-auto pt-1"}>
         {shown.map((o) => (
           // строка 44 px, как в макете dropdown; нажимается вся строка
           <li key={o} className="transition-colors hover:bg-surface">
@@ -109,7 +120,7 @@ export function MultiSelect({
         ))}
         {shown.length === 0 && <li className="px-4 py-3 text-base-s text-secondary">{t("Ничего не нашлось")}</li>}
       </ul>
-      <Actions onApply={() => onApply(draft)} onReset={() => onApply([])} />
+      <Actions onApply={() => onApply(draft)} onReset={() => onApply([])} sheet={sheet} />
     </>
   );
 }
@@ -121,10 +132,12 @@ export function PriceSelect({
   ranges,
   value,
   onApply,
+  sheet,
 }: {
   ranges: { label: string; from: string; to: string }[];
   value: PriceRange;
   onApply: (value: PriceRange) => void;
+  sheet?: boolean;
 }) {
   const [draft, setDraft] = useState(value);
   // стандартное поле input из UI KIT (TextField): 52 px, «От / До» — подсказкой внутри поля, крестик M
@@ -159,7 +172,7 @@ export function PriceSelect({
           </li>
         ))}
       </ul>
-      <Actions onApply={() => onApply(draft)} onReset={() => onApply({ from: "", to: "" })} />
+      <Actions onApply={() => onApply(draft)} onReset={() => onApply({ from: "", to: "" })} sheet={sheet} />
     </>
   );
 }

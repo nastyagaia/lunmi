@@ -15,6 +15,8 @@ type Props = {
   /** подразделы и группы, которые можно показать в заголовке */
   valid: string[];
   initialType?: string;
+  /** «crumbs» — только хлебные крошки (на телефоне под серой шапкой) */
+  only?: "crumbs";
 };
 
 export function CatalogHeading(props: Props) {
@@ -36,6 +38,7 @@ function Heading({
   valid,
   type,
   kind = null,
+  only,
 }: Props & { type: string | null; kind?: string | null }) {
   const current = type && valid.includes(type) ? type : null;
   // вид — ещё один уровень вглубь, как у Золотого яблока: «Главная / Уход для лица / Очищение / Гидрофильное масло»
@@ -50,9 +53,10 @@ function Heading({
     ...(currentKind ? [{ label: t(currentKind), href: undefined }] : []),
   ];
   return (
-    <div className="flex flex-col gap-2 pb-[50px]">
-      <h1 className="text-h1 max-md:text-[28px] max-md:leading-[36px]">{heading}</h1>
-      <nav aria-label={t("Хлебные крошки")} className="flex flex-wrap items-center gap-1 text-base-s text-secondary">
+    <div className={only === "crumbs" ? "" : "relative z-10 flex flex-col gap-2 pb-[38px] md:pb-[50px]"}>
+      {/* телефон (catalog mobile): в серой шапке только заголовок H3, крошки — отдельно под шапкой (only="crumbs") */}
+      {only !== "crumbs" && <h1 className="text-h3 md:text-h1">{heading}</h1>}
+      <nav aria-label={t("Хлебные крошки")} className={`flex flex-wrap items-center gap-1 text-base-s text-secondary ${only === "crumbs" ? "" : "max-md:hidden"}`}>
         {parts.map((p, i) => (
           <Fragment key={p.label}>
             {i > 0 && <span aria-hidden>/</span>}

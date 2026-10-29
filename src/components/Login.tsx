@@ -60,7 +60,7 @@ function EyeIcon({ open }: { open: boolean }) {
   );
 }
 
-/** Окно по центру (Figma: «если пользователь новый», «Frame 21292»): 616 px, поля 24, крестик справа */
+/** Окно по центру (Figma: «если пользователь новый», «Frame 21292»): 616 px, поля 24, крестик справа; на телефоне — на весь экран (sign up mobile 11524:15109), кнопка внизу на всю ширину */
 function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -68,7 +68,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[70] flex items-center justify-center md:p-4">
       <button
         type="button"
         aria-label={t("Закрыть")}
@@ -81,17 +81,17 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
         aria-modal="true"
         aria-label={t(title)}
         // [&>*]:shrink-0 — на невысоком экране окно прокручивается, а не сплющивает кнопку и видео
-        className="relative flex max-h-full w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-6 overflow-y-auto [&>*]:shrink-0 rounded-xs bg-white p-8 shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)]"
+        className="relative flex max-h-full w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-6 overflow-y-auto [&>*]:shrink-0 bg-white shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)] max-md:h-full max-md:px-4 max-md:pt-[154px] max-md:pb-6 md:rounded-xs md:p-8"
       >
         <button
           type="button"
           onClick={onClose}
           aria-label={t("Закрыть")}
-          className="absolute top-8 right-8 flex size-10 items-center justify-center transition-colors hover:text-accent"
+          className="absolute top-5 right-2 flex size-10 items-center justify-center transition-colors hover:text-accent md:top-8 md:right-8"
         >
           <CloseIcon />
         </button>
-        <h2 className="pr-12 text-h2 max-md:text-[20px] max-md:leading-[26px]">{t(title)}</h2>
+        <h2 className="pr-12 text-h3 md:text-h2">{t(title)}</h2>
         {children}
       </div>
     </div>
@@ -122,7 +122,7 @@ function AboutYou({ by, onDone, onClose }: { by: "phone" | "email"; onDone: () =
 
   return (
     <Modal title="Давай знакомиться" onClose={onClose}>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-4 max-md:mt-5 md:gap-5">
         <TextField label={t("Твоё имя")} value={name} onChange={setName} autoComplete="name" />
         {by === "phone" ? (
           <TextField label="Email" value={extra} onChange={setExtra} type="email" autoComplete="email" />
@@ -151,7 +151,7 @@ function AboutYou({ by, onDone, onClose }: { by: "phone" | "email"; onDone: () =
         size="M"
         disabled={!valid}
         onClick={save}
-        className={`self-end ${darkButton} disabled:border-tertiary disabled:bg-tertiary disabled:text-line-light`}
+        className={`self-end max-md:mt-auto max-md:h-[52px] max-md:w-full ${darkButton} disabled:border-tertiary disabled:bg-tertiary disabled:text-line-light!`}
       >
         {t("создать аккаунт")}
       </Button>
@@ -174,7 +174,7 @@ function Hello({ onClose }: { onClose: () => void }) {
         aria-hidden="true"
         className="mx-auto aspect-square w-full max-w-[450px]"
       />
-      <Button href="/catalog" size="M" onClick={onClose} className={`self-end ${darkButton}`}>
+      <Button href="/catalog" size="M" onClick={onClose} className={`self-end max-md:mt-auto max-md:h-[52px] max-md:w-full ${darkButton}`}>
         {t("за покупками")}
       </Button>
     </Modal>
@@ -340,7 +340,7 @@ export function LoginLayer() {
                 type="button"
                 onClick={() => setStep("phone")}
                 aria-label={t("Назад")}
-                className="absolute top-5 left-5 flex size-10 items-center justify-center transition-colors hover:text-accent md:top-6 md:left-6"
+                className="absolute top-5 left-2 flex size-10 items-center justify-center transition-colors hover:text-accent md:top-6 md:left-6"
               >
                 <ArrowLeft />
               </button>
@@ -349,7 +349,7 @@ export function LoginLayer() {
               type="button"
               onClick={close}
               aria-label={t("Закрыть")}
-              className="absolute top-5 right-5 flex size-10 items-center justify-center transition-colors hover:text-accent md:top-6 md:right-6"
+              className="absolute top-5 right-2 flex size-10 items-center justify-center transition-colors hover:text-accent md:top-6 md:right-6"
             >
               <CloseIcon />
             </button>
@@ -359,9 +359,9 @@ export function LoginLayer() {
                 e.preventDefault();
                 submit();
               }}
-              className="mx-auto flex w-full max-w-[466px] flex-1 flex-col overflow-y-auto px-5 pt-24 pb-8 md:px-4 md:pt-[130px]"
+              className="mx-auto flex w-full max-w-[466px] flex-1 flex-col overflow-y-auto px-4 pt-[154px] pb-16 md:pt-[130px] md:pb-8"
             >
-              <h2 id="login-title" className="text-h2 max-md:text-[20px] max-md:leading-[26px]">
+              <h2 id="login-title" className="text-h3 md:text-h2">
                 {step === "register" ? t("Зарегистрироваться") : t("Войти в личный кабинет")}
               </h2>
 

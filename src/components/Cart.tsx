@@ -16,7 +16,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { CloseIcon, MinusIcon, QuantityPlusIcon } from "./icons";
+import { CloseIcon, MinusIcon, QuantityPlusIcon, TrashIcon } from "./icons";
 import { Button } from "./ui";
 import { isPrepared } from "@/lib/images";
 import { t, money, priceToNumber } from "@/lib/i18n";
@@ -233,7 +233,8 @@ function CartDrawer() {
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex justify-end p-5">
+        {/* телефон (mini cart mobile / drower base mobile): верх 80, крестик по краю сетки */}
+        <div className="flex h-20 items-center justify-end px-2 md:h-auto md:p-5">
           <button
             type="button"
             onClick={() => setOpen(false)}
@@ -244,15 +245,15 @@ function CartDrawer() {
           </button>
         </div>
 
-        <div className="flex flex-col gap-2 px-5 pb-6 md:px-8">
-          <h2 className="text-h2">{t("Корзина")}{count > 0 && <span className="ml-2 text-tertiary">{count}</span>}</h2>
+        <div className="flex flex-col gap-2 px-4 pb-6 md:px-8">
+          <h2 className="text-h3 md:text-h2">{t("Корзина")}{count > 0 && <span className="ml-2 text-tertiary">{count}</span>}</h2>
           {rows.length > 0 && (
-            <p className="text-base-s">{t("Всё на месте? Проверьте баночки, заполните детали — и вперёд к оформлению.")} 🌸</p>
+            <p className="text-base-s max-md:hidden">{t("Всё на месте? Проверьте баночки, заполните детали — и вперёд к оформлению.")} 🌸</p>
           )}
         </div>
 
         {rows.length === 0 ? (
-          <div className="flex flex-1 flex-col items-start gap-6 px-5 md:px-8">
+          <div className="flex flex-1 flex-col items-start gap-6 px-4 md:px-8">
             <p className="text-base-s text-secondary">
               {t("Корзина пока налегке. Загляните в каталог — там много того, что захочется унести с собой.")}
             </p>
@@ -263,9 +264,72 @@ function CartDrawer() {
         ) : (
           <>
             {/* Slot: строки товаров через 20 px, длинный список прокручивается */}
-            <ul className="flex flex-1 flex-col gap-5 overflow-y-auto px-5 md:px-8">
+            <ul className="flex flex-1 flex-col gap-8 overflow-y-auto px-4 md:gap-5 md:px-8">
               {rows.map(({ item, gone }) => (
-                <li key={item.key} className="flex items-center gap-4">
+                <li key={item.key}>
+                  {/* телефон — item card / mobile: фото 80, название в 2 строки, цена, корзинка и счётчик-«пилюля» */}
+                  <div className="flex gap-4 md:hidden">
+                    <Link
+                      href={item.href ?? "#"}
+                      onClick={() => setOpen(false)}
+                      className="relative size-20 shrink-0 overflow-hidden rounded-xs bg-surface"
+                    >
+                      <Image src={item.image} alt="" fill sizes="80px" unoptimized={isPrepared(item.image)} className="object-cover" />
+                    </Link>
+                    <div className="flex min-w-0 flex-1 flex-col">
+                      {gone ? (
+                        <>
+                          <p className="text-base-s text-error">{t("Товар убран из корзины. Передумали — верните одним нажатием.")}</p>
+                          <button
+                            type="button"
+                            onClick={() => undo(item.key)}
+                            className="mt-2 self-start text-caps underline underline-offset-2 transition-colors hover:text-accent"
+                          >
+                            {t("отменить")}
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <Link href={item.href ?? "#"} onClick={() => setOpen(false)} className="line-clamp-2 text-base-m">
+                            {item.name}
+                          </Link>
+                          <p className="pt-1 pb-0.5 text-base-s text-secondary">{rub(item.price)}</p>
+                          <div className="flex items-center gap-4">
+                            <button
+                              type="button"
+                              onClick={() => drop(item)}
+                              aria-label={t("Удалить «{name}»", { name: item.name })}
+                              className="flex size-10 items-center justify-center rounded-full bg-surface transition-colors hover:text-accent"
+                            >
+                              <TrashIcon className="size-5" />
+                            </button>
+                            <div className="flex h-9 items-center gap-3 rounded-full bg-surface px-1 text-base-m">
+                              <button
+                                type="button"
+                                onClick={() => setQty(item.key, item.qty - 1)}
+                                aria-label={t("Убрать одну штуку")}
+                                className="flex size-9 items-center justify-center transition-colors hover:text-accent"
+                              >
+                                <MinusIcon className="size-5" />
+                              </button>
+                              <span aria-live="polite" className="min-w-2 text-center">
+                                {item.qty}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => setQty(item.key, item.qty + 1)}
+                                aria-label={t("Добавить ещё одну")}
+                                className="flex size-9 items-center justify-center transition-colors hover:text-accent"
+                              >
+                                <QuantityPlusIcon className="size-5" />
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 max-md:hidden">
                   <button
                     type="button"
                     onClick={() => (gone ? undo(item.key) : drop(item))}
@@ -341,12 +405,13 @@ function CartDrawer() {
                       </div>
                     </>
                   )}
+                  </div>
                 </li>
               ))}
             </ul>
 
             {/* итог: «Сумма» + «к оформлению» */}
-            <div className="flex items-center gap-1.5 bg-white px-5 pt-6 pb-10 md:px-8 md:pb-[60px]">
+            <div className="flex items-center gap-1.5 border-line-light bg-white px-4 py-6 max-md:border-t md:px-8 md:pt-6 md:pb-[60px]">
               {/* total из UI KIT: «Сумма» — H4, под ней сумма — H3 */}
               <p className="flex min-w-[145px] shrink-0 flex-col pr-2">
                 <span className="text-h4">{t("Сумма")}</span>

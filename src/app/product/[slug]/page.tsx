@@ -11,6 +11,7 @@ import { ProductBuy } from "@/components/ProductBuy";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ShadeProvider } from "@/components/ProductShade";
+import { ProductReviewsSheet } from "@/components/ProductReviewsSheet";
 import { ProductReviews } from "@/components/ProductReviews";
 import { ProductTabs } from "@/components/ProductTabs";
 import { SectionHeader } from "@/components/ui";
@@ -38,9 +39,10 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
       <Header />
       <main>
         {/* верх страницы на фоне surface: хлебные крошки, фото, информация и покупка */}
-        <section className="bg-surface pt-[70px] pb-10 md:pt-20 lg:min-h-[680px] lg:pb-0">
+        {/* телефон (product mobile): серое только у галереи на всю ширину, крошки поверх неё; дальше всё на белом через 32 */}
+        <section className="relative pt-12 md:bg-surface md:pt-20 md:pb-10 lg:min-h-[680px] lg:pb-0">
           {/* хлебные крошки — по линии логотипа: те же поля, что у шапки */}
-          <div className="px-4 md:px-6 xl:px-[96px]">
+          <div className="px-4 max-md:absolute max-md:inset-x-0 max-md:top-16 max-md:z-10 md:px-6 xl:px-[96px]">
             {/* breadcrumbs: стрелка назад (32 × 28), через 16 px путь серым; последний пункт не кликается */}
             <nav aria-label={t("Хлебные крошки")} className="-ml-0.5 flex items-center gap-1 text-base-s text-secondary">
               <Link
@@ -63,7 +65,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
             <ShadeProvider
               initial={product.shades?.find((s) => s.available !== false)?.name ?? product.volumes?.[0]?.name}
             >
-              <div className="mt-6 grid gap-8 lg:mt-[26px] lg:grid-cols-[600px_minmax(0,512px)] lg:justify-between">
+              <div className="grid gap-8 md:mt-6 lg:mt-[26px] lg:grid-cols-[600px_minmax(0,512px)] lg:justify-between">
                 <ProductGallery
                   images={product.images}
                   thumbs={product.thumbs}
@@ -77,8 +79,9 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
                   }
                 />
 
-                <div className="flex flex-col gap-10 lg:min-h-[510px] lg:gap-[100px] lg:pt-[58px]">
+                <div className="flex flex-col gap-8 md:gap-10 lg:min-h-[510px] lg:gap-[100px] lg:pt-[58px]">
                   <ProductBuy product={product} />
+                  {product.reviews.length > 0 && <ProductReviewsSheet reviews={product.reviews} rating={product.rating} />}
                   {/* доставка и активные компоненты: подпись 96 px серым, значение справа */}
                   <dl className="grid grid-cols-[96px_1fr] gap-x-8 gap-y-6 text-base-s">
                     <dt className="text-secondary">{t("Доставка")}:</dt>
@@ -110,10 +113,14 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
 
         {/* описание, отзывы и помощь — колонка 708 px */}
         {/* отступы по макету product 1: 60 от серого блока, 80 между блоками */}
-        <div className="container-page mt-[60px]">
-          <div className="flex max-w-[720px] flex-col gap-[60px] lg:gap-20">
+        <div className="container-page mt-8 md:mt-[60px]">
+          <div className="flex max-w-[720px] flex-col gap-8 md:gap-[60px] lg:gap-20">
             {product.tabs && <ProductTabs tabs={product.tabs} />}
-            {product.reviews.length > 0 && <ProductReviews reviews={product.reviews} />}
+            {product.reviews.length > 0 && (
+              <div className="max-md:hidden">
+                <ProductReviews reviews={product.reviews} />
+              </div>
+            )}
             <HelpCard layout="wide" />
           </div>
         </div>
@@ -121,7 +128,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
         {product.similar.length > 0 && (
           // в макете: 80 между блоками + 24 поля сверху, шапка блока 44 px с заголовком (30) по центру →
           // 111 px до заголовка, карточки через 31 px под ним
-          <section className="container-page mt-20 lg:mt-[111px]">
+          <section className="container-page mt-12 md:mt-20 lg:mt-[111px]">
             <div className="lg:pb-[7px]">
               <SectionHeader title="Похожие товары" href="/catalog" />
             </div>
@@ -129,7 +136,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
               {product.similar.map((p) => (
                 <div
                   key={p.id}
-                  className="w-[70%] shrink-0 snap-start xs:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)]"
+                  className="w-[240px] shrink-0 snap-start sm:w-[calc((100%-8px)/2)] md:w-[calc((100%-16px)/3)] lg:w-[calc((100%-24px)/4)]"
                 >
                   <ProductCard product={p} />
                 </div>
@@ -139,6 +146,8 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
         )}
       </main>
       <Footer />
+      {/* телефон: место под закреплённую кнопку «В корзину» */}
+      <div className="h-[101px] md:hidden" aria-hidden />
     </>
   );
 }

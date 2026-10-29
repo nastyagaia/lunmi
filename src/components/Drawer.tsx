@@ -3,6 +3,8 @@
 // Боковая панель оформления (Figma: add contact, courier address, pick up point, saved addresses, payment method…):
 // справа белая панель 717 px — сверху стрелка «назад» и крестик, заголовок H2, содержимое, кнопки прижаты к низу.
 // Слева — затемнение, а в окне адреса вместо него карта (left).
+// Телефон (checkout mobile, 11574:19335): шторка снизу от y = 56 с ручкой, заголовок H3, крестик справа,
+// «Отменить» спрятана (её роль — крестик), «Сохранить» — action bar на всю ширину с линией сверху.
 import { useEffect, type ReactNode } from "react";
 import { ArrowLeft, CloseIcon } from "./icons";
 import { t } from "@/lib/i18n";
@@ -15,6 +17,7 @@ export function Drawer({
   children,
   footer,
   left,
+  fit = false,
 }: {
   open: boolean;
   onClose: () => void;
@@ -26,6 +29,8 @@ export function Drawer({
   footer?: ReactNode;
   /** что показать слева вместо затемнения (карта) — только на широком экране */
   left?: ReactNode;
+  /** телефон: шторка по высоте содержимого (способ оплаты), иначе — от y = 56 до низа */
+  fit?: boolean;
 }) {
   useEffect(() => {
     if (!open) return;
@@ -56,10 +61,18 @@ export function Drawer({
         role="dialog"
         aria-modal="true"
         aria-label={t(title)}
-        className="relative flex h-full w-full max-w-[717px] animate-[drawer-in_300ms_ease-out] flex-col bg-white"
+        className={`relative flex h-full w-full max-w-[717px] flex-col bg-white ${fit ? "max-md:mt-auto max-md:h-auto max-md:max-h-[calc(100%-56px)]" : "max-md:mt-14 max-md:h-[calc(100%-56px)]"} max-md:animate-[sheet-in_300ms_ease-out] max-md:rounded-t-lg md:animate-[drawer-in_300ms_ease-out]`}
       >
-        {/* верх 80 px: стрелка назад слева, крестик справа */}
-        <div className="flex h-20 shrink-0 items-center justify-between px-5 md:px-8">
+        {/* ручка шторки 36 × 5 — только телефон */}
+        <div className="flex shrink-0 justify-center py-2 md:hidden" aria-hidden>
+          <span className="h-[5px] w-9 rounded-full bg-line-light" />
+        </div>
+        {/* верх 80 px: стрелка назад слева, крестик справа; телефон: без «назад» крестик стоит справа на уровне заголовка, со стрелкой — отдельной строкой над ним */}
+        <div
+          className={`flex shrink-0 items-center justify-between px-4 md:h-20 md:px-8 ${
+            onBack ? "max-md:h-12" : "max-md:absolute max-md:top-[28px] max-md:right-0 max-md:z-10"
+          }`}
+        >
           {onBack ? (
             <button
               type="button"
@@ -82,13 +95,17 @@ export function Drawer({
           </button>
         </div>
 
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 md:px-8">
-          <h2 className="text-h2 max-md:text-[20px] max-md:leading-[26px]">{t(title)}</h2>
+        <div className={`flex min-h-0 flex-1 flex-col overflow-y-auto px-4 ${onBack ? "" : "max-md:pt-4"} md:px-8`}>
+          <h2 className="text-h3 max-md:pr-12 md:text-h2">{t(title)}</h2>
           <div className="flex flex-1 flex-col pt-6 pb-6">{children}</div>
         </div>
 
         {/* кнопки: поля 32 по бокам и снизу, 24 сверху, между кнопками 6 — как в дроере макета */}
-        {footer && <div className="flex shrink-0 gap-1.5 px-5 pt-6 pb-8 md:px-8">{footer}</div>}
+        {footer && (
+          <div className="flex shrink-0 gap-1.5 px-4 max-md:border-t max-md:border-line-light max-md:py-6 md:px-8 md:pt-6 md:pb-8">
+            {footer}
+          </div>
+        )}
       </aside>
     </div>
   );
@@ -112,6 +129,9 @@ export function DrawerButton({
       onClick={onClick}
       disabled={disabled}
       className={`h-[52px] flex-1 rounded-xs text-caps transition-colors ${
+        outline
+          ? "max-md:hidden " : ""
+      }${
         outline
           ? "border border-primary hover:border-line hover:text-secondary disabled:border-line disabled:bg-surface disabled:text-tertiary"
           : "bg-primary text-white hover:bg-secondary disabled:bg-tertiary disabled:text-line-light"

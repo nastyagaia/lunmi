@@ -102,7 +102,7 @@ export function ContactDrawer({
         </>
       }
     >
-      <div className="grid gap-1.5 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 md:gap-1.5">
         <TextField label={t("Имя")} value={name} onChange={setName} autoComplete="name" onClear={() => setName("")} />
         <TextField
           label={t("Телефон")}
@@ -253,7 +253,7 @@ export function AddressDrawer({
         onChange={setTab}
       />
 
-      <div className="mt-[20px] grid gap-1.5 sm:grid-cols-2">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 md:mt-[20px] md:gap-1.5">
         <SelectField
           label={t("Город")}
           value={city}
@@ -282,7 +282,7 @@ export function AddressDrawer({
 
       {tab === "courier" ? (
         <>
-          <div className="mt-5 grid gap-1.5 sm:grid-cols-2">
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 md:mt-5 md:gap-1.5">
             <TextField label={t("Квартира")} value={flat} onChange={setFlat} onClear={() => setFlat("")} />
             <TextField label={t("Подъезд и этаж")} value={entrance} onChange={setEntrance} onClear={() => setEntrance("")} />
           </div>
@@ -291,9 +291,9 @@ export function AddressDrawer({
             value={comment}
             onChange={setComment}
             onClear={() => setComment("")}
-            className="mt-5"
+            className="mt-4 md:mt-5"
           />
-          <p className="mt-3 text-base-xs text-tertiary">{t("Или просто ткните в нужный дом на карте — так тоже можно.")}</p>
+          <p className="mt-3 text-base-xs text-tertiary max-lg:hidden">{t("Или просто ткните в нужный дом на карте — так тоже можно.")}</p>
         </>
       ) : (
         <PickupList points={cityPoints} value={pointId} onChange={setPointId} />
@@ -327,7 +327,9 @@ function PickupList({
       {!value && (
         // notification из UI KIT: розовая плашка surface/accent 2
         <p className="rounded-xs bg-accent-soft px-3 py-3 text-base-s">
-          {t("Выберите пункт выдачи на карте или в списке — и поедем дальше.")}
+          {/* карта есть только на широком экране */}
+          <span className="max-lg:hidden">{t("Выберите пункт выдачи на карте или в списке — и поедем дальше.")}</span>
+          <span className="lg:hidden">{t("Выберите пункт выдачи в списке — и поедем дальше.")}</span>
         </p>
       )}
       <ul className="flex flex-col gap-3">
@@ -449,6 +451,7 @@ export function PaymentDrawer({
       open
       onClose={onClose}
       title="Способ оплаты"
+      fit
       footer={
         <DrawerButton
           disabled={!value}
