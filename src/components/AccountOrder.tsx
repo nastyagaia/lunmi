@@ -15,9 +15,9 @@ const noop = () => () => {};
 
 function Row({ label, children }: { label: string; children: string }) {
   return (
-    <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:gap-6">
+    <div className="flex justify-between gap-6">
       <dt className="shrink-0 text-base-s">{t(label)}</dt>
-      <dd className="text-base-s sm:text-right">{children}</dd>
+      <dd className="text-right text-base-s">{children}</dd>
     </div>
   );
 }
@@ -94,19 +94,20 @@ export function AccountOrder({ number }: { number: string }) {
   };
 
   return (
-    <div className="flex flex-col gap-10">
+    // телефон (order mobile 11586:20384): «← К заказам» на 64, заголовок через 24, блоки через 80, «Ваш заказ» через 24
+    <div className="flex flex-col gap-6 md:gap-10">
       <Link
         href="/account/orders"
-        className="flex items-center gap-4 self-start text-base-s text-secondary hover:text-primary"
+        className="flex h-7 items-center gap-4 self-start text-base-s text-secondary hover:text-primary"
       >
         <ArrowLeft />
         {t("К заказам")}
       </Link>
 
-      <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
-        <div className="flex w-full max-w-[720px] flex-col gap-[60px]">
+      <div className="flex flex-col gap-6 md:gap-12 lg:flex-row lg:justify-between">
+        <div className="flex w-full max-w-[720px] flex-col gap-20 md:gap-[60px]">
           <div className="flex flex-col gap-6">
-            <h1 className="text-h2">
+            <h1 className="text-h3 md:text-h2">
               {t("Заказ № {n} {status}", { n: order.number, status: t(order.status).toLowerCase() })}
             </h1>
             {order.status !== "Отменён" && <Progress order={order} />}
@@ -127,7 +128,7 @@ export function AccountOrder({ number }: { number: string }) {
             <h2 className="text-h4">
               {plural(count, ["товар", "товара", "товаров"], ["item", "items"])}
             </h2>
-            <ul className="flex flex-col gap-5">
+            <ul className="flex flex-col gap-6 md:gap-5">
               {order.items.map((i) => (
                 <li key={i.key}>
                   <Link href={i.href ?? "#"} className="group flex gap-4">

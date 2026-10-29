@@ -457,7 +457,7 @@ export function AccountReviews() {
   if (!toRate.length && !reviews.length) {
     return (
       <div className="flex flex-col gap-4">
-        <h1 className="text-h2">{t("Отзывы")}</h1>
+        <h1 className="text-h3 md:text-h2">{t("Отзывы")}</h1>
         <p className="max-w-[720px] text-base-s">{intro}</p>
         <AccountEmpty image={EMPTY_REVIEWS}>
           {orders.length
@@ -469,14 +469,20 @@ export function AccountReviews() {
   }
 
   return (
-    <div className="flex flex-col gap-16 md:gap-20">
+    // телефон (account reviews mobile 11593:21211): товары строками item rate через 24, разделы через 40
+    <div className="flex flex-col gap-10 md:gap-20">
       {toRate.length > 0 && (
         <section>
           <SectionHeader title="Ждут оценки" href={null} />
-          <p className="-mt-3 mb-6 text-base-s">{intro}</p>
-          <div className="grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3">
+          <p className="mb-6 text-base-s md:-mt-3">{intro}</p>
+          <div className="grid grid-cols-2 gap-x-2 gap-y-10 max-md:hidden md:grid-cols-3">
             {toRate.map((i) => (
               <RateCard key={i.key} item={i} />
+            ))}
+          </div>
+          <div className="flex flex-col gap-6 md:hidden">
+            {toRate.map((i) => (
+              <RateRow key={i.key} item={i} />
             ))}
           </div>
         </section>
@@ -484,7 +490,7 @@ export function AccountReviews() {
       {reviews.length > 0 && (
         <section>
           <SectionHeader title="Ваши отзывы" href={null} />
-          <ul className="flex flex-col gap-5">
+          <ul className="flex flex-col gap-4 md:gap-5">
             {reviews.map((r) => (
               <li key={r.key} className="flex flex-col gap-4 rounded-xs border border-line-light p-4">
                 <div className="flex items-start gap-4">

@@ -43,9 +43,8 @@ export function AccountNav() {
   }, [ask]);
 
   const home = path === "/account";
-  // раздел, из которого пришли (страница заказа → «Заказы»), для крошки «назад» на телефоне
-  const parent = menu.find((it) => it.href !== "/account" && it.href !== "/" && path.startsWith(it.href + "/"));
-  const back = parent ?? menu[0];
+  // страница внутри раздела (заказ) — на телефоне у неё своя ссылка «назад»
+  const parent = menu.some((it) => it.href !== "/account" && it.href !== "/" && path.startsWith(it.href + "/"));
   const rowCls = "flex h-[47px] items-center gap-2 px-4 text-base-s transition-colors hover:bg-surface";
 
   return (
@@ -60,10 +59,11 @@ export function AccountNav() {
           </span>
           <ChevronRight className="size-4 shrink-0" />
         </Link>
-      ) : (
+      ) : parent ? null : (
+        // страница заказа на телефоне — своя ссылка «← К заказам» (order mobile)
         <nav aria-label={t("Хлебные крошки")} className="-ml-0.5 flex items-center gap-1 text-base-s text-secondary md:hidden">
           <Link
-            href={back.href}
+            href="/account"
             aria-label={t("Назад")}
             className="mr-3 flex h-7 w-8 items-center pr-3 text-primary transition-colors hover:text-accent"
           >
@@ -72,14 +72,6 @@ export function AccountNav() {
           <Link href="/account" className="transition-colors hover:text-primary">
             {t("Личный кабинет")}
           </Link>
-          {parent && (
-            <>
-              <span aria-hidden>/</span>
-              <Link href={parent.href} className="transition-colors hover:text-primary">
-                {t(parent.title)}
-              </Link>
-            </>
-          )}
         </nav>
       )}
       {home && (

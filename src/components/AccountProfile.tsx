@@ -138,9 +138,10 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
     // в макете форма стоит с 5-й колонки и занимает 7 колонок (720 px)
     <div className="flex max-w-[720px] flex-col gap-[60px] lg:ml-[104px]">
       <section className="flex flex-col gap-6">
-        <h1 className="text-h2">{t("Мои данные")}</h1>
+        <h1 className="text-h3 md:text-h2">{t("Мои данные")}</h1>
         <Heading>Основное</Heading>
-        <div className="grid gap-2 sm:grid-cols-2">
+        {/* телефон (my data mobile 11594:21422): поля друг под другом через 20, кнопка на всю ширину */}
+        <div className="grid gap-5 sm:grid-cols-2 sm:gap-2">
           <TextField
             label={t("Имя")}
             value={form.firstName}
@@ -197,7 +198,7 @@ function ProfileForm({ done, setDone }: { done: boolean; setDone: (v: boolean) =
             type="button"
             disabled={!dirty || !emailOk}
             onClick={save}
-            className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-secondary disabled:bg-tertiary disabled:text-line-light"
+            className="h-10 bg-primary px-6 text-caps text-white transition-colors hover:bg-secondary disabled:bg-tertiary disabled:text-line-light max-md:flex-1"
           >
             {t("сохранить изменения")}
           </button>

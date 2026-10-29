@@ -17,10 +17,11 @@ const ways = [
 export default function HelpPage() {
   return (
     <AccountShell>
-      <div className="flex flex-col gap-[50px]">
-        <section className="flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-h2">{t("Поддержка")}</h1>
+      {/* телефон (support mobile 11597:21834): заголовок H3, текст через 12, кнопки 64 через 32, вопросы через 32 */}
+      <div className="flex flex-col gap-8 md:gap-[50px]">
+        <section className="flex flex-col gap-8 md:gap-6">
+          <div className="flex flex-col gap-3 md:gap-2">
+            <h1 className="text-h3 md:text-h2">{t("Поддержка")}</h1>
             <p className="text-base-s">{t("Пишите, как вам удобнее, — ответим в течение дня, а то и быстрее:")}</p>
           </div>
           <ul className="grid gap-2 sm:grid-cols-3">
@@ -28,7 +29,7 @@ export default function HelpPage() {
               <li key={w.label}>
                 <Link
                   href={w.href}
-                  className="flex h-24 items-center justify-center gap-2.5 bg-surface text-h4 transition-colors hover:text-accent"
+                  className="flex h-16 items-center md:h-24 justify-center gap-2.5 bg-surface text-h4 transition-colors hover:text-accent"
                 >
                   {w.icon}
                   {w.label}
@@ -38,7 +39,7 @@ export default function HelpPage() {
           </ul>
         </section>
         <section className="flex flex-col gap-6">
-          <h2 className="text-h2">{t("Популярные вопросы")}</h2>
+          <h2 className="text-h3 md:text-h2">{t("Популярные вопросы")}</h2>
           <FaqList />
         </section>
       </div>
