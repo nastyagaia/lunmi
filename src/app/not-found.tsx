@@ -40,14 +40,14 @@ export default function NotFound() {
             alt=""
             width={43}
             height={51}
-            className="absolute top-10 right-1 h-auto w-[33px] md:top-[47px] md:-right-[72px] md:w-[31px]"
+            className="absolute top-10 right-1 h-auto w-[33px] xl:top-[47px] xl:-right-[72px] xl:w-[31px]"
           />
           <Image
             src="/img/account/order-sparkle-left-06ed5b.webp"
             alt=""
             width={39}
             height={46}
-            className="absolute top-[230px] left-1 h-auto w-[31px] md:top-[256px] md:-left-[76px] md:w-[33px]"
+            className="absolute top-[230px] left-1 h-auto w-[31px] xl:top-[256px] xl:-left-[76px] xl:w-[33px]"
           />
         </div>
 
