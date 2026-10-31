@@ -14,6 +14,7 @@ export function CatalogSection({
   title,
   href,
   hero,
+  heroMobile,
   products,
   types,
   initialType,
@@ -26,6 +27,8 @@ export function CatalogSection({
   /** адрес раздела — для хлебных крошек («Главная / Уход для лица / Очищение») */
   href: string;
   hero: string;
+  /** телефон: вырезанное фото из макета mobile banner, 344 × 200, растянуто на весь блок (как в макете) */
+  heroMobile?: string;
   products: Product[];
   types: string[];
   initialType?: string;
@@ -56,7 +59,14 @@ export function CatalogSection({
             <div
               className={`absolute top-12 left-[158px] h-[200px] w-[344px] md:relative md:left-auto md:block md:h-full md:shrink-0 xl:mr-[66px] ${heroWide ? "md:w-[min(692px,55%)]" : "md:w-[min(550px,60%)]"}`}
             >
-              <Image src={hero} alt="" fill priority sizes={heroWide ? "692px" : "550px"} className="object-cover" />
+              {heroMobile ? (
+                <picture>
+                  <source media="(min-width: 768px)" srcSet={hero} />
+                  <img src={heroMobile} alt="" className="absolute inset-0 size-full object-fill" />
+                </picture>
+              ) : (
+                <Image src={hero} alt="" fill priority sizes={heroWide ? "692px" : "550px"} className="object-cover" />
+              )}
             </div>
           </div>
         </section>
