@@ -18,6 +18,7 @@ export default async function CatalogPage({ searchParams }: PageProps<"/catalog"
       title={catalogPage.title}
       href="/catalog"
       hero={catalogPage.heroImage}
+      heroMobile="/img/covers/uhod-mobile-cut-hd-7c41d8.webp"
       products={catalogProducts}
       types={catalogTypes}
       initialType={initialType}

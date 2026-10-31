@@ -4,7 +4,7 @@
 // Первый слайд — видео (доигрывает до конца), остальные — фото, сменяются каждые 6 секунд.
 // Нажатие на полоску переключает слайд и запускает отсчёт заново. На телефоне листается свайпом.
 // Если в системе включено «уменьшить движение», слайды сами не листаются.
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { HeroSlide } from "@/data/home";
 import { HeroVideo } from "./HeroVideo";
@@ -56,18 +56,11 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             className={`absolute inset-0 transition-opacity duration-700 ${current ? "opacity-100" : "opacity-0"}`}
           >
             {s.image ? (
-              <>
-                <Image
-                  src={s.image}
-                  alt=""
-                  fill
-                  sizes="100vw"
-                  className={`object-cover ${s.mobileImage ? "max-md:hidden" : ""}`}
-                />
-                {s.mobileImage && (
-                  <Image src={s.mobileImage} alt="" fill sizes="100vw" className="object-cover md:hidden" />
-                )}
-              </>
+              s.mobileImage ? (
+                <HeroPicture image={s.image} mobileImage={s.mobileImage} />
+              ) : (
+                <Image src={s.image} alt="" fill sizes="100vw" className="object-cover" />
+              )
             ) : (
               <HeroVideo active={current} onEnded={next} />
             )}
@@ -122,5 +115,23 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         ))}
       </div>
     </section>
+  );
+}
+
+/** Фото слайда: телефон скачивает только мобильную картинку, компьютер — только широкую (раньше грузились обе) */
+function HeroPicture({ image, mobileImage }: { image: string; mobileImage: string }) {
+  const common = { alt: "", fill: true, sizes: "100vw" };
+  const {
+    props: { srcSet: desktop },
+  } = getImageProps({ ...common, src: image });
+  const {
+    props: { srcSet: mobile, ...rest },
+  } = getImageProps({ ...common, src: mobileImage });
+  return (
+    <picture>
+      <source media="(min-width: 768px)" srcSet={desktop} />
+      <source srcSet={mobile} />
+      <img {...rest} alt="" className="object-cover" />
+    </picture>
   );
 }
