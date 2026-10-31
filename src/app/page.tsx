@@ -1,5 +1,5 @@
 // Главная страница (макет home в Figma)
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import { Carousel } from "@/components/Carousel";
 import { Footer } from "@/components/Footer";
@@ -96,15 +96,19 @@ function Catalog() {
               c.wide ? "col-span-2" : ""
             }`}
           >
-            <Image
-              src={c.image}
-              alt=""
-              fill
-              sizes={c.wide ? "(min-width: 1024px) 616px, 100vw" : "(min-width: 1024px) 304px, 50vw"}
-              className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${
-                "left" in c && c.left ? "object-left" : ""
-              }`}
-            />
+            {"mobileImage" in c && c.mobileImage ? (
+              <TilePicture image={c.image} mobileImage={c.mobileImage} />
+            ) : (
+              <Image
+                src={c.image}
+                alt=""
+                fill
+                sizes={c.wide ? "(min-width: 1024px) 616px, 100vw" : "(min-width: 1024px) 304px, 50vw"}
+                className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${
+                  "left" in c && c.left ? "object-left" : ""
+                }`}
+              />
+            )}
             <span className="relative text-base-m">{t(c.title)}</span>
           </Link>
         ))}
@@ -117,6 +121,24 @@ function Catalog() {
         </Link>
       </div>
     </section>
+  );
+}
+
+/** Широкая плитка со своим кадром для телефона (до 768 px) — скачивается только нужная картинка */
+function TilePicture({ image, mobileImage }: { image: string; mobileImage: string }) {
+  const common = { alt: "", fill: true, sizes: "(min-width: 1024px) 616px, 100vw" };
+  const {
+    props: { srcSet: desktop },
+  } = getImageProps({ ...common, src: image });
+  const {
+    props: { srcSet: mobile, ...rest },
+  } = getImageProps({ ...common, src: mobileImage });
+  return (
+    <picture>
+      <source media="(min-width: 768px)" srcSet={desktop} sizes={common.sizes} />
+      <source srcSet={mobile} sizes={common.sizes} />
+      <img {...rest} alt="" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+    </picture>
   );
 }
 

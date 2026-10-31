@@ -62,13 +62,14 @@ export const heroSlides: HeroSlide[] = [
 ];
 
 /** Плитки каталога. wide = широкая плитка (616px в макете); left = фото прижато к левому краю —
- *  на узких экранах обрезается справа, и светлое поле под подписью остаётся */
+ *  на узких экранах обрезается справа, и светлое поле под подписью остаётся;
+ *  mobileImage — своё кадрирование для телефона из Figma (home mobile, плитки 361 × 180) */
 export const catalog = [
   { title: "Для кожи лица", image: "/img/c-face-af880b.webp", href: "/catalog" },
   { title: "Glow Skin", image: "/img/c-glow-ea90a9.webp", href: "/catalog/glow-skin" },
-  { title: "Антивозрастной уход", image: "/img/c3.webp", wide: true, href: "/catalog/antivozrastnoy-uhod" },
+  { title: "Антивозрастной уход", image: "/img/c3.webp", mobileImage: "/img/c-age-mobile-91d83e.webp", wide: true, href: "/catalog/antivozrastnoy-uhod" },
   { title: "Тренды Кореи", image: "/img/c4.webp", href: "/catalog/hity-korei" },
-  { title: "Макияж", image: "/img/covers/makiyazh-077f49.webp", wide: true, href: "/catalog/makiyazh" },
+  { title: "Макияж", image: "/img/covers/makiyazh-077f49.webp", mobileImage: "/img/c-makeup-mobile-12176f.webp", wide: true, href: "/catalog/makiyazh" },
   { title: "Для тела", image: "/img/c6.webp", href: "/catalog/dlya-tela" },
   { title: "Для волос", image: "/img/c-hair-0e5ead.webp", wide: true, left: true, href: "/catalog/dlya-volos" },
   { title: "Бьюти-гаджеты", image: "/img/c8.webp", href: "/catalog/beauty-gadgets" },
