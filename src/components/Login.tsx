@@ -81,7 +81,8 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
         aria-modal="true"
         aria-label={t(title)}
         // [&>*]:shrink-0 — на невысоком экране окно прокручивается, а не сплющивает кнопку и видео
-        className="relative flex max-h-full w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-6 overflow-y-auto [&>*]:shrink-0 bg-white shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)] max-md:h-full max-md:px-4 max-md:pt-[154px] max-md:pb-6 md:rounded-xs md:p-8"
+        // max-md:[&_input]:text-[16px] — ПРОБА (Настя, 1.11.2026): в полях входа на телефоне 16 px, чтобы iPhone не приближал страницу
+        className="relative flex max-h-full w-full max-w-[616px] animate-[dropdown-in_250ms_ease-out] flex-col gap-6 overflow-y-auto [&>*]:shrink-0 bg-white shadow-[0_5px_15px_6px_rgb(41_41_41/0.05)] max-md:h-full max-md:px-4 max-md:pt-[154px] max-md:pb-6 max-md:[&_input]:text-[16px] md:rounded-xs md:p-8"
       >
         <button
           type="button"
@@ -236,6 +237,15 @@ export function LoginLayer() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  // телефон: пароль набираем как текст, а точки рисуем стилем (-webkit-text-security) — iPhone не показывает последнюю букву и не рисует крупные «●»
+  const [maskByCss, setMaskByCss] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia("(max-width: 767px)");
+    const update = () => setMaskByCss(m.matches && CSS.supports("-webkit-text-security", "disc"));
+    update();
+    m.addEventListener("change", update);
+    return () => m.removeEventListener("change", update);
+  }, []);
   const [google, setGoogle] = useState(false);
   // неверный пароль → ошибка под полем и «Забыли пароль?»; note — подсказка после «Забыли пароль?»
   const [wrong, setWrong] = useState(false);
@@ -333,7 +343,9 @@ export function LoginLayer() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="login-title"
-            className="relative flex h-full w-full max-w-[717px] animate-[drawer-in_300ms_ease-out] flex-col bg-white"
+            // ПРОБА: на телефоне в полях 16 px (iPhone не приближает страницу), на компьютере остаётся 14 px как в макете.
+            // Пароль на телефоне: обычное текстовое поле + точки стилем (masked-input), иначе iOS рисует крупные «●» и на секунду показывает последнюю букву
+            className="relative flex h-full w-full max-w-[717px] animate-[drawer-in_300ms_ease-out] flex-col bg-white max-md:[&_input]:text-[16px]"
           >
             {step === "code" && (
               <button
@@ -433,7 +445,9 @@ export function LoginLayer() {
                   {step !== "email" && (
                     <TextField
                       label={step === "register" ? t("Придумайте пароль") : t("Пароль")}
-                      type={show ? "text" : "password"}
+                      type={show || maskByCss ? "text" : "password"}
+                      className={maskByCss && !show ? "masked-input" : ""}
+                      noAssist={maskByCss}
                       autoComplete={step === "register" ? "new-password" : "current-password"}
                       value={password}
                       onChange={(v) => {

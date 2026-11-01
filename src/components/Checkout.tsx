@@ -8,7 +8,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { addressStore, authStore, contactStore, newOrderNumber, ordersStore, type Order } from "@/lib/account";
+import { addressStore, authStore, contactStore, displayName, newOrderNumber, ordersStore, profileStore, type Order } from "@/lib/account";
+import { openLogin } from "./Login";
 import { loyalty } from "@/data/loyalty";
 import { rub, useCart } from "./Cart";
 import {
@@ -78,8 +79,15 @@ export function Checkout() {
   // цель Метрики: человек дошёл до оформления
   useEffect(() => reachGoal("begin_checkout"), []);
   const cart = useCart();
-  const loggedIn = Boolean(authStore.useValue().email);
+  const email = authStore.useValue().email;
+  const loggedIn = Boolean(email);
   const contact = contactStore.useValue();
+  const profile = profileStore.useValue();
+  // вошли, а контактов ещё нет — карточка получателя появляется сразу, из профиля (имя или почта); телефон добавят по нажатию
+  useEffect(() => {
+    if (!email || contact) return;
+    contactStore.set({ name: displayName(profile, null) || email, phone: email.includes("@") ? "" : email, notify: "СМС" });
+  }, [email, contact, profile]);
   const { list: addresses, selected } = addressStore.useValue();
   const address = addresses.find((a) => a.id === selected);
 
@@ -118,7 +126,7 @@ export function Checkout() {
   // персональная скидка из кабинета — для тех, кто вошёл; с промокодом не суммируется
   const personal = loggedIn && !promoApplied ? Math.round((cart.total * loyalty.discount) / 100) : 0;
   const total = Math.max(cart.total - promoDiscount - personal + delivery, 0);
-  const ready = Boolean(contact && address && payment);
+  const ready = Boolean(contact?.phone && address && payment);
 
   const applyPromo = () => {
     const code = promo.trim().toUpperCase();
@@ -222,17 +230,17 @@ export function Checkout() {
               {contact ? (
                 <InfoCard
                   title={contact.name}
-                  subtitle={t("{phone}, по {notify}", { phone: contact.phone, notify: t(contact.notify) })}
+                  subtitle={contact.phone ? t("{phone}, по {notify}", { phone: contact.phone, notify: t(contact.notify) }) : t("Добавьте телефон для связи")}
                   onEdit={() => setPanel({ kind: "contact" })}
                   editLabel={t("Изменить контакты")}
                 />
-              ) : (
+              ) : loggedIn ? null : (
                 <>
                   <p className="text-base-s">
-                    {t("Чтобы оформить заказ, войдите в личный кабинет или зарегистрируйтесь — это быстрее, чем выбрать оттенок тинта.")}
+                    {t("Чтобы оформить заказ, войдите в личный кабинет или зарегистрируйтесь.")}
                   </p>
-                  {/* входа по почте пока нет — «Войти» открывает панель контактов; потом поведёт во вход */}
-                  <Button size="M" className={darkButton} onClick={() => setPanel({ kind: "contact" })}>
+                  {/* «Войти» открывает экран входа; контакты потом подставятся сами, их можно изменить (например, другой получатель) */}
+                  <Button size="M" className={darkButton} onClick={openLogin}>
                     {t("войти")}
                   </Button>
                 </>
@@ -478,8 +486,10 @@ export function Checkout() {
             </button>
             {!ready && (
               <p className="text-base-xs text-secondary">
-                {!contact
-                  ? t("Войдите или добавьте контакты, чтобы оформить заказ.")
+                {!contact?.phone
+                  ? loggedIn
+                    ? t("Добавьте телефон, чтобы оформить заказ.")
+                    : t("Войдите, чтобы оформить заказ.")
                   : !address
                     ? t("Выберите адрес доставки, чтобы оформить заказ.")
                     : t("Выберите способ оплаты, чтобы оформить заказ.")}

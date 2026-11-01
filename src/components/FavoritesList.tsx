@@ -17,9 +17,9 @@ export function FavoritesList() {
       {items.length ? (
         <>
           <p className="mt-6 text-caps text-secondary">{productsCount(items.length)}</p>
-          <div className="mt-8 grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
+          <div className="mt-8 grid grid-cols-2 gap-x-2 gap-y-14 md:grid-cols-3 md:gap-y-20 lg:grid-cols-4">
             {items.map((p) => (
-              <ProductCard key={p.id} product={p} />
+              <ProductCard key={p.id} product={p} tall />
             ))}
           </div>
         </>

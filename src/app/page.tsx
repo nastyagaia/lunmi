@@ -106,10 +106,12 @@ function Catalog() {
                 sizes={c.wide ? "(min-width: 1024px) 616px, 100vw" : "(min-width: 1024px) 304px, 50vw"}
                 className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${
                   "left" in c && c.left ? "object-left" : ""
+                } ${"shiftLeft" in c && c.shiftLeft ? "max-md:-translate-x-10" : ""
                 }`}
               />
             )}
-            <span className="relative text-base-m">{t(c.title)}</span>
+            {/* телефон: у плиток со своим кадром подпись узкая — «Антивозрастной / уход» в две строки */}
+            <span className={`relative text-base-m ${"mobileImage" in c && c.mobileImage ? "max-md:w-min" : ""}`}>{t(c.title)}</span>
           </Link>
         ))}
         <Link

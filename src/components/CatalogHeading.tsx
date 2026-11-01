@@ -5,7 +5,7 @@
 // Подраздел берётся из адреса (?type=…) — его меняют чипсы над товарами.
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Fragment, Suspense } from "react";
+import { Fragment, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { kindNames } from "@/data/kinds";
 import { isEn, t } from "@/lib/i18n";
 
@@ -55,21 +55,70 @@ function Heading({
   return (
     <div className={only === "crumbs" ? "" : "relative z-10 flex flex-col gap-2 pb-[38px] md:pb-[50px]"}>
       {/* телефон (catalog mobile): в серой шапке только заголовок H3, крошки — отдельно под шапкой (only="crumbs") */}
-      {only !== "crumbs" && <h1 className="text-h3 md:text-h1">{heading}</h1>}
-      <nav aria-label={t("Хлебные крошки")} className={`flex flex-wrap items-center gap-1 text-base-s text-secondary ${only === "crumbs" ? "" : "max-md:hidden"}`}>
-        {parts.map((p, i) => (
+      {/* телефон: «Уход / для лица» в две строки, чтобы подпись не наезжала на фото; с md перенос схлопывается */}
+      {only !== "crumbs" && <h1 className="text-h3 max-md:whitespace-pre-line md:text-h1">{heading.replace(/^Уход для лица$/, "Уход\nдля лица").replace(/^Антивозрастной уход$/, "Антивозрастной\nуход")}</h1>}
+      <Crumbs key={parts.map((p) => p.label).join("/")} parts={parts} hideOnPhone={only !== "crumbs"} />
+    </div>
+  );
+}
+
+type Part = { label: string; href?: string };
+
+/** Крошки в одну строку. Не помещаются по ширине — средние пункты уходят в «…» («Главная / … / Очищение»),
+ *  «…» ведёт на ближайший скрытый раздел. Если и так длинно — обрезается последний пункт. */
+function Crumbs({ parts, hideOnPhone }: { parts: Part[]; hideOnPhone: boolean }) {
+  const ref = useRef<HTMLElement>(null);
+  const [cut, setCut] = useState(0);
+  const maxCut = Math.max(0, parts.length - 2);
+  // по одному пункту убираем, пока строка не влезет (до первой отрисовки на экране)
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (el && cut < maxCut && el.scrollWidth > el.clientWidth + 1) setCut(cut + 1);
+  }, [cut, maxCut]);
+  // ширина изменилась (поворот телефона, окно) — считаем заново
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let w = el.clientWidth;
+    const ro = new ResizeObserver(() => {
+      if (el.clientWidth !== w) {
+        w = el.clientWidth;
+        setCut(0);
+      }
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const hidden = parts.slice(1, 1 + cut);
+  const shown: (Part & { dots?: boolean })[] = [
+    parts[0],
+    ...(cut ? [{ label: "…", href: hidden[hidden.length - 1].href, dots: true }] : []),
+    ...parts.slice(1 + cut),
+  ];
+  return (
+    <nav
+      ref={ref}
+      aria-label={t("Хлебные крошки")}
+      className={`flex items-center gap-1 overflow-hidden whitespace-nowrap text-base-s text-secondary md:flex-wrap ${hideOnPhone ? "max-md:hidden" : ""}`}
+    >
+      {shown.map((p, i) => {
+        const last = i === shown.length - 1;
+        const cls = last && cut >= maxCut ? "min-w-0 truncate md:overflow-visible" : "shrink-0";
+        return (
           <Fragment key={p.label}>
-            {i > 0 && <span aria-hidden>/</span>}
+            {i > 0 && <span aria-hidden className="shrink-0">/</span>}
             {p.href ? (
-              <Link href={p.href} className="transition-colors hover:text-primary">
+              <Link href={p.href} className={`${cls} transition-colors hover:text-primary`}>
                 {p.label}
               </Link>
             ) : (
-              <span aria-current={i === parts.length - 1 ? "page" : undefined}>{p.label}</span>
+              <span className={cls} aria-current={last ? "page" : undefined}>
+                {p.label}
+              </span>
             )}
           </Fragment>
-        ))}
-      </nav>
-    </div>
+        );
+      })}
+    </nav>
   );
 }

@@ -245,3 +245,8 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--color-primary);
   caret-color: var(--color-accent);
 }
+
+/* пароль на телефоне: поле — обычный текст, а точки рисует браузер (см. LoginLayer). Так iPhone не показывает последнюю букву */
+.masked-input input {
+  -webkit-text-security: disc;
+}

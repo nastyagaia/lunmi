@@ -434,9 +434,9 @@ export function AccountOrders() {
           <AccountEmpty image={EMPTY_ORDERS}>{t("Заказов пока нет — непорядок! Каталог уже заждался.")}</AccountEmpty>
         )
       ) : bought.length ? (
-        <div className="grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3">
+        <div className="grid grid-cols-2 gap-x-2 gap-y-14 md:grid-cols-3 md:gap-y-10">
           {bought.map((i) => (
-            <ProductCard key={i.key} product={asProduct(i)} />
+            <ProductCard key={i.key} product={asProduct(i)} tall />
           ))}
         </div>
       ) : (

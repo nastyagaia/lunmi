@@ -4,7 +4,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { priceToNumber, useCart } from "./Cart";
-import { BagIcon, HeartIcon, StarIcon } from "./icons";
+import { BagIcon, HeartIcon, MinusIcon, QuantityPlusIcon, StarIcon } from "./icons";
 import { Tag } from "./ui";
 import { isPrepared } from "@/lib/images";
 import { useFavorites } from "./Favorites";
@@ -58,11 +58,14 @@ export function ProductCard({
   product,
   size = "M",
   grow = false,
+  tall = false,
 }: {
   product: Product;
   size?: "L" | "M";
   /** фото тянется по высоте вместе с --focus от карусели */
   grow?: boolean;
+  /** телефон: блок с фото выше (300 × 300 вместо 300 × 270), товар остаётся того же размера по центру — больше воздуха */
+  tall?: boolean;
 }) {
   const favorites = useFavorites();
   const liked = favorites.has(product.id);
@@ -76,19 +79,20 @@ export function ProductCard({
       image: product.image,
       href: product.href,
     });
+  const qty = cart.qtyOf(product.id);
   const aspect = product.aspect ?? (size === "L" ? "402/420" : "300/270");
   const sizes = size === "L" ? "(min-width: 1024px) 408px, (min-width: 640px) 50vw, 85vw" : "(min-width: 1024px) 304px, 50vw";
 
   return (
     <article className="group flex flex-col gap-4">
       <div
-        className="relative overflow-hidden rounded-xs bg-surface"
+        className={`relative overflow-hidden rounded-xs bg-surface ${grow ? "" : "aspect-(--ar)"} ${tall && !grow ? "max-md:aspect-[300/300]" : ""}`}
         style={
           grow
             ? // высота = ширина × базовая пропорция × (1 + 14 % × --focus); ширину даёт контейнер слайда (100cqw).
               // Свою пропорцию товара (aspect) тут не берём: все карточки равны, выше только та, что в центре
               { height: `calc(100cqw * ${heightRatio(size === "L" ? "402/420" : "300/270")} * (1 + ${GROW} * var(--focus, 0)))` }
-            : { aspectRatio: aspect }
+            : ({ "--ar": aspect } as React.CSSProperties)
         }
       >
         <Link href={product.href ?? "#"} aria-label={product.title ?? product.name} className="absolute inset-0">
@@ -98,7 +102,7 @@ export function ProductCard({
             fill
             unoptimized={isPrepared(product.image)}
             sizes={sizes}
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] ${tall ? "max-md:object-contain" : ""}`}
           />
           {/* при наведении — второе фото мягко проявляется поверх первого */}
           {product.hoverImage && (
@@ -135,15 +139,40 @@ export function ProductCard({
           />
         </button>
 
-        {/* телефон (Product card / Show cart): наведения нет — белый кружок 40 px с сумкой всегда виден, в 10 px от угла */}
-        <button
-          type="button"
-          onClick={addToCart}
-          aria-label={t("в корзину")}
-          className="absolute right-2.5 bottom-2.5 flex size-10 items-center justify-center rounded-full bg-white text-primary shadow-card md:hidden"
-        >
-          <BagIcon className="size-5" />
-        </button>
+        {/* телефон (Product card / Show cart): наведения нет — белый кружок 40 px с сумкой всегда виден, в 10 px от угла.
+            Когда товар уже в корзине — вместо него розовая пилюля «− 1 +» (IconButton type=cart, state=pressed, Figma 3513:5008) */}
+        {qty > 0 ? (
+          <div className="absolute right-2.5 bottom-2.5 flex h-9 items-center gap-3 rounded-full bg-accent-300 px-1 text-primary md:hidden">
+            <button
+              type="button"
+              onClick={() => cart.setQty(product.id, qty - 1)}
+              aria-label={t("Убрать одну штуку")}
+              className="flex size-9 items-center justify-center"
+            >
+              <MinusIcon />
+            </button>
+            <span className="text-base-m" aria-live="polite">
+              {qty}
+            </span>
+            <button
+              type="button"
+              onClick={addToCart}
+              aria-label={t("Добавить ещё одну")}
+              className="flex size-9 items-center justify-center"
+            >
+              <QuantityPlusIcon />
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={addToCart}
+            aria-label={t("в корзину")}
+            className="absolute right-2.5 bottom-2.5 flex size-10 items-center justify-center rounded-full bg-white text-primary shadow-card md:hidden"
+          >
+            <BagIcon className="size-5" />
+          </button>
+        )}
 
         {/* state=hover из UI KIT: кнопка «в корзину» появляется только при наведении: стекло background/overlay (#292929, 40 %, размытие 10), белый текст */}
         <button
