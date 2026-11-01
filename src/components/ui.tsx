@@ -246,6 +246,7 @@ export function TextField({
   onBlur,
   maxLength,
   floating = true,
+  noAssist = false,
 }: {
   label: string;
   value: string;
@@ -265,6 +266,8 @@ export function TextField({
   maxLength?: number;
   /** false — подпись только подсказкой внутри поля, наверх не уезжает (поля «От / До» в фильтре цены) */
   floating?: boolean;
+  /** без автозамены, подсказок и заглавной первой буквы — для паролей, которые набираем как обычный текст */
+  noAssist?: boolean;
 }) {
   return (
     <div className={`flex flex-col gap-0.5 ${className}`}>
@@ -286,6 +289,7 @@ export function TextField({
             inputMode={inputMode}
             onBlur={onBlur}
             maxLength={maxLength}
+            {...(noAssist ? { autoCapitalize: "off", autoCorrect: "off", spellCheck: false } : {})}
             aria-invalid={Boolean(error)}
             aria-label={label}
             placeholder={floating ? undefined : label}

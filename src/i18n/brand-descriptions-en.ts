@@ -194,4 +194,12 @@ export const brandDescriptionsEn: Record<string, string> = {
     "LED masks chosen by celebrities and makeup artists: gentle light-based skincare at home.",
   Caelumen:
     "Compact LED masks for at-home care — glowing skin without a trip to the facialist.",
+  "Mise-en-Scène":
+    "A Korean haircare brand best known for its Perfect Serum line. Made for people who colour and style their hair often and want it to stay soft and smooth.",
+  Unove:
+    "A line for damaged lengths from the Dr.FORHAIR team. A soft scent, silky hair and the feel of salon care at home.",
+  "Dr.FORHAIR":
+    "A brand that started with scalp care. Hair centres in New York, Beijing and Seoul and clinical testing behind its formulas — made for thin and thinning hair.",
+  RYO:
+    "Korean haircare rooted in Eastern herbal traditions. Lines for weakened and thin hair with a floral-powdery scent.",
 };

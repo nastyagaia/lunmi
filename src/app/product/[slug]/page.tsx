@@ -39,7 +39,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
       <Header />
       <main>
         {/* верх страницы на фоне surface: хлебные крошки, фото, информация и покупка */}
-        {/* телефон (product mobile): серое только у галереи на всю ширину, крошки поверх неё; дальше всё на белом через 32 */}
+        {/* телефон (product mobile, 11542:16646): блоки через 50, «Похожие» через 70, строки «Доставка» через 32; серое только у галереи на всю ширину, крошки поверх неё; дальше всё на белом через 32 */}
         <section className="relative pt-12 md:bg-surface md:pt-20 md:pb-10 lg:min-h-[680px] lg:pb-0">
           {/* хлебные крошки — по линии логотипа: те же поля, что у шапки */}
           <div className="px-4 max-md:absolute max-md:inset-x-0 max-md:top-16 max-md:z-10 md:px-6 xl:px-[96px]">
@@ -83,7 +83,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
                   <ProductBuy product={product} />
                   {product.reviews.length > 0 && <ProductReviewsSheet reviews={product.reviews} rating={product.rating} />}
                   {/* доставка и активные компоненты: подпись 96 px серым, значение справа */}
-                  <dl className="grid grid-cols-[96px_1fr] gap-x-8 gap-y-6 text-base-s">
+                  <dl className="grid grid-cols-[96px_1fr] gap-x-8 gap-y-8 text-base-s md:gap-y-6">
                     <dt className="text-secondary">{t("Доставка")}:</dt>
                     <dd>
                       {product.delivery.map((d) => (
@@ -113,8 +113,8 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
 
         {/* описание, отзывы и помощь — колонка 708 px */}
         {/* отступы по макету product 1: 60 от серого блока, 80 между блоками */}
-        <div className="container-page mt-8 md:mt-[60px]">
-          <div className="flex max-w-[720px] flex-col gap-8 md:gap-[60px] lg:gap-20">
+        <div className="container-page mt-[50px] md:mt-[60px]">
+          <div className="flex max-w-[720px] flex-col gap-[50px] md:gap-[60px] lg:gap-20">
             {product.tabs && <ProductTabs tabs={product.tabs} />}
             {product.reviews.length > 0 && (
               <div className="max-md:hidden">
@@ -128,8 +128,8 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
         {product.similar.length > 0 && (
           // в макете: 80 между блоками + 24 поля сверху, шапка блока 44 px с заголовком (30) по центру →
           // 111 px до заголовка, карточки через 31 px под ним
-          <section className="container-page mt-12 md:mt-20 lg:mt-[111px]">
-            <div className="lg:pb-[7px]">
+          <section className="container-page mt-[70px] md:mt-20 lg:mt-[111px]">
+            <div className="max-md:-mb-1 lg:pb-[7px]">
               <SectionHeader title="Похожие товары" href="/catalog" />
             </div>
             <Carousel label={t("Похожие товары")} arrowTop={119} className="items-start">

@@ -1,6 +1,7 @@
 "use client";
 
 // Tabs из UI KIT (3669:8681): переключают разделы без перехода на другую страницу.
+// Серая линия под табами — inset-тень (а не border + -mb-px): иначе у полоски 1 px вертикальной прокрутки и на телефоне она дёргается от пальца.
 // Активный — чёрный с линией снизу, остальные серые (text/tetriary). Шрифт H4, между табами 32 px.
 import { useState } from "react";
 import { t as tr } from "@/lib/i18n";
@@ -9,8 +10,8 @@ export function ProductTabs({ tabs }: { tabs: { title: string; text: string }[] 
   const [active, setActive] = useState(0);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div role="tablist" className="no-scrollbar flex gap-8 overflow-x-auto border-b border-line">
+    <div className="flex flex-col gap-[17px] md:gap-4">
+      <div role="tablist" className="no-scrollbar flex gap-8 overflow-x-auto overflow-y-hidden shadow-[inset_0_-1px_0_0_var(--color-line)]">
         {tabs.map((t, i) => (
           <button
             key={t.title}
@@ -20,7 +21,7 @@ export function ProductTabs({ tabs }: { tabs: { title: string; text: string }[] 
             aria-selected={i === active}
             aria-controls={`tabpanel-${i}`}
             onClick={() => setActive(i)}
-            className={`-mb-px shrink-0 border-b pb-2.5 text-h4 transition-colors ${
+            className={`shrink-0 border-b pb-[9px] text-h4 transition-colors ${
               i === active ? "border-primary" : "border-transparent text-tertiary hover:text-primary"
             }`}
           >

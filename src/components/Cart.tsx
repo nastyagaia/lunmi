@@ -147,15 +147,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
 }
 
 /** Snackbar из Figma (7557:47768, на макете product 5 — 10402:22776): под шапкой у правого края сетки,
-    стекло #292929 70 % (в Figma без переменной), размытие 10, белый Base/S. Вместо выезда корзины при добавлении */
+    стекло #292929 70 % (в Figma без переменной), размытие 10, белый Base/S. Вместо выезда корзины при добавлении.
+    Телефон: по центру; ниже шапки (+8 px), а когда шапка спрятана — 16 px от верха экрана */
 function Snackbar({ item }: { item: { name: string; id: number } | null }) {
   return (
-    <div role="status" aria-live="polite" className="pointer-events-none fixed inset-x-0 top-[68px] z-40">
+    <div role="status" aria-live="polite" className="pointer-events-none fixed inset-x-0 top-[68px] z-40 transition-[top] duration-300 max-md:top-[max(16px,calc(var(--header-h,0px)+8px))]">
       {item && (
-        <div className="container-page flex justify-end">
+        <div className="container-page flex justify-end max-md:justify-center">
           <p
             key={item.id}
-            className="max-w-80 animate-[dropdown-in_200ms_ease-out] rounded-sm bg-primary/70 p-3 text-base-s text-white backdrop-blur-[10px]"
+            className="max-w-80 animate-[dropdown-in_200ms_ease-out] rounded-sm bg-primary/70 p-3 text-base-s max-md:text-center text-white backdrop-blur-[10px]"
           >
             {item.name}
             <br />
