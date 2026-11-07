@@ -369,7 +369,7 @@ export const en: Record<string, string> = {
   "Корзина пока налегке. Загляните в каталог — там много того, что захочется унести с собой.": "Your cart is travelling light. Take a look at the catalog — there’s plenty you’ll want to take home.",
   "Вернуть «{name}»": "Restore “{name}”",
   "Удалить «{name}»": "Remove “{name}”",
-  "Товар убран из корзины. Передумали — верните одним нажатием.": "Item removed from cart. Changed your mind? Bring it back with one tap.",
+  "Товар убран из корзины": "Item removed from cart",
   "отменить": "undo",
   "Сумма": "Total",
   "к оформлению": "checkout",

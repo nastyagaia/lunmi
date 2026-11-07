@@ -106,7 +106,6 @@ function Catalog() {
                 sizes={c.wide ? "(min-width: 1024px) 616px, 100vw" : "(min-width: 1024px) 304px, 50vw"}
                 className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${
                   "left" in c && c.left ? "object-left" : ""
-                } ${"shiftLeft" in c && c.shiftLeft ? "max-md:-translate-x-10" : ""
                 }`}
               />
             )}

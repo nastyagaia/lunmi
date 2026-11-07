@@ -174,6 +174,9 @@ function CatalogGridView({
   if (sort === "сначала дороже") shown = [...shown].sort((a, b) => toNumber(b.price) - toNumber(a.price));
   if (sort === "по рейтингу") shown = [...shown].sort((a, b) => Number(b.rating ?? 0) - Number(a.rating ?? 0));
 
+  // сортировка нужна, только если товаров больше одного
+  const canSort = shown.length > 1;
+
   // страница пагинации; при смене фильтров или сортировки — снова первая
   const sig = JSON.stringify([selectedType, scope, brand, effect, ingredient, price, sort, activeKind]);
   const [pg, setPg] = useState({ sig, n: 1 });
@@ -303,9 +306,12 @@ function CatalogGridView({
               setIngredient([]);
             }}
           />
-          <DropdownButton expanded={sheet === "sort"} onClick={() => setSheet("sort")}>
-            {t(sort)[0].toUpperCase() + t(sort).slice(1)}
-          </DropdownButton>
+          {/* сортировать один товар нечего — кнопку не показываем */}
+          {canSort && (
+            <DropdownButton expanded={sheet === "sort"} onClick={() => setSheet("sort")}>
+              {t(sort)[0].toUpperCase() + t(sort).slice(1)}
+            </DropdownButton>
+          )}
         </div>
         <div className="flex flex-wrap items-center gap-3 max-md:hidden">
           {!hideBrand && multi("brand", t("Бренд"), t("Выберите бренд"), brands, brand, setBrand)}
@@ -334,6 +340,7 @@ function CatalogGridView({
           {multi("effect", t("Эффект для лица"), t("Выберите эффект"), filterOptions.effect, effect, setEffect)}
           {multi("ingredient", t("Компоненты"), t("Выберите компонент"), filterOptions.ingredient, ingredient, setIngredient)}
         </div>
+        {canSort && (
         <div className="max-md:hidden">
         <Popover
           open={open === "sort"}
@@ -355,6 +362,7 @@ function CatalogGridView({
           />
         </Popover>
         </div>
+        )}
       </div>
 
       {/* шторки на телефоне: «Фильтры» (список) → выбор внутри с «назад», и «Сортировка» */}

@@ -186,7 +186,8 @@ function CartDrawer() {
     if (!open) setRemoved([]);
   }
   const drop = (item: CartItem) => {
-    setRemoved((r) => [...r, { item, index: items.findIndex((i) => i.key === item.key) }]);
+    // тот же товар удалили второй раз — старая «удалённая» строка заменяется, а не дублируется (иначе одинаковые key)
+    setRemoved((r) => [...r.filter((x) => x.item.key !== item.key), { item, index: items.findIndex((i) => i.key === item.key) }]);
     remove(item.key);
   };
   const undo = (key: string) => {
@@ -197,7 +198,7 @@ function CartDrawer() {
   };
   // строки вперемешку: живые товары и удалённые — по их прежним местам
   const rows: { item: CartItem; gone: boolean }[] = items.map((item) => ({ item, gone: false }));
-  for (const r of [...removed].sort((a, b) => a.index - b.index))
+  for (const r of [...removed].filter((x) => !items.some((i) => i.key === x.item.key)).sort((a, b) => a.index - b.index))
     rows.splice(Math.min(r.index, rows.length), 0, { item: r.item, gone: true });
 
   useEffect(() => {
@@ -280,7 +281,7 @@ function CartDrawer() {
                     <div className="flex min-w-0 flex-1 flex-col">
                       {gone ? (
                         <>
-                          <p className="text-base-s text-error">{t("Товар убран из корзины. Передумали — верните одним нажатием.")}</p>
+                          <p className="text-base-s text-error">{t("Товар убран из корзины")}</p>
                           <button
                             type="button"
                             onClick={() => undo(item.key)}
@@ -358,7 +359,7 @@ function CartDrawer() {
                     // товар удалили: красная подпись и «Отменить» вместо описания и количества
                     <>
                       <p className="min-w-0 flex-1 text-base-s text-error">
-                        {t("Товар убран из корзины. Передумали — верните одним нажатием.")}
+                        {t("Товар убран из корзины")}
                       </p>
                       <button
                         type="button"

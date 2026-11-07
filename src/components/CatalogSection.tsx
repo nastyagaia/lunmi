@@ -57,7 +57,7 @@ export function CatalogSection({
             />
             {/* телефон (mobile banner из Figma): обложка 344 × 200 от x = 158, правый край уходит за экран */}
             <div
-              className={`absolute top-12 left-[158px] h-[200px] w-[344px] md:relative md:left-auto md:block md:h-full md:shrink-0 xl:mr-[66px] ${heroWide ? "md:w-[min(692px,55%)]" : "md:w-[min(550px,60%)]"}`}
+              className={`absolute top-12 left-[158px] h-[200px] w-[344px] md:relative md:top-0 md:left-auto md:block md:h-full md:shrink-0 xl:mr-[66px] ${heroWide ? "md:w-[min(692px,55%)]" : "md:w-[min(550px,60%)]"}`}
             >
               {heroMobile ? (
                 <picture>
