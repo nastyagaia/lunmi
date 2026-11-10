@@ -24,7 +24,7 @@
 - `src/data/` — товары и тексты: `sections.ts` (все товары и разделы), `face-care.json` + `catalog-extra.json` (товары), `product-texts.json` (тексты вкладок), `products.ts` (страница товара), `brands.ts`, `menu.ts`, `home.ts`, `pickup-points.ts` (ДЕМО пунктов СДЭК), `cities.ts`, `covers.json`.
 - `public/img/` — картинки webp: `face/` и `catalog/` — фото товаров (готовы, с точным фоном, показываются unoptimized), `covers/` — обложки разделов из Figma.
 - `src/lib/i18n.ts` + `src/i18n/` — английская версия: язык выбирается при сборке (`NEXT_PUBLIC_LOCALE=en`), строки интерфейса — через `t("русский текст")` и словарь `src/i18n/en.ts`, тексты товаров — `products-en.json`, цены пересчитываются в евро (`money`, `priceLabel`). Локально: `npm run dev:en` → http://localhost:3001. Новый текст в интерфейсе — оборачивать в `t()` и добавлять перевод в `en.ts`.
-- `scripts/` — импорт фото и данных из папки «lunmi материалы для сайта» на рабочем столе Насти (`import-face-care.mjs`, `import-catalog.mjs` по списку `catalog.extra.mjs`) и текстов из ChatGPT (`import-product-texts.mjs`). Нужны только чтобы добавить/обновить товары; готовый результат уже лежит в репозитории.
+- `scripts/` — импорт фото и данных из папки «lunmi материалы для сайта» в «Документах» Насти (`import-face-care.mjs`, `import-catalog.mjs` по списку `catalog.extra.mjs`) и текстов из ChatGPT (`import-product-texts.mjs`). Нужны только чтобы добавить/обновить товары; готовый результат уже лежит в репозитории.
 
 ## Правила
 

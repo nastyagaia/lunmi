@@ -56,7 +56,7 @@ function Heading({
     <div className={only === "crumbs" ? "" : "relative z-10 flex flex-col gap-2 pb-[38px] md:pb-[50px]"}>
       {/* телефон (catalog mobile): в серой шапке только заголовок H3, крошки — отдельно под шапкой (only="crumbs") */}
       {/* телефон: «Уход / для лица» в две строки, чтобы подпись не наезжала на фото; с md перенос схлопывается */}
-      {only !== "crumbs" && <h1 className="text-h3 max-md:whitespace-pre-line md:text-h1">{heading.replace(/^Уход для лица$/, "Уход\nдля лица").replace(/^Антивозрастной уход$/, "Антивозрастной\nуход")}</h1>}
+      {only !== "crumbs" && <h1 className="text-h3 max-md:whitespace-pre-line md:text-h1">{heading.replace(/^Уход для лица$/, "Уход\nдля лица").replace(/^Антивозрастной уход$/, "Антивозрастной\nуход").replace(/^Морщины и упругость$/, "Морщины\nи упругость")}</h1>}
       <Crumbs key={parts.map((p) => p.label).join("/")} parts={parts} hideOnPhone={only !== "crumbs"} />
     </div>
   );

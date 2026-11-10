@@ -97,7 +97,7 @@ function Catalog() {
             }`}
           >
             {"mobileImage" in c && c.mobileImage ? (
-              <TilePicture image={c.image} mobileImage={c.mobileImage} />
+              <TilePicture image={c.image} mobileImage={c.mobileImage} deskZoom={"deskZoom" in c && c.deskZoom} />
             ) : (
               <Image
                 src={c.image}
@@ -106,7 +106,6 @@ function Catalog() {
                 sizes={c.wide ? "(min-width: 1024px) 616px, 100vw" : "(min-width: 1024px) 304px, 50vw"}
                 className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${
                   "left" in c && c.left ? "object-left" : ""
-                } ${"shiftLeft" in c && c.shiftLeft ? "max-md:-translate-x-10" : ""
                 }`}
               />
             )}
@@ -127,7 +126,7 @@ function Catalog() {
 }
 
 /** Широкая плитка со своим кадром для телефона (до 768 px) — скачивается только нужная картинка */
-function TilePicture({ image, mobileImage }: { image: string; mobileImage: string }) {
+function TilePicture({ image, mobileImage, deskZoom = false }: { image: string; mobileImage: string; deskZoom?: boolean }) {
   const common = { alt: "", fill: true, sizes: "(min-width: 1024px) 616px, 100vw" };
   const {
     props: { srcSet: desktop },
@@ -139,7 +138,14 @@ function TilePicture({ image, mobileImage }: { image: string; mobileImage: strin
     <picture>
       <source media="(min-width: 768px)" srcSet={desktop} sizes={common.sizes} />
       <source srcSet={mobile} sizes={common.sizes} />
-      <img {...rest} alt="" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+      {/* deskZoom: как в Figma — фото ×1,53 от верхнего края, сдвиг влево на 13,5 % ширины (transform, чтобы не мешать наведению scale) */}
+      <img
+        {...rest}
+        alt=""
+        className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${
+          deskZoom ? "md:object-top md:[transform:scale(1.5306)] md:[transform-origin:25.4%_0%]" : ""
+        }`}
+      />
     </picture>
   );
 }

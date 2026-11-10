@@ -34,7 +34,7 @@ export default async function BrandPage({ params }: PageProps<"/brands/[slug]">)
       <Header hideOnScroll />
       {/* overflow-x-clip: стеклянная подложка фильтров тянется на всю ширину экрана */}
       <main className="overflow-x-clip">
-        {/* телефон (brand page mobile 11572:18828): крошки на 68, через 20 заголовок H3, через 12 описание */}
+        {/* телефон (brand page mobile 11572:18828): крошки на 68, через 32 заголовок H3 (Настя 2.11.2026: было 20 — тесно), через 12 описание */}
         <div className="container-page pt-[68px] md:pt-[84px]">
           {/* breadcrumbs: стрелка назад (32 × 28), через 16 px путь серым */}
           <nav aria-label={t("Хлебные крошки")} className="-ml-0.5 flex items-center gap-1 text-base-s text-secondary">
@@ -53,7 +53,7 @@ export default async function BrandPage({ params }: PageProps<"/brands/[slug]">)
           </nav>
 
           {/* название слева, описание — с третьей колонки сетки (6 колонок, 616 px) */}
-          <div className="mt-5 grid gap-3 md:mt-8 md:gap-4 lg:grid-cols-2 lg:gap-2">
+          <div className="mt-8 grid gap-3 md:gap-4 lg:grid-cols-2 lg:gap-2">
             <h1 className="text-h3 md:text-h1">{brand.name}</h1>
             <p className="max-w-[616px] pt-0.5 text-base-s">{brand.description}</p>
           </div>
