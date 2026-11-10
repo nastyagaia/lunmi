@@ -4,7 +4,7 @@
 // Цены и описания — примерные, до появления базы товаров.
 // Запуск: node scripts/import-face-care.mjs
 
-export const SOURCE = "/Users/anastasiagajkalova/Desktop/lunmi материалы для сайта/уход для лица";
+export const SOURCE = "/Users/anastasiagajkalova/Documents/lunmi материалы для сайта/уход для лица";
 
 const C = "кремы/";
 const S = "сыворотки/";

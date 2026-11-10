@@ -2,7 +2,7 @@
 // Один товар может жить в нескольких разделах: основной раздел — category/type, дополнительные — also.
 // Цены и описания — примерные, до появления базы товаров.
 
-export const ROOT = "/Users/anastasiagajkalova/Desktop/lunmi материалы для сайта";
+export const ROOT = "/Users/anastasiagajkalova/Documents/lunmi материалы для сайта";
 
 const G = "glow skin/";
 const A = "антивозрастной уход/Lunmi_Anti_Age/";
